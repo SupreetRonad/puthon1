@@ -3,11 +3,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lottie/lottie.dart';
+import 'package:puthon/shared/top.dart';
 
 import '/shared/textField.dart';
 
 var email, pass, confirm_pass, git_var;
+
+var flag = [0, 0, 0];
+
+bool match = false;
+
+
 
 class AuthScreen extends StatefulWidget {
   @override
@@ -15,6 +23,7 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
+  
   bool isLogin = false;
   final _store = FirebaseFirestore.instance;
   bool _isLoading = false;
@@ -31,6 +40,7 @@ class _AuthScreenState extends State<AuthScreen> {
       if (isLogin) {
         _userCreds = await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: email, password: password);
+            Top.register = false;
         await FirebaseMessaging.instance.getToken().then((token) async {
           deviceToken = token;
           await _store
@@ -41,6 +51,7 @@ class _AuthScreenState extends State<AuthScreen> {
       } else {
         _userCreds = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: email, password: password);
+            Top.register = true;
         await FirebaseMessaging.instance.getToken().then((token) async {
           deviceToken = token;
           await _store.collection('users').doc(_userCreds.user.uid).set({
@@ -48,6 +59,7 @@ class _AuthScreenState extends State<AuthScreen> {
             'deviceToken': deviceToken,
           });
         });
+        Navigator.popAndPushNamed(context, '/detailScreen');
       }
     } on FirebaseAuthException catch (err) {
       var message = 'An error occurred, please check your credentials';
@@ -81,153 +93,218 @@ class _AuthScreenState extends State<AuthScreen> {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+  
     final node = FocusScope.of(context);
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Colors.orange[400], Colors.purple[300]],
-        ),
+    return Scaffold(
+      //backgroundColor: Colors.transparent,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.white.withOpacity(0.0),
+        elevation: 0,
       ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          leading: BackButton(color: Colors.blue),
-          backgroundColor: Colors.white.withOpacity(0.0),
-          elevation: 0,
-        ),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(35, 10, 35, 0),
-              child: Form(
-                key: _formkey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height * .3,
-                      child: Lottie.asset('assets/animations/login1.json'),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(35, 10, 35, 0),
+            child: Form(
+              key: _formkey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height * .3,
+                    child: Lottie.asset('assets/animations/login1.json'),
+                  ),
+                  Text(
+                    "Welcome !",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
                     ),
-                    Text(
-                      "Welcome !",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
+                  ),
+                  SizedBox(height: 20),
+                  Card(
+                    elevation: 10,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
                     ),
-                    SizedBox(height: 20),
-                    Card(
-                      elevation: 6,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                        bottomRight: Radius.circular(30),
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30),
-                      )),
-                      child: TextFormField(
-                        textInputAction: TextInputAction.next,
-                        key: ValueKey('email'),
-                        onEditingComplete: () => node.nextFocus(),
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: textField.copyWith(
-                          labelText: "Email",
-                          prefixIcon: const Icon(
-                            Icons.email,
-                            color: Colors.black87,
-                          ),
+                    child: TextFormField(
+                      onChanged: (val) {
+                        flag[0] = 0;
+                        setState(() {});
+                      },
+                      textInputAction: TextInputAction.next,
+                      key: ValueKey('email'),
+                      onEditingComplete: () => node.nextFocus(),
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: textField.copyWith(
+                        labelText:
+                            flag[0] == 1 ? "Please enter an Email" : "Email",
+                        labelStyle: TextStyle(
+                            color: flag[0] == 1
+                                ? Colors.red
+                                : Colors.black.withOpacity(.35),
+                            fontSize: flag[0] == 1 ? 13 : 17),
+                        prefixIcon: const Icon(
+                          Icons.email,
+                          color: Colors.black87,
                         ),
-                        
-                        validator: (val) =>
-                            val.isEmpty ? "Enter your Username" : null,
-                        onSaved: (val) {
-                          setState(() => email = val);
-                        },
                       ),
+                      validator: (val) {
+                        if (val.isEmpty) {
+                          setState(() {
+                            flag[0] = 1;
+                          });
+                          return null;
+                        }
+                        flag[0] = 0;
+                        return null;
+                      },
+                      onSaved: (val) {
+                        setState(() => email = val);
+                      },
                     ),
-                    SizedBox(height: 10),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Card(
+                    elevation: 10,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    child: TextFormField(
+                      onChanged: (val) {
+                        flag[1] = 0;
+                        setState(() {
+                          pass = val;
+                          flag[2] = val != confirm_pass ? 1 : 0;
+                          if (val.length > 0 && confirm_pass.length > 0) {
+                            match = val != confirm_pass ? false : true;
+                          } else {
+                            match = false;
+                          }
+                        });
+                      },
+                      key: ValueKey('password'),
+                      textInputAction: !isLogin
+                          ? TextInputAction.next
+                          : TextInputAction.done,
+                      onEditingComplete: () =>
+                          !isLogin ? node.nextFocus() : node.unfocus(),
+                      keyboardType: TextInputType.text,
+                      decoration: textField.copyWith(
+                        labelText: flag[1] == 1
+                            ? "Enter a password with length 6 or more"
+                            : "Password",
+                        labelStyle: TextStyle(
+                            color: flag[1] == 1
+                                ? Colors.red
+                                : Colors.black.withOpacity(.35),
+                            fontSize: flag[1] == 1 ? 13 : 17),
+                        prefixIcon: Icon(
+                          Icons.lock,
+                          color: match == true ? Colors.green : Colors.black87,
+                        ),
+                      ),
+                      obscureText: true,
+                      validator: (val) {
+                        if (val.length < 6) {
+                          setState(() {
+                            flag[1] = 1;
+                          });
+                          return null;
+                        }
+                        flag[1] = 0;
+                        return null;
+                      },
+                      onSaved: (val) {
+                        setState(() => pass = val);
+                      },
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  if (!isLogin)
                     Card(
                       elevation: 10,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0),
                       ),
                       child: TextFormField(
-                        key: ValueKey('password'),
-                        textInputAction: !isLogin
-                            ? TextInputAction.next
-                            : TextInputAction.done,
-                        onEditingComplete: () =>
-                            !isLogin ? node.nextFocus() : node.unfocus(),
+                        onChanged: (val) {
+                          flag[2] = 0;
+                          setState(() {
+                            confirm_pass = val;
+                            flag[2] = val != pass ? 1 : 0;
+                            if (val.length > 0 && confirm_pass.length > 0) {
+                              match = val != pass ? false : true;
+                            } else {
+                              match = false;
+                            }
+                          });
+                        },
+                        textInputAction: TextInputAction.done,
+                        key: ValueKey('confirmPassword'),
+                        onEditingComplete: () => node.unfocus(),
                         keyboardType: TextInputType.text,
+                        obscureText: true,
                         decoration: textField.copyWith(
-                          hintText: "Password",
-                          prefixIcon: const Icon(
+                          labelText: flag[2] == 1
+                              ? "Passwords do not match"
+                              : "Confirm Password",
+                          labelStyle: TextStyle(
+                              color: flag[2] == 1
+                                  ? Colors.red
+                                  : Colors.black.withOpacity(.35),
+                              fontSize: flag[2] == 1 ? 13 : 17),
+                          prefixIcon: Icon(
                             Icons.lock,
-                            color: Colors.black87,
+                            color:
+                                match == true ? Colors.green : Colors.black87,
                           ),
                         ),
-                        obscureText: true,
-                        validator: (val) => val.isEmpty || val.length < 6
-                            ? "Enter your Password not less than 6 characters"
-                            : null,
-                        onSaved: (val) {
-                          setState(() => pass = val);
+                        validator: (val) {
+                          if (val.length < 6) {
+                            setState(() {
+                              flag[2] = 1;
+                            });
+                            return null;
+                          }
+                          flag[2] = 0;
+                          return null;
                         },
                       ),
                     ),
-                    SizedBox(height: 10),
-                    if (!isLogin)
-                      Card(
-                        elevation: 10,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                        child: TextFormField(
-                          textInputAction: TextInputAction.done,
-                          key: ValueKey('confirmPassword'),
-                          onEditingComplete: () => node.unfocus(),
-                          keyboardType: TextInputType.text,
-                          obscureText: true,
-                          decoration: textField.copyWith(
-                            labelText: "Confirm Password",
-                            prefixIcon: const Icon(
-                              Icons.lock,
-                              color: Colors.black87,
-                            ),
+                  SizedBox(height: !isLogin ? 10 : 0),
+                  Row(
+                    children: [
+                      Spacer(),
+                      Container(
+                        height: 60,
+                        width: !isLogin ? 160 : 80,
+                        child: Card(
+                          color: Colors.amber[400].withOpacity(.9),
+                          elevation: 10,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
                           ),
-                          validator: (val) => confirm_pass == pass
-                              ? "Confirm your Password"
-                              : null,
-                          onChanged: (val) {
-                            setState(() => confirm_pass = val);
-                          },
-                        ),
-                      ),
-                    SizedBox(height: !isLogin ? 10 : 0),
-                    Row(
-                      children: [
-                        Spacer(),
-                        Container(
-                          height: 60,
-                          width: !isLogin ? 160 : 80,
-                          child: Card(
-                            color: Colors.amber[400].withOpacity(.9),
-                            elevation: 10,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.0),
-                            ),
-                            child: _isLoading
-                                ? CircularProgressIndicator()
-                                : !isLogin
-                                    ? TextButton(
-                                        onPressed: () {
+                          child: !isLogin
+                              ? TextButton(
+                                  onPressed: _isLoading
+                                      ? null
+                                      : () {
                                           _formkey.currentState.validate();
                                           _formkey.currentState.save();
                                           _trySubmit(email, confirm_pass, false,
                                               context);
+                                          match = false;
                                         },
-                                        child: Row(
+                                  child: _isLoading
+                                      ? SpinKitWave(
+                                          color: Colors.white,
+                                          size: 20.0,
+                                        )
+                                      : Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
@@ -244,44 +321,57 @@ class _AuthScreenState extends State<AuthScreen> {
                                             ),
                                           ],
                                         ),
-                                      )
-                                    : TextButton(
-                                        onPressed: () {
+                                )
+                              : TextButton(
+                                  onPressed: _isLoading
+                                      ? null
+                                      : () {
                                           _formkey.currentState.validate();
                                           _formkey.currentState.save();
                                           _trySubmit(
                                               email, pass, true, context);
+                                          flag[2] = 0;
+                                          pass = null;
                                         },
-                                        child: Icon(
+                                  child: _isLoading
+                                      ? SpinKitWave(
+                                          color: Colors.white,
+                                          size: 20.0,
+                                        )
+                                      : Icon(
                                           Icons.arrow_forward,
                                           color: Colors.white,
                                         ),
-                                      ),
-                          ),
+                                ),
                         ),
-                      ],
-                    ),
-                    SizedBox(height: !isLogin ? 30 : 110),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(!isLogin
-                            ? "Already registered ? "
-                            : "Don't have an account ? "),
-                        GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                isLogin = !isLogin;
-                              });
-                            },
-                            child: Text(
-                              !isLogin ? "Login" : "Register",
-                              style: TextStyle(color: Colors.amber),
-                            )),
-                      ],
-                    )
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: !isLogin ? 30 : 110),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(!isLogin
+                          ? "Already registered ? "
+                          : "Don't have an account ? "),
+                      GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              flag[0] = 0;
+                              flag[1] = 0;
+                              flag[2] = 0;
+                              match = false;
+                              confirm_pass = null;
+                              isLogin = !isLogin;
+                            });
+                          },
+                          child: Text(
+                            !isLogin ? "Login" : "Register",
+                            style: TextStyle(color: Colors.amber),
+                          )),
+                    ],
+                  )
+                ],
               ),
             ),
           ),
