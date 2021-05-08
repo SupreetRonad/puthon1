@@ -105,7 +105,7 @@ class _AuthScreenState extends State<AuthScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(35, 10, 35, 0),
+            padding: const EdgeInsets.fromLTRB(35, 5, 35, 0),
             child: Form(
               key: _formkey,
               child: Column(
@@ -116,13 +116,21 @@ class _AuthScreenState extends State<AuthScreen> {
                     child: Lottie.asset('assets/animations/login1.json'),
                   ),
                   Text(
-                    "Welcome !",
+                    "Welcome to",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 20,
+                      fontSize: 15,
                     ),
                   ),
-                  SizedBox(height: 20),
+                  Text(
+                    "PUTHON",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                      color: Colors.amber
+                    ),
+                  ),
+                  SizedBox(height: 15),
                   Card(
                     elevation: 10,
                     shape: RoundedRectangleBorder(
