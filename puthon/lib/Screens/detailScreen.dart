@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:puthon/shared/textField.dart';
 
-class addInfo extends StatefulWidget {
+class DetailScreen extends StatefulWidget {
   @override
-  _addInfoState createState() => _addInfoState();
+  _DetailScreenState createState() => _DetailScreenState();
 }
 
 var name, phone, dob, gender;
 
-class _addInfoState extends State<addInfo> {
+class _DetailScreenState extends State<DetailScreen> {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
