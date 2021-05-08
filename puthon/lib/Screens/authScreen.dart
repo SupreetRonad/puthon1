@@ -7,7 +7,7 @@ import 'package:lottie/lottie.dart';
 
 import '/shared/textField.dart';
 
-var email, pass, confirm_pass;
+var email, pass, confirm_pass, temp_variable;
 
 var flag = [0, 0, 0];
 
