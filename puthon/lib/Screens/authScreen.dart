@@ -1,21 +1,86 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:puthon/shared/textField.dart';
 
-import 'addDetails.dart';
+import '/shared/textField.dart';
 
 var email, pass, confirm_pass;
 
 var flag = [0, 0, 0];
 
-class loginScreen extends StatefulWidget {
+class AuthScreen extends StatefulWidget {
   @override
-  _loginScreenState createState() => _loginScreenState();
+  _AuthScreenState createState() => _AuthScreenState();
 }
 
-class _loginScreenState extends State<loginScreen> {
+class _AuthScreenState extends State<AuthScreen> {
   bool isLogin = false;
+  final _auth = FirebaseAuth.instance;
+  final _store = FirebaseFirestore.instance;
+  bool _isLoading = false;
+  String deviceToken = '';
+
+  void _trySubmit(String email, String password, bool isLogin,
+      BuildContext ctx) async {
+
+    UserCredential _userCreds;
+
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+      if (isLogin) {
+        _userCreds = await _auth.signInWithEmailAndPassword(
+            email: email, password: password);
+        await FirebaseMessaging.instance.getToken().then((token) async {
+          deviceToken = token;
+          await _store
+              .collection('users')
+              .doc(_userCreds.user.uid)
+              .update({'deviceToken': deviceToken});
+        });
+      } else {
+        _userCreds = await _auth.createUserWithEmailAndPassword(
+            email: email, password: password);
+        await FirebaseMessaging.instance.getToken().then((token) async {
+          deviceToken = token;
+          await _store.collection('users').doc(_userCreds.user.uid).set({
+            'uid': _userCreds.user.uid,
+            'deviceToken': deviceToken,
+          });
+        });
+      }
+    } on FirebaseAuthException catch (err) {
+      var message = 'An error occurred, please check your credentials';
+
+      if (err.message != null) {
+        message = err.message;
+      }
+      setState(() {
+        _isLoading = false;
+      });
+      ScaffoldMessenger.of(ctx).showSnackBar(
+        SnackBar(
+          content: Text(
+            message,
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+          backgroundColor: Colors.black,
+        ),
+      );
+    } catch (err) {
+      print(err);
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -93,7 +158,7 @@ class _loginScreenState extends State<loginScreen> {
                       textInputAction: !isLogin
                           ? TextInputAction.next
                           : TextInputAction.done,
-                      onEditingComplete: () => node.unfocus(),
+                      onEditingComplete: () => !isLogin ? node.nextFocus() : node.unfocus(),
                       decoration: textField.copyWith(
                         labelText: "Password",
                         prefixIcon: const Icon(
@@ -125,7 +190,8 @@ class _loginScreenState extends State<loginScreen> {
                       ),
                       child: TextFormField(
                         textInputAction: TextInputAction.done,
-                        onEditingComplete: () => node.nextFocus(),
+                        onEditingComplete: () => node.unfocus(),
+                        obscureText: true,
                         decoration: textField.copyWith(
                           labelText: "Confirm Password",
                           prefixIcon: const Icon(
@@ -167,22 +233,23 @@ class _loginScreenState extends State<loginScreen> {
                                     var f = 0;
                                     _formkey.currentState.validate();
 
-                                    for (var i = 0; i < 3; i++) {
-                                      if (flag[i] != 0) {
-                                        f = 1;
-                                      }
-                                    }
+                                    _trySubmit(email, confirm_pass, false, context);
+                                    // for (var i = 0; i < 3; i++) {
+                                    //   if (flag[i] != 0) {
+                                    //     f = 1;
+                                    //   }
+                                    // }
 
-                                    if (f == 0) {
-                                      Navigator.pop(context);
-                                      Navigator.push(
-                                        context,
-                                        PageTransition(
-                                          type: PageTransitionType.fade,
-                                          child: addInfo(),
-                                        ),
-                                      );
-                                    }
+                                    // if (f == 0) {
+                                    //   Navigator.pop(context);
+                                    //   Navigator.push(
+                                    //     context,
+                                    //     PageTransition(
+                                    //       type: PageTransitionType.fade,
+                                    //       child: DetailScreen(),
+                                    //     ),
+                                    //   );
+                                    // }
                                   },
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -206,11 +273,12 @@ class _loginScreenState extends State<loginScreen> {
                                     var f = 0;
                                     _formkey.currentState.validate();
 
-                                    for (var i = 0; i < 3; i++) {
-                                      if (flag[i] != 0) {
-                                        f = 1;
-                                      }
-                                    }
+                                    _trySubmit(email, confirm_pass, true, context);
+                                    // for (var i = 0; i < 3; i++) {
+                                    //   if (flag[i] != 0) {
+                                    //     f = 1;
+                                    //   }
+                                    // }
 
                                     _formkey.currentState.save();
                                   },
