@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:puthon/shared/textField.dart';
 
@@ -23,7 +24,6 @@ class _DetailScreenState extends State<DetailScreen> {
       body: Form(
         key: _formkey,
         child: Column(children: [
-          
           Row(
             children: [
               Container(
@@ -98,6 +98,18 @@ class _DetailScreenState extends State<DetailScreen> {
                     onSaved: (String val) {
                       name = val;
                     },
+                  ),
+                ),
+                SizedBox(
+                  height: 80,
+                ),
+                TextButton(
+                  onPressed: () {
+                    FirebaseAuth.instance.signOut();
+                  },
+                  child: Icon(
+                    Icons.exit_to_app,
+                    color: Colors.black,
                   ),
                 ),
               ],
