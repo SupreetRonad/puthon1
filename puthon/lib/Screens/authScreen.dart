@@ -11,6 +11,8 @@ var email, pass, confirm_pass;
 
 var flag = [0, 0, 0];
 
+var f='sss';
+
 class AuthScreen extends StatefulWidget {
   @override
   _AuthScreenState createState() => _AuthScreenState();
