@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import 'Screens/authScreen.dart';
 import 'Screens/detailScreen.dart';
-import 'Screens/homeScreen.dart';
 import 'Screens/loadingScreen.dart';
 
 void main() async {
@@ -14,23 +13,22 @@ void main() async {
 }
 
 class MyApp extends StatefulWidget {
-
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
+        errorColor: Color(0xffd32f2f),
         primarySwatch: Colors.blue,
       ),
       routes: {
+        '/loadingScreen': (context) => LoadingScreen(),
         '/authScreen': (context) => AuthScreen(),
         '/detailScreen': (context) => DetailScreen(),
       },
@@ -40,8 +38,9 @@ class _MyAppState extends State<MyApp> {
           if (userSnapshot.connectionState == ConnectionState.waiting) {
             return LoadingScreen();
           }
-          if (userSnapshot.hasData != null) {
-            return HomeScreen();
+          final user = userSnapshot.data;
+          if (user != null) {
+            return DetailScreen();
           }
           return AuthScreen();
         },
