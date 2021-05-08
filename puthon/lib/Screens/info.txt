@@ -3,6 +3,6 @@
 git add .
 git commit -m "message"
 
-git pull
+git pull origin
 
 git push origin main:supreet
