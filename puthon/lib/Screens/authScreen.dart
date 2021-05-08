@@ -90,7 +90,7 @@ class _AuthScreenState extends State<AuthScreen> {
     return Scaffold(
       //backgroundColor: Color(#e8a87c),
       appBar: AppBar(
-        leading: BackButton(color: Colors.black),
+        leading: BackButton(color: Colors.green),
         backgroundColor: Colors.white.withOpacity(0.0),
         elevation: 0,
       ),
