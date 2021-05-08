@@ -1,10 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:puthon/shared/top.dart';
 
 import 'Screens/authScreen.dart';
 import 'Screens/detailScreen.dart';
+import 'Screens/homeScreen.dart';
 import 'Screens/loadingScreen.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,6 +16,7 @@ void main() async {
 }
 
 class MyApp extends StatefulWidget {
+  
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -39,8 +43,10 @@ class _MyAppState extends State<MyApp> {
             return LoadingScreen();
           }
           final user = userSnapshot.data;
-          if (user != null) {
+          if (user != null && Top.register) {
             return DetailScreen();
+          } else if(user != null) {
+            return HomeScreen();
           }
           return AuthScreen();
         },
