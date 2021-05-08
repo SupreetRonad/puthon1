@@ -40,7 +40,7 @@ class _MyAppState extends State<MyApp> {
           if (userSnapshot.connectionState == ConnectionState.waiting) {
             return LoadingScreen();
           }
-          if (userSnapshot.hasData) {
+          if (userSnapshot.hasData != null) {
             return HomeScreen();
           }
           return AuthScreen();
