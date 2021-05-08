@@ -7,7 +7,7 @@ import 'package:lottie/lottie.dart';
 
 import '/shared/textField.dart';
 
-var email, pass, confirm_pass;
+var email, pass, confirm_pass, variable_si;
 
 class AuthScreen extends StatefulWidget {
   @override
@@ -84,11 +84,12 @@ class _AuthScreenState extends State<AuthScreen> {
     final node = FocusScope.of(context);
     return Container(
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Colors.orange[400], Colors.purple[300]],
-        ),
+        color: Colors.white
+        // gradient: LinearGradient(
+        //   begin: Alignment.topLeft,
+        //   end: Alignment.bottomRight,
+        //   colors: [Colors.amber, Colors.white],
+        // ),
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -196,8 +197,8 @@ class _AuthScreenState extends State<AuthScreen> {
                               color: Colors.black87,
                             ),
                           ),
-                          validator: (val) => confirm_pass == pass
-                              ? "Confirm your Password"
+                          validator: (val) => confirm_pass != pass
+                              ? "Passwords do not match"
                               : null,
                           onChanged: (val) {
                             setState(() => confirm_pass = val);
