@@ -29,7 +29,7 @@ class _MyAppState extends State<MyApp> {
       title: 'Flutter Demo',
       theme: ThemeData(
         errorColor: Color(0xffd32f2f),
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.lightGreen,
       ),
       routes: {
         '/loadingScreen': (context) => LoadingScreen(),

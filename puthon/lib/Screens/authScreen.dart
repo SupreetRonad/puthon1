@@ -226,12 +226,19 @@ class _AuthScreenState extends State<AuthScreen> {
                           ),
                           obscureText: true,
                           validator: (val) {
-                            if (val.isNotEmpty) {
+                            if(val.isEmpty){
+                              setState(() {
+                                flag[1]=1;
+                              });
+                              return null;
+                            }
+                            else  {
                               setState(() {
                                 flag[1] = val.length < 6 ? 1 : 0;
                               });
                               return null;
                             }
+                            
                             flag[1] = 0;
                             setState(() {});
                             return null;
