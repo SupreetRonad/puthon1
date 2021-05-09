@@ -11,7 +11,7 @@ class DetailScreen extends StatefulWidget {
   _DetailScreenState createState() => _DetailScreenState();
 }
 
-var name, phone, dob, gender = 0;
+var name, phone, dob, gender = 1;
 bool _isLoading = false;
 var flag = [0, 0, 0, 0];
 
@@ -47,21 +47,14 @@ class _DetailScreenState extends State<DetailScreen> {
                       Text(
                         "Welcome to..",
                         style: TextStyle(
-                          fontSize: 25,
+                          fontSize: MediaQuery.of(context).size.height * .028,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
                       ),
-                      // Text(
-                      //   "PUTHON",
-                      //   style: TextStyle(
-                      //     fontSize: 50,
-                      //     fontWeight: FontWeight.bold,
-                      //     color: Colors.white,
-                      //   ),
-                      // ),
+                      
                       Container(
-                        height: 50,
+                        height: MediaQuery.of(context).size.height * .06,
                         child: Image.asset(
                           "assets/puthon2.png",
                         ),
@@ -172,7 +165,7 @@ class _DetailScreenState extends State<DetailScreen> {
                               decoration: textField.copyWith(
                                   labelText: flag[1] == 1
                                       ? "Please enter a valid phone number"
-                                      : "Pnone number",
+                                      : "Phone number",
                                   labelStyle: TextStyle(
                                       color: flag[1] == 1
                                           ? Colors.red
@@ -210,17 +203,20 @@ class _DetailScreenState extends State<DetailScreen> {
                                       BorderRadius.all(Radius.circular(20)),
                                 ),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     //Icon(Icons.date_range),
                                     //SizedBox(width: 5,),
                                     Container(
-                                      width: 150,
+                                      width: 160,
                                       child: DateTimePicker(
                                         enableInteractiveSelection: true,
                                         calendarTitle: "Select Date Of Birth",
-                                        decoration: InputDecoration(                                      
-                                          prefixIcon: Icon(Icons.date_range, color: Colors.black,),
+                                        decoration: InputDecoration(
+                                          prefixIcon: Icon(
+                                            Icons.date_range,
+                                            color: Colors.black,
+                                          ),
                                           labelText: "DOB",
                                           border: InputBorder.none,
                                           focusedBorder: InputBorder.none,
@@ -228,7 +224,8 @@ class _DetailScreenState extends State<DetailScreen> {
                                           errorBorder: InputBorder.none,
                                           disabledBorder: InputBorder.none,
                                           labelStyle: TextStyle(
-                                            color: Colors.black.withOpacity(.35),
+                                            color:
+                                                Colors.black.withOpacity(.35),
                                           ),
                                         ),
                                         type: DateTimePickerType.date,
@@ -256,35 +253,18 @@ class _DetailScreenState extends State<DetailScreen> {
                                   ],
                                 ),
                               ),
-                              Spacer(),
-                              Container(
-                                height: 55,
-                                width: 55,
-                                child: Card(
-                                  elevation: gender == 0 ? 0 : 0,
-                                  color: gender == 0
-                                      ? Colors.lightGreen
-                                      : Colors.transparent,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(100)),
-                                  child: ClipOval(
-                                    child: TextButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          gender = 0;
-                                        });
-                                      },
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(100.0),
-                                        child: Image.asset(
-                                          "assets/other.png",
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                "|",
+                                style: TextStyle(
+                                  fontSize: 40,
+                                  color: Colors.black26,
                                 ),
+                              ),
+                              SizedBox(
+                                width: 10,
                               ),
                               Container(
                                 padding: EdgeInsets.all(0),
