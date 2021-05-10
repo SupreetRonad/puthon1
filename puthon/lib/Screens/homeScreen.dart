@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-var name = "Arnold Schwarzenegger", email = "arnold12340@gmail.com", dob, phone;
+var name, email, dob, phone;
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -27,52 +27,59 @@ class HomeScreen extends StatelessWidget {
                       elevation: 10,
                       child: Column(
                         children: [
-                          Container(
-                            color: Colors.grey[400],
-                            padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
-                            child: Row(
-                              children: [
-                                SizedBox(width: 15),
-                                Container(
-                                  width: 110,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.yellow,
-                                        borderRadius:
-                                            BorderRadius.circular(100)),
-                                    child: Image.asset(
-                                      "assets/male2.png",
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(width: 10),
-                                Column(
-                                  //mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      constraints: BoxConstraints(
-                                          minWidth: 100, maxWidth: 150),
-                                      child: Text(
-                                        name,
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                        ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(context, '/detailScreen');
+                            },
+                            child: Container(
+                              color: Colors.grey[400],
+                              padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
+                              child: Row(
+                                children: [
+                                  SizedBox(width: 15),
+                                  Container(
+                                    width: 110,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.yellow,
+                                          borderRadius:
+                                              BorderRadius.circular(100)),
+                                      child: Image.asset(
+                                        "assets/male2.png",
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
-                                    SizedBox(
-                                      height: 3,
-                                    ),
-                                    Text(
-                                      email,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          fontSize: 13, color: Colors.black45),
-                                    )
-                                  ],
-                                ),
-                              ],
+                                  ),
+                                  SizedBox(width: 10),
+                                  Column(
+                                    //mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        constraints: BoxConstraints(
+                                            minWidth: 100, maxWidth: 150),
+                                        child: Text(
+                                          'name',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 3,
+                                      ),
+                                      Text(
+                                        'email',
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                            fontSize: 13,
+                                            color: Colors.black45),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           Container(

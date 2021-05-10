@@ -36,6 +36,7 @@ class _MyAppState extends State<MyApp> {
         '/loadingScreen': (context) => LoadingScreen(),
         '/authScreen': (context) => AuthScreen(),
         '/detailScreen': (context) => DetailScreen(),
+        '/homeScreen': (context) => HomeScreen(),
       },
       home: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
@@ -44,8 +45,12 @@ class _MyAppState extends State<MyApp> {
             return LoadingScreen();
           }
           final user = userSnapshot.data;
+          // print("user : " + user.toString());
+          if(user != null) {
+            Top.uid = user.uid;
+          }
           if (user != null && Top.register) {
-            return DetailScreen();
+            return DetailScreen(uid: user.uid);
           } else if (user != null) {
             return HomeScreen();
           }

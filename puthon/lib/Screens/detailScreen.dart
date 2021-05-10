@@ -1,12 +1,17 @@
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puthon/shared/textField.dart';
+import 'package:puthon/shared/top.dart';
 
 class DetailScreen extends StatefulWidget {
+  final uid;
+  DetailScreen({this.uid});
+
   @override
   _DetailScreenState createState() => _DetailScreenState();
 }
@@ -52,7 +57,6 @@ class _DetailScreenState extends State<DetailScreen> {
                           color: Colors.white,
                         ),
                       ),
-                      
                       Container(
                         height: MediaQuery.of(context).size.height * .06,
                         child: Image.asset(
@@ -107,6 +111,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                 setState(() {});
                               },
                               textInputAction: TextInputAction.next,
+                              textCapitalization: TextCapitalization.words,
                               key: ValueKey('name'),
                               onEditingComplete: () => node.nextFocus(),
                               keyboardType: TextInputType.emailAddress,
@@ -346,9 +351,22 @@ class _DetailScreenState extends State<DetailScreen> {
                                   child: TextButton(
                                     onPressed: _isLoading
                                         ? null
-                                        : () {
+                                        : () async {
                                             _formkey.currentState.validate();
                                             _formkey.currentState.save();
+                                            if (flag[0] == 0 && flag[1] == 0) {
+                                              await FirebaseFirestore.instance
+                                                  .collection('users')
+                                                  .doc(Top.uid)
+                                                  .update({
+                                                'name': name,
+                                                'phone': phone,
+                                                'dob': dob,
+                                                'gender': gender
+                                              });
+                                            }
+                                            Navigator.popAndPushNamed(
+                                                context, "/homeScreen");
                                           },
                                     child: _isLoading
                                         ? SpinKitWave(
