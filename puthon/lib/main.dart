@@ -2,12 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:puthon/shared/top.dart';
-
+import 'package:flutter/services.dart';
 import 'Screens/authScreen.dart';
 import 'Screens/detailScreen.dart';
 import 'Screens/homeScreen.dart';
 import 'Screens/loadingScreen.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,7 +15,6 @@ void main() async {
 }
 
 class MyApp extends StatefulWidget {
-  
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -24,12 +22,15 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         errorColor: Color(0xffd32f2f),
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.lightGreen,
       ),
       routes: {
         '/loadingScreen': (context) => LoadingScreen(),
@@ -45,7 +46,7 @@ class _MyAppState extends State<MyApp> {
           final user = userSnapshot.data;
           if (user != null && Top.register) {
             return DetailScreen();
-          } else if(user != null) {
+          } else if (user != null) {
             return HomeScreen();
           }
           return AuthScreen();
