@@ -1,13 +1,56 @@
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:puthon/Screens/detailScreen.dart';
+import 'package:puthon/shared/top.dart';
 
 var name, email, dob, phone;
+bool _isLoading1 = true;
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  final uid;
+  HomeScreen({this.uid});
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  void readData() async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(widget.uid)
+        .get()
+        .then((value) {
+      if (value.exists) {
+        //print('Document exists on the database');
+        print(value.data()["name"]);
+        setState(() {
+          name = value.data()["name"];
+          phone = value.data()["phone"];
+          dob = value.data()["dob"];
+          gender = value.data()["gender"];
+          email = value.data()["email"];
+        });
+      }
+    });
+    _isLoading1 = false;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    readData();
+  }
   @override
   Widget build(BuildContext context) {
+    
+    Top.fromHome = 1;
     return Container(
       child: Scaffold(
         endDrawer: BackdropFilter(
@@ -29,9 +72,21 @@ class HomeScreen extends StatelessWidget {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              Navigator.pushNamed(context, '/detailScreen');
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        DetailScreen(uid: widget.uid)),
+                              );
                             },
-                            child: Container(
+                            child: _isLoading1 ? Container(
+                              color: Colors.grey[400],
+                              height: 140,
+                              child: SpinKitWave(
+                                color: Colors.white,
+                                size: 30,
+                              ),
+                            ) : Container(
                               color: Colors.grey[400],
                               padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
                               child: Row(
@@ -60,7 +115,7 @@ class HomeScreen extends StatelessWidget {
                                         constraints: BoxConstraints(
                                             minWidth: 100, maxWidth: 150),
                                         child: Text(
-                                          'name',
+                                          name,
                                           style: TextStyle(
                                             fontSize: 18,
                                           ),
@@ -70,7 +125,7 @@ class HomeScreen extends StatelessWidget {
                                         height: 3,
                                       ),
                                       Text(
-                                        'email',
+                                        email,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                             fontSize: 13,
@@ -244,7 +299,16 @@ class HomeScreen extends StatelessWidget {
                                   color: Colors.red[300],
                                   onPressed: () {
                                     FirebaseAuth.instance.signOut();
-                                    Navigator.of(context).pop();
+                                    if (Top.fromDetail == 1) {
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context).pop();
+                                    }
+                                    else{
+                                      Navigator.of(context).pop();
+                                    }
+                                    
+                                    
                                   },
                                   child: Text(
                                     "Log out",

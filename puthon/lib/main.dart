@@ -44,16 +44,13 @@ class _MyAppState extends State<MyApp> {
           if (userSnapshot.connectionState == ConnectionState.waiting) {
             return LoadingScreen();
           }
+          //print("snapshot  : " + userSnapshot.toString());
           final user = userSnapshot.data;
-          // print("user : " + user.toString());
-          if(user != null) {
-            Top.uid = user.uid;
-          }
-          if (user != null && Top.register) {
-            return DetailScreen(uid: user.uid);
-          } else if (user != null) {
-            return HomeScreen();
-          }
+          //print("user : " + user.toString());
+          
+          if ( user != null ) {         
+            return Top.register ? DetailScreen(uid: user.uid) : HomeScreen(uid: user.uid);
+          }           
           return AuthScreen();
         },
       ),

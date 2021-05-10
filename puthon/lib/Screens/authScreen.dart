@@ -11,7 +11,6 @@ import '/shared/textField.dart';
 
 // ignore: non_constant_identifier_names
 var email, pass, confirm_pass;
-
 var flag = [0, 0, 0];
 
 bool match = false;
@@ -54,6 +53,7 @@ class _AuthScreenState extends State<AuthScreen> {
           deviceToken = token;
           await _store.collection('users').doc(_userCreds.user.uid).set({
             'uid': _userCreds.user.uid,
+            'email': _userCreds.user.email,
             'deviceToken': deviceToken,
           });
         });
@@ -227,8 +227,10 @@ class _AuthScreenState extends State<AuthScreen> {
                             });
                             return null;
                           }
-                          flag[1] = 0;
-                          setState(() {});
+                          
+                          setState(() {
+                            flag[1] = 0;
+                          });
                           return null;
                         },
                         onSaved: (val) {
@@ -307,11 +309,13 @@ class _AuthScreenState extends State<AuthScreen> {
                                     onPressed: _isLoading
                                         ? null
                                         : () {
-                                            _formkey.currentState.validate();
-                                            _formkey.currentState.save();
+                                            final _isValid = _formkey.currentState.validate();
+                                            // FocusScope.of(context).unfocus();
+                                            if(_isValid){_formkey.currentState.save();
+
                                             _trySubmit(email, confirm_pass,
                                                 false, context);
-                                            match = false;
+                                            match = false;}
                                           },
                                     child: _isLoading
                                         ? SpinKitWave(
@@ -340,12 +344,13 @@ class _AuthScreenState extends State<AuthScreen> {
                                     onPressed: _isLoading
                                         ? null
                                         : () {
-                                            _formkey.currentState.validate();
-                                            _formkey.currentState.save();
+                                            final _isValid = _formkey.currentState.validate();
+                                            // FocusScope.of(context).unfocus();
+                                            if(_isValid){_formkey.currentState.save();
                                             _trySubmit(
                                                 email, pass, true, context);
                                             flag[2] = 0;
-                                            pass = null;
+                                            pass = null;}
                                           },
                                     child: _isLoading
                                         ? SpinKitWave(
