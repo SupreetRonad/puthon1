@@ -1,18 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:puthon/shared/top.dart';
 import 'package:flutter/services.dart';
 import 'Screens/authScreen.dart';
 import 'Screens/detailScreen.dart';
+import 'Screens/divergeScreen.dart';
 import 'Screens/homeScreen.dart';
 import 'Screens/loadingScreen.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+void main() {
   runApp(MyApp());
 }
+
 
 class MyApp extends StatefulWidget {
   @override
@@ -25,35 +24,40 @@ class _MyAppState extends State<MyApp> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        errorColor: Color(0xffd32f2f),
-        primarySwatch: Colors.lightGreen,
-      ),
-      routes: {
-        '/loadingScreen': (context) => LoadingScreen(),
-        '/authScreen': (context) => AuthScreen(),
-        '/detailScreen': (context) => DetailScreen(),
-        '/homeScreen': (context) => HomeScreen(),
-      },
-      home: StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (ctx, userSnapshot) {
-          if (userSnapshot.connectionState == ConnectionState.waiting) {
-            return LoadingScreen();
-          }
-          //print("snapshot  : " + userSnapshot.toString());
-          final user = userSnapshot.data;
-          //print("user : " + user.toString());
-          
-          if ( user != null ) {         
-            return Top.register ? DetailScreen(uid: user.uid) : HomeScreen(uid: user.uid);
-          }           
-          return AuthScreen();
-        },
-      ),
-    );
+    final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+    return FutureBuilder(
+        future: _initialization,
+        builder: (context, snapshot) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Flutter Demo',
+            theme: ThemeData(
+              errorColor: Color(0xffd32f2f),
+              primarySwatch: Colors.lightGreen,
+            ),
+            routes: {
+              '/loadingScreen': (context) => LoadingScreen(),
+              '/authScreen': (context) => AuthScreen(),
+              '/detailScreen': (context) => DetailScreen(),
+              '/homeScreen': (context) => HomeScreen(),
+            },
+            home: snapshot.connectionState != ConnectionState.done
+                ? LoadingScreen()
+                : StreamBuilder(
+                    stream: FirebaseAuth.instance.authStateChanges(),
+                    builder: (ctx, userSnapshot) {
+                      if (userSnapshot.connectionState ==
+                          ConnectionState.waiting) {
+                        return LoadingScreen();
+                      }
+                      final user = userSnapshot.data;
+                      if (user != null) {
+                        return DivergeScreen();
+                      }
+                      return AuthScreen();
+                    },
+                  ),
+          );
+        });
   }
 }

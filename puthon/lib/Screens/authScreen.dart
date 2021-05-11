@@ -43,7 +43,7 @@ class _AuthScreenState extends State<AuthScreen> {
           await _store
               .collection('users')
               .doc(_userCreds.user.uid)
-              .update({'deviceToken': deviceToken});
+              .update({'deviceToken': deviceToken, 'register': false});
         });
       } else {
         _userCreds = await FirebaseAuth.instance
@@ -54,10 +54,11 @@ class _AuthScreenState extends State<AuthScreen> {
           await _store.collection('users').doc(_userCreds.user.uid).set({
             'uid': _userCreds.user.uid,
             'email': _userCreds.user.email,
+            'register': true,
             'deviceToken': deviceToken,
           });
         });
-        Navigator.popAndPushNamed(context, '/detailScreen');
+        // Navigator.popAndPushNamed(context, '/detailScreen');
       }
     } on FirebaseAuthException catch (err) {
       var message = 'An error occurred, please check your credentials';
@@ -93,12 +94,7 @@ class _AuthScreenState extends State<AuthScreen> {
   Widget build(BuildContext context) {
     final node = FocusScope.of(context);
     return Container(
-      decoration: BoxDecoration(
-          // image: DecorationImage(
-          //   image: AssetImage("assets/pin.jpg"),
-          //   fit: BoxFit.cover,
-          // ),
-          color: Colors.white),
+      decoration: BoxDecoration(color: Colors.white),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
         child: Scaffold(
@@ -227,7 +223,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             });
                             return null;
                           }
-                          
+
                           setState(() {
                             flag[1] = 0;
                           });
@@ -309,13 +305,16 @@ class _AuthScreenState extends State<AuthScreen> {
                                     onPressed: _isLoading
                                         ? null
                                         : () {
-                                            final _isValid = _formkey.currentState.validate();
-                                            // FocusScope.of(context).unfocus();
-                                            if(_isValid){_formkey.currentState.save();
-
-                                            _trySubmit(email, confirm_pass,
-                                                false, context);
-                                            match = false;}
+                                            final _isValid = _formkey
+                                                .currentState
+                                                .validate();
+                                            FocusScope.of(context).unfocus();
+                                            if (_isValid) {
+                                              _formkey.currentState.save();
+                                              _trySubmit(email, confirm_pass,
+                                                  false, context);
+                                              match = false;
+                                            }
                                           },
                                     child: _isLoading
                                         ? SpinKitWave(
@@ -344,13 +343,17 @@ class _AuthScreenState extends State<AuthScreen> {
                                     onPressed: _isLoading
                                         ? null
                                         : () {
-                                            final _isValid = _formkey.currentState.validate();
-                                            // FocusScope.of(context).unfocus();
-                                            if(_isValid){_formkey.currentState.save();
-                                            _trySubmit(
-                                                email, pass, true, context);
-                                            flag[2] = 0;
-                                            pass = null;}
+                                            final _isValid = _formkey
+                                                .currentState
+                                                .validate();
+                                            FocusScope.of(context).unfocus();
+                                            if (_isValid) {
+                                              _formkey.currentState.save();
+                                              _trySubmit(
+                                                  email, pass, true, context);
+                                              flag[2] = 0;
+                                              pass = null;
+                                            }
                                           },
                                     child: _isLoading
                                         ? SpinKitWave(

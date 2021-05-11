@@ -9,35 +9,25 @@ import 'package:puthon/shared/textField.dart';
 import 'package:puthon/shared/top.dart';
 
 class DetailScreen extends StatefulWidget {
-  final uid;
-  DetailScreen({this.uid});
-
   @override
   _DetailScreenState createState() => _DetailScreenState();
 }
 
-var name,
-    phone,
-    dob = DateTime.now().subtract(new Duration(days: 365 * 18)).toString(),
-    gender = 1;
+var name, phone, dob = null, gender = 1;
 bool _isLoading = false;
 bool _isLoading1 = true;
-bool _isLoading2 = false;
 var flag = [0, 0, 0, 0];
 
 class _DetailScreenState extends State<DetailScreen> {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
-  var _controller1 = TextEditingController(text: DateTime.now().toString());
 
   void readData() async {
     await FirebaseFirestore.instance
         .collection('users')
-        .doc(widget.uid)
+        .doc(FirebaseAuth.instance.currentUser.uid)
         .get()
         .then((value) {
       if (value.exists) {
-        //print('Document exists on the database');
-
         print(value.data()["name"]);
         setState(() {
           name = value.data()["name"];
@@ -52,9 +42,7 @@ class _DetailScreenState extends State<DetailScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-
     readData();
   }
 
@@ -68,7 +56,7 @@ class _DetailScreenState extends State<DetailScreen> {
     return Container(
       decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/kiwi.jpg"),
+            image: AssetImage("assets/images/kiwi.jpg"),
             fit: BoxFit.cover,
           ),
           color: Colors.white),
@@ -78,9 +66,9 @@ class _DetailScreenState extends State<DetailScreen> {
           filter: new ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
           child: _isLoading1
               ? SpinKitWave(
-                size: 40,
-                color: Colors.white,
-              )
+                  size: 40,
+                  color: Colors.white,
+                )
               : Form(
                   key: _formkey,
                   child: Column(
@@ -104,14 +92,12 @@ class _DetailScreenState extends State<DetailScreen> {
                             Container(
                               height: MediaQuery.of(context).size.height * .06,
                               child: Image.asset(
-                                "assets/puthon2.png",
+                                "assets/images/puthon2.png",
                               ),
                             ),
                           ],
                         ),
                       ),
-                      //Spacer(),
-
                       Container(
                         decoration: BoxDecoration(
                             color: Colors.white,
@@ -132,7 +118,6 @@ class _DetailScreenState extends State<DetailScreen> {
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
-                                  //color: Colors.white,
                                 ),
                               ),
                             ],
@@ -143,7 +128,6 @@ class _DetailScreenState extends State<DetailScreen> {
                               children: [
                                 SizedBox(height: 15),
                                 Card(
-                                  //color: Colors.white.withOpacity(.7),
                                   elevation: 10,
                                   shape: RoundedRectangleBorder(
                                     borderRadius:
@@ -201,7 +185,6 @@ class _DetailScreenState extends State<DetailScreen> {
                                   height: 10,
                                 ),
                                 Card(
-                                  //color: Colors.white.withOpacity(.7),
                                   elevation: 10,
                                   shape: RoundedRectangleBorder(
                                     borderRadius:
@@ -299,7 +282,6 @@ class _DetailScreenState extends State<DetailScreen> {
 
                                               type: DateTimePickerType.date,
                                               dateMask: 'd MMM, yyyy',
-                                              //controller: _controller1,
                                               initialValue: dob ??
                                                   "2000-05-07 18:51:51.502031",
                                               firstDate: DateTime(1850),
@@ -307,9 +289,6 @@ class _DetailScreenState extends State<DetailScreen> {
                                               icon: Icon(Icons.event),
                                               dateLabelText: 'Date',
                                               timeLabelText: "Hour",
-                                              //use24HourFormat: false,
-                                              //locale: Locale('pt', 'BR'),
-
                                               onChanged: (val) =>
                                                   setState(() => dob = val),
                                               validator: (val) {
@@ -342,8 +321,9 @@ class _DetailScreenState extends State<DetailScreen> {
                                       width: 55,
                                       child: Card(
                                         shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(100)),
+                                          borderRadius:
+                                              BorderRadius.circular(100),
+                                        ),
                                         color: gender == 1
                                             ? Colors.lightGreen
                                             : Colors.transparent,
@@ -359,7 +339,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                               borderRadius:
                                                   BorderRadius.circular(100.0),
                                               child: Image.asset(
-                                                "assets/female2.png",
+                                                "assets/images/female2.png",
                                                 fit: BoxFit.cover,
                                               ),
                                             ),
@@ -390,7 +370,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                               borderRadius:
                                                   BorderRadius.circular(100.0),
                                               child: Image.asset(
-                                                "assets/male2.png",
+                                                "assets/images/male2.png",
                                                 fit: BoxFit.cover,
                                               ),
                                             ),
@@ -431,23 +411,21 @@ class _DetailScreenState extends State<DetailScreen> {
                                                     await FirebaseFirestore
                                                         .instance
                                                         .collection('users')
-                                                        .doc(widget.uid)
+                                                        .doc(FirebaseAuth
+                                                            .instance
+                                                            .currentUser
+                                                            .uid)
                                                         .update({
                                                       'name': name,
                                                       'phone': phone,
                                                       'dob': dob,
                                                       'gender': gender
                                                     });
+
                                                     setState(() {
                                                       flag[0] = 0;
                                                       flag[1] = 0;
                                                     });
-                                                    if (Top.fromHome == 1) {
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                    }
-                                                    Navigator.pushNamed(
-                                                        context, "/homeScreen");
                                                   }
                                                   _isLoading = false;
                                                 },
@@ -479,15 +457,6 @@ class _DetailScreenState extends State<DetailScreen> {
                                 SizedBox(
                                   height: 10,
                                 ),
-                                // TextButton(
-                                //   onPressed: () {
-                                //     FirebaseAuth.instance.signOut();
-                                //   },
-                                //   child: Icon(
-                                //     Icons.exit_to_app,
-                                //     color: Colors.black,
-                                //   ),
-                                // ),
                               ],
                             ),
                           ),
