@@ -1,5 +1,5 @@
 import 'dart:ui';
-
+import 'dart:math' as math;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +7,12 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puthon/Screens/detailScreen.dart';
 import 'package:puthon/shared/top.dart';
 
-var name, email, dob, phone;
-bool _isLoading1 = true;
+var name = "Name",
+    email = "email@email.com",
+    dob = "00/00/0000",
+    phone = "1081081081",
+    gender = 1;
+bool _isLoading1 = true, cart = false;
 
 class HomeScreen extends StatefulWidget {
   final uid;
@@ -27,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
         .then((value) {
       if (value.exists) {
         //print('Document exists on the database');
-        print(value.data()["name"]);
+        // print(value.data()["name"]);
         setState(() {
           name = value.data()["name"];
           phone = value.data()["phone"];
@@ -47,12 +51,71 @@ class _HomeScreenState extends State<HomeScreen> {
 
     readData();
   }
+
   @override
   Widget build(BuildContext context) {
-    
     Top.fromHome = 1;
     return Container(
       child: Scaffold(
+        floatingActionButton: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            cart
+                ? Container(
+                    height: MediaQuery.of(context).size.height * .5,
+                    width: MediaQuery.of(context).size.width * .65,
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      elevation: 5,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            for (var i = 0; i < 20; i++)
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
+                                  height: 20,
+                                ),
+                              )
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                : SizedBox(),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Colors.red[400],
+                onPrimary: Colors.white,
+                shadowColor: Colors.red,
+                elevation: 5,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30)
+                )
+              ),
+              onPressed: () {
+                setState(() {
+                  cart = !cart;
+                });
+              },
+              child: Padding(
+                padding: EdgeInsets.all(10),
+                child: cart
+                    ? Icon(
+                        Icons.close,
+                        size: 20,
+                      )
+                    : Icon(
+                        Icons.shopping_cart,
+                        size: 20,
+                      ),
+              ),
+            ),
+          ],
+        ),
         endDrawer: BackdropFilter(
           filter: ImageFilter.blur(
             sigmaX: 10.0,
@@ -79,63 +142,67 @@ class _HomeScreenState extends State<HomeScreen> {
                                         DetailScreen(uid: widget.uid)),
                               );
                             },
-                            child: _isLoading1 ? Container(
-                              color: Colors.grey[400],
-                              height: 140,
-                              child: SpinKitWave(
-                                color: Colors.white,
-                                size: 30,
-                              ),
-                            ) : Container(
-                              color: Colors.grey[400],
-                              padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
-                              child: Row(
-                                children: [
-                                  SizedBox(width: 15),
-                                  Container(
-                                    width: 110,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          color: Colors.yellow,
-                                          borderRadius:
-                                              BorderRadius.circular(100)),
-                                      child: Image.asset(
-                                        "assets/male2.png",
-                                        fit: BoxFit.cover,
-                                      ),
+                            child: _isLoading1
+                                ? Container(
+                                    color: Colors.grey[400],
+                                    height: 140,
+                                    child: SpinKitWave(
+                                      color: Colors.white,
+                                      size: 30,
                                     ),
-                                  ),
-                                  SizedBox(width: 10),
-                                  Column(
-                                    //mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        constraints: BoxConstraints(
-                                            minWidth: 100, maxWidth: 150),
-                                        child: Text(
-                                          name,
-                                          style: TextStyle(
-                                            fontSize: 18,
+                                  )
+                                : Container(
+                                    color: Colors.grey[400],
+                                    padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(width: 15),
+                                        Container(
+                                          width: 110,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                color: Colors.yellow,
+                                                borderRadius:
+                                                    BorderRadius.circular(100)),
+                                            child: Image.asset(
+                                              gender == 1
+                                                  ? "assets/female2.png"
+                                                  : "assets/male2.png",
+                                              fit: BoxFit.cover,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        height: 3,
-                                      ),
-                                      Text(
-                                        email,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                            fontSize: 13,
-                                            color: Colors.black45),
-                                      )
-                                    ],
+                                        SizedBox(width: 10),
+                                        Column(
+                                          //mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              constraints: BoxConstraints(
+                                                  minWidth: 100, maxWidth: 150),
+                                              child: Text(
+                                                name ?? 'Name',
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 3,
+                                            ),
+                                            Text(
+                                              email ?? 'email@email.com',
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                  fontSize: 13,
+                                                  color: Colors.black45),
+                                            )
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ],
-                              ),
-                            ),
                           ),
                           Container(
                             padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
@@ -303,12 +370,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                       Navigator.of(context).pop();
                                       Navigator.of(context).pop();
                                       Navigator.of(context).pop();
-                                    }
-                                    else{
+                                    } else {
                                       Navigator.of(context).pop();
                                     }
-                                    
-                                    
                                   },
                                   child: Text(
                                     "Log out",

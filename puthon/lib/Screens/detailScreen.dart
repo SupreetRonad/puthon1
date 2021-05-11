@@ -22,6 +22,7 @@ var name,
     gender = 1;
 bool _isLoading = false;
 bool _isLoading1 = true;
+bool _isLoading2 = false;
 var flag = [0, 0, 0, 0];
 
 class _DetailScreenState extends State<DetailScreen> {
@@ -300,7 +301,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                               dateMask: 'd MMM, yyyy',
                                               //controller: _controller1,
                                               initialValue: dob ??
-                                                  "2021-05-07 18:51:51.502031",
+                                                  "2000-05-07 18:51:51.502031",
                                               firstDate: DateTime(1850),
                                               lastDate: DateTime(2003),
                                               icon: Icon(Icons.event),
@@ -419,6 +420,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                           onPressed: _isLoading
                                               ? null
                                               : () async {
+                                                  _isLoading = true;
                                                   final _isValid = _formkey
                                                       .currentState
                                                       .validate();
@@ -447,6 +449,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                                     Navigator.pushNamed(
                                                         context, "/homeScreen");
                                                   }
+                                                  _isLoading = false;
                                                 },
                                           child: _isLoading
                                               ? SpinKitWave(
