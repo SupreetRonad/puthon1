@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lottie/lottie.dart';
-import 'package:puthon/shared/top.dart';
 import 'dart:ui';
 import '/shared/textField.dart';
 
@@ -37,7 +36,6 @@ class _AuthScreenState extends State<AuthScreen> {
       if (isLogin) {
         _userCreds = await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: email, password: password);
-        Top.register = false;
         await FirebaseMessaging.instance.getToken().then((token) async {
           deviceToken = token;
           await _store
@@ -48,7 +46,6 @@ class _AuthScreenState extends State<AuthScreen> {
       } else {
         _userCreds = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: email, password: password);
-        Top.register = true;
         await FirebaseMessaging.instance.getToken().then((token) async {
           deviceToken = token;
           await _store.collection('users').doc(_userCreds.user.uid).set({
@@ -58,7 +55,6 @@ class _AuthScreenState extends State<AuthScreen> {
             'deviceToken': deviceToken,
           });
         });
-        // Navigator.popAndPushNamed(context, '/detailScreen');
       }
     } on FirebaseAuthException catch (err) {
       var message = 'An error occurred, please check your credentials';

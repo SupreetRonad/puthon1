@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:puthon/Screens/loadingScreen.dart';
 import 'package:puthon/shared/cartButton.dart';
 import 'package:puthon/shared/logOut.dart';
-import 'package:puthon/shared/top.dart';
 
 var name = "Name",
     email = "email@email.com",
@@ -19,17 +18,18 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final uid = FirebaseAuth.instance.currentUser.uid;
+
   @override
   Widget build(BuildContext context) {
-    Top.fromHome = 1;
     return Scaffold(
       floatingActionButton: CartButton(),
       endDrawer: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('users')
-              .doc(FirebaseAuth.instance.currentUser.uid)
+              .doc(uid)
               .snapshots(),
-          builder: (context, snapshot) {
+          builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
             var info = snapshot.data;
             if (snapshot.connectionState == ConnectionState.waiting) {
               return LoadingScreen();

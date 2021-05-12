@@ -51,6 +51,7 @@ class _CartButtonState extends State<CartButton> {
                 )
               ),
               onPressed: () {
+                FirebaseAuth.instance.signOut();
                 setState(() {
                   cart = !cart;
                 });
