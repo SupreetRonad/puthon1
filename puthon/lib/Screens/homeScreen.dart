@@ -2,8 +2,7 @@ import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:puthon/Screens/detailScreen.dart';
+import 'package:puthon/Screens/loadingScreen.dart';
 import 'package:puthon/shared/cartButton.dart';
 import 'package:puthon/shared/logOut.dart';
 import 'package:puthon/shared/top.dart';
@@ -33,14 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
           builder: (context, snapshot) {
             var info = snapshot.data;
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Container(
-                color: Colors.grey[400],
-                height: 140,
-                child: SpinKitWave(
-                  color: Colors.white,
-                  size: 30,
-                ),
-              );
+              return LoadingScreen();
             }
             return BackdropFilter(
               filter: ImageFilter.blur(
@@ -61,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.pushReplacementNamed(
+                                  Navigator.pushNamed(
                                       context, '/detailScreen');
                                 },
                                 child: Container(

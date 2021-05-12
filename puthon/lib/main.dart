@@ -9,6 +9,7 @@ import 'Screens/homeScreen.dart';
 import 'Screens/loadingScreen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
