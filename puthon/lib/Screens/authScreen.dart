@@ -57,6 +57,8 @@ class _AuthScreenState extends State<AuthScreen> {
             'phone' : null,
             'dob' : '2000-01-01',
             'gender': 1,
+            'admin' : false,
+            'cook' : false
           });
         });
       }

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:puthon/Screens/businessRegisterScreen.dart';
 import 'Screens/authScreen.dart';
 import 'Screens/detailScreen.dart';
 import 'Screens/divergeScreen.dart';
@@ -40,6 +41,7 @@ class _MyAppState extends State<MyApp> {
             '/authScreen': (context) => AuthScreen(),
             '/detailScreen': (context) => DetailScreen(),
             '/homeScreen': (context) => HomeScreen(),
+            '/businessRegisterScreen' : (context) => RegisterBusiness()
           },
           home: snapshot.connectionState != ConnectionState.done
               ? LoadingScreen()

@@ -23,14 +23,14 @@ class _DetailScreenState extends State<DetailScreen> {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
   void readData() async {
-    print("######\n");
+    //print("######\n");
     await FirebaseFirestore.instance
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser.uid)
         .get()
         .then((value) {
       if (value.exists) {
-        print(value.data()["name"]);
+        //print(value.data()["name"]);
         setState((){
           name = value.data()["name"];
           phone = value.data()["phone"];
@@ -413,6 +413,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                                 });
                                                 
                                                 if(!register) {
+                                                  Navigator.pop(context);
                                                   Navigator.pop(context);
                                                   //Navigator.pushReplacementNamed(context, '/homeScreen');
                                                 }
