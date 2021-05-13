@@ -53,8 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.pushNamed(
-                                      context, '/detailScreen');
+                                  Navigator.pushNamed(context, '/detailScreen');
                                 },
                                 child: Container(
                                   height: 140,
