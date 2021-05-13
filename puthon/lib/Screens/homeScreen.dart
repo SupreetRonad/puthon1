@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
               .collection('users')
               .doc(uid)
               .snapshots(),
-          builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          builder: (context, snapshot) {
             var info = snapshot.data;
             if (snapshot.connectionState == ConnectionState.waiting) {
               return LoadingScreen();

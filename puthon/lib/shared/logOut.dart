@@ -68,13 +68,6 @@ class LogOut extends StatelessWidget {
                                     ),
                                   ),
                                   onPressed: () async {
-                                    // if (Top.fromDetail == 1) {
-                                    //   Navigator.of(context).pop();
-                                    //   Navigator.of(context).pop();
-                                    //   Navigator.of(context).pop();
-                                    // } else {
-                                    //   Navigator.of(context).pop();
-                                    // }
                                     await FirebaseAuth.instance.signOut();
                                     Navigator.pushReplacementNamed(context, '/authScreen');                                  
                                   },
