@@ -53,6 +53,10 @@ class _AuthScreenState extends State<AuthScreen> {
             'email': _userCreds.user.email,
             'register': true,
             'deviceToken': deviceToken,
+            'name' : null,
+            'phone' : null,
+            'dob' : '2000-01-01',
+            'gender': 1,
           });
         });
       }

@@ -7,19 +7,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puthon/shared/textField.dart';
 
+import 'loadingScreen.dart';
+
 class DetailScreen extends StatefulWidget {
   @override
   _DetailScreenState createState() => _DetailScreenState();
 }
 
 var name, phone, dob = null, gender = 1, register;
-bool _isLoading = false;
-var flag = [0, 0, 0, 0];
+// ignore: unused_element
+bool _isLoading = false, _isLoading1 = true;
+var flag = [0, 0, 0, 0], flag1 = 0;
 
 class _DetailScreenState extends State<DetailScreen> {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
   void readData() async {
+    print("######\n");
     await FirebaseFirestore.instance
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser.uid)
@@ -27,13 +31,15 @@ class _DetailScreenState extends State<DetailScreen> {
         .then((value) {
       if (value.exists) {
         print(value.data()["name"]);
-        setState(() {
+        setState((){
           name = value.data()["name"];
           phone = value.data()["phone"];
           dob = value.data()["dob"];
           gender = value.data()["gender"];
           register = value.data()["register"];
+          _isLoading1 = false;
         });
+        
       }
     });
   }
@@ -46,6 +52,7 @@ class _DetailScreenState extends State<DetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    
     final node = FocusScope.of(context);
     return Container(
       decoration: BoxDecoration(
@@ -58,7 +65,7 @@ class _DetailScreenState extends State<DetailScreen> {
         backgroundColor: Colors.transparent,
         body: BackdropFilter(
           filter: new ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-          child: Form(
+          child: _isLoading1 ? LoadingScreen() : Form(
             key: _formkey,
             child: Column(
               children: [
@@ -123,7 +130,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                     BorderRadius.all(Radius.circular(20)),
                               ),
                               child: TextFormField(
-                                initialValue: name,
+                                initialValue: name ,
                                 onChanged: (val) {
                                   setState(() {
                                     flag[0] = 0;
@@ -398,14 +405,17 @@ class _DetailScreenState extends State<DetailScreen> {
                                                   'gender': gender,
                                                   'register': false,
                                                 });
-                                                if(!register) {
-                                                  Navigator.pushReplacementNamed(
-                                                    context, '/homeScreen');
-                                                }
+                                                _isLoading1 = true;
+                                                _isLoading = false;
                                                 setState(() {
                                                   flag[0] = 0;
                                                   flag[1] = 0;
                                                 });
+                                                
+                                                if(!register) {
+                                                  Navigator.pop(context);
+                                                  //Navigator.pushReplacementNamed(context, '/homeScreen');
+                                                }
                                               }
                                               _isLoading = false;
                                             },
@@ -450,4 +460,9 @@ class _DetailScreenState extends State<DetailScreen> {
       ),
     );
   }
+
+  // @override
+  // void dispose() {    
+  //   super.dispose();
+  // }
 }
