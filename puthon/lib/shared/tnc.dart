@@ -145,7 +145,8 @@ class _TnCState extends State<TnC> {
                                   'street': widget.street,
                                   'pincode': widget.pincode,
                                   'building': widget.building,
-                                  'country': 'India'
+                                  'country': 'India',
+                                  'uid': FirebaseAuth.instance.currentUser.uid
                                 });
                                 Navigator.of(context).pop();
                                 Navigator.of(context).pop();

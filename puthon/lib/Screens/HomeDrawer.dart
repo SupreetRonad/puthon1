@@ -124,32 +124,33 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                     ],
                                   ),
                                 ),
-                                TextButton(
-                                  onPressed: () {
-                                    
-                                    Navigator.pushNamed(context, '/businessRegisterScreen');
-                                  },
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Icon(
-                                        Icons.list_alt,
-                                        color: Colors.black,
-                                      ),
-                                      Text(
-                                        "  Register my business",
-                                        style: TextStyle(
+                                info['admin'] ? SizedBox() :
+                                  TextButton(
+                                    onPressed: () {
+                                      
+                                      Navigator.pushNamed(context, '/businessRegisterScreen');
+                                    },
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Icon(
+                                          Icons.list_alt,
                                           color: Colors.black,
                                         ),
-                                      ),
-                                    ],
+                                        Text(
+                                          "  Register my business",
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
                                 Row(
                                   children: [
                                     Spacer(),
