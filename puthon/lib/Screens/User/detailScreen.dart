@@ -5,9 +5,8 @@ import 'package:date_time_picker/date_time_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:puthon/Shared/loadingScreen.dart';
 import 'package:puthon/shared/textField.dart';
-
-import 'loadingScreen.dart';
 
 class DetailScreen extends StatefulWidget {
   @override

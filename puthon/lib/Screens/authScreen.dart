@@ -53,12 +53,12 @@ class _AuthScreenState extends State<AuthScreen> {
             'email': _userCreds.user.email,
             'register': true,
             'deviceToken': deviceToken,
-            'name' : null,
-            'phone' : null,
-            'dob' : '2000-01-01',
+            'name': null,
+            'phone': null,
+            'dob': '2000-01-01',
             'gender': 1,
-            'admin' : false,
-            'cook' : false
+            'admin': false,
+            'cook': false
           });
         });
       }
@@ -391,7 +391,11 @@ class _AuthScreenState extends State<AuthScreen> {
                             },
                             child: Text(
                               !isLogin ? "Login" : "Register",
-                              style: TextStyle(color: Colors.amber),
+                              style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                color: Colors.amber,
+                                fontWeight: FontWeight.bold,
+                              ),
                             )),
                       ],
                     ),

@@ -8,6 +8,7 @@ class CartButton extends StatefulWidget {
 
 class _CartButtonState extends State<CartButton> {
   bool cart = false;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -16,11 +17,13 @@ class _CartButtonState extends State<CartButton> {
       children: [
         cart
             ? Container(
+              
                 height: MediaQuery.of(context).size.height * .5,
-                width: MediaQuery.of(context).size.width * .65,
+                width: MediaQuery.of(context).size.width * .7,
                 child: Card(
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                   elevation: 5,
                   child: SingleChildScrollView(
                     child: Column(
@@ -51,7 +54,6 @@ class _CartButtonState extends State<CartButton> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30))),
           onPressed: () {
-            //FirebaseAuth.instance.signOut();
             setState(() {
               cart = !cart;
             });

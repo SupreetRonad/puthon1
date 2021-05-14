@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:puthon/Screens/detailScreen.dart';
-import 'package:puthon/Screens/loadingScreen.dart';
+import 'package:puthon/Screens/User/detailScreen.dart';
+import 'package:puthon/shared/loadingScreen.dart';
 
-import 'homeScreen.dart';
+import 'User/homeScreen.dart';
 
 class DivergeScreen extends StatelessWidget {
   @override
