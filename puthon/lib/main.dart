@@ -41,7 +41,7 @@ class _MyAppState extends State<MyApp> {
             '/authScreen': (context) => AuthScreen(),
             '/detailScreen': (context) => DetailScreen(),
             '/homeScreen': (context) => HomeScreen(),
-            '/businessRegisterScreen' : (context) => RegisterBusiness()
+            '/businessRegisterScreen': (context) => RegisterBusiness()
           },
           home: snapshot.connectionState != ConnectionState.done
               ? LoadingScreen()

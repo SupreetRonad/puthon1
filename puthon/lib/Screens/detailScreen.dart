@@ -30,7 +30,6 @@ class _DetailScreenState extends State<DetailScreen> {
         .get()
         .then((value) {
       if (value.exists) {
-        //print(value.data()["name"]);
         setState((){
           name = value.data()["name"];
           phone = value.data()["phone"];
