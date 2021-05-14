@@ -186,6 +186,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                     BorderRadius.all(Radius.circular(20)),
                               ),
                               child: TextFormField(
+                                maxLength: 10,
                                 initialValue: phone,
                                 onChanged: (val) {
                                   setState(() {
@@ -200,6 +201,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                 onEditingComplete: () => node.unfocus(),
                                 keyboardType: TextInputType.phone,
                                 decoration: textField.copyWith(
+                                    counterText: "",
                                     labelText: flag[1] == 1
                                         ? "Please enter a valid phone number"
                                         : "Phone number",

@@ -39,6 +39,7 @@ dependencies:
   blurrycontainer: ^0.0.1
   page_slider: ^0.0.2
   animations: ^2.0.0
+  fluttertoast: ^8.0.6
 
 dev_dependencies:
   flutter_test:

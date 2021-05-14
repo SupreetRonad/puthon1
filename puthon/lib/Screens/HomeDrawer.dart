@@ -43,6 +43,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                         children: [
                           GestureDetector(
                             onTap: () {
+                              
                               Navigator.pushNamed(context, '/detailScreen');
                             },
                             child: Container(
@@ -125,6 +126,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                 ),
                                 TextButton(
                                   onPressed: () {
+                                    
                                     Navigator.pushNamed(context, '/businessRegisterScreen');
                                   },
                                   child: Row(
