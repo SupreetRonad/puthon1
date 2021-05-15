@@ -38,6 +38,7 @@ dependencies:
   lottie: ^1.0.1
   google_fonts: ^2.0.0
   expansion_card: ^0.1.0
+  
 
 dev_dependencies:
   flutter_test:

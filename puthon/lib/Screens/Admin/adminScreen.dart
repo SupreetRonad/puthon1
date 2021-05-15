@@ -66,29 +66,27 @@ class _AdminScreenState extends State<AdminScreen> {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(8.0, 10, 60, 8),
-            child: SingleChildScrollView(
-              child: Container(
-                padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.white.withOpacity(1),
-                ),
-                child: TextFormField(
-                  onChanged: (val) {},
-                  textCapitalization: TextCapitalization.words,
-                  textInputAction: TextInputAction.search,
-                  key: ValueKey('resname'),
-                  keyboardType: TextInputType.text,
-                  decoration: textField.copyWith(
-                    labelText: "Search...",
-                    labelStyle: TextStyle(
-                      color: Colors.black.withOpacity(.35),
-                    ),
+            child: Container(
+              padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.white.withOpacity(1),
+              ),
+              child: TextFormField(
+                onChanged: (val) {},
+                textCapitalization: TextCapitalization.words,
+                textInputAction: TextInputAction.search,
+                key: ValueKey('resname'),
+                keyboardType: TextInputType.text,
+                decoration: textField.copyWith(
+                  labelText: "Search...",
+                  labelStyle: TextStyle(
+                    color: Colors.black.withOpacity(.35),
                   ),
-                  validator: (val) {
-                    return null;
-                  },
                 ),
+                validator: (val) {
+                  return null;
+                },
               ),
             ),
           ),
