@@ -37,7 +37,7 @@ dependencies:
   fluttertoast: ^8.0.6
   lottie: ^1.0.1
   google_fonts: ^2.0.0
-  material_floating_search_bar: ^0.3.4
+  expansion_card: ^0.1.0
 
 dev_dependencies:
   flutter_test:

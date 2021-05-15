@@ -21,7 +21,6 @@ class _DetailScreenState extends State<DetailScreen> {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
   void readData() async {
-    //print("######\n");
     await FirebaseFirestore.instance
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser.uid)
