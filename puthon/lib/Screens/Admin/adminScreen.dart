@@ -22,7 +22,7 @@ class _AdminScreenState extends State<AdminScreen> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        title: Row(          
+        title: Row(
           children: [
             RichText(
               text: TextSpan(
@@ -37,7 +37,6 @@ class _AdminScreenState extends State<AdminScreen> {
                     style: GoogleFonts.dancingScript(
                       textStyle: TextStyle(color: Colors.red),
                       fontSize: 20,
-                      //fontWeight: FontWeight.w700,
                       fontStyle: FontStyle.italic,
                     ),
                   ),
@@ -48,18 +47,17 @@ class _AdminScreenState extends State<AdminScreen> {
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 primary: Colors.white,
-                //padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
+                  borderRadius: BorderRadius.circular(20),
+                ),
               ),
               onPressed: () {
                 Navigator.pushReplacementNamed(context, '/homeScreen');
               },
               child: Text(
                 "User mode",
-                style: TextStyle(),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -69,7 +67,7 @@ class _AdminScreenState extends State<AdminScreen> {
           Padding(
             padding: const EdgeInsets.fromLTRB(8.0, 10, 60, 8),
             child: SingleChildScrollView(
-                          child: Container(
+              child: Container(
                 padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
@@ -87,7 +85,9 @@ class _AdminScreenState extends State<AdminScreen> {
                       color: Colors.black.withOpacity(.35),
                     ),
                   ),
-                  validator: (val) {},
+                  validator: (val) {
+                    return null;
+                  },
                 ),
               ),
             ),
@@ -116,7 +116,9 @@ class _AdminScreenState extends State<AdminScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    SizedBox(height: 40,),
+                    SizedBox(
+                      height: 40,
+                    ),
                     GestureDetector(
                       onTap: () {
                         setState(() {
@@ -133,7 +135,8 @@ class _AdminScreenState extends State<AdminScreen> {
                                   flag == 0 ? Colors.black87 : Colors.black26,
                             ),
                             fontSize: 20,
-                            fontWeight: flag == 0 ? FontWeight.w700 : FontWeight.normal,
+                            fontWeight:
+                                flag == 0 ? FontWeight.w700 : FontWeight.normal,
                             //fontStyle: FontStyle.italic,
                           ),
                         ),
@@ -158,7 +161,8 @@ class _AdminScreenState extends State<AdminScreen> {
                                   flag == 1 ? Colors.black87 : Colors.black26,
                             ),
                             fontSize: 20,
-                            fontWeight: flag == 1 ? FontWeight.w700 : FontWeight.normal,
+                            fontWeight:
+                                flag == 1 ? FontWeight.w700 : FontWeight.normal,
                             //fontStyle: FontStyle.italic,
                           ),
                         ),
@@ -172,7 +176,6 @@ class _AdminScreenState extends State<AdminScreen> {
                         setState(() {
                           flag = 2;
                         });
-
                       },
                       child: RotatedBox(
                         quarterTurns: -1,
@@ -184,7 +187,8 @@ class _AdminScreenState extends State<AdminScreen> {
                                   flag == 2 ? Colors.black87 : Colors.black26,
                             ),
                             fontSize: 20,
-                            fontWeight: flag == 2 ? FontWeight.w700 : FontWeight.normal,
+                            fontWeight:
+                                flag == 2 ? FontWeight.w700 : FontWeight.normal,
                             //fontStyle: FontStyle.italic,
                           ),
                         ),

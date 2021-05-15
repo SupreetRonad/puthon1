@@ -14,7 +14,6 @@ class DetailScreen extends StatefulWidget {
 }
 
 var name, phone, dob = null, gender = 1, register;
-// ignore: unused_element
 bool _isLoading = false, _isLoading1 = true;
 var flag = [0, 0, 0, 0], flag1 = 0;
 

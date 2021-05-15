@@ -59,28 +59,24 @@ class _TnCState extends State<TnC> {
                       ),
                     ],
                   ),
-                  Row(
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * .5,
-                        child: SingleChildScrollView(
-                          child: Container(
-                            padding: EdgeInsets.all(10),
-                            constraints: BoxConstraints(
-                                minWidth: 100,
-                                maxWidth:
-                                    MediaQuery.of(context).size.width * .8 -
-                                        40),
-                            child: Text(
-                              tnc,
-                              style: TextStyle(
-                                fontSize: 14,
-                              ),
-                            ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * .5,
+                    child: SingleChildScrollView(
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        constraints: BoxConstraints(
+                            minWidth: 100,
+                            maxWidth:
+                                MediaQuery.of(context).size.width * .8 -
+                                    40),
+                        child: Text(
+                          tnc,
+                          style: TextStyle(
+                            fontSize: 14,
                           ),
                         ),
                       ),
-                    ],
+                    ),
                   ),
                   SizedBox(
                     height: 10,
