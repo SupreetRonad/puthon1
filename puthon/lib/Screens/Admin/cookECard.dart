@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expansion_card/expansion_card.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../../Shared/confirmBox.dart';
 
 class CookECard extends StatelessWidget {
@@ -171,19 +172,35 @@ class CookECard extends StatelessWidget {
                                             .collection('users')
                                             .doc(doc["uid"])
                                             .update({'cook': false});
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              "${doc['name']} has been removed successfully!",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            backgroundColor: Colors.black,
+                                          ),
+                                        );
                                       }
                                       Navigator.of(context).pop();
                                     },
                                     message: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
-                                            SizedBox(width: flag ? 30 : 25,),
+                                            SizedBox(
+                                              width: flag ? 30 : 25,
+                                            ),
                                             Icon(
                                               flag
-                                                  ? Icons.person_add_alt_1_rounded
+                                                  ? Icons
+                                                      .person_add_alt_1_rounded
                                                   : Icons
                                                       .person_remove_alt_1_rounded,
                                               color: flag

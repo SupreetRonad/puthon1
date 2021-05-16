@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -10,10 +9,7 @@ class AdminMenuList extends StatefulWidget {
   _AdminMenuListState createState() => _AdminMenuListState();
 }
 
-
-
 class _AdminMenuListState extends State<AdminMenuList> {
-  
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -43,31 +39,34 @@ class _AdminMenuListState extends State<AdminMenuList> {
         Expanded(
           child: Center(
             child: StreamBuilder(
-                stream: FirebaseFirestore.instance
-                    .collection('admins')
-                    .doc(FirebaseAuth.instance.currentUser.uid)
-                    .collection('menu')
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return LoadingScreen();
-                  }
-                  if (!snapshot.hasData) {
-                    return Text(
-                      "Please Add Items...",
-                      style: TextStyle(fontSize: 20),
-                    );
-                  } else {
-                    return ListView.builder(
-                        itemCount: snapshot.data.docs.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          var item = snapshot.data.docs[index];
-                          return Padding(
-                              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                              child: null);
-                        });
-                  }
-                }),
+              stream: FirebaseFirestore.instance
+                  .collection('admins')
+                  .doc(FirebaseAuth.instance.currentUser.uid)
+                  .collection('menu')
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return LoadingScreen();
+                }
+                if (!snapshot.hasData) {
+                  return Text(
+                    "Please Add Items...",
+                    style: TextStyle(fontSize: 20),
+                  );
+                } else {
+                  return ListView.builder(
+                    itemCount: snapshot.data.docs.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      var item = snapshot.data.docs[index];
+                      return Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                        child: Text(item['itemName']),
+                      );
+                    },
+                  );
+                }
+              },
+            ),
           ),
         ),
       ],
@@ -78,7 +77,6 @@ class _AdminMenuListState extends State<AdminMenuList> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        
         return AddMenuItem();
       },
     );
