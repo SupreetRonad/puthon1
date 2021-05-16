@@ -41,7 +41,8 @@ dependencies:
   qrscans: ^0.0.7
   image_gallery_saver: '^1.6.9'
   hawk_fab_menu: ^0.3.2
-  
+  menu_button: ^1.4.2+1
+  flutter_advanced_switch: ^2.0.2+2
 
 dev_dependencies:
   flutter_test:

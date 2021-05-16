@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lottie/lottie.dart';
+import 'package:puthon/Shared/successBox.dart';
 
 class TnC extends StatefulWidget {
   final resName, street, city, state, pincode, building;
@@ -67,8 +68,7 @@ class _TnCState extends State<TnC> {
                         constraints: BoxConstraints(
                             minWidth: 100,
                             maxWidth:
-                                MediaQuery.of(context).size.width * .8 -
-                                    40),
+                                MediaQuery.of(context).size.width * .8 - 40),
                         child: Text(
                           tnc,
                           style: TextStyle(
@@ -150,59 +150,13 @@ class _TnCState extends State<TnC> {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return BackdropFilter(
-                                      filter: ImageFilter.blur(
-                                          sigmaX: 10.0, sigmaY: 10.0),
-                                      child: AlertDialog(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(20)),
-                                        title: Column(
-                                          children: [
-                                            Lottie.asset(
-                                              "assets/animations/confirmation.json",
-                                              repeat: false,
-                                              height: 70,
-                                            ),
-                                            SizedBox(
-                                              height: 5,
-                                            ),
-                                            Text(
-                                              'Request sent successfully',
-                                              style: TextStyle(
-                                                color: Colors.green[400],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        content: SingleChildScrollView(
-                                          child: ListBody(
-                                            children: <Widget>[
-                                              Text(
-                                                  '\tYour request for registration of business has been successfully sent to our registration center.'),
-                                              Text(
-                                                  '\n\tOur team will contact you soon. Thank you.'),
-                                            ],
-                                          ),
-                                        ),
-                                        actions: <Widget>[
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              TextButton(
-                                                child: Text('OK'),
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
+                                    return SuccessBox(
+                                      title: 'Request sent successfully',
+                                      msg1: 'Your request for registration of business has been successfully sent to our registration center.',
+                                      msg2: 'Our team will contact you soon. Thank you.',
                                     );
                                   },
-                                );
+                                );                              
                               } else {
                                 Fluttertoast.showToast(
                                   msg: "Please accept terms and conditions",

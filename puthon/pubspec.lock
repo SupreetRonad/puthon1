@@ -195,6 +195,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_advanced_switch:
+    dependency: "direct main"
+    description:
+      name: flutter_advanced_switch
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.2+2"
   flutter_spinkit:
     dependency: "direct main"
     description:
@@ -289,6 +296,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.12.10"
+  menu_button:
+    dependency: "direct main"
+    description:
+      name: menu_button
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.4.2+1"
   meta:
     dependency: transitive
     description:
