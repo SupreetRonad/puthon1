@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:puthon/shared/logOut.dart';
+import 'package:puthon/Shared/confirmBox.dart';
 
 import '../../shared/loadingScreen.dart';
 
@@ -271,7 +271,38 @@ class _HomeDrawerState extends State<HomeDrawer> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return LogOut();
+        return ConfirmBox(
+          b1: "Go Back",
+          b2: "Log Out",
+          color: Colors.red[300],
+          function: () async {
+            await FirebaseAuth.instance.signOut();
+            Navigator.of(context).pop();
+          },
+          message: Column(
+            children: [
+              Icon(
+                Icons.exit_to_app_rounded,
+                size: 130,
+                color: Colors.red[300],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Do you really want to "),
+                  Text(
+                    "Log out ?",
+                    style: TextStyle(
+                        color: Colors.red, fontWeight: FontWeight.bold),
+                  )
+                ],
+              ),
+            ],
+          ),
+        );
       },
     );
   }

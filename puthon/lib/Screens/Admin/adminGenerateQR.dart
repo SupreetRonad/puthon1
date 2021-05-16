@@ -116,11 +116,10 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
                   ),
                   ElevatedButton(
                     onPressed: () async {
-                      final save = await ImageGallerySaver.saveImage(
+                      await ImageGallerySaver.saveImage(
                           Uint8List.fromList(result),
                           quality: 60,
-                          name: qrContent);
-                      print(save);
+                          name: "${qrContent}table");
                     },
                     child: Text("Save to Gallery"),
                   ),

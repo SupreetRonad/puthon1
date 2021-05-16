@@ -1,9 +1,15 @@
 import 'dart:ui';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class LogOut extends StatelessWidget {
+class ConfirmBox extends StatelessWidget {
+  final String b1, b2;
+  final Widget message;
+  final Color color;
+  final Function function;
+  ConfirmBox(
+      {this.b1, this.b2, this.color, this.message, this.function});
+
   @override
   Widget build(BuildContext context) {
     return BackdropFilter(
@@ -20,22 +26,12 @@ class LogOut extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: SizedBox(
-              height: 120,
+              height: 250,
               width: 320,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Do you really want to "),
-                      Text(
-                        "Log out ?",
-                        style: TextStyle(
-                            color: Colors.red, fontWeight: FontWeight.bold),
-                      )
-                    ],
-                  ),
+                  message,
                   SizedBox(
                     height: 20,
                   ),
@@ -52,7 +48,7 @@ class LogOut extends StatelessWidget {
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: Text("Go back"),
+                        child: Text(b1),
                       ),
                       SizedBox(
                         width: 10,
@@ -61,18 +57,14 @@ class LogOut extends StatelessWidget {
                         width: 110,
                         child: TextButton(
                             style: TextButton.styleFrom(
-                              backgroundColor: Colors.red[300],
+                              backgroundColor: color,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30.0),
                               ),
                             ),
-                            onPressed: () async {
-                              await FirebaseAuth.instance.signOut();
-                              Navigator.pop(context);
-                              //Navigator.pushReplacementNamed(context, '/authScreen');
-                            },
+                            onPressed: function ?? null,
                             child: Text(
-                              "Log out",
+                              b2,
                               style: TextStyle(
                                 color: Colors.white,
                               ),

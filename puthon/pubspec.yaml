@@ -40,6 +40,7 @@ dependencies:
   expansion_card: ^0.1.0
   qrscans: ^0.0.7
   image_gallery_saver: '^1.6.9'
+  hawk_fab_menu: ^0.3.2
   
 
 dev_dependencies:
