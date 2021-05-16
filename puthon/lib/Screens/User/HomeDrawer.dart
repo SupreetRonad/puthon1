@@ -49,8 +49,6 @@ class _HomeDrawerState extends State<HomeDrawer> {
                               ),
                             ),
                             height: 140,
-                            //color: Colors.grey[400],
-
                             child: Row(
                               children: [
                                 SizedBox(width: 15),
@@ -97,7 +95,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                     Container(
                                       width: 130,
                                       child: Text(
-                                        info['email'] ?? 'email@email.com',
+                                        info['email'] ?? 'name@email.com',
                                         overflow: TextOverflow.fade,
                                         softWrap: false,
                                         maxLines: 1,
@@ -112,7 +110,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                     if (info["admin"])
                                       GestureDetector(
                                         onTap: () {
-                                          Navigator.pushReplacementNamed(
+                                          Navigator.pushNamed(
                                               context, '/adminScreen');
                                         },
                                         child: Text(
@@ -128,7 +126,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                     if (info["cook"])
                                       GestureDetector(
                                         onTap: () {
-                                          Navigator.pushReplacementNamed(
+                                          Navigator.pushNamed(
                                               context, '/cookScreen');
                                         },
                                         child: Text(

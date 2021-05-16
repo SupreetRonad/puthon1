@@ -52,7 +52,7 @@ class _AdminScreenState extends State<AdminScreen> {
                 ),
               ),
               onPressed: () {
-                Navigator.pushReplacementNamed(context, '/homeScreen');
+                Navigator.of(context).pop();
               },
               child: Text(
                 "User mode",
