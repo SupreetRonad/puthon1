@@ -11,10 +11,12 @@ class _CookScreenState extends State<CookScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        //automaticallyImplyLeading: false,
         elevation: 0,
         backgroundColor: Colors.transparent,
         title: Row(
           children: [
+            Spacer(),
             RichText(
               text: TextSpan(
                 text: 'PUTHON ',
@@ -38,23 +40,22 @@ class _CookScreenState extends State<CookScreen> {
                 ],
               ),
             ),
-            Spacer(),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-                //padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20)
-              ),
-              ),
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, '/homeScreen');
-              },
-              child: Text(
-                "User mode",
-                style: TextStyle(),
-              ),
-            )
+            // ElevatedButton(
+            //   style: ElevatedButton.styleFrom(
+            //     primary: Colors.white,
+            //     //padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+            //     shape: RoundedRectangleBorder(
+            //     borderRadius: BorderRadius.circular(20)
+            //   ),
+            //   ),
+            //   onPressed: () {
+            //     Navigator.pushReplacementNamed(context, '/homeScreen');
+            //   },
+            //   child: Text(
+            //     "User mode",
+            //     style: TextStyle(),
+            //   ),
+            // )
           ],
         ),
       ),

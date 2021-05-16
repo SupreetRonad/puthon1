@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:puthon/Screens/Admin/adminGenerateQR.dart';
 import 'package:puthon/Screens/Admin/adminMenuList.dart';
 import 'package:puthon/Screens/Admin/adminCooksList.dart';
 import 'package:puthon/Screens/Admin/adminInsights.dart';
@@ -20,10 +21,12 @@ class _AdminScreenState extends State<AdminScreen> {
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white.withOpacity(.95),
       appBar: AppBar(
+        //automaticallyImplyLeading: false,
         elevation: 0,
         backgroundColor: Colors.transparent,
         title: Row(
           children: [
+            Spacer(),
             RichText(
               text: TextSpan(
                 text: 'PUTHON ',
@@ -43,56 +46,62 @@ class _AdminScreenState extends State<AdminScreen> {
                 ],
               ),
             ),
-            Spacer(),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text(
-                "User mode",
-              ),
-            ),
           ],
         ),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(8.0, 10, 60, 8),
-            child: Container(
-              padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.white.withOpacity(1),
-              ),
-              child: TextFormField(
-                onChanged: (val) {},
-                textCapitalization: TextCapitalization.words,
-                textInputAction: TextInputAction.search,
-                key: ValueKey('resname'),
-                keyboardType: TextInputType.text,
-                decoration: textField.copyWith(
-                  labelText: "Search...",
-                  labelStyle: TextStyle(
-                    color: Colors.black.withOpacity(.35),
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0.0, 8, 0, 10),
+                child: Container(
+                  width: MediaQuery.of(context).size.width - 60,
+                  padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(20),
+                        bottomRight: Radius.circular(20)),
+                    color: Colors.white.withOpacity(1),
+                  ),
+                  child: TextFormField(
+                    onChanged: (val) {},
+                    textCapitalization: TextCapitalization.words,
+                    textInputAction: TextInputAction.search,
+                    key: ValueKey('resname'),
+                    keyboardType: TextInputType.text,
+                    decoration: textField.copyWith(
+                      labelText: "Search...",
+                      labelStyle: TextStyle(
+                        color: Colors.black.withOpacity(.35),
+                      ),
+                    ),
+                    validator: (val) {
+                      return null;
+                    },
                   ),
                 ),
-                validator: (val) {
-                  return null;
-                },
               ),
-            ),
+              Spacer(),
+              IconButton(
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AdminGenerateQR();
+                      });
+                },
+                icon: Icon(
+                  Icons.qr_code,
+                  size: 30,
+                ),
+              ),
+              Spacer(),
+            ],
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
             children: [
               Expanded(
                 child: Container(

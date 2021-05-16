@@ -218,28 +218,26 @@ class _AdminCooksListState extends State<AdminCooksList> {
                                 Padding(
                                   padding: const EdgeInsets.fromLTRB(
                                       0.0, 10, 0.0, 8),
-                                  child: SingleChildScrollView(
-                                    child: Container(
-                                      padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(50),
-                                        color: Colors.white.withOpacity(1),
-                                      ),
-                                      child: TextFormField(
-                                        onChanged: (val) {
-                                          setState(() {
-                                            query = val;
-                                          });
-                                        },
-                                        textInputAction: TextInputAction.search,
-                                        key: ValueKey('cook'),
-                                        keyboardType: TextInputType.text,
-                                        decoration: textField.copyWith(
-                                          hintText: "Search User...",
-                                          hintStyle: TextStyle(
-                                            color:
-                                                Colors.black.withOpacity(.35),
-                                          ),
+                                  child: Container(
+                                    padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(50),
+                                      color: Colors.white.withOpacity(1),
+                                    ),
+                                    child: TextFormField(
+                                      onChanged: (val) {
+                                        setState(() {
+                                          query = val;
+                                        });
+                                      },
+                                      textInputAction: TextInputAction.search,
+                                      key: ValueKey('cook'),
+                                      keyboardType: TextInputType.text,
+                                      decoration: textField.copyWith(
+                                        hintText: "Search User...",
+                                        hintStyle: TextStyle(
+                                          color:
+                                              Colors.black.withOpacity(.35),
                                         ),
                                       ),
                                     ),
