@@ -6,7 +6,7 @@ import 'package:puthon/Shared/confirmBox.dart';
 import 'addMenuItem.dart';
 
 class AdminControlButtons extends StatelessWidget {
-  var item;
+  final item;
   AdminControlButtons({this.item});
   @override
   Widget build(BuildContext context) {

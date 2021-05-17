@@ -1,28 +1,92 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:puthon/Screens/Admin/addMenuItem.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserControlButtons extends StatefulWidget {
-  var item;
+  final item;
   UserControlButtons({this.item});
   @override
   _UserControlButtonsState createState() => _UserControlButtonsState();
 }
 
+SharedPreferences prefs;
+
 class _UserControlButtonsState extends State<UserControlButtons> {
+  var count = 0;
+
+  Future init() async {
+    prefs = await SharedPreferences.getInstance();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 40,
-      width: 155,
+      width: count > 0 ? 120 : 100,
       decoration: BoxDecoration(
-        color: Colors.red[300],
+        color: Colors.amber[300],
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20),
           bottomRight: Radius.circular(20),
         ),
       ),
-      child: Text("Hii"),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (count > 0)
+            IconButton(
+              onPressed: () {
+                count = count > 0 ? count - 1 : count;
+                setState(() {
+                  prefs.setInt(widget.item["itemName"], count);
+                });
+              },
+              icon: Icon(Icons.remove),
+            ),
+          count > 0
+              ? SizedBox(
+                  width: 20,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        count.toString(),
+                      ),
+                    ],
+                  ),
+                )
+              : TextButton.icon(
+                  style: TextButton.styleFrom(
+                    primary: Colors.black,
+                  ),
+                  icon: Icon(Icons.add),
+                  label: Text("Add"),
+                  onPressed: () {
+                    setState(() {
+                      count += 1;
+                      prefs.setInt(widget.item["itemName"], count);
+                      prefs.setString(
+                          widget.item["itemName"], widget.item["itemName"]);
+                    });
+                  },
+                ),
+          if (count > 0)
+            IconButton(
+              onPressed: () {
+                count = count < 20 ? count + 1 : count;
+                prefs.setInt(widget.item["itemName"], count);
+                setState(() {});
+              },
+              icon: Icon(Icons.add),
+            ),
+        ],
+      ),
     );
   }
 }

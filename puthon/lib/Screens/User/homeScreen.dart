@@ -1,12 +1,12 @@
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:expanding_button/expanding_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:puthon/Screens/Admin/itemCard.dart';
 import 'package:puthon/Screens/User/HomeDrawer.dart';
 import 'package:puthon/Shared/loadingScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'cartButton.dart';
 import 'package:qrscans/qrscan.dart' as scanner;
 
@@ -30,10 +30,16 @@ Uint8List result = Uint8List(0);
 
 class _HomeScreenState extends State<HomeScreen> {
   final uid = FirebaseAuth.instance.currentUser.uid;
+  SharedPreferences prefs;
+
+  Future init() async {
+    prefs = await SharedPreferences.getInstance();
+  }
 
   @override
   void initState() {
     super.initState();
+    init();
     FirebaseFirestore.instance.collection('users').doc(uid).get().then((value) {
       if (value.exists) {
         setState(() {
@@ -48,12 +54,24 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: ExpandingButton(
-        tag: "Hello",
-        child: Text('This can be any widget'),
-        // onTap: () {
-        //   print('This can be any voidcallback which is called on tapping');
-        // },
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.red[300],
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            backgroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            builder: (BuildContext context) {
+              return CartButton();
+            },
+          );
+        },
+        child: Icon(
+          Icons.shopping_cart,
+          size: 20,
+        ),
       ),
       endDrawer: HomeDrawer(),
       appBar: AppBar(
@@ -107,15 +125,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                               onPressed: () async {
-                                scanned = false;
-                                await FirebaseFirestore.instance
-                                    .collection('users')
-                                    .doc(uid)
-                                    .update({
-                                  'scanned': false,
-                                  'resId': null,
-                                  'table': null,
-                                });
+                                // scanned = false;
+                                // await FirebaseFirestore.instance
+                                //     .collection('users')
+                                //     .doc(uid)
+                                //     .update({
+                                //   'scanned': false,
+                                //   'resId': null,
+                                //   'table': null,
+                                // });
+                                print(prefs.getInt('DAL TADKA'));
+                                print(prefs.getString('DAL TADKA'));
                                 setState(() {});
                               },
                               child: Text("Pay & Exit"),
