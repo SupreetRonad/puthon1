@@ -16,9 +16,9 @@ var name = "Name",
     phone = "1081081081",
     gender = 1;
 
-var resId, table;
-
 class HomeScreen extends StatefulWidget {
+  static List<String> list = [];
+  static var resId, table;
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -30,10 +30,22 @@ Uint8List result = Uint8List(0);
 
 class _HomeScreenState extends State<HomeScreen> {
   final uid = FirebaseAuth.instance.currentUser.uid;
-  SharedPreferences prefs; 
+
+  SharedPreferences prefs;
 
   Future init() async {
     prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      if (prefs.getStringList("orderList") == null) {
+        prefs.setStringList("orderList", []);
+      }
+      HomeScreen.list = prefs.getStringList('orderList') ?? [];
+    });
+  }
+
+  void refresh() {
+    setState(() {});
   }
 
   @override
@@ -44,8 +56,8 @@ class _HomeScreenState extends State<HomeScreen> {
       if (value.exists) {
         setState(() {
           scanned = value['scanned'];
-          resId = value['resId'];
-          table = value['table'];
+          HomeScreen.resId = value['resId'];
+          HomeScreen.table = value['table'];
         });
       }
     });
@@ -64,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
               borderRadius: BorderRadius.circular(20.0),
             ),
             builder: (BuildContext context) {
-              return CartButton();
+              return CartButton(refresh: refresh);
             },
           );
         },
@@ -86,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ? StreamBuilder(
                 stream: FirebaseFirestore.instance
                     .collection('admins')
-                    .doc(resId)
+                    .doc(HomeScreen.resId)
                     .collection('menu')
                     .orderBy('itemName')
                     .snapshots(),
@@ -108,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               width: 15,
                             ),
                             Text(
-                              "Table. " + table,
+                              "Table. " + HomeScreen.table,
                               style: TextStyle(
                                   color: Colors.orange,
                                   fontSize: 25,
@@ -151,7 +163,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               var item = snapshot.data.docs[index];
                               return Padding(
                                 padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                                child: ItemCard(item: item, order: true,),
+                                child: ItemCard(
+                                  item: item,
+                                  order: true,
+                                ),
                               );
                             },
                           ),
@@ -184,15 +199,15 @@ class _HomeScreenState extends State<HomeScreen> {
                             .then((value) {
                           if (value.exists) {
                             scanned = true;
-                            resId = cameraScanResult.split("/*/")[1];
-                            table = cameraScanResult.split("/*/")[0];
+                            HomeScreen.resId = cameraScanResult.split("/*/")[1];
+                            HomeScreen.table = cameraScanResult.split("/*/")[0];
                             FirebaseFirestore.instance
                                 .collection('users')
                                 .doc(uid)
                                 .update({
                               'scanned': true,
-                              'resId': resId,
-                              'table': table,
+                              'resId': HomeScreen.resId,
+                              'table': HomeScreen.table,
                             });
                           }
                         });

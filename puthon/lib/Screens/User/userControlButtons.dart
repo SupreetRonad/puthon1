@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:puthon/Screens/User/homeScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserControlButtons extends StatefulWidget {
@@ -11,10 +12,38 @@ class UserControlButtons extends StatefulWidget {
 SharedPreferences prefs;
 
 class _UserControlButtonsState extends State<UserControlButtons> {
-  var count = 0;
+  var count = 0, price = 0, veg = true;
 
   Future init() async {
     prefs = await SharedPreferences.getInstance();
+    count = prefs.getInt('${widget.item["itemName"]}') ?? 0;
+    setState(() {});
+  }
+
+  void removeItem(var name, var count1) {
+    if (HomeScreen.list.contains(name)) {
+      if (prefs.getInt(name) == 1) {
+        HomeScreen.list.remove(name);
+        prefs.remove(name);
+        prefs.remove(name + "1");
+        prefs.remove(name + "2");
+      } else {
+        prefs.setInt(name, count1);
+      }
+      prefs.setStringList('orderList', HomeScreen.list);
+    }
+  }
+
+  void addItem(var name, var count1) {
+    if (HomeScreen.list.contains(name)) {
+      prefs.setInt(name, count1);
+    } else {
+      HomeScreen.list.add(name);
+      prefs.setInt(name, count1);
+      prefs.setString("${name}1", widget.item["price"]);
+      prefs.setBool("${name}2", widget.item["veg"]);
+    }
+    prefs.setStringList('orderList', HomeScreen.list);
   }
 
   @override
@@ -42,30 +71,23 @@ class _UserControlButtonsState extends State<UserControlButtons> {
           if (count > 0)
             IconButton(
               onPressed: () {
-                count = count > 0 ? count - 1 : count;
                 setState(() {
-                  if (count == 0) {
-                    
-                    prefs.remove("${widget.item["itemName"]}");
-                    prefs.remove("${widget.item["itemName"]}1");
-                  }
-                  prefs.setInt("${widget.item["itemName"]}", count);
-                  // print(prefs.getInt("${widget.item["itemName"]}"));
-                  // print(prefs.getString("${widget.item["itemName"]}1"));
+                  count = count > 0 ? count - 1 : count;
+                  removeItem(widget.item["itemName"], count);
+
+                  print(prefs.getInt("${widget.item["itemName"]}"));
+                  print(prefs.getString("${widget.item["itemName"]}1"));
                 });
               },
               icon: Icon(Icons.remove),
             ),
-          count > 0
+          count > 0 
               ? SizedBox(
                   width: 20,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        count.toString(),
-                      ),
-                    ],
+                  child: Center(
+                    child: Text(
+                      count.toString(),
+                    ),
                   ),
                 )
               : TextButton.icon(
@@ -76,23 +98,22 @@ class _UserControlButtonsState extends State<UserControlButtons> {
                   label: Text("Add"),
                   onPressed: () {
                     setState(() {
-                      count += 1;
-                      prefs.setInt("${widget.item["itemName"]}", count);
-                      prefs.setString("${widget.item["itemName"]}1",
-                          widget.item["itemName"]);
-                      // print(prefs.getInt("${widget.item["itemName"]}"));
-                      // print(prefs.getString("${widget.item["itemName"]}1"));
+                      count = count + 1;
+                      addItem(widget.item["itemName"], count);
                     });
+                    print(prefs.getInt("${widget.item["itemName"]}"));
+                    print(prefs.getString("${widget.item["itemName"]}1"));
                   },
                 ),
           if (count > 0)
             IconButton(
               onPressed: () {
-                count = count < 20 ? count + 1 : count;
-                prefs.setInt("${widget.item["itemName"]}", count);
-                setState(() {});
-                // print(prefs.getInt("${widget.item["itemName"]}"));
-                // print(prefs.getString("${widget.item["itemName"]}1"));
+                setState(() {
+                  count = count < 20 ? count + 1 : count;
+                  addItem(widget.item["itemName"], count);
+                });
+                print(prefs.getInt("${widget.item["itemName"]}"));
+                print(prefs.getString("${widget.item["itemName"]}1"));
               },
               icon: Icon(Icons.add),
             ),

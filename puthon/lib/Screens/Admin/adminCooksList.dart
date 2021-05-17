@@ -151,7 +151,22 @@ class _AdminCooksListState extends State<AdminCooksList> {
                                 itemBuilder: (BuildContext context, int index) {
                                   if (snapshot.data.docs[index]['cook'] ==
                                       true) {
-                                    return Text("Role as Cook given!");
+                                    return Container(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0, 50, 0, 0),
+                                      child: Center(
+                                        child: Column(
+                                          children: [
+                                            Lottie.asset(
+                                              "assets/animations/cook.json",
+                                              height: 200,
+                                              repeat: false,
+                                            ),
+                                            Text("Role as Cook given!",style: TextStyle(color: Colors.black54),),
+                                          ],
+                                        ),
+                                      ),
+                                    );
                                   }
                                   return CookECard(
                                       doc: snapshot.data.docs[index],
@@ -163,8 +178,9 @@ class _AdminCooksListState extends State<AdminCooksList> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Lottie.asset(
-                                  "assets/animations/notfound.json",
-                                  height: 100,
+                                  "assets/animations/notfound1.json",
+                                  height: 150,
+                                  repeat: false,
                                 ),
                                 SizedBox(
                                   height: 15,

@@ -1,67 +1,238 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:lottie/lottie.dart';
+import 'package:puthon/Screens/User/homeScreen.dart';
+import 'package:puthon/Shared/confirmBox.dart';
+import 'package:puthon/Shared/successBox.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 SharedPreferences prefs;
 
-class CartButton extends StatelessWidget {
+class CartButton extends StatefulWidget {
+  final Function refresh;
+  CartButton({this.refresh});
+  @override
+  _CartButtonState createState() => _CartButtonState();
+}
 
+class _CartButtonState extends State<CartButton> {
   final bool cart = false;
+  bool loading = true;
+  var sum = 0.0;
+  Map<String, int> orderList = {};
 
   Future init() async {
     prefs = await SharedPreferences.getInstance();
+    setState(() {
+      loading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    init();
   }
 
   @override
   Widget build(BuildContext context) {
+    sum = 0;
+    for (var i = 0; i < HomeScreen.list.length; i++) {
+      sum += (prefs.getInt(HomeScreen.list[i]) *
+          int.parse(prefs.getString(HomeScreen.list[i] + "1")));
+      orderList[HomeScreen.list[i]] = prefs.getInt(HomeScreen.list[i]);
+    }
     return Container(
-      child: Center(
-        child: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text("Shared Preferences Storage, Retrieval & Clear",
-                style: TextStyle(fontSize: 15,color: Colors.brown,fontWeight: FontWeight.bold),),
-              SizedBox(height: 50,),
-              ElevatedButton(child: Text("Save Data"), onPressed: save),
-              ElevatedButton(child: Text("Fetch Data"),onPressed: fetch),
-              ElevatedButton(child: Text("Clear Data"),onPressed: remove)
-            ],
+      child: Column(
+        //mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  "Cart",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Spacer(),
+                IconButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    icon: Icon(Icons.close))
+              ],
+            ),
           ),
-        ),
+          Container(
+            child: loading
+                ? SpinKitWave(
+                    color: Colors.black87,
+                  )
+                : HomeScreen.list.length == 0
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: 100,
+                          ),
+                          Lottie.asset(
+                            "assets/animations/empty.json",
+                            height: 150,
+                            //repeat: false,
+                          ),
+                          Text(
+                            "Cart is empty",
+                            style: TextStyle(color: Colors.black54),
+                          ),
+                        ],
+                      )
+                    : Container(
+                        height: MediaQuery.of(context).size.height * 0.4,
+                        child: ListView.builder(
+                          itemCount: HomeScreen.list.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            var qty =
+                                prefs.getInt("${HomeScreen.list[index]}") ?? 0;
+                            var price =
+                                prefs.getString("${HomeScreen.list[index]}1") ??
+                                    "";
+
+                            return Text(
+                              HomeScreen.list[index] +
+                                  " - " +
+                                  qty.toString() +
+                                  " - " +
+                                  price,
+                            );
+                          },
+                        ),
+                      ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          if (HomeScreen.list.length != 0)
+            Row(
+              children: [
+                SizedBox(
+                  width: 15,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Total : ",
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 17,
+                      ),
+                    ),
+                    Text(
+                      "Rs. " + sum.toString(),
+                      style: TextStyle(
+                        color: Colors.green,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25,
+                      ),
+                    ),
+                  ],
+                ),
+                Spacer(),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    elevation: 10,
+                    primary: Colors.green[300],
+                    textStyle: TextStyle(color: Colors.white),
+                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  onPressed: () async {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return ConfirmBox(
+                          b1: "Go Back",
+                          b2: "Confirm",
+                          color: Colors.green[300],
+                          message: Text("Do you want to place order ?"),
+                          height: 120,
+                          function: () async {
+                            await FirebaseFirestore.instance
+                                .collection('admins')
+                                .doc(HomeScreen.resId)
+                                .collection('activeOrders')
+                                .doc(FirebaseAuth.instance.currentUser.uid)
+                                .collection(DateTime.now().toString())
+                                .doc()
+                                .set({
+                              "total": sum,
+                              "tableNo": HomeScreen.table,
+                              "orderList": orderList
+                            });
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                            for (var i = 0; i < HomeScreen.list.length; i++) {
+                              prefs.remove(HomeScreen.list[i]);
+                              prefs.remove(HomeScreen.list[i] + "1");
+                              prefs.remove(HomeScreen.list[i] + "2");
+                            }
+                            HomeScreen.list = [];
+                            prefs.setStringList("orderList", []);
+                            orderList = {};
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return SuccessBox(
+                                  title: "Order Successfully Placed",
+                                  msg1:
+                                      "Your order has been successfully sent to the cook.",
+                                  msg2:
+                                      "Please wait while your order gets ready...",
+                                );
+                              },
+                            );
+                            widget.refresh();
+                          },
+                        );
+                      },
+                    );
+                    setState(() {});
+                  },
+                  child: Row(
+                    children: [
+                      Text(
+                        "Place Order",
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Icon(
+                        Icons.arrow_forward,
+                        color: Colors.white,
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(width: 15),
+              ],
+            ),
+        ],
       ),
     );
   }
-}
-
-save() async {
-  await CartButton().init();
-
-  prefs.setInt('chicken', 10);
-
-  prefs.setString('chicken1', "chicken");
-
-  prefs.setDouble('double', 3.14);
-
-  prefs.setBool('boolean', true);
-
-  prefs.setStringList('stringlist', ['horse', 'cow', 'sheep']);
-}
-
-fetch() async {
-  final myInt = prefs.getInt('chicken') ?? 0;
-
-  final myDouble = prefs.getDouble('double') ?? 0.0;
-
-  final myBool = prefs.getBool('boolean') ?? false;
-
-  final myString = prefs.getString('chicken1') ?? '';
-
-  final myStringList = prefs.getStringList('stringlist') ?? [];
-
-  print("\n Int  - $myInt \n double - $myDouble \n boolean - $myBool \n string - $myString \n stringlist - $myStringList");
-}
-
-remove() async {
-  prefs.remove('chicken');
 }
