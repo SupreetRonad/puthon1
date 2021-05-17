@@ -37,7 +37,7 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
           backgroundColor: Colors.transparent,
           appBar: AppBar(
             iconTheme: IconThemeData(
-              color: Colors.white, //change your color here
+              color: Colors.white,
             ),
             elevation: 0,
             backgroundColor: Colors.transparent,
@@ -60,7 +60,6 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
                         height: MediaQuery.of(context).size.height - 650,
                       ),
                       Container(
-                        //height: 300,
                         padding: EdgeInsets.all(10),
                         child: Column(
                           children: [
@@ -245,7 +244,6 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
                                 filter: ImageFilter.blur(
                                     sigmaX: 10.0, sigmaY: 10.0),
                                 child: Container(
-                                  //width: MediaQuery.of(context).size.width * .425,
                                   color: Colors.white.withOpacity(.4),
                                   child: TextFormField(
                                     onChanged: (val) {

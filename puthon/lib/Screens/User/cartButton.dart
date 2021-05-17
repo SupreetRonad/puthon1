@@ -8,6 +8,8 @@ import 'package:puthon/Shared/confirmBox.dart';
 import 'package:puthon/Shared/successBox.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'cartCard.dart';
+
 SharedPreferences prefs;
 
 class CartButton extends StatefulWidget {
@@ -46,7 +48,6 @@ class _CartButtonState extends State<CartButton> {
     }
     return Container(
       child: Column(
-        //mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -104,13 +105,14 @@ class _CartButtonState extends State<CartButton> {
                             var price =
                                 prefs.getString("${HomeScreen.list[index]}1") ??
                                     "";
-
-                            return Text(
-                              HomeScreen.list[index] +
-                                  " - " +
-                                  qty.toString() +
-                                  " - " +
-                                  price,
+                            var veg =
+                                prefs.getBool("${HomeScreen.list[index]}2") ??
+                                    true;
+                            return CartCard(
+                              itemName: HomeScreen.list[index],
+                              price: price,
+                              quantity: qty,
+                              veg: veg,
                             );
                           },
                         ),
