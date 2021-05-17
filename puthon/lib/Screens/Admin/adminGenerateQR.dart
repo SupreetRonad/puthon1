@@ -87,6 +87,7 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
                       valid = 1;
                     } else {
                       valid = 2;
+                      result = Uint8List(0);
                     }
                     setState(() {});
                   },
@@ -113,11 +114,10 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
                   height: MediaQuery.of(context).size.height * .25,
                   child: result.isEmpty
                       ? Center(
-                          child: Text(
-                            'Empty code ... ',
-                            style: TextStyle(
-                              color: Colors.black38,
-                            ),
+                          child: Icon(
+                            Icons.qr_code_scanner,
+                            color: Colors.black38,
+                            size: 50,
                           ),
                         )
                       : Image.memory(result),

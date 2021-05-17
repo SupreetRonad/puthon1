@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final uid = FirebaseAuth.instance.currentUser.uid;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {    
     return Scaffold(
       floatingActionButton: CartButton(),
       endDrawer: HomeDrawer(),
@@ -40,6 +40,14 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                elevation: 10,
+                primary: Colors.white,
+                //padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
               onPressed: () async {
                 cameraScanResult = await scanner.scan();
                 setState(() {});
@@ -49,39 +57,9 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(
               height: 10,
             ),
-            Text(cameraScanResult ?? "Please scan QR code first"),
+            Text(cameraScanResult == null ?  "Please scan QR code first" : cameraScanResult.split("/*/")[0]),
             SizedBox(
               height: 10,
-            ),
-            TextField(
-              onChanged: (val) {
-                setState(() {
-                  qrContent = val;
-                });
-              },
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                result = await scanner.generateBarCode(qrContent ?? "");
-                setState(() {});
-              },
-              child: Text("Generate Code"),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            SizedBox(
-              height: 190,
-              child: result.isEmpty
-                  ? Center(
-                      child: Text(
-                        'Empty code ... ',
-                        style: TextStyle(
-                          color: Colors.black38,
-                        ),
-                      ),
-                    )
-                  : Image.memory(result),
             ),
           ],
         ),
