@@ -112,7 +112,9 @@ class ItemCard extends StatelessWidget {
                           Spacer(),
                           order
                               ? UserControlButtons(
-                                  item: item,
+                                  itemName: item['itemName'],
+                                  price: item['price'],
+                                  veg: item['veg'],
                                 )
                               : AdminControlButtons(
                                   item: item,

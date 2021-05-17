@@ -92,7 +92,6 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text("PUTHON"),
       ),
       body: Container(
-        //color: Colors.amber,
         width: double.infinity,
         child: scanned
             ? StreamBuilder(
@@ -131,7 +130,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               style: ElevatedButton.styleFrom(
                                 elevation: 10,
                                 primary: Colors.white,
-                                //padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20),
                                 ),

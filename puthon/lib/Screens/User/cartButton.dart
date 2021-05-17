@@ -36,16 +36,17 @@ class _CartButtonState extends State<CartButton> {
   void initState() {
     super.initState();
     init();
+    sum = 0;
+    for (var i = 0; i < HomeScreen.list.length; i++) {
+      sum += (prefs.getInt(HomeScreen.list[i]) *
+          int.parse(prefs
+              .getString(HomeScreen.list[i] + "1")));
+      orderList[HomeScreen.list[i]] = prefs.getInt(HomeScreen.list[i]);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    sum = 0;
-    for (var i = 0; i < HomeScreen.list.length; i++) {
-      sum += (prefs.getInt(HomeScreen.list[i]) *
-          int.parse(prefs.getString(HomeScreen.list[i] + "1")));
-      orderList[HomeScreen.list[i]] = prefs.getInt(HomeScreen.list[i]);
-    }
     return Container(
       child: Column(
         children: [
@@ -102,6 +103,7 @@ class _CartButtonState extends State<CartButton> {
                           itemBuilder: (BuildContext context, int index) {
                             var qty =
                                 prefs.getInt("${HomeScreen.list[index]}") ?? 0;
+                            // var qty = 0;
                             var price =
                                 prefs.getString("${HomeScreen.list[index]}1") ??
                                     "";

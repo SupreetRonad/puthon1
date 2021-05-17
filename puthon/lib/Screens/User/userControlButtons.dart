@@ -3,8 +3,8 @@ import 'package:puthon/Screens/User/homeScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserControlButtons extends StatefulWidget {
-  final item;
-  UserControlButtons({this.item});
+  final itemName, price, veg;
+  UserControlButtons({this.itemName, this.price, this.veg});
   @override
   _UserControlButtonsState createState() => _UserControlButtonsState();
 }
@@ -16,7 +16,7 @@ class _UserControlButtonsState extends State<UserControlButtons> {
 
   Future init() async {
     prefs = await SharedPreferences.getInstance();
-    count = prefs.getInt('${widget.item["itemName"]}') ?? 0;
+    count = prefs.getInt('${widget.itemName}') ?? 0;
     setState(() {});
   }
 
@@ -40,8 +40,8 @@ class _UserControlButtonsState extends State<UserControlButtons> {
     } else {
       HomeScreen.list.add(name);
       prefs.setInt(name, count1);
-      prefs.setString("${name}1", widget.item["price"]);
-      prefs.setBool("${name}2", widget.item["veg"]);
+      prefs.setString("${name}1", widget.price);
+      prefs.setBool("${name}2", widget.veg);
     }
     prefs.setStringList('orderList', HomeScreen.list);
   }
@@ -73,10 +73,7 @@ class _UserControlButtonsState extends State<UserControlButtons> {
               onPressed: () {
                 setState(() {
                   count = count > 0 ? count - 1 : count;
-                  removeItem(widget.item["itemName"], count);
-
-                  print(prefs.getInt("${widget.item["itemName"]}"));
-                  print(prefs.getString("${widget.item["itemName"]}1"));
+                  removeItem(widget.itemName, count);
                 });
               },
               icon: Icon(Icons.remove),
@@ -99,10 +96,8 @@ class _UserControlButtonsState extends State<UserControlButtons> {
                   onPressed: () {
                     setState(() {
                       count = count + 1;
-                      addItem(widget.item["itemName"], count);
+                      addItem(widget.itemName, count);
                     });
-                    print(prefs.getInt("${widget.item["itemName"]}"));
-                    print(prefs.getString("${widget.item["itemName"]}1"));
                   },
                 ),
           if (count > 0)
@@ -110,10 +105,8 @@ class _UserControlButtonsState extends State<UserControlButtons> {
               onPressed: () {
                 setState(() {
                   count = count < 20 ? count + 1 : count;
-                  addItem(widget.item["itemName"], count);
+                  addItem(widget.itemName, count);
                 });
-                print(prefs.getInt("${widget.item["itemName"]}"));
-                print(prefs.getString("${widget.item["itemName"]}1"));
               },
               icon: Icon(Icons.add),
             ),
