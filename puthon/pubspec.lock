@@ -92,6 +92,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  expanding_button:
+    dependency: "direct main"
+    description:
+      name: expanding_button
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
   expansion_card:
     dependency: "direct main"
     description:

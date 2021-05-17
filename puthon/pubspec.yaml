@@ -43,6 +43,7 @@ dependencies:
   hawk_fab_menu: ^0.3.2
   menu_button: ^1.4.2+1
   flutter_advanced_switch: ^2.0.2+2
+  expanding_button: ^1.0.2
 
 dev_dependencies:
   flutter_test:

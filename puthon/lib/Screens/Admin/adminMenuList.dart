@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:puthon/Screens/Admin/addMenuItem.dart';
+import 'package:puthon/Screens/Admin/itemCard.dart';
 import 'package:puthon/Shared/loadingScreen.dart';
 
 class AdminMenuList extends StatefulWidget {
@@ -43,6 +44,7 @@ class _AdminMenuListState extends State<AdminMenuList> {
                   .collection('admins')
                   .doc(FirebaseAuth.instance.currentUser.uid)
                   .collection('menu')
+                  .orderBy('itemName')
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -60,7 +62,7 @@ class _AdminMenuListState extends State<AdminMenuList> {
                       var item = snapshot.data.docs[index];
                       return Padding(
                         padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                        child: Text(item['itemName']),
+                        child: ItemCard(item: item, order: false,),
                       );
                     },
                   );
@@ -77,7 +79,9 @@ class _AdminMenuListState extends State<AdminMenuList> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AddMenuItem();
+        return AddMenuItem(
+          modify: false,
+        );
       },
     );
   }

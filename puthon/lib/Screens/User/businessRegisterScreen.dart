@@ -1,8 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:puthon/Screens/User/tnc.dart';
 import 'package:puthon/shared/textField.dart';
-import 'package:puthon/shared/tnc.dart';
+
 
 class RegisterBusiness extends StatefulWidget {
   @override

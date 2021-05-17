@@ -1,0 +1,123 @@
+import 'package:flutter/material.dart';
+import 'package:puthon/Screens/Admin/adminControlButtons.dart';
+import 'package:puthon/Screens/User/userControlButtons.dart';
+
+class ItemCard extends StatelessWidget {
+  final item, order;
+  ItemCard({this.item, this.order});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(6.0),
+      child: Container(
+        height: 150,
+        decoration: BoxDecoration(
+          color: item["inMenu"] ? Colors.white : Colors.grey[300],
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Row(
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    SizedBox(width: 10),
+                    Icon(
+                      Icons.radio_button_checked,
+                      color: item["veg"] ? Colors.green : Colors.red,
+                    ),
+                    SizedBox(width: 10),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.6,
+                      child: Text(
+                        item["itemName"],
+                        maxLines: 1,
+                        softWrap: false,
+                        overflow: TextOverflow.fade,
+                        style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.width * .05,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(5, 0, 0, 5),
+                      child: Text(
+                        "Rs. " + item["price"],
+                        style: TextStyle(
+                            fontSize: 17,
+                            color: Colors.green,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  padding: EdgeInsets.fromLTRB(45, 0, 0, 10),
+                  child: Text(
+                    item["ingredients"],
+                    maxLines: 2,
+                    softWrap: false,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 12, color: Colors.black54),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.fromLTRB(35, 0, 0, 5),
+                  child: Text(
+                    "-  " + item["moreInfo"],
+                    maxLines: 1,
+                    softWrap: false,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 12, color: Colors.black54),
+                  ),
+                ),
+                Spacer(),
+                Container(
+                  //color: Colors.yellow.withOpacity(.3),
+                  width: MediaQuery.of(context).size.width - 28,
+                  child: Container(
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 45,
+                        ),
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 5),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100),
+                              border: Border.all(color: Colors.amber)),
+                          child: Text(
+                            item["category"],
+                            maxLines: 1,
+                            softWrap: false,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.amber),
+                          ),
+                        ),
+                        Spacer(),
+                        order
+                            ? UserControlButtons(item: item)
+                            : AdminControlButtons(item: item)
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

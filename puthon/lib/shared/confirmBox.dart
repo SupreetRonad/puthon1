@@ -7,8 +7,9 @@ class ConfirmBox extends StatelessWidget {
   final Widget message;
   final Color color;
   final Function function;
+  final double height;
   ConfirmBox(
-      {this.b1, this.b2, this.color, this.message, this.function});
+      {this.b1, this.b2, this.color, this.message, this.function, this.height});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class ConfirmBox extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: SizedBox(
-              height: 250,
+              height: height ?? 250,
               width: 320,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

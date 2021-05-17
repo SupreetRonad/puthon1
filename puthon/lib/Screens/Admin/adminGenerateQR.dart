@@ -13,7 +13,7 @@ class AdminGenerateQR extends StatefulWidget {
 }
 
 class _AdminGenerateQRState extends State<AdminGenerateQR> {
-  String qrContent;
+  String qrContent, table;
   Uint8List result = Uint8List(0);
   var valid = 0;
   @override
@@ -84,6 +84,7 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
                       FocusScope.of(context).unfocus();
                       result = await scanner.generateBarCode(
                           "${qrContent}/*/${FirebaseAuth.instance.currentUser.uid}");
+                      table = qrContent;
                       valid = 1;
                     } else {
                       valid = 2;
@@ -101,7 +102,7 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
                   Padding(
                     padding: const EdgeInsets.all(5),
                     child: Text(
-                      valid == 1 ? "QR code generated" : "Invalid table number",
+                      valid == 1 ? "QR code generated for Table ${table}" : "Invalid table number",
                       style: TextStyle(
                         color: valid == 1 ? Colors.green : Colors.red,
                       ),
