@@ -15,7 +15,7 @@ class ItemCard extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
-              child: Container(
+        child: Container(
           height: 150,
           decoration: BoxDecoration(
             color: item["inMenu"] ? Colors.white : Colors.grey[300],
@@ -86,7 +86,6 @@ class ItemCard extends StatelessWidget {
                   ),
                   Spacer(),
                   Container(
-                    //color: Colors.yellow.withOpacity(.3),
                     width: MediaQuery.of(context).size.width - 28,
                     child: Container(
                       child: Row(
@@ -112,8 +111,12 @@ class ItemCard extends StatelessWidget {
                           ),
                           Spacer(),
                           order
-                              ? UserControlButtons(item: item)
-                              : AdminControlButtons(item: item)
+                              ? UserControlButtons(
+                                  item: item,
+                                )
+                              : AdminControlButtons(
+                                  item: item,
+                                )
                         ],
                       ),
                     ),

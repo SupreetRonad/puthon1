@@ -44,7 +44,14 @@ class _UserControlButtonsState extends State<UserControlButtons> {
               onPressed: () {
                 count = count > 0 ? count - 1 : count;
                 setState(() {
-                  prefs.setInt(widget.item["itemName"], count);
+                  if (count == 0) {
+                    
+                    prefs.remove("${widget.item["itemName"]}");
+                    prefs.remove("${widget.item["itemName"]}1");
+                  }
+                  prefs.setInt("${widget.item["itemName"]}", count);
+                  // print(prefs.getInt("${widget.item["itemName"]}"));
+                  // print(prefs.getString("${widget.item["itemName"]}1"));
                 });
               },
               icon: Icon(Icons.remove),
@@ -70,9 +77,11 @@ class _UserControlButtonsState extends State<UserControlButtons> {
                   onPressed: () {
                     setState(() {
                       count += 1;
-                      prefs.setInt(widget.item["itemName"], count);
-                      prefs.setString(
-                          widget.item["itemName"], widget.item["itemName"]);
+                      prefs.setInt("${widget.item["itemName"]}", count);
+                      prefs.setString("${widget.item["itemName"]}1",
+                          widget.item["itemName"]);
+                      // print(prefs.getInt("${widget.item["itemName"]}"));
+                      // print(prefs.getString("${widget.item["itemName"]}1"));
                     });
                   },
                 ),
@@ -80,8 +89,10 @@ class _UserControlButtonsState extends State<UserControlButtons> {
             IconButton(
               onPressed: () {
                 count = count < 20 ? count + 1 : count;
-                prefs.setInt(widget.item["itemName"], count);
+                prefs.setInt("${widget.item["itemName"]}", count);
                 setState(() {});
+                // print(prefs.getInt("${widget.item["itemName"]}"));
+                // print(prefs.getString("${widget.item["itemName"]}1"));
               },
               icon: Icon(Icons.add),
             ),

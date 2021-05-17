@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -25,9 +23,9 @@ class CartButton extends StatelessWidget {
               Text("Shared Preferences Storage, Retrieval & Clear",
                 style: TextStyle(fontSize: 15,color: Colors.brown,fontWeight: FontWeight.bold),),
               SizedBox(height: 50,),
-              RaisedButton(child: Text("Save Data"), onPressed: save),
-              RaisedButton(child: Text("Fetch Data"),onPressed: fetch),
-              RaisedButton(child: Text("Clear Data"),onPressed: remove)
+              ElevatedButton(child: Text("Save Data"), onPressed: save),
+              ElevatedButton(child: Text("Fetch Data"),onPressed: fetch),
+              ElevatedButton(child: Text("Clear Data"),onPressed: remove)
             ],
           ),
         ),
@@ -39,11 +37,11 @@ class CartButton extends StatelessWidget {
 save() async {
   await CartButton().init();
 
-  prefs.setInt('int', 10);
+  prefs.setInt('chicken', 10);
 
-  prefs.setString('string', "Abhi");
+  prefs.setString('chicken1', "chicken");
 
-  prefs.setDouble('int', 3.14);
+  prefs.setDouble('double', 3.14);
 
   prefs.setBool('boolean', true);
 
@@ -51,19 +49,19 @@ save() async {
 }
 
 fetch() async {
-  final myInt = prefs.getInt('int') ?? 0;
+  final myInt = prefs.getInt('chicken') ?? 0;
 
   final myDouble = prefs.getDouble('double') ?? 0.0;
 
   final myBool = prefs.getBool('boolean') ?? false;
 
-  final myString = prefs.getString('string') ?? '';
+  final myString = prefs.getString('chicken1') ?? '';
 
   final myStringList = prefs.getStringList('stringlist') ?? [];
 
-  log("\n Int  - $myInt \n double - $myDouble \n boolean - $myBool \n string - $myString \n stringlist - $myStringList");
+  print("\n Int  - $myInt \n double - $myDouble \n boolean - $myBool \n string - $myString \n stringlist - $myStringList");
 }
 
 remove() async {
-  prefs.remove('int');
+  prefs.remove('chicken');
 }

@@ -30,7 +30,7 @@ Uint8List result = Uint8List(0);
 
 class _HomeScreenState extends State<HomeScreen> {
   final uid = FirebaseAuth.instance.currentUser.uid;
-  SharedPreferences prefs;
+  SharedPreferences prefs; 
 
   Future init() async {
     prefs = await SharedPreferences.getInstance();
@@ -125,17 +125,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                               onPressed: () async {
-                                // scanned = false;
-                                // await FirebaseFirestore.instance
-                                //     .collection('users')
-                                //     .doc(uid)
-                                //     .update({
-                                //   'scanned': false,
-                                //   'resId': null,
-                                //   'table': null,
-                                // });
-                                print(prefs.getInt('DAL TADKA'));
-                                print(prefs.getString('DAL TADKA'));
+                                scanned = false;
+                                await FirebaseFirestore.instance
+                                    .collection('users')
+                                    .doc(uid)
+                                    .update({
+                                  'scanned': false,
+                                  'resId': null,
+                                  'table': null,
+                                });
                                 setState(() {});
                               },
                               child: Text("Pay & Exit"),
@@ -146,7 +144,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           ],
                         ),
                         Container(
-                          //color: Colors.blue,
                           height: MediaQuery.of(context).size.height - 141,
                           child: ListView.builder(
                             itemCount: snapshot.data.docs.length,
@@ -154,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               var item = snapshot.data.docs[index];
                               return Padding(
                                 padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                                child: ItemCard(item: item, order: true),
+                                child: ItemCard(item: item, order: true,),
                               );
                             },
                           ),
@@ -171,7 +168,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: ElevatedButton.styleFrom(
                       elevation: 10,
                       primary: Colors.white,
-                      //padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
