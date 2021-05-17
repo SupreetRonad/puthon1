@@ -23,7 +23,7 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-bool scanned = false;
+var scanned = 0;
 
 String cameraScanResult, qrContent;
 Uint8List result = Uint8List(0);
@@ -93,13 +93,13 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Container(
         width: double.infinity,
-        child: scanned
+        child: scanned == 0 ?  LoadingScreen() : scanned == 2 
             ? StreamBuilder(
                 stream: FirebaseFirestore.instance
                     .collection('admins')
                     .doc(HomeScreen.resId)
                     .collection('menu')
-                    .orderBy('itemName')
+                    .orderBy('category')
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -135,12 +135,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                               onPressed: () async {
-                                scanned = false;
+                                scanned = 1;
                                 await FirebaseFirestore.instance
                                     .collection('users')
                                     .doc(uid)
                                     .update({
-                                  'scanned': false,
+                                  'scanned': 1,
                                   'resId': null,
                                   'table': null,
                                 });
@@ -159,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             itemCount: snapshot.data.docs.length,
                             itemBuilder: (BuildContext context, int index) {
                               var item = snapshot.data.docs[index];
-                              return Padding(
+                              return !item['inMenu'] ? SizedBox() : Padding(
                                 padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                                 child: ItemCard(
                                   item: item,
@@ -196,21 +196,21 @@ class _HomeScreenState extends State<HomeScreen> {
                             .get()
                             .then((value) {
                           if (value.exists) {
-                            scanned = true;
+                            scanned = 2;
                             HomeScreen.resId = cameraScanResult.split("/*/")[1];
                             HomeScreen.table = cameraScanResult.split("/*/")[0];
                             FirebaseFirestore.instance
                                 .collection('users')
                                 .doc(uid)
                                 .update({
-                              'scanned': true,
+                              'scanned': 2,
                               'resId': HomeScreen.resId,
                               'table': HomeScreen.table,
                             });
                           }
                         });
                       } else {
-                        scanned = false;
+                        scanned = 1;
                       }
                       setState(() {});
                     },

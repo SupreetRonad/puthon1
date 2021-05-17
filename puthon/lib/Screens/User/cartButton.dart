@@ -29,20 +29,20 @@ class _CartButtonState extends State<CartButton> {
     prefs = await SharedPreferences.getInstance();
     setState(() {
       loading = false;
+      sum = 0;
+      for (var i = 0; i < HomeScreen.list.length; i++) {
+        sum += (prefs.getInt(HomeScreen.list[i]) *
+            int.parse(prefs.getString(HomeScreen.list[i] + "1")));
+        orderList[HomeScreen.list[i]] = prefs.getInt(HomeScreen.list[i]);
+      }
     });
   }
 
   @override
   void initState() {
     super.initState();
+
     init();
-    sum = 0;
-    for (var i = 0; i < HomeScreen.list.length; i++) {
-      sum += (prefs.getInt(HomeScreen.list[i]) *
-          int.parse(prefs
-              .getString(HomeScreen.list[i] + "1")));
-      orderList[HomeScreen.list[i]] = prefs.getInt(HomeScreen.list[i]);
-    }
   }
 
   @override
