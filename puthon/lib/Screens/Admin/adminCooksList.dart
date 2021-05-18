@@ -42,32 +42,36 @@ class _AdminCooksListState extends State<AdminCooksList> {
         Expanded(
           child: Center(
             child: StreamBuilder(
-                stream: FirebaseFirestore.instance
-                    .collection('admins')
-                    .doc(FirebaseAuth.instance.currentUser.uid)
-                    .collection('cooks')
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return LoadingScreen();
-                  }
-                  if (!snapshot.hasData) {
-                    return Text(
-                      "Please Add cooks...",
-                      style: TextStyle(fontSize: 20),
-                    );
-                  } else {
-                    return ListView.builder(
-                        itemCount: snapshot.data.docs.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          var cook = snapshot.data.docs[index];
-                          return Padding(
-                            padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                            child: CookECard(doc: cook, flag: false),
-                          );
-                        });
-                  }
-                }),
+              stream: FirebaseFirestore.instance
+                  .collection('admins')
+                  .doc(FirebaseAuth.instance.currentUser.uid)
+                  .collection('cooks')
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return LoadingScreen();
+                }
+                if (!snapshot.hasData) {
+                  return Text(
+                    "Please Add cooks...",
+                    style: TextStyle(fontSize: 20),
+                  );
+                } else {
+                  return ListView.builder(
+                    padding: const EdgeInsets.only(
+                        bottom: kFloatingActionButtonMargin + 60),
+                    itemCount: snapshot.data.docs.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      var cook = snapshot.data.docs[index];
+                      return Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                        child: CookECard(doc: cook, flag: false),
+                      );
+                    },
+                  );
+                }
+              },
+            ),
           ),
         ),
       ],
@@ -162,7 +166,11 @@ class _AdminCooksListState extends State<AdminCooksList> {
                                               height: 200,
                                               repeat: false,
                                             ),
-                                            Text("Role as Cook given!",style: TextStyle(color: Colors.black54),),
+                                            Text(
+                                              "Role as Cook given!",
+                                              style: TextStyle(
+                                                  color: Colors.black54),
+                                            ),
                                           ],
                                         ),
                                       ),

@@ -76,9 +76,10 @@ class ItemCard extends StatelessWidget {
                   ),
                   Container(
                     padding: EdgeInsets.fromLTRB(35, 0, 0, 5),
+                    width: MediaQuery.of(context).size.width * 0.7,
                     child: Text(
                       "-  " + item["moreInfo"],
-                      maxLines: 1,
+                      maxLines: 2,
                       softWrap: false,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontSize: 12, color: Colors.black54),

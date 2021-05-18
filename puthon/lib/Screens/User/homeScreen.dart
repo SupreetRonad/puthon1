@@ -1,13 +1,12 @@
 import 'dart:typed_data';
 import 'dart:ui';
-
-import 'package:fab_menu_items/fab_menu_items.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:puthon/Shared/itemCard.dart';
 import 'package:puthon/Screens/User/HomeDrawer.dart';
 import 'package:puthon/Shared/loadingScreen.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'cartButton.dart';
 import 'package:qrscans/qrscan.dart' as scanner;
@@ -43,6 +42,9 @@ class _HomeScreenState extends State<HomeScreen> {
         prefs.setStringList("orderList", []);
       }
       HomeScreen.list = prefs.getStringList('orderList') ?? [];
+      if(prefs.getInt("orderNo") == null) {
+        prefs.setInt("orderNo", 0);
+      }
     });
   }
 
@@ -106,8 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         .orderBy('category')
                         .snapshots(),
                     builder: (context, snapshot) {
-                      if (snapshot.connectionState ==
-                          ConnectionState.waiting) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
                         return LoadingScreen();
                       }
                       if (!snapshot.hasData) {
@@ -136,8 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     elevation: 10,
                                     primary: Colors.white,
                                     shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(20),
+                                      borderRadius: BorderRadius.circular(20),
                                     ),
                                   ),
                                   onPressed: () async {
@@ -145,10 +145,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                         i < HomeScreen.list.length;
                                         i++) {
                                       prefs.remove(HomeScreen.list[i]);
-                                      prefs
-                                          .remove(HomeScreen.list[i] + "1");
-                                      prefs
-                                          .remove(HomeScreen.list[i] + "2");
+                                      prefs.remove(HomeScreen.list[i] + "1");
+                                      prefs.remove(HomeScreen.list[i] + "2");
                                     }
                                     HomeScreen.list = [];
                                     prefs.setStringList("orderList", []);
@@ -173,19 +171,18 @@ class _HomeScreenState extends State<HomeScreen> {
                               ],
                             ),
                             Container(
-                              height:
-                                  MediaQuery.of(context).size.height - 141,
+                              height: MediaQuery.of(context).size.height - 141,
                               child: ListView.builder(
+                                padding: const EdgeInsets.only(
+                                    bottom: kFloatingActionButtonMargin + 60),
                                 itemCount: snapshot.data.docs.length,
-                                itemBuilder:
-                                    (BuildContext context, int index) {
+                                itemBuilder: (BuildContext context, int index) {
                                   var item = snapshot.data.docs[index];
                                   return !item['inMenu']
                                       ? SizedBox()
                                       : Padding(
-                                          padding:
-                                              const EdgeInsets.fromLTRB(
-                                                  8, 0, 8, 0),
+                                          padding: const EdgeInsets.fromLTRB(
+                                              8, 0, 8, 0),
                                           child: ItemCard(
                                             item: item,
                                             order: true,
@@ -212,7 +209,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         onPressed: () async {
                           cameraScanResult = await scanner.scan();
-                          print(cameraScanResult);
 
                           if (cameraScanResult.split("/*/").length == 2) {
                             await FirebaseFirestore.instance
@@ -252,6 +248,24 @@ class _HomeScreenState extends State<HomeScreen> {
                       SizedBox(
                         height: 10,
                       ),
+                      QrImage(
+                        data: 'Hello1234 asdhbf asdbf asdfj asdkjfh asdjf',
+                        version: QrVersions.auto,
+                        size: 320,
+                        gapless: false,
+                        eyeStyle: const QrEyeStyle(
+                          eyeShape: QrEyeShape.circle,
+                          color: Color(0xff128760),
+                        ),
+                        dataModuleStyle: const QrDataModuleStyle(
+                          dataModuleShape: QrDataModuleShape.circle,
+                          color: Color(0xff1a5441),
+                        ),
+                        embeddedImage: AssetImage('assets/images/cardbg2.jpg'),
+                        embeddedImageStyle: QrEmbeddedImageStyle(
+                          size: Size(80, 80),
+                        ),
+                      )
                     ],
                   ),
       ),

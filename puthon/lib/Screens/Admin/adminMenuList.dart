@@ -57,12 +57,18 @@ class _AdminMenuListState extends State<AdminMenuList> {
                   );
                 } else {
                   return ListView.builder(
+                    padding: const EdgeInsets.only(
+                      bottom: kFloatingActionButtonMargin + 60,
+                    ),
                     itemCount: snapshot.data.docs.length,
                     itemBuilder: (BuildContext context, int index) {
                       var item = snapshot.data.docs[index];
                       return Padding(
                         padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                        child: ItemCard(item: item, order: false,),
+                        child: ItemCard(
+                          item: item,
+                          order: false,
+                        ),
                       );
                     },
                   );
