@@ -102,7 +102,9 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
                   Padding(
                     padding: const EdgeInsets.all(5),
                     child: Text(
-                      valid == 1 ? "QR code generated for Table ${table}" : "Invalid table number",
+                      valid == 1
+                          ? "QR code generated for Table ${table}"
+                          : "Invalid table number",
                       style: TextStyle(
                         color: valid == 1 ? Colors.green : Colors.red,
                       ),
@@ -121,7 +123,9 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
                             size: 50,
                           ),
                         )
-                      : Image.memory(result),
+                      : Image.memory(
+                          result,
+                        ),
                 ),
                 SizedBox(
                   height: 10,

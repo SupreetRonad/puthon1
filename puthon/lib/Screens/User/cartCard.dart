@@ -15,7 +15,7 @@ class _CartCardState extends State<CartCard> {
     return Padding(
       padding: const EdgeInsets.all(2),
       child: Container(
-        height: 80,
+        //height: 80,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
@@ -29,28 +29,43 @@ class _CartCardState extends State<CartCard> {
                 SizedBox(
                   height: 10,
                 ),
-                Row(
-                  children: [
-                    SizedBox(width: 10),
-                    Icon(
-                      Icons.radio_button_checked,
-                      color: widget.veg ? Colors.green : Colors.red,
-                    ),
-                    SizedBox(width: 10),
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.6,
-                      child: Text(
-                        widget.itemName,
-                        maxLines: 1,
-                        softWrap: false,
-                        overflow: TextOverflow.fade,
-                        style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * .05,
-                          fontWeight: FontWeight.bold,
+                Container(
+                  width: MediaQuery.of(context).size.width - 12,
+                  child: Row(
+                    children: [
+                      SizedBox(width: 10),
+                      Icon(
+                        Icons.radio_button_checked,
+                        color: widget.veg ? Colors.green : Colors.red,
+                      ),
+                      SizedBox(width: 10),
+                      Container(
+                        constraints: BoxConstraints(maxWidth: 270),
+                        width: MediaQuery.of(context).size.width * 0.55,
+                        child: Text(
+                          widget.itemName,
+                          maxLines: 1,
+                          softWrap: false,
+                          overflow: TextOverflow.fade,
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * .05,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                      Spacer(),
+                      Container(
+                        padding: EdgeInsets.fromLTRB(10, 0, 15, 5),
+                        child: Text(
+                          "Rs. " + (int.parse(widget.price) * widget.quantity).toString(),
+                          style: TextStyle(
+                              fontSize: 19,
+                              color: Colors.green,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 Spacer(),
                 Container(
@@ -63,9 +78,9 @@ class _CartCardState extends State<CartCard> {
                           child: Text(
                             "Rs. " + widget.price,
                             style: TextStyle(
-                                fontSize: 17,
-                                color: Colors.green,
-                                fontWeight: FontWeight.bold),
+                                fontSize: 15,
+                                color: Colors.black,
+                                fontWeight: FontWeight.normal),
                           ),
                         ),
                         Spacer(),
@@ -74,7 +89,7 @@ class _CartCardState extends State<CartCard> {
                           child: Text(
                             "x " + widget.quantity.toString(),
                             style: TextStyle(
-                                fontSize: 21,
+                                fontSize: 17,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold),
                           ),
@@ -83,13 +98,7 @@ class _CartCardState extends State<CartCard> {
                     ),
                   ),
                 ),
-                Divider(
-                  color: Colors.black54,
-                  height: 10,
-                  thickness: 2,
-                  indent: 10,
-                  endIndent: 10,
-                ),
+                Divider(),
               ],
             ),
           ],

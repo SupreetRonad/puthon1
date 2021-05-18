@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lottie/lottie.dart';
@@ -14,6 +15,7 @@ SharedPreferences prefs;
 
 class CartButton extends StatefulWidget {
   final Function refresh;
+  static Map<String, int> orderList = {};
   CartButton({this.refresh});
   @override
   _CartButtonState createState() => _CartButtonState();
@@ -23,7 +25,7 @@ class _CartButtonState extends State<CartButton> {
   final bool cart = false;
   bool loading = true;
   var sum = 0.0;
-  Map<String, int> orderList = {};
+  
 
   Future init() async {
     prefs = await SharedPreferences.getInstance();
@@ -33,7 +35,7 @@ class _CartButtonState extends State<CartButton> {
       for (var i = 0; i < HomeScreen.list.length; i++) {
         sum += (prefs.getInt(HomeScreen.list[i]) *
             int.parse(prefs.getString(HomeScreen.list[i] + "1")));
-        orderList[HomeScreen.list[i]] = prefs.getInt(HomeScreen.list[i]);
+        CartButton.orderList[HomeScreen.list[i]] = prefs.getInt(HomeScreen.list[i]);
       }
     });
   }
@@ -99,6 +101,7 @@ class _CartButtonState extends State<CartButton> {
                     : Container(
                         height: MediaQuery.of(context).size.height * 0.4,
                         child: ListView.builder(
+                          itemExtent: 90.0,
                           itemCount: HomeScreen.list.length,
                           itemBuilder: (BuildContext context, int index) {
                             var qty =
@@ -157,7 +160,7 @@ class _CartButtonState extends State<CartButton> {
                     elevation: 10,
                     primary: Colors.green[300],
                     textStyle: TextStyle(color: Colors.white),
-                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 14),
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 14),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -183,7 +186,7 @@ class _CartButtonState extends State<CartButton> {
                                 .set({
                               "total": sum,
                               "tableNo": HomeScreen.table,
-                              "orderList": orderList
+                              "orderList": CartButton.orderList
                             });
                             Navigator.pop(context);
                             Navigator.pop(context);
@@ -194,7 +197,7 @@ class _CartButtonState extends State<CartButton> {
                             }
                             HomeScreen.list = [];
                             prefs.setStringList("orderList", []);
-                            orderList = {};
+                            CartButton.orderList = {};
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {

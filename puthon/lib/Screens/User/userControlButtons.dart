@@ -58,10 +58,12 @@ class _UserControlButtonsState extends State<UserControlButtons> {
       height: 40,
       width: count > 0 ? 120 : 100,
       decoration: BoxDecoration(
-        color: count > 0 ? Colors.red[300] : Colors.amber[300],
+        border: Border.all(color : count == 0 ? Colors.transparent : Colors.red[300]),
+        color: count > 0 ? Colors.red[100] : Colors.amber[300],
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20),
           bottomRight: Radius.circular(20),
+        
         ),
       ),
       child: Row(
