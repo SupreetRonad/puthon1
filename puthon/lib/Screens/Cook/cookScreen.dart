@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:puthon/Screens/Cook/orderCard.dart';
 import 'package:puthon/Screens/User/homeScreen.dart';
 import 'package:puthon/Shared/loadingScreen.dart';
 
@@ -46,15 +48,20 @@ class _CookScreenState extends State<CookScreen> {
             .collection('admins')
             .doc(HomeScreen.resId)
             .collection('activeOrders')
+            .where("orderAccepted", isEqualTo: false)
             .snapshots(),
         builder: (BuildContext context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return LoadingScreen();
           }
-          if (!snapshot.hasData) {
-            return Text(
-              "No Active Orders...",
-              style: TextStyle(fontSize: 20),
+          if (!snapshot.hasData || snapshot.hasError) {
+            return Center(
+              child: Text(
+                "No Active Orders...",
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
             );
           } else {
             return ListView.builder(
@@ -62,10 +69,39 @@ class _CookScreenState extends State<CookScreen> {
                   bottom: kFloatingActionButtonMargin + 60),
               itemCount: snapshot.data.docs.length,
               itemBuilder: (BuildContext context, int index) {
-                var orderStream = snapshot.data.docs[index].collection().docs;
-                return StreamBuilder(builder: (context, snapshot) {
-                  return orderStream; //TODO: ordering logic please
-                });
+                var order = snapshot.data.docs[index];
+                return StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection('orders')
+                      .doc(HomeScreen.resId)
+                      .collection(order['customerId'])
+                      .doc(order['orderNo'])
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return SpinKitWave(
+                        color: Colors.black,
+                        size: 20,
+                      );
+                    }
+                    if (!snapshot.hasData || snapshot.hasError) {
+                      return Center(
+                        child: Text(
+                          "No Active Orders...",
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
+                      );
+                    } else {
+                      return OrderCard(
+                          order: snapshot.data,
+                          customerId: order['customerId'],
+                          orderNo: order['orderNo'],
+                          timeStamp: order['timeStamp']);
+                    }
+                  },
+                );
               },
             );
           }

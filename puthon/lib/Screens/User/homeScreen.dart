@@ -151,6 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     HomeScreen.list = [];
                                     prefs.setStringList("orderList", []);
                                     CartButton.orderList = {};
+                                    prefs.setInt("orderNo", 0);
 
                                     await FirebaseFirestore.instance
                                         .collection('users')

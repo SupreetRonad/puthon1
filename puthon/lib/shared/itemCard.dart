@@ -11,6 +11,7 @@ class ItemCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(2),
       child: Card(
+        shadowColor: Colors.white38,
         elevation: 10,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),

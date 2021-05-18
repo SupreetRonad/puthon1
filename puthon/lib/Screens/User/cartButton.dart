@@ -14,7 +14,7 @@ SharedPreferences prefs;
 
 class CartButton extends StatefulWidget {
   final Function refresh;
-  static Map<String, int> orderList = {};
+  static Map<String, List> orderList = {};
   CartButton({this.refresh});
   @override
   _CartButtonState createState() => _CartButtonState();
@@ -33,8 +33,10 @@ class _CartButtonState extends State<CartButton> {
       for (var i = 0; i < HomeScreen.list.length; i++) {
         sum += (prefs.getInt(HomeScreen.list[i]) *
             int.parse(prefs.getString(HomeScreen.list[i] + "1")));
-        CartButton.orderList[HomeScreen.list[i]] =
-            prefs.getInt(HomeScreen.list[i]);
+        CartButton.orderList[HomeScreen.list[i]] = [
+          prefs.getInt(HomeScreen.list[i]),
+          prefs.getBool(HomeScreen.list[i] + "2")
+        ];
       }
     });
   }
@@ -177,18 +179,24 @@ class _CartButtonState extends State<CartButton> {
                           function: () async {
                             var orderNo = prefs.getInt("orderNo") ?? 0;
                             orderNo++;
-                            prefs.setInt("orderNo", orderNo);
+                            var timeStamp = Timestamp.now().toString();
                             await FirebaseFirestore.instance
                                 .collection('admins')
                                 .doc(HomeScreen.resId)
                                 .collection('activeOrders')
-                                .doc(DateTime.now().toString())
-                                .update({
+                                .doc(timeStamp)
+                                .set({
                               "customerId":
                                   FirebaseAuth.instance.currentUser.uid,
                               "orderNo": FirebaseAuth.instance.currentUser.uid +
                                   orderNo.toString(),
+                              "timeStamp": timeStamp,
+                              "orderAccepted": false,
                             });
+                            var hour = DateTime.now().hour > 12
+                                ? DateTime.now().hour - 12
+                                : DateTime.now().hour;
+                            var hh = DateTime.now().hour > 12 ? "pm" : "am";
                             await FirebaseFirestore.instance
                                 .collection('orders')
                                 .doc(HomeScreen.resId)
@@ -199,8 +207,12 @@ class _CartButtonState extends State<CartButton> {
                                 .set({
                               "total": sum,
                               "tableNo": HomeScreen.table,
-                              "orderList": CartButton.orderList
+                              "orderList": CartButton.orderList,
+                              "time":
+                                  "${hour} : ${DateTime.now().minute} ${hh}",
+                              "orderAccepted": false,
                             });
+                            prefs.setInt("orderNo", orderNo);
                             Navigator.pop(context);
                             Navigator.pop(context);
                             for (var i = 0; i < HomeScreen.list.length; i++) {
