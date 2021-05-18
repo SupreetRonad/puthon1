@@ -183,20 +183,23 @@ class _CartButtonState extends State<CartButton> {
                                 .doc(HomeScreen.resId)
                                 .collection('activeOrders')
                                 .doc(DateTime.now().toString())
-                                .collection("order${orderNo}")
-                                .doc()
+                                .update({
+                              "customerId":
+                                  FirebaseAuth.instance.currentUser.uid,
+                              "orderNo": FirebaseAuth.instance.currentUser.uid +
+                                  orderNo.toString(),
+                            });
+                            await FirebaseFirestore.instance
+                                .collection('orders')
+                                .doc(HomeScreen.resId)
+                                .collection(
+                                    FirebaseAuth.instance.currentUser.uid)
+                                .doc(FirebaseAuth.instance.currentUser.uid +
+                                    orderNo.toString())
                                 .set({
                               "total": sum,
                               "tableNo": HomeScreen.table,
                               "orderList": CartButton.orderList
-                            });
-                            await FirebaseFirestore.instance
-                                .collection('admins')
-                                .doc(HomeScreen.resId)
-                                .collection('activeOrders')
-                                .doc(DateTime.now().toString())
-                                .update({
-                              "customerId": FirebaseAuth.instance.currentUser.uid,
                             });
                             Navigator.pop(context);
                             Navigator.pop(context);

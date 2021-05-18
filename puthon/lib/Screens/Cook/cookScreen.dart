@@ -63,7 +63,9 @@ class _CookScreenState extends State<CookScreen> {
               itemCount: snapshot.data.docs.length,
               itemBuilder: (BuildContext context, int index) {
                 var orderStream = snapshot.data.docs[index].collection().docs;
-                // return StreamBuilder(builder: builder);
+                return StreamBuilder(builder: (context, snapshot) {
+                  return orderStream; //TODO: ordering logic please
+                });
               },
             );
           }
