@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lottie/lottie.dart';
@@ -25,7 +24,6 @@ class _CartButtonState extends State<CartButton> {
   final bool cart = false;
   bool loading = true;
   var sum = 0.0;
-  
 
   Future init() async {
     prefs = await SharedPreferences.getInstance();
@@ -35,7 +33,8 @@ class _CartButtonState extends State<CartButton> {
       for (var i = 0; i < HomeScreen.list.length; i++) {
         sum += (prefs.getInt(HomeScreen.list[i]) *
             int.parse(prefs.getString(HomeScreen.list[i] + "1")));
-        CartButton.orderList[HomeScreen.list[i]] = prefs.getInt(HomeScreen.list[i]);
+        CartButton.orderList[HomeScreen.list[i]] =
+            prefs.getInt(HomeScreen.list[i]);
       }
     });
   }
@@ -176,17 +175,28 @@ class _CartButtonState extends State<CartButton> {
                           message: Text("Do you want to place order ?"),
                           height: 120,
                           function: () async {
+                            var orderNo = prefs.getInt("orderNo") ?? 0;
+                            orderNo++;
+                            prefs.setInt("orderNo", orderNo);
                             await FirebaseFirestore.instance
                                 .collection('admins')
                                 .doc(HomeScreen.resId)
                                 .collection('activeOrders')
-                                .doc(FirebaseAuth.instance.currentUser.uid)
-                                .collection(DateTime.now().toString())
+                                .doc(DateTime.now().toString())
+                                .collection("order${orderNo}")
                                 .doc()
                                 .set({
                               "total": sum,
                               "tableNo": HomeScreen.table,
                               "orderList": CartButton.orderList
+                            });
+                            await FirebaseFirestore.instance
+                                .collection('admins')
+                                .doc(HomeScreen.resId)
+                                .collection('activeOrders')
+                                .doc(DateTime.now().toString())
+                                .update({
+                              "customerId": FirebaseAuth.instance.currentUser.uid,
                             });
                             Navigator.pop(context);
                             Navigator.pop(context);
