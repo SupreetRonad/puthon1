@@ -512,7 +512,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                                         }
                                                         _isLoading = false;
                                                       },
-                                                child: !_isLoading
+                                                child: _isLoading
                                                     ? SpinKitFadingCircle(
                                                         color: Colors.black,
                                                         size: 20.0,
@@ -543,7 +543,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                         ],
                                       ),
                                       SizedBox(
-                                        height: 10,
+                                        height: 15,
                                       ),
                                     ],
                                   ),
