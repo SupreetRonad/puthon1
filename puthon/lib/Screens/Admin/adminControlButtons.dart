@@ -14,7 +14,7 @@ class AdminControlButtons extends StatelessWidget {
       height: 40,
       width: 155,
       decoration: BoxDecoration(
-        color: Colors.red[300],
+        color: Colors.black12,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20),
           bottomRight: Radius.circular(20),
@@ -65,14 +65,14 @@ class AdminControlButtons extends StatelessWidget {
               },
               child: Icon(
                 Icons.delete,
-                color: Colors.white,
+                color: Colors.red[300],
                 size: 20,
               ),
             ),
           ),
           Container(
             decoration: BoxDecoration(
-              color: Colors.grey[300],
+              color: Colors.black12,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20),
                 bottomRight: Radius.circular(20),
@@ -130,9 +130,9 @@ class AdminControlButtons extends StatelessWidget {
                     },
                     child: Icon(
                       item["inMenu"]
-                          ? Icons.arrow_circle_down_outlined
-                          : Icons.arrow_circle_up_outlined,
-                      color: Colors.black,
+                          ? Icons.download_rounded
+                          : Icons.publish_rounded,
+                      color: Colors.black54,
                       size: 20,
                     ),
                   ),
@@ -141,7 +141,7 @@ class AdminControlButtons extends StatelessWidget {
                   height: 40,
                   width: 55,
                   decoration: BoxDecoration(
-                    color: Colors.green[300],
+                    color: Colors.black12,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
                       bottomRight: Radius.circular(20),
