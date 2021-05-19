@@ -1,15 +1,13 @@
 import 'dart:typed_data';
-import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:puthon/Shared/itemCard.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:puthon/Screens/User/bottomMenu.dart';
 import 'package:puthon/Screens/User/HomeDrawer.dart';
-import 'package:puthon/Shared/loadingScreen.dart';
-import 'package:qr_flutter/qr_flutter.dart';
+import 'package:puthon/Screens/User/qrScanning.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'cartButton.dart';
-import 'package:qrscans/qrscan.dart' as scanner;
 
 var name = "Name",
     email = "email@email.com",
@@ -19,7 +17,7 @@ var name = "Name",
 
 class HomeScreen extends StatefulWidget {
   static List<String> list = [];
-  static var resId, table;
+  static var resId, table, resName;
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -42,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
         prefs.setStringList("orderList", []);
       }
       HomeScreen.list = prefs.getStringList('orderList') ?? [];
-      if(prefs.getInt("orderNo") == null) {
+      if (prefs.getInt("orderNo") == null) {
         prefs.setInt("orderNo", 0);
       }
     });
@@ -56,12 +54,15 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     init();
+
     FirebaseFirestore.instance.collection('users').doc(uid).get().then((value) {
       if (value.exists) {
         setState(() {
           scanned = value['scanned'];
           HomeScreen.resId = value['resId'];
           HomeScreen.table = value['table'];
+          HomeScreen.resName = value[
+              'resName']; //TODO: this is just temporary, after business req, retrieve from restaurant owner account
         });
       }
     });
@@ -95,181 +96,14 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.transparent,
         title: const Text("PUTHON"),
       ),
-      body: Container(
-        width: double.infinity,
-        child: scanned == 0
-            ? LoadingScreen()
-            : scanned == 2
-                ? StreamBuilder(
-                    stream: FirebaseFirestore.instance
-                        .collection('admins')
-                        .doc(HomeScreen.resId)
-                        .collection('menu')
-                        .orderBy('category')
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return LoadingScreen();
-                      }
-                      if (!snapshot.hasData) {
-                        return Text(
-                          "Please Add Items...",
-                          style: TextStyle(fontSize: 20),
-                        );
-                      } else {
-                        return Column(
-                          children: [
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: 15,
-                                ),
-                                Text(
-                                  "Table. " + HomeScreen.table,
-                                  style: TextStyle(
-                                      color: Colors.orange,
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Spacer(),
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    elevation: 10,
-                                    primary: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                  ),
-                                  onPressed: () async {
-                                    for (var i = 0;
-                                        i < HomeScreen.list.length;
-                                        i++) {
-                                      prefs.remove(HomeScreen.list[i]);
-                                      prefs.remove(HomeScreen.list[i] + "1");
-                                      prefs.remove(HomeScreen.list[i] + "2");
-                                    }
-                                    HomeScreen.list = [];
-                                    prefs.setStringList("orderList", []);
-                                    CartButton.orderList = {};
-                                    prefs.setInt("orderNo", 0);
-
-                                    await FirebaseFirestore.instance
-                                        .collection('users')
-                                        .doc(uid)
-                                        .update({
-                                      'scanned': 1,
-                                      'resId': null,
-                                      'table': null,
-                                    });
-                                    scanned = 1;
-                                    setState(() {});
-                                  },
-                                  child: Text("Pay & Exit"),
-                                ),
-                                SizedBox(
-                                  width: 15,
-                                ),
-                              ],
-                            ),
-                            Container(
-                              height: MediaQuery.of(context).size.height - 141,
-                              child: ListView.builder(
-                                padding: const EdgeInsets.only(
-                                    bottom: kFloatingActionButtonMargin + 60),
-                                itemCount: snapshot.data.docs.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  var item = snapshot.data.docs[index];
-                                  return !item['inMenu']
-                                      ? SizedBox()
-                                      : Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              8, 0, 8, 0),
-                                          child: ItemCard(
-                                            item: item,
-                                            order: true,
-                                          ),
-                                        );
-                                },
-                              ),
-                            ),
-                          ],
-                        );
-                      }
-                    },
-                  )
-                : Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          elevation: 10,
-                          primary: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                        onPressed: () async {
-                          cameraScanResult = await scanner.scan();
-
-                          if (cameraScanResult.split("/*/").length == 2) {
-                            await FirebaseFirestore.instance
-                                .collection('admins')
-                                .doc(cameraScanResult.split("/*/")[1])
-                                .get()
-                                .then((value) {
-                              if (value.exists) {
-                                scanned = 2;
-                                HomeScreen.resId =
-                                    cameraScanResult.split("/*/")[1];
-                                HomeScreen.table =
-                                    cameraScanResult.split("/*/")[0];
-                                FirebaseFirestore.instance
-                                    .collection('users')
-                                    .doc(uid)
-                                    .update({
-                                  'scanned': 2,
-                                  'resId': HomeScreen.resId,
-                                  'table': HomeScreen.table,
-                                });
-                              }
-                            });
-                          } else {
-                            scanned = 1;
-                          }
-                          setState(() {});
-                        },
-                        child: Text("Scan"),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(cameraScanResult == null
-                          ? "Please scan QR code first"
-                          : cameraScanResult.split("/*/")[0]),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      QrImage(
-                        data: 'Hello1234 asdhbf asdbf asdfj asdkjfh asdjf',
-                        version: QrVersions.auto,
-                        size: 320,
-                        gapless: false,
-                        eyeStyle: const QrEyeStyle(
-                          eyeShape: QrEyeShape.circle,
-                          color: Color(0xff128760),
-                        ),
-                        dataModuleStyle: const QrDataModuleStyle(
-                          dataModuleShape: QrDataModuleShape.circle,
-                          color: Color(0xff1a5441),
-                        ),
-                        embeddedImage: AssetImage('assets/images/cardbg2.jpg'),
-                        embeddedImageStyle: QrEmbeddedImageStyle(
-                          size: Size(80, 80),
-                        ),
-                      )
-                    ],
-                  ),
-      ),
+      body: scanned == 0
+          ? SpinKitWave(color: Colors.black, size: 20)
+          : scanned == 1
+              ? QrScanning()
+              : BottomMenu(
+                  prefs: prefs,
+                  refresh: refresh,
+                ),
     );
   }
 }

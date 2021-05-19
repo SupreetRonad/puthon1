@@ -23,8 +23,8 @@ class _CartCardState extends State<CartCard> {
         child: Row(
           children: [
             Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(
                   height: 10,
@@ -57,7 +57,9 @@ class _CartCardState extends State<CartCard> {
                       Container(
                         padding: EdgeInsets.fromLTRB(10, 0, 15, 5),
                         child: Text(
-                          "Rs. " + (int.parse(widget.price) * widget.quantity).toString(),
+                          "Rs. " +
+                              (int.parse(widget.price) * widget.quantity)
+                                  .toString(),
                           style: TextStyle(
                               fontSize: 19,
                               color: Colors.green,
@@ -98,7 +100,18 @@ class _CartCardState extends State<CartCard> {
                     ),
                   ),
                 ),
-                Divider(),
+                SizedBox(height: 15),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width - 20,
+                      height: 1,
+                      color: Colors.black12,
+                    ),
+                  ],
+                )
               ],
             ),
           ],

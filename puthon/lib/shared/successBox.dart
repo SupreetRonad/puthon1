@@ -34,9 +34,8 @@ class SuccessBox extends StatelessWidget {
         content: SingleChildScrollView(
           child: ListBody(
             children: <Widget>[
-              Text(
-                  '\t${msg1}'),
-              Text('\n\t${msg2}'),
+              Text("\t${msg1}"),
+              Text("\n\t${msg2}"),
             ],
           ),
         ),

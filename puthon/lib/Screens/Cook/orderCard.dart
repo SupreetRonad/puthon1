@@ -3,12 +3,19 @@ import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:puthon/Screens/User/homeScreen.dart';
+import 'package:puthon/Screens/User/orderTimer.dart';
 import 'package:puthon/Shared/confirmBox.dart';
 import 'package:puthon/Shared/durationConfirm.dart';
 
 class OrderCard extends StatefulWidget {
   final order, customerId, orderNo, timeStamp;
-  OrderCard({this.order, this.customerId, this.orderNo, this.timeStamp});
+  final bool cookOrder;
+  OrderCard(
+      {this.order,
+      this.customerId,
+      this.orderNo,
+      this.timeStamp,
+      this.cookOrder});
 
   @override
   _OrderCardState createState() => _OrderCardState();
@@ -21,7 +28,8 @@ class _OrderCardState extends State<OrderCard> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(8),
-      height: widget.order["orderList"].length * 24.0 + 140,
+      height: widget.order["orderList"].length * 24.0 +
+          (widget.cookOrder ? 140 : 90),
       child: Card(
         elevation: 18,
         shadowColor: Colors.white38,
@@ -39,21 +47,36 @@ class _OrderCardState extends State<OrderCard> {
                 SizedBox(
                   width: 15,
                 ),
-                Text(
-                  "Table.  ",
-                  style: TextStyle(
-                    fontSize: 15,
+                if (widget.cookOrder)
+                  Text(
+                    "Table.  ",
+                    style: TextStyle(
+                      fontSize: 15,
+                    ),
                   ),
-                ),
-                Text(
-                  widget.order['tableNo'].toString(),
-                  style: TextStyle(
-                    color: Colors.amber,
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
+                if (widget.cookOrder)
+                  Text(
+                    widget.order['tableNo'].toString(),
+                    style: TextStyle(
+                      color: Colors.amber,
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
+                if (!widget.cookOrder)
+                  OrderTimer(
+                    time: widget.order['time'],
+                    duration: int.parse(widget.order['duration']),
+                  ),
                 Spacer(),
+                Text(
+                  "Ordered at ",
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black54,
+                  ),
+                ),
                 Text(
                   widget.order['time'],
                   style: TextStyle(
@@ -105,93 +128,96 @@ class _OrderCardState extends State<OrderCard> {
                   ],
                 ),
               ),
-            SizedBox(
-              height: 5,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: Row(
-                children: [
-                  Spacer(),
-                  Container(
-                    height: 40,
-                    width: 40,
-                    decoration: BoxDecoration(
-                        color: Colors.black12,
-                        borderRadius: BorderRadius.circular(100)),
-                    child: IconButton(
-                      splashColor: Colors.red[200],
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return ConfirmBox(
-                              b1: "Go Back",
-                              b2: "Decline",
-                              height: 150,
-                              color: Colors.red[300],
-                              message: Text("Do you want to cancel the order ?"),
-                              function: () async {
-                                Navigator.pop(context);
-                                await FirebaseFirestore.instance
-                                    .collection('admins')
-                                    .doc(HomeScreen.resId)
-                                    .collection('activeOrders')
-                                    .doc(widget.timeStamp)
-                                    .delete();
-                                await FirebaseFirestore.instance
-                                    .collection('orders')
-                                    .doc(HomeScreen.resId)
-                                    .collection(widget.customerId)
-                                    .doc(widget.orderNo)
-                                    .delete();
-                              },
-                            );
-                          },
-                        );
-                      },
-                      icon: Icon(
-                        Icons.close,
-                        color: Colors.red,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    height: 50,
-                    width: 50,
-                    decoration: BoxDecoration(
-                        color: Colors.black12,
-                        borderRadius: BorderRadius.circular(100)),
-                    child: IconButton(
-                      splashColor: Colors.green[200],
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return DurationConfirm(
-                              order: widget.order,
-                              timeStamp: widget.timeStamp,
-                              orderNo: widget.orderNo,
-                              customerId: widget.customerId,
-                            );
-                          },
-                        );
-                      },
-                      icon: Icon(
-                        Icons.done,
-                        color: Colors.green[500],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                ],
+            if (widget.cookOrder)
+              SizedBox(
+                height: 5,
               ),
-            )
+            if (widget.cookOrder)
+              Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: Row(
+                  children: [
+                    Spacer(),
+                    Container(
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                          color: Colors.black12,
+                          borderRadius: BorderRadius.circular(100)),
+                      child: IconButton(
+                        splashColor: Colors.red,
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return ConfirmBox(
+                                b1: "Go Back",
+                                b2: "Decline",
+                                height: 150,
+                                color: Colors.red[300],
+                                message:
+                                    Text("Do you want to cancel the order ?"),
+                                function: () async {
+                                  Navigator.pop(context);
+                                  await FirebaseFirestore.instance
+                                      .collection('admins')
+                                      .doc(HomeScreen.resId)
+                                      .collection('activeOrders')
+                                      .doc(widget.timeStamp)
+                                      .delete();
+                                  await FirebaseFirestore.instance
+                                      .collection('orders')
+                                      .doc(HomeScreen.resId)
+                                      .collection(widget.customerId)
+                                      .doc(widget.orderNo)
+                                      .delete();
+                                },
+                              );
+                            },
+                          );
+                        },
+                        icon: Icon(
+                          Icons.close,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Container(
+                      height: 50,
+                      width: 50,
+                      decoration: BoxDecoration(
+                          color: Colors.black12,
+                          borderRadius: BorderRadius.circular(100)),
+                      child: IconButton(
+                        splashColor: Colors.green,
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return DurationConfirm(
+                                order: widget.order,
+                                timeStamp: widget.timeStamp,
+                                orderNo: widget.orderNo,
+                                customerId: widget.customerId,
+                              );
+                            },
+                          );
+                        },
+                        icon: Icon(
+                          Icons.done,
+                          color: Colors.green[500],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                  ],
+                ),
+              ),
           ],
         ),
       ),

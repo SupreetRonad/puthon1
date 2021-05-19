@@ -4,8 +4,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:puthon/Shared/confirmBox.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../shared/loadingScreen.dart';
+import 'cartButton.dart';
+import 'homeScreen.dart';
 
 class HomeDrawer extends StatefulWidget {
   @override
@@ -13,6 +16,16 @@ class HomeDrawer extends StatefulWidget {
 }
 
 class _HomeDrawerState extends State<HomeDrawer> {
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  Future init() async {
+    prefs = await SharedPreferences.getInstance();
+  }
+
   @override
   Widget build(BuildContext context) {
     final uid = FirebaseAuth.instance.currentUser.uid;
@@ -212,45 +225,47 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                 SizedBox(
                                   height: 10,
                                 ),
-                                Row(
-                                  children: [
-                                    Spacer(),
-                                    Container(
-                                      width: 110,
-                                      decoration: BoxDecoration(
-                                          color: Colors.red.withOpacity(.7),
+                                if (prefs.getInt('orderNo') == 0)
+                                  Row(
+                                    children: [
+                                      Spacer(),
+                                      Container(
+                                        width: 110,
+                                        decoration: BoxDecoration(
+                                            color: Colors.red.withOpacity(.7),
+                                            borderRadius:
+                                                BorderRadius.circular(20)),
+                                        child: ClipRRect(
                                           borderRadius:
-                                              BorderRadius.circular(20)),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(15),
-                                        child: TextButton(
-                                          onPressed: () {
-                                            _confirm(context);
-                                          },
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Icon(
-                                                Icons.exit_to_app_rounded,
-                                                color: Colors.white,
-                                              ),
-                                              Text(
-                                                "  Log out",
-                                                style: TextStyle(
+                                              BorderRadius.circular(15),
+                                          child: TextButton(
+                                            onPressed: () {
+                                              _confirm(context);
+                                            },
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Icon(
+                                                  Icons.exit_to_app_rounded,
                                                   color: Colors.white,
                                                 ),
-                                              ),
-                                            ],
+                                                Text(
+                                                  "  Log out",
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    SizedBox(width: 10),
-                                  ],
-                                ),
+                                      SizedBox(width: 10),
+                                    ],
+                                  ),
                               ],
                             ),
                           )
@@ -276,6 +291,14 @@ class _HomeDrawerState extends State<HomeDrawer> {
           b2: "Log Out",
           color: Colors.red[300],
           function: () async {
+            for (var i = 0; i < HomeScreen.list.length; i++) {
+              prefs.remove(HomeScreen.list[i]);
+              prefs.remove(HomeScreen.list[i] + "1");
+              prefs.remove(HomeScreen.list[i] + "2");
+            }
+            HomeScreen.list = [];
+            prefs.setStringList("orderList", []);
+            CartButton.orderList = {};
             await FirebaseAuth.instance.signOut();
             Navigator.of(context).pop();
           },

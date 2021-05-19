@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:puthon/Screens/Cook/orderCard.dart';
 import 'package:puthon/Screens/User/homeScreen.dart';
@@ -65,6 +64,7 @@ class _CookScreenState extends State<CookScreen> {
             );
           } else {
             return ListView.builder(
+              physics: ClampingScrollPhysics(),
               padding: const EdgeInsets.only(
                   bottom: kFloatingActionButtonMargin + 60),
               itemCount: snapshot.data.docs.length,
@@ -79,9 +79,17 @@ class _CookScreenState extends State<CookScreen> {
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return SpinKitWave(
-                        color: Colors.black,
-                        size: 20,
+                      return Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Center(
+                          child: Text(
+                            "Loading...",
+                            style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ),
                       );
                     }
                     if (!snapshot.hasData || snapshot.hasError) {
@@ -95,10 +103,12 @@ class _CookScreenState extends State<CookScreen> {
                       );
                     } else {
                       return OrderCard(
-                          order: snapshot.data,
-                          customerId: order['customerId'],
-                          orderNo: order['orderNo'],
-                          timeStamp: order['timeStamp']);
+                        order: snapshot.data,
+                        customerId: order['customerId'],
+                        orderNo: order['orderNo'],
+                        timeStamp: order['timeStamp'],
+                        cookOrder: true,
+                      );
                     }
                   },
                 );

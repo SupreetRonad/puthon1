@@ -60,6 +60,10 @@ class _CartButtonState extends State<CartButton> {
                 SizedBox(
                   width: 10,
                 ),
+                Icon(Icons.shopping_cart),
+                SizedBox(
+                  width: 10,
+                ),
                 Text(
                   "Cart",
                   style: TextStyle(
@@ -102,6 +106,7 @@ class _CartButtonState extends State<CartButton> {
                     : Container(
                         height: MediaQuery.of(context).size.height * 0.4,
                         child: ListView.builder(
+                          physics: BouncingScrollPhysics(),
                           itemExtent: 90.0,
                           itemCount: HomeScreen.list.length,
                           itemBuilder: (BuildContext context, int index) {
@@ -192,10 +197,15 @@ class _CartButtonState extends State<CartButton> {
                                   orderNo.toString(),
                               "timeStamp": timeStamp,
                               "orderAccepted": false,
+                              "duration": "0"
                             });
                             var hour = DateTime.now().hour > 12
                                 ? DateTime.now().hour - 12
                                 : DateTime.now().hour;
+                            var hour1 = hour < 10 ? "0${hour}" : "${hour}";
+                            var minute = DateTime.now().minute < 10
+                                ? "0${DateTime.now().minute}"
+                                : "${DateTime.now().minute}";
                             var hh = DateTime.now().hour > 12 ? "pm" : "am";
                             await FirebaseFirestore.instance
                                 .collection('orders')
@@ -208,9 +218,9 @@ class _CartButtonState extends State<CartButton> {
                               "total": sum,
                               "tableNo": HomeScreen.table,
                               "orderList": CartButton.orderList,
-                              "time":
-                                  "${hour} : ${DateTime.now().minute} ${hh}",
+                              "time": "${hour1} : ${minute} ${hh}",
                               "orderAccepted": false,
+                              "duration": "0"
                             });
                             prefs.setInt("orderNo", orderNo);
                             Navigator.pop(context);

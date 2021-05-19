@@ -151,6 +151,7 @@ class _DurationConfirmState extends State<DurationConfirm> {
                                 "orderAccepted": true,
                                 "duration": dur[duration - 1]
                               });
+                              // await FirebaseFirestore.instance.collection('users').doc(widget.customerId).collection('orders').doc().set()
                             },
                             child: Text(
                               "Accept",
