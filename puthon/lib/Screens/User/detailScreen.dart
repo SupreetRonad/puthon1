@@ -412,29 +412,30 @@ class _DetailScreenState extends State<DetailScreen> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
-                                          if(!register)
-                                          Container(
-                                            height: 60,
-                                            width: 70,
-                                            child: Card(
-                                              shadowColor: Colors.white70,
-                                              color: Colors.white60,
-                                              elevation: 10,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(20.0),
-                                              ),
-                                              child: TextButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Icon(
-                                                  Icons.close_rounded,
-                                                  color: Colors.black,
+                                          if (!register)
+                                            Container(
+                                              height: 60,
+                                              width: 70,
+                                              child: Card(
+                                                shadowColor: Colors.white70,
+                                                color: Colors.white60,
+                                                elevation: 10,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          20.0),
+                                                ),
+                                                child: TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Icon(
+                                                    Icons.close_rounded,
+                                                    color: Colors.black,
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
                                           Container(
                                             height: 60,
                                             width: 120,
@@ -460,21 +461,40 @@ class _DetailScreenState extends State<DetailScreen> {
                                                         if (_isValid &&
                                                             flag[0] == 0 &&
                                                             flag[1] == 0) {
-                                                          await FirebaseFirestore
-                                                              .instance
-                                                              .collection(
-                                                                  'users')
-                                                              .doc(FirebaseAuth
-                                                                  .instance
-                                                                  .currentUser
-                                                                  .uid)
-                                                              .update({
-                                                            'name': name,
-                                                            'phone': phone,
-                                                            'dob': dob,
-                                                            'gender': gender,
-                                                            'register': false,
-                                                          });
+                                                          if (register) {
+                                                            await FirebaseFirestore
+                                                                .instance
+                                                                .collection(
+                                                                    'users')
+                                                                .doc(FirebaseAuth
+                                                                    .instance
+                                                                    .currentUser
+                                                                    .uid)
+                                                                .update({
+                                                              'name': name,
+                                                              'phone': phone,
+                                                              'dob': dob,
+                                                              'gender': gender,
+                                                              'register': false,
+                                                              'scanned': 1,
+                                                            });
+                                                          } else {
+                                                            await FirebaseFirestore
+                                                                .instance
+                                                                .collection(
+                                                                    'users')
+                                                                .doc(FirebaseAuth
+                                                                    .instance
+                                                                    .currentUser
+                                                                    .uid)
+                                                                .update({
+                                                              'name': name,
+                                                              'phone': phone,
+                                                              'dob': dob,
+                                                              'gender': gender,
+                                                              'register': false,
+                                                            });
+                                                          }
                                                           _isLoading1 = true;
                                                           _isLoading = false;
                                                           setState(() {

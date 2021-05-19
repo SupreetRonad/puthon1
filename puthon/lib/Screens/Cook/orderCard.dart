@@ -21,7 +21,7 @@ class _OrderCardState extends State<OrderCard> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(8),
-      height: widget.order["orderList"].length * 24.0 + 130,
+      height: widget.order["orderList"].length * 24.0 + 140,
       child: Card(
         elevation: 18,
         shadowColor: Colors.white38,
@@ -105,77 +105,86 @@ class _OrderCardState extends State<OrderCard> {
                   ],
                 ),
               ),
+            SizedBox(
+              height: 5,
+            ),
             Padding(
               padding: const EdgeInsets.all(2.0),
               child: Row(
                 children: [
                   Spacer(),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      shadowColor: Colors.red[400],
-                      elevation: 0,
-                      primary: Colors.red[300],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
+                  Container(
+                    height: 40,
+                    width: 40,
+                    decoration: BoxDecoration(
+                        color: Colors.black12,
+                        borderRadius: BorderRadius.circular(100)),
+                    child: IconButton(
+                      splashColor: Colors.red[200],
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return ConfirmBox(
+                              b1: "Go Back",
+                              b2: "Decline",
+                              height: 150,
+                              color: Colors.red[300],
+                              message: Text("Do you want to cancel the order ?"),
+                              function: () async {
+                                Navigator.pop(context);
+                                await FirebaseFirestore.instance
+                                    .collection('admins')
+                                    .doc(HomeScreen.resId)
+                                    .collection('activeOrders')
+                                    .doc(widget.timeStamp)
+                                    .delete();
+                                await FirebaseFirestore.instance
+                                    .collection('orders')
+                                    .doc(HomeScreen.resId)
+                                    .collection(widget.customerId)
+                                    .doc(widget.orderNo)
+                                    .delete();
+                              },
+                            );
+                          },
+                        );
+                      },
+                      icon: Icon(
+                        Icons.close,
+                        color: Colors.red,
                       ),
                     ),
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return ConfirmBox(
-                            b1: "Go Back",
-                            b2: "Decline",
-                            height: 150,
-                            color: Colors.red[300],
-                            message: Text("Do you want to cancel the order ?"),
-                            function: () async {
-                              Navigator.pop(context);
-                              await FirebaseFirestore.instance
-                                  .collection('admins')
-                                  .doc(HomeScreen.resId)
-                                  .collection('activeOrders')
-                                  .doc(widget.timeStamp)
-                                  .delete();
-                              await FirebaseFirestore.instance
-                                  .collection('orders')
-                                  .doc(HomeScreen.resId)
-                                  .collection(widget.customerId)
-                                  .doc(widget.orderNo)
-                                  .delete();
-                            },
-                          );
-                        },
-                      );
-                    },
-                    child: Text("Decline"),
                   ),
                   SizedBox(
                     width: 10,
                   ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      shadowColor: Colors.green[400],
-                      elevation: 0,
-                      primary: Colors.green[300],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
+                  Container(
+                    height: 50,
+                    width: 50,
+                    decoration: BoxDecoration(
+                        color: Colors.black12,
+                        borderRadius: BorderRadius.circular(100)),
+                    child: IconButton(
+                      splashColor: Colors.green[200],
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return DurationConfirm(
+                              order: widget.order,
+                              timeStamp: widget.timeStamp,
+                              orderNo: widget.orderNo,
+                              customerId: widget.customerId,
+                            );
+                          },
+                        );
+                      },
+                      icon: Icon(
+                        Icons.done,
+                        color: Colors.green[500],
                       ),
                     ),
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return DurationConfirm(
-                            order: widget.order,
-                            timeStamp: widget.timeStamp,
-                            orderNo: widget.orderNo,
-                            customerId: widget.customerId,
-                          );
-                        },
-                      );
-                    },
-                    child: Text("Accept"),
                   ),
                   SizedBox(
                     width: 10,
