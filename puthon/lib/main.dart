@@ -13,6 +13,9 @@ import 'shared/loadingScreen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
   runApp(MyApp());
 }
 
@@ -24,9 +27,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
     final Future<FirebaseApp> _initialization = Firebase.initializeApp();
     return FutureBuilder(
       future: _initialization,
@@ -56,8 +56,7 @@ class _MyAppState extends State<MyApp> {
                         ConnectionState.waiting) {
                       return LoadingScreen();
                     }
-                    final user = userSnapshot.data;
-                    if (user != null) {
+                    if (userSnapshot.data != null) {
                       return DivergeScreen();
                     }
                     return AuthScreen();

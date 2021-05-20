@@ -35,7 +35,7 @@ class _AuthScreenState extends State<AuthScreen> {
       });
       if (isLogin) {
         _userCreds = await FirebaseAuth.instance
-            .signInWithEmailAndPassword(email: email, password: password);
+            .signInWithEmailAndPassword(email: email.trim(), password: password.trim());
         await FirebaseMessaging.instance.getToken().then((token) async {
           deviceToken = token;
           await _store
@@ -45,7 +45,7 @@ class _AuthScreenState extends State<AuthScreen> {
         });
       } else {
         _userCreds = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(email: email, password: password);
+            .createUserWithEmailAndPassword(email: email.trim(), password: password.trim());
         await FirebaseMessaging.instance.getToken().then((token) async {
           deviceToken = token;
           await _store.collection('users').doc(_userCreds.user.uid).set({

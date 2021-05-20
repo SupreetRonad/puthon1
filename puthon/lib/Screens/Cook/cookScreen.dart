@@ -64,7 +64,7 @@ class _CookScreenState extends State<CookScreen> {
             );
           } else {
             return ListView.builder(
-              physics: ClampingScrollPhysics(),
+              physics: BouncingScrollPhysics(),
               padding: const EdgeInsets.only(
                   bottom: kFloatingActionButtonMargin + 60),
               itemCount: snapshot.data.docs.length,
