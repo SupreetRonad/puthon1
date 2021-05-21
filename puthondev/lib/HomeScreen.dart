@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         labelText: "Email",
                       ),
                       validator: (val) {
-                        if (val!.isEmpty) {
+                        if (val.isEmpty) {
                           setState(() {
                             flag[0] = 1;
                           });
@@ -110,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         labelText: "Password",
                       ),
                       validator: (val) {
-                        if (val!.isEmpty) {
+                        if (val.isEmpty) {
                           setState(() {
                             flag[1] = 1;
                           });

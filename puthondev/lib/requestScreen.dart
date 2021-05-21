@@ -9,6 +9,9 @@ class RequestScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Puthon - Requests"),
+        actions: [
+          
+        ],
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection("requests").snapshots(),
@@ -22,12 +25,12 @@ class RequestScreen extends StatelessWidget {
           if (!snapshot.hasData) {
             return Text("No Request Pending...");
           }
+          var req = snapshot.data.docs;
           return ListView.builder(
             physics: BouncingScrollPhysics(),
-            itemCount: snapshot.data.docs.length,
+            itemCount: req.length,
             itemBuilder: (BuildContext context, int index) {
-              var request = snapshot.data.docs[index];
-              return RequestCard("lalla");
+              return RequestCard(req[index]);
             },
           );
         },
