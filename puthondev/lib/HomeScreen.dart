@@ -150,7 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         : Row(
                             children: [
                               Text(
-                                "Register  ",
+                                "Login  ",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 15,

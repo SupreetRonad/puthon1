@@ -167,10 +167,12 @@ class _OrderCardState extends State<OrderCard> {
                                       .delete();
                                   await FirebaseFirestore.instance
                                       .collection('orders')
-                                      .doc(HomeScreen.resId)
+                                      .doc(widget.customerId)
                                       .collection(widget.customerId)
                                       .doc(widget.orderNo)
-                                      .delete();
+                                      .update({
+                                    "flag": 1,
+                                  });
                                 },
                               );
                             },

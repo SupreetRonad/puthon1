@@ -2,9 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lottie/lottie.dart';
 import 'package:puthon/Screens/User/homeScreen.dart';
 import 'package:puthon/Shared/confirmBox.dart';
+import 'package:puthon/Shared/loadingScreen.dart';
 import 'package:puthon/Shared/successBox.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -161,115 +163,161 @@ class _CartButtonState extends State<CartButton> {
                   ],
                 ),
                 Spacer(),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    elevation: 10,
-                    primary: Colors.green[300],
-                    textStyle: TextStyle(color: Colors.white),
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                  onPressed: () async {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return ConfirmBox(
-                          b1: "Go Back",
-                          b2: "Confirm",
-                          color: Colors.green[300],
-                          message: Text("Do you want to place order ?"),
-                          height: 120,
-                          function: () async {
-                            var orderNo = prefs.getInt("orderNo") ?? 0;
-                            orderNo++;
-                            var timeStamp = Timestamp.now().toString();
-                            await FirebaseFirestore.instance
-                                .collection('admins')
-                                .doc(HomeScreen.resId)
-                                .collection('activeOrders')
-                                .doc(timeStamp)
-                                .set({
-                              "customerId":
-                                  FirebaseAuth.instance.currentUser.uid,
-                              "orderNo": FirebaseAuth.instance.currentUser.uid +
-                                  orderNo.toString(),
-                              "timeStamp": timeStamp,
-                              "orderAccepted": false,
-                              "duration": "0"
-                            });
-                            var hour = DateTime.now().hour > 12
-                                ? DateTime.now().hour - 12
-                                : DateTime.now().hour;
-                            var hour1 = hour < 10 ? "0${hour}" : "${hour}";
-                            var minute = DateTime.now().minute < 10
-                                ? "0${DateTime.now().minute}"
-                                : "${DateTime.now().minute}";
-                            var hh = DateTime.now().hour > 12 ? "pm" : "am";
-                            await FirebaseFirestore.instance
-                                .collection('orders')
-                                .doc(HomeScreen.resId)
-                                .collection(
-                                    FirebaseAuth.instance.currentUser.uid)
-                                .doc(FirebaseAuth.instance.currentUser.uid +
-                                    orderNo.toString())
-                                .set({
-                              "total": sum,
-                              "tableNo": HomeScreen.table,
-                              "orderList": CartButton.orderList,
-                              "time": "${hour1} : ${minute} ${hh}",
-                              "orderAccepted": false,
-                              "duration": "0"
-                            });
-                            prefs.setInt("orderNo", orderNo);
-                            Navigator.pop(context);
-                            Navigator.pop(context);
-                            for (var i = 0; i < HomeScreen.list.length; i++) {
-                              prefs.remove(HomeScreen.list[i]);
-                              prefs.remove(HomeScreen.list[i] + "1");
-                              prefs.remove(HomeScreen.list[i] + "2");
-                            }
-                            HomeScreen.list = [];
-                            prefs.setStringList("orderList", []);
-                            CartButton.orderList = {};
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return SuccessBox(
-                                  title: "Order Successfully Placed",
-                                  msg1:
-                                      "Your order has been successfully sent to the cook.",
-                                  msg2:
-                                      "Please wait while your order gets ready...",
-                                );
-                              },
-                            );
-                            widget.refresh();
-                          },
+                StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection('orders')
+                        .doc(FirebaseAuth.instance.currentUser.uid)
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Text("Please wait...");
+                      }
+                      if (!snapshot.hasData || snapshot.hasError) {
+                        return Center(
+                          child: Text(
+                            "Please wait...",
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
                         );
-                      },
-                    );
-                    setState(() {});
-                  },
-                  child: Row(
-                    children: [
-                      Text(
-                        "Place Order",
-                        style: TextStyle(
-                          color: Colors.white,
+                      }
+                      return ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          elevation: 10,
+                          primary: snapshot.data['ordered']
+                              ? Colors.grey[300]
+                              : Colors.green[300],
+                          textStyle: TextStyle(color: Colors.white),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 14),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Icon(
-                        Icons.arrow_forward,
-                        color: Colors.white,
-                      )
-                    ],
-                  ),
-                ),
+                        onPressed: snapshot.data['ordered']
+                            ? () {
+                                Fluttertoast.showToast(
+                                  msg:
+                                      "Please wait until your previous order arrives",
+                                  gravity: ToastGravity.SNACKBAR,
+                                  toastLength: Toast.LENGTH_SHORT,
+                                );
+                              }
+                            : () async {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return ConfirmBox(
+                                      b1: "Go Back",
+                                      b2: "Confirm",
+                                      color: Colors.green[300],
+                                      message:
+                                          Text("Do you want to place order ?"),
+                                      height: 120,
+                                      function: () async {
+                                        var orderNo =
+                                            prefs.getInt("orderNo") ?? 0;
+                                        orderNo++;
+                                        var timeStamp =
+                                            Timestamp.now().toString();
+                                        await FirebaseFirestore.instance
+                                            .collection('admins')
+                                            .doc(HomeScreen.resId)
+                                            .collection('activeOrders')
+                                            .doc(timeStamp)
+                                            .set({
+                                          "customerId": FirebaseAuth
+                                              .instance.currentUser.uid,
+                                          "orderNo": FirebaseAuth
+                                                  .instance.currentUser.uid +
+                                              orderNo.toString(),
+                                          "timeStamp": timeStamp,
+                                          "flag": 0,
+                                          "duration": "0"
+                                        });
+                                        var hour = DateTime.now().hour > 12
+                                            ? DateTime.now().hour - 12
+                                            : DateTime.now().hour;
+                                        var hour1 =
+                                            hour < 10 ? "0${hour}" : "${hour}";
+                                        var minute = DateTime.now().minute < 10
+                                            ? "0${DateTime.now().minute}"
+                                            : "${DateTime.now().minute}";
+                                        var hh = DateTime.now().hour > 12
+                                            ? "pm"
+                                            : "am";
+                                        await FirebaseFirestore.instance
+                                            .collection('orders')
+                                            .doc(FirebaseAuth
+                                                .instance.currentUser.uid)
+                                            .collection(FirebaseAuth
+                                                .instance.currentUser.uid)
+                                            .doc(FirebaseAuth
+                                                    .instance.currentUser.uid +
+                                                orderNo.toString())
+                                            .set({
+                                          "total": sum,
+                                          "tableNo": HomeScreen.table,
+                                          "orderList": CartButton.orderList,
+                                          "time": "${hour1} : ${minute} ${hh}",
+                                          "flag": 0,
+                                          "duration": "0"
+                                        });
+                                        prefs.setInt("orderNo", orderNo);
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
+                                        for (var i = 0;
+                                            i < HomeScreen.list.length;
+                                            i++) {
+                                          prefs.remove(HomeScreen.list[i]);
+                                          prefs
+                                              .remove(HomeScreen.list[i] + "1");
+                                          prefs
+                                              .remove(HomeScreen.list[i] + "2");
+                                        }
+                                        HomeScreen.list = [];
+                                        prefs.setStringList("orderList", []);
+                                        CartButton.orderList = {};
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return SuccessBox(
+                                              title:
+                                                  "Order Successfully Placed",
+                                              msg1:
+                                                  "Your order has been successfully sent to the cook.",
+                                              msg2:
+                                                  "Please wait while your order gets ready...",
+                                            );
+                                          },
+                                        );
+                                        widget.refresh();
+                                      },
+                                    );
+                                  },
+                                );
+                                setState(() {});
+                              },
+                        child: Row(
+                          children: [
+                            Text(
+                              "Place Order",
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Icon(
+                              Icons.arrow_forward,
+                              color: Colors.white,
+                            )
+                          ],
+                        ),
+                      );
+                    }),
                 SizedBox(width: 15),
               ],
             ),

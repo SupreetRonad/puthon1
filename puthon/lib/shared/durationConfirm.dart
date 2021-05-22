@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:puthon/Screens/User/homeScreen.dart';
 
@@ -141,17 +142,26 @@ class _DurationConfirmState extends State<DurationConfirm> {
                                   .doc(HomeScreen.resId)
                                   .collection('activeOrders')
                                   .doc(widget.timeStamp)
-                                  .update({"orderAccepted": true});
+                                  .update({
+                                "flag": 1,
+                              });
                               await FirebaseFirestore.instance
                                   .collection('orders')
-                                  .doc(HomeScreen.resId)
+                                  .doc(widget.customerId)
                                   .collection(widget.customerId)
                                   .doc(widget.orderNo)
                                   .update({
-                                "orderAccepted": true,
+                                "flag": 1,
                                 "duration": dur[duration - 1]
                               });
-                              // await FirebaseFirestore.instance.collection('users').doc(widget.customerId).collection('orders').doc().set()
+                              await FirebaseFirestore.instance
+                                  .collection('users')
+                                  .doc(FirebaseAuth.instance.currentUser.uid)
+                                  .update({
+                                "cooking": true,
+                                "orderNo": widget.orderNo,
+                              });
+                              
                             },
                             child: Text(
                               "Accept",

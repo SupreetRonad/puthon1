@@ -1,17 +1,31 @@
-import 'package:circular_countdown_timer/circular_countdown_timer.dart';
+import 'dart:async';
 import 'package:flutter/material.dart';
 
 class OrderTimer extends StatefulWidget {
   final time, duration;
-  OrderTimer({this.time, this.duration});
+  final Function refresh;
+  OrderTimer({this.time, this.duration, this.refresh});
   @override
   _OrderTimerState createState() => _OrderTimerState();
 }
 
 class _OrderTimerState extends State<OrderTimer> {
+  var count = 0;
   @override
   void initState() {
     super.initState();
+    
+  }
+
+  Widget _timer(){
+    Timer.periodic(Duration(seconds: 60), (timer) {
+      refresh();
+    });
+    return SizedBox();
+  }
+  
+  void refresh() {
+    setState(() {});
   }
 
   @override
@@ -48,26 +62,22 @@ class _OrderTimerState extends State<OrderTimer> {
                   color: Colors.black54,
                 ),
               ),
-              CircularCountDownTimer(
-                duration: (widget.duration - elapsed) * 60,
-                controller: CountDownController(),
-                width: 40,
-                height: 40,
-                ringColor: Colors.transparent,
-                fillColor: Colors.transparent,
-                backgroundColor: Colors.transparent,
-                strokeWidth: 5.0,
-                strokeCap: StrokeCap.round,
-                textStyle: TextStyle(
+              Text(
+                (widget.duration - elapsed).toString(),
+                style: TextStyle(
                   fontSize: 15.0,
                   color: Colors.amber,
                   fontWeight: FontWeight.bold,
                 ),
-                textFormat: CountdownTextFormat.MM_SS,
-                isReverse: true,
-                isReverseAnimation: false,
-                isTimerTextShown: true,
-                autoStart: true,
+              ),
+              _timer(),
+              Text(
+                " mins",
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black54,
+                ),
               ),
             ],
           );

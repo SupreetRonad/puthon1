@@ -34,8 +34,8 @@ class _AuthScreenState extends State<AuthScreen> {
         _isLoading = true;
       });
       if (isLogin) {
-        _userCreds = await FirebaseAuth.instance
-            .signInWithEmailAndPassword(email: email.trim(), password: password.trim());
+        _userCreds = await FirebaseAuth.instance.signInWithEmailAndPassword(
+            email: email.trim(), password: password.trim());
         await FirebaseMessaging.instance.getToken().then((token) async {
           deviceToken = token;
           await _store
@@ -44,8 +44,8 @@ class _AuthScreenState extends State<AuthScreen> {
               .update({'deviceToken': deviceToken, 'register': false});
         });
       } else {
-        _userCreds = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(email: email.trim(), password: password.trim());
+        _userCreds = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: email.trim(), password: password.trim());
         await FirebaseMessaging.instance.getToken().then((token) async {
           deviceToken = token;
           await _store.collection('users').doc(_userCreds.user.uid).set({
@@ -58,7 +58,10 @@ class _AuthScreenState extends State<AuthScreen> {
             'dob': '2000-01-01',
             'gender': 1,
             'admin': false,
-            'cook': false
+            'cook': false,
+            'orderNo': null,
+            'cooking': false,
+            'scanned': 1,
           });
         });
       }

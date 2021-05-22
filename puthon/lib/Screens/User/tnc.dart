@@ -7,14 +7,17 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:puthon/Shared/successBox.dart';
 
 class TnC extends StatefulWidget {
-  final resName, street, city, state, pincode, building;
+  final resName, street, city, state, pincode, building, name, phone, email;
   TnC(
       {this.resName,
       this.street,
       this.city,
       this.state,
       this.pincode,
-      this.building});
+      this.building,
+      this.name,
+      this.phone,
+      this.email});
   @override
   _TnCState createState() => _TnCState();
 }
@@ -141,7 +144,10 @@ class _TnCState extends State<TnC> {
                                   'pincode': widget.pincode,
                                   'building': widget.building,
                                   'country': 'India',
-                                  'uid': FirebaseAuth.instance.currentUser.uid
+                                  'uid': FirebaseAuth.instance.currentUser.uid,
+                                  'email': widget.email,
+                                  'phone': widget.phone,
+                                  'name': widget.name
                                 });
                                 Navigator.of(context).pop();
                                 Navigator.of(context).pop();
@@ -151,11 +157,13 @@ class _TnCState extends State<TnC> {
                                   builder: (BuildContext context) {
                                     return SuccessBox(
                                       title: 'Request sent successfully',
-                                      msg1: 'Your request for registration of business has been successfully sent to our registration center.',
-                                      msg2: 'Our team will contact you soon. Thank you.',
+                                      msg1:
+                                          'Your request for registration of business has been successfully sent to our registration center.',
+                                      msg2:
+                                          'Our team will contact you soon. Thank you.',
                                     );
                                   },
-                                );                              
+                                );
                               } else {
                                 Fluttertoast.showToast(
                                   msg: "Please accept terms and conditions",

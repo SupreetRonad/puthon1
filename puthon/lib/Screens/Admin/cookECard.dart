@@ -152,12 +152,14 @@ class CookECard extends StatelessWidget {
                                           'email': doc["email"],
                                           'gender': doc["gender"],
                                           'phone': doc["phone"],
-                                          'dob': doc["dob"]
+                                          'dob': doc["dob"],
                                         });
                                         FirebaseFirestore.instance
                                             .collection('users')
                                             .doc(doc["uid"])
-                                            .update({'cook': true});
+                                            .update({
+                                          'cook': true,
+                                        });
                                         Navigator.of(context).pop();
                                       } else {
                                         FirebaseFirestore.instance
@@ -171,7 +173,8 @@ class CookECard extends StatelessWidget {
                                             .collection('users')
                                             .doc(doc["uid"])
                                             .update({'cook': false});
-                                        ScaffoldMessenger.of(context).showSnackBar(
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
                                           SnackBar(
                                             content: Text(
                                               "${doc['name']} has been removed successfully!",

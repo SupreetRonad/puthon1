@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:qrscans/qrscan.dart' as scanner;
 
 import 'homeScreen.dart';
@@ -36,7 +35,7 @@ class _QrScanningState extends State<QrScanning> {
                     .get()
                     .then((value) {
                   if (value.exists) {
-                    scanned = 2;
+                    HomeScreen.resName = value['resName'];
                     HomeScreen.resId = cameraScanResult.split("/*/")[1];
                     HomeScreen.table = cameraScanResult.split("/*/")[0];
                     FirebaseFirestore.instance
@@ -44,13 +43,20 @@ class _QrScanningState extends State<QrScanning> {
                         .doc(FirebaseAuth.instance.currentUser.uid)
                         .update({
                       'scanned': 2,
+                    });
+                    FirebaseFirestore.instance
+                        .collection('orders')
+                        .doc(FirebaseAuth.instance.currentUser.uid)
+                        .set({
                       'resId': HomeScreen.resId,
                       'table': HomeScreen.table,
+                      'resName': HomeScreen.resName,
                     });
+                    scanned = 2;
                   }
                 });
               } else {
-                scanned = 1; 
+                scanned = 1;
               }
               setState(() {});
             },

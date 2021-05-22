@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puthon/Screens/User/bottomMenu.dart';
-import 'package:puthon/Screens/User/HomeDrawer.dart';
+import 'package:puthon/Screens/User/homeDrawer.dart';
 import 'package:puthon/Screens/User/qrScanning.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'cartButton.dart';
@@ -58,14 +58,10 @@ class _HomeScreenState extends State<HomeScreen> {
     FirebaseFirestore.instance.collection('users').doc(uid).get().then((value) {
       if (value.exists) {
         setState(() {
-          scanned = value['scanned'];
-          HomeScreen.resId = value['resId'];
-          HomeScreen.table = value['table'];
-          HomeScreen.resName = value[
-              'resName']; //TODO: this is just temporary, after business req, retrieve from restaurant owner account
+          scanned = value['scanned'];          
         });
       }
-    });
+    });  // TODO: need to change here
   }
 
   @override

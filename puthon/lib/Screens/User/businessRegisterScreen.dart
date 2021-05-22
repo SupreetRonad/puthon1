@@ -1,21 +1,44 @@
 import 'dart:ui';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puthon/Screens/User/tnc.dart';
 import 'package:puthon/shared/textField.dart';
-
 
 class RegisterBusiness extends StatefulWidget {
   @override
   _RegisterBusinessState createState() => _RegisterBusinessState();
 }
 
-var resName, building, street, city, state, pincode;
+var resName, building, street, city, state, pincode, name, phone, email;
 var flag = [0, 0, 0, 0, 0, 0];
 bool flag1 = false, loading = false;
 
 class _RegisterBusinessState extends State<RegisterBusiness> {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+
+  void readData() async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser.uid)
+        .get()
+        .then((value) {
+      if (value.exists) {
+        setState(() {
+          name = value.data()["name"];
+          phone = value.data()["phone"];
+          email = FirebaseAuth.instance.currentUser.email;
+        });
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    readData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +122,8 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
                                       }
                                       return null;
                                     },
-                                    textCapitalization: TextCapitalization.words,
+                                    textCapitalization:
+                                        TextCapitalization.words,
                                     textInputAction: TextInputAction.next,
                                     key: ValueKey('resname'),
                                     onEditingComplete: () => node.nextFocus(),
@@ -164,7 +188,8 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
                                       }
                                       return null;
                                     },
-                                    textCapitalization: TextCapitalization.words,
+                                    textCapitalization:
+                                        TextCapitalization.words,
                                     textInputAction: TextInputAction.next,
                                     key: ValueKey('buildingname'),
                                     onEditingComplete: () => node.nextFocus(),
@@ -209,7 +234,8 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
                                       }
                                       return null;
                                     },
-                                    textCapitalization: TextCapitalization.words,
+                                    textCapitalization:
+                                        TextCapitalization.words,
                                     textInputAction: TextInputAction.next,
                                     key: ValueKey('streetname'),
                                     onEditingComplete: () => node.nextFocus(),
@@ -253,7 +279,8 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
                                       }
                                       return null;
                                     },
-                                    textCapitalization: TextCapitalization.words,
+                                    textCapitalization:
+                                        TextCapitalization.words,
                                     textInputAction: TextInputAction.next,
                                     key: ValueKey('cityname'),
                                     onEditingComplete: () => node.nextFocus(),
@@ -272,7 +299,7 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
                                     ),
                                     validator: (val) {
                                       flag[3] = val.isEmpty ? 1 : 0;
-                                      city = val;                                      
+                                      city = val;
                                       return null;
                                     },
                                   ),
@@ -299,7 +326,8 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
                                           }
                                           return null;
                                         },
-                                        textCapitalization: TextCapitalization.words,
+                                        textCapitalization:
+                                            TextCapitalization.words,
                                         textInputAction: TextInputAction.next,
                                         key: ValueKey('statename'),
                                         onEditingComplete: () =>
@@ -433,6 +461,9 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
                                           pincode: pincode,
                                           state: state,
                                           building: building,
+                                          name: name,
+                                          phone: phone,
+                                          email: email,
                                         );
                                       },
                                     );
