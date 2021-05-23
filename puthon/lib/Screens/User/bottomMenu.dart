@@ -32,6 +32,7 @@ class _BottomMenuState extends State<BottomMenu> {
         setState(() {
           HomeScreen.resId = value['resId'];
           HomeScreen.table = value['table'];
+          HomeScreen.resName = value['resName'];
           loading = false;
         });
       }
@@ -42,6 +43,13 @@ class _BottomMenuState extends State<BottomMenu> {
   @override
   Widget build(BuildContext context) {
     return SlidingUpPanel(
+      backdropEnabled: true,
+      backdropOpacity: 0,
+      //backdropEnabled: true,
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(20),
+        topRight: Radius.circular(20),
+      ),
       body: loading
           ? SpinKitWave(
               color: Colors.black87,
@@ -62,7 +70,7 @@ class _BottomMenuState extends State<BottomMenu> {
                           child: Text(
                             HomeScreen.resName ?? "RESTUARANT NAME",
                             style: TextStyle(
-                              color: Colors.black54,
+                              color: Colors.white70,
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
@@ -77,7 +85,7 @@ class _BottomMenuState extends State<BottomMenu> {
                         Text(
                           "Table. " + HomeScreen.table,
                           style: TextStyle(
-                            color: Color.fromRGBO(213, 165, 101, 1),
+                            color: Colors.white,
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
                           ),
@@ -87,9 +95,9 @@ class _BottomMenuState extends State<BottomMenu> {
                     Spacer(),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        shadowColor: Color.fromRGBO(213, 165, 101, 1),
-                        elevation: 10,
-                        primary: Color.fromRGBO(213, 165, 101, 1),
+                        shadowColor: Colors.orange[600],
+                        elevation: 20,
+                        primary: Colors.white.withOpacity(.7),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
@@ -120,7 +128,7 @@ class _BottomMenuState extends State<BottomMenu> {
                       },
                       child: Text(
                         "Pay & Exit",
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.green[400]),
                       ),
                     ),
                     SizedBox(
@@ -181,7 +189,7 @@ class _BottomMenuState extends State<BottomMenu> {
             ),
       color: Colors.transparent,
       minHeight: 80,
-      maxHeight: MediaQuery.of(context).size.height * 0.8,
+      maxHeight: MediaQuery.of(context).size.height - 155,
       panel: Container(
         width: double.infinity,
         child: scanned != 2
@@ -205,10 +213,11 @@ class _BottomMenuState extends State<BottomMenu> {
                   } else {
                     return Container(
                       decoration: BoxDecoration(
-                        color: Colors.grey[100],
+                        color: Colors.grey[200],
                         borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            topRight: Radius.circular(20)),
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
+                        ),
                       ),
                       child: Column(
                         children: [
@@ -229,14 +238,15 @@ class _BottomMenuState extends State<BottomMenu> {
                             child: Text(
                               "Menu",
                               style: TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black),
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black54,
+                              ),
                             ),
                           ),
                           Container(
                             height:
-                                MediaQuery.of(context).size.height * .8 - 69,
+                                MediaQuery.of(context).size.height * .8 - 54,
                             child: ListView.builder(
                               physics: BouncingScrollPhysics(),
                               padding: const EdgeInsets.only(

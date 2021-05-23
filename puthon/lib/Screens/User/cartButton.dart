@@ -264,6 +264,13 @@ class _CartButtonState extends State<CartButton> {
                                           "flag": 0,
                                           "duration": "0"
                                         });
+                                        await FirebaseFirestore.instance
+                                            .collection('orders')
+                                            .doc(FirebaseAuth
+                                                .instance.currentUser.uid)                                            
+                                            .update({
+                                          'ordered': true,
+                                        });
                                         prefs.setInt("orderNo", orderNo);
                                         Navigator.pop(context);
                                         Navigator.pop(context);
