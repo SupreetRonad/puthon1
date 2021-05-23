@@ -67,7 +67,6 @@ class _PaymentUPIState extends State<PaymentUPI> {
       );
     else
       return Container(
-        width: 100,
         child: Align(
           alignment: Alignment.topCenter,
           child: SingleChildScrollView(
@@ -155,7 +154,9 @@ class _PaymentUPIState extends State<PaymentUPI> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('UPI'),
+        title: Text('Payment options'),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
       ),
       body: Column(
         children: <Widget>[

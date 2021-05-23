@@ -104,27 +104,28 @@ class _BottomMenuState extends State<BottomMenu> {
                         ),
                       ),
                       onPressed: () async {
-                        // for (var i = 0; i < HomeScreen.list.length; i++) {
-                        //   prefs.remove(HomeScreen.list[i]);
-                        //   prefs.remove(HomeScreen.list[i] + "1");
-                        //   prefs.remove(HomeScreen.list[i] + "2");
-                        // }
-                        // HomeScreen.list = [];
-                        // widget.prefs.setStringList("orderList", []);
-                        // CartButton.orderList = {};
-                        // widget.prefs.setInt("orderNo", 0);
-                        // await FirebaseFirestore.instance
-                        //     .collection('users')
-                        //     .doc(FirebaseAuth.instance.currentUser.uid)
-                        //     .update({
-                        //   'scanned': 1,
-                        // });
-                        // scanned = 1;
-                        // setState(() {
-                        //   widget.refresh();
-                        //   cameraScanResult = null;
-                        // });
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentUPI(amount: 1, upiId: "6363345756@paytm",)));
+                        for (var i = 0; i < HomeScreen.list.length; i++) {
+                          prefs.remove(HomeScreen.list[i]);
+                          prefs.remove(HomeScreen.list[i] + "1");
+                          prefs.remove(HomeScreen.list[i] + "2");
+                        }
+                        HomeScreen.list = [];
+                        widget.prefs.setStringList("orderList", []);
+                        CartButton.orderList = {};
+                        widget.prefs.setInt("orderNo", 0);
+                        await FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(FirebaseAuth.instance.currentUser.uid)
+                            .update({
+                          'scanned': 1,
+                        });
+                        scanned = 1;
+                        setState(() {
+                          widget.refresh();
+                          cameraScanResult = null;
+                        });
+                        // TODO: Storing order number in cloud, as it can be overwritten in some extreme cases
+                        // Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentUPI(amount: 1, upiId: "6363345756@paytm",)));
                       },
                       child: Text(
                         "Pay & Exit",
@@ -277,3 +278,5 @@ class _BottomMenuState extends State<BottomMenu> {
     );
   }
 }
+
+
