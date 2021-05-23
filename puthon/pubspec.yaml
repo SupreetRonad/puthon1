@@ -46,6 +46,7 @@ dependencies:
   flutter_advanced_switch: ^2.0.2+2
   shared_preferences: ^2.0.5
   sliding_up_panel: ^2.0.0+1
+  upi_india: ^3.0.1
 
 flutter_icons:
   android: true

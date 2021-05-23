@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:puthon/Screens/User/paymentUPI.dart';
 import 'package:puthon/Shared/orderCard.dart';
 import 'package:puthon/Shared/itemCard.dart';
 import 'package:puthon/Shared/loadingScreen.dart';
@@ -70,8 +71,8 @@ class _BottomMenuState extends State<BottomMenu> {
                           child: Text(
                             HomeScreen.resName ?? "RESTUARANT NAME",
                             style: TextStyle(
-                              color: Colors.white70,
-                              fontSize: 18,
+                              color: Colors.white,
+                              fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
                             overflow: TextOverflow.fade,
@@ -85,8 +86,8 @@ class _BottomMenuState extends State<BottomMenu> {
                         Text(
                           "Table. " + HomeScreen.table,
                           style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 22,
+                            color: Colors.black54,
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -103,28 +104,27 @@ class _BottomMenuState extends State<BottomMenu> {
                         ),
                       ),
                       onPressed: () async {
-                        for (var i = 0; i < HomeScreen.list.length; i++) {
-                          prefs.remove(HomeScreen.list[i]);
-                          prefs.remove(HomeScreen.list[i] + "1");
-                          prefs.remove(HomeScreen.list[i] + "2");
-                        }
-                        HomeScreen.list = [];
-                        widget.prefs.setStringList("orderList", []);
-                        CartButton.orderList = {};
-                        widget.prefs.setInt("orderNo", 0);
-                        await FirebaseFirestore.instance
-                            .collection('users')
-                            .doc(FirebaseAuth.instance.currentUser.uid)
-                            .update({
-                          'scanned': 1,
-                          'resId': null,
-                          'table': null,
-                        });
-                        scanned = 1;
-                        setState(() {
-                          widget.refresh();
-                          cameraScanResult = null;
-                        });
+                        // for (var i = 0; i < HomeScreen.list.length; i++) {
+                        //   prefs.remove(HomeScreen.list[i]);
+                        //   prefs.remove(HomeScreen.list[i] + "1");
+                        //   prefs.remove(HomeScreen.list[i] + "2");
+                        // }
+                        // HomeScreen.list = [];
+                        // widget.prefs.setStringList("orderList", []);
+                        // CartButton.orderList = {};
+                        // widget.prefs.setInt("orderNo", 0);
+                        // await FirebaseFirestore.instance
+                        //     .collection('users')
+                        //     .doc(FirebaseAuth.instance.currentUser.uid)
+                        //     .update({
+                        //   'scanned': 1,
+                        // });
+                        // scanned = 1;
+                        // setState(() {
+                        //   widget.refresh();
+                        //   cameraScanResult = null;
+                        // });
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentUPI(amount: 1, upiId: "6363345756@paytm",)));
                       },
                       child: Text(
                         "Pay & Exit",
@@ -177,7 +177,7 @@ class _BottomMenuState extends State<BottomMenu> {
                               var order = snapshot.data.docs[index];
                               return OrderCard(
                                 order: order,
-                                timeStamp: order["time"],
+                                timeStamp: order["timeStamp"],
                                 cookOrder: false,
                               );
                             }),

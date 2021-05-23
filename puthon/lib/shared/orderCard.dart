@@ -10,12 +10,13 @@ import 'package:puthon/Shared/durationConfirm.dart';
 class OrderCard extends StatefulWidget {
   final order, customerId, orderNo, timeStamp;
   final bool cookOrder;
-  OrderCard(
-      {this.order,
-      this.customerId,
-      this.orderNo,
-      this.timeStamp,
-      this.cookOrder});
+  OrderCard({
+    this.order,
+    this.customerId,
+    this.orderNo,
+    this.timeStamp,
+    this.cookOrder,
+  });
 
   @override
   _OrderCardState createState() => _OrderCardState();
@@ -65,7 +66,7 @@ class _OrderCardState extends State<OrderCard> {
                   ),
                 if (!widget.cookOrder)
                   OrderTimer(
-                    time: widget.order['time'],
+                    time: widget.order['acceptedTime'],
                     duration: int.parse(widget.order['duration']),
                   ),
                 Spacer(),

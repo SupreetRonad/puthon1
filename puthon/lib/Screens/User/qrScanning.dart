@@ -51,6 +51,8 @@ class _QrScanningState extends State<QrScanning> {
                       'resId': HomeScreen.resId,
                       'table': HomeScreen.table,
                       'resName': HomeScreen.resName,
+                      'ordered': false,
+                      'total': 0,
                     });
                     scanned = 2;
                   }

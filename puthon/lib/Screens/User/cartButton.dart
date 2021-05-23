@@ -6,7 +6,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lottie/lottie.dart';
 import 'package:puthon/Screens/User/homeScreen.dart';
 import 'package:puthon/Shared/confirmBox.dart';
-import 'package:puthon/Shared/loadingScreen.dart';
 import 'package:puthon/Shared/successBox.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -262,12 +261,31 @@ class _CartButtonState extends State<CartButton> {
                                           "orderList": CartButton.orderList,
                                           "time": "${hour1} : ${minute} ${hh}",
                                           "flag": 0,
-                                          "duration": "0"
+                                          "duration": "0",
+                                          "acceptedTime":  "${hour1} : ${minute} ${hh}",
+                                          "timeStamp": timeStamp,
+                                        });
+                                        var total;
+                                        await FirebaseFirestore.instance
+                                            .collection('orders')
+                                            .doc(FirebaseAuth
+                                                .instance.currentUser.uid).get().then((value) {
+                                                  if(value.exists) {
+                                                    total = value['total'];
+                                                  }
+                                                });
+                                        await FirebaseFirestore.instance
+                                            .collection('orders')
+                                            .doc(FirebaseAuth
+                                                .instance.currentUser.uid)
+                                            .update({
+                                          'ordered': true,
+                                          'total': sum + total
                                         });
                                         await FirebaseFirestore.instance
                                             .collection('orders')
                                             .doc(FirebaseAuth
-                                                .instance.currentUser.uid)                                            
+                                                .instance.currentUser.uid)
                                             .update({
                                           'ordered': true,
                                         });

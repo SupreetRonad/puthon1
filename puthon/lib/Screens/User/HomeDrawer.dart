@@ -55,12 +55,6 @@ class _HomeDrawerState extends State<HomeDrawer> {
                       child: Column(
                         children: [
                           Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage("assets/images/bg2.jpg"),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
                             height: 140,
                             child: Row(
                               children: [
@@ -88,7 +82,8 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                 SizedBox(width: 10),
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
                                   children: [
                                     Container(
                                       width: 130,

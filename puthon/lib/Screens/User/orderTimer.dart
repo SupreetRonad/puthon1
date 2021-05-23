@@ -3,29 +3,22 @@ import 'package:flutter/material.dart';
 
 class OrderTimer extends StatefulWidget {
   final time, duration;
-  final Function refresh;
-  OrderTimer({this.time, this.duration, this.refresh});
+  OrderTimer({
+    this.time,
+    this.duration,
+  });
   @override
   _OrderTimerState createState() => _OrderTimerState();
 }
 
 class _OrderTimerState extends State<OrderTimer> {
   var count = 0;
-  @override
-  void initState() {
-    super.initState();
-    
-  }
 
-  Widget _timer(){
+  Widget _timer() {
     Timer.periodic(Duration(seconds: 60), (timer) {
-      refresh();
+      setState(() {});
     });
     return SizedBox();
-  }
-  
-  void refresh() {
-    setState(() {});
   }
 
   @override

@@ -75,7 +75,6 @@ class _CookScreenState extends State<CookScreen> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return LoadingScreen();
               }
-              print("here 1");
               if (!snapshot.hasData || snapshot.hasError) {
                 return Center(
                   child: Text(
@@ -116,7 +115,6 @@ class _CookScreenState extends State<CookScreen> {
                             ),
                           );
                         }
-                        print("here 2");
                         if (!snapshot.hasData || snapshot.hasError) {
                           return Center(
                             child: Text(

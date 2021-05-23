@@ -137,6 +137,14 @@ class _DurationConfirmState extends State<DurationConfirm> {
                             ),
                             onPressed: () async {
                               Navigator.pop(context);
+                              var hour = DateTime.now().hour > 12
+                                  ? DateTime.now().hour - 12
+                                  : DateTime.now().hour;
+                              var hour1 = hour < 10 ? "0${hour}" : "${hour}";
+                              var minute = DateTime.now().minute < 10
+                                  ? "0${DateTime.now().minute}"
+                                  : "${DateTime.now().minute}";
+                              var hh = DateTime.now().hour > 12 ? "pm" : "am";
                               await FirebaseFirestore.instance
                                   .collection('admins')
                                   .doc(HomeScreen.resId)
@@ -152,7 +160,8 @@ class _DurationConfirmState extends State<DurationConfirm> {
                                   .doc(widget.orderNo)
                                   .update({
                                 "flag": 1,
-                                "duration": dur[duration - 1]
+                                "duration": dur[duration - 1],
+                                "acceptedTime": "${hour1} : ${minute} ${hh}",
                               });
                               await FirebaseFirestore.instance
                                   .collection('users')
@@ -161,7 +170,6 @@ class _DurationConfirmState extends State<DurationConfirm> {
                                 "cooking": true,
                                 "orderNo": widget.orderNo,
                               });
-                              
                             },
                             child: Text(
                               "Accept",

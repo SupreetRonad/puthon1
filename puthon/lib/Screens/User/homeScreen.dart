@@ -63,7 +63,6 @@ class _HomeScreenState extends State<HomeScreen> {
         });
       }
     });
-    // TODO: need to change here
   }
 
   @override
@@ -82,25 +81,27 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         child: Scaffold(
           backgroundColor: Colors.transparent,
-          floatingActionButton: scanned == 1 ? null : FloatingActionButton(
-            backgroundColor: Colors.red[300],
-            onPressed: () {
-              showModalBottomSheet(
-                context: context,
-                backgroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
+          floatingActionButton: scanned == 1
+              ? null
+              : FloatingActionButton(
+                  backgroundColor: Colors.deepOrange[300].withOpacity(.9),
+                  onPressed: () {
+                    showModalBottomSheet(
+                      context: context,
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      builder: (BuildContext context) {
+                        return CartButton(refresh: refresh);
+                      },
+                    );
+                  },
+                  child: Icon(
+                    Icons.shopping_cart,
+                    size: 20,
+                  ),
                 ),
-                builder: (BuildContext context) {
-                  return CartButton(refresh: refresh);
-                },
-              );
-            },
-            child: Icon(
-              Icons.shopping_cart,
-              size: 20,
-            ),
-          ),
           endDrawer: HomeDrawer(),
           appBar: AppBar(
             elevation: 0,

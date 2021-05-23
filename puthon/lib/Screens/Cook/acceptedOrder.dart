@@ -90,10 +90,22 @@ class _AcceptedOrderState extends State<AcceptedOrder> {
                       setState(() {
                         botNo = cameraScanResult.split("/*/")[0];
                       });
-                      
-                      databaseRef.child(snapshot.data['resId']).child(botNo.toString()).set({
+
+                      databaseRef
+                          .child(snapshot.data['resId'])
+                          .child(botNo.toString())
+                          .set({
                         'tableNo': snapshot.data['table'],
                         'delivered': false,
+                      });
+
+                      await FirebaseFirestore.instance
+                          .collection("orders")
+                          .doc(widget.orderNo.substring(0, 28))
+                          .collection(widget.orderNo.substring(0, 28))
+                          .doc(widget.orderNo)
+                          .update({
+                        'flag': 2,
                       });
                     },
                   );
