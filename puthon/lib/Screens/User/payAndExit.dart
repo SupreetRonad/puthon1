@@ -33,7 +33,6 @@ Future<void> PayAndExit(var prefs, Function refresh) async {
       .doc(FirebaseAuth.instance.currentUser.uid)
       .collection(FirebaseAuth.instance.currentUser.uid)
       .snapshots();
-  
 
   data.forEach((element) {
     var len = element.docs.length;
@@ -63,19 +62,16 @@ Future<void> PayAndExit(var prefs, Function refresh) async {
     }
   });
 
-  
-
   await FirebaseFirestore.instance
       .collection('history')
       .doc(FirebaseAuth.instance.currentUser.uid)
       .collection(timeStamp)
       .doc(timeStamp)
       .set({
-        'orderList': orderList,
-        'total': total,
-        'table': table,
-        'resName': resName,
-        'timeEntered': time
-      });
-  ;
+    'orderList': orderList,
+    'total': total,
+    'table': table,
+    'resName': resName,
+    'timeEntered': time
+  });
 }

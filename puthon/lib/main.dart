@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'Screens/Admin/adminScreen.dart';
 import 'Screens/User/businessRegisterScreen.dart';
+import 'Screens/User/ordersHistory.dart';
 import 'Screens/authScreen.dart';
 import 'Screens/Cook/cookScreen.dart';
 import 'Screens/User/detailScreen.dart';
@@ -46,6 +47,7 @@ class _MyAppState extends State<MyApp> {
             '/businessRegisterScreen': (context) => RegisterBusiness(),
             '/adminScreen': (context) => AdminScreen(),
             '/cookScreen': (context) => CookScreen(),
+            '/ordersHistory': (context) => OrdersHistory(),
           },
           home: snapshot.connectionState != ConnectionState.done
               ? LoadingScreen()

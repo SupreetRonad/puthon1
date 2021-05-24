@@ -9,6 +9,7 @@ import 'package:puthon/Shared/loadingScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'homeScreen.dart';
+import 'payAndExit.dart';
 import 'paymentUPI.dart';
 
 class BottomMenu extends StatefulWidget {
@@ -106,8 +107,7 @@ class _BottomMenuState extends State<BottomMenu> {
                         ),
                       ),
                       onPressed: () async {
-                        //PayAndExit(widget.prefs, widget.refresh);
-
+                        PayAndExit(widget.prefs, widget.refresh);
                         // TODO: Storing order number in cloud, as it can be overwritten in some extreme cases
                         Navigator.push(
                           context,

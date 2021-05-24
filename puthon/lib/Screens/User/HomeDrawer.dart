@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:puthon/Shared/confirmBox.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../shared/loadingScreen.dart';
+import '/shared/loadingScreen.dart';
 import 'cartButton.dart';
 import 'homeScreen.dart';
 
@@ -82,8 +82,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                 SizedBox(width: 10),
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
                                       width: 130,
@@ -173,7 +172,10 @@ class _HomeDrawerState extends State<HomeDrawer> {
                             child: Column(
                               children: [
                                 TextButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                        context, '/ordersHistory');
+                                  },
                                   child: Row(
                                     children: [
                                       SizedBox(
