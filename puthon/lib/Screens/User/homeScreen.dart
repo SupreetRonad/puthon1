@@ -18,7 +18,7 @@ var name = "Name",
 
 class HomeScreen extends StatefulWidget {
   static List<String> list = [];
-  static var resId, table, resName;
+  static var resId, table, resName, total;
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
