@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:puthon/Screens/User/payAndExit.dart';
 import 'package:puthon/Screens/User/paymentUPI.dart';
 import 'package:puthon/Shared/orderCard.dart';
@@ -35,6 +36,7 @@ class _BottomMenuState extends State<BottomMenu> {
           HomeScreen.resId = value['resId'];
           HomeScreen.table = value['table'];
           HomeScreen.resName = value['resName'];
+          HomeScreen.total = value['total'];
           loading = false;
         });
       }
@@ -97,23 +99,39 @@ class _BottomMenuState extends State<BottomMenu> {
                     Spacer(),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        shadowColor: Colors.orange[600],
-                        elevation: 20,
+                        shadowColor: Colors.white54,
+                        elevation: 10,
                         primary: Colors.white.withOpacity(.7),
                         shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                            color: Colors.green
+                          ),
                           borderRadius: BorderRadius.circular(20),
                         ),
                       ),
                       onPressed: () async {
-                        PayAndExit(widget.prefs, widget.refresh); 
+                        //PayAndExit(widget.prefs, widget.refresh);
 
-                        
                         // TODO: Storing order number in cloud, as it can be overwritten in some extreme cases
-                        // Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentUPI(amount: 1, upiId: "6363345756@paytm",)));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentUPI(amount: 1, upiId: "6363345756@paytm",)));
                       },
-                      child: Text(
-                        "Pay & Exit",
-                        style: TextStyle(color: Colors.green[400]),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.credit_card,
+                            color: Colors.green,
+                            size: 19,
+                          ),
+                          SizedBox(width: 10,),
+                          Text(
+                            "Pay",
+                            style: GoogleFonts.righteous(
+                              color: Colors.green,
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     SizedBox(
@@ -160,8 +178,9 @@ class _BottomMenuState extends State<BottomMenu> {
                             ),
                             itemCount: snapshot.data.docs.length,
                             itemBuilder: (context, index) {
-                              var order = snapshot.data.docs[snapshot.data.docs.length - index - 1];
-                              
+                              var order = snapshot.data
+                                  .docs[snapshot.data.docs.length - index - 1];
+
                               return OrderCard(
                                 order: order,
                                 timeStamp: order["timeStamp"],
