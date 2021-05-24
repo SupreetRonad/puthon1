@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:puthon/Shared/orderCard.dart';
 import 'package:puthon/Shared/itemCard.dart';
@@ -95,50 +96,99 @@ class _BottomMenuState extends State<BottomMenu> {
                       ],
                     ),
                     Spacer(),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        shadowColor: Colors.white54,
-                        elevation: 10,
-                        primary: Colors.white.withOpacity(.7),
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(color: Colors.green),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                      onPressed: () async {
-                        PayAndExit(widget.prefs, widget.refresh);
-                        // TODO: Storing order number in cloud, as it can be overwritten in some extreme cases
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PaymentUPI(
-                              amount: 1,
-                              upiId: "6363345756@paytm",
+                    StreamBuilder(
+                        stream: FirebaseFirestore.instance
+                            .collection('orders')
+                            .doc(FirebaseAuth.instance.currentUser.uid)
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Text(
+                              "Loading",
+                              style: TextStyle(
+                                color: Colors.black54,
+                                fontSize: 13,
+                              ),
+                            );
+                          }
+                          if (!snapshot.hasData || snapshot.hasError) {
+                            return Center(
+                              child: Text(
+                                "Loading",
+                                style: TextStyle(
+                                  fontSize: 13,
+                                ),
+                              ),
+                            );
+                          }
+                          return ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shadowColor: Colors.white54,
+                              elevation: 10,
+                              primary: Colors.white.withOpacity(.7),
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(color: Colors.green),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.credit_card,
-                            color: Colors.green,
-                            size: 19,
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            "Pay",
-                            style: GoogleFonts.righteous(
-                              color: Colors.green,
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold,
+                            onPressed: snapshot.data['total'] == 0
+                                ? () async {
+                                    await FirebaseFirestore.instance
+                                        .collection('users')
+                                        .doc(FirebaseAuth
+                                            .instance.currentUser.uid)
+                                        .update({'scanned': 1});
+                                  }
+                                : () {
+                                    if (!snapshot.data['ordered']) {
+                                      PayAndExit(widget.prefs, widget.refresh);
+                                      // TODO: Storing order number in cloud, as it can be overwritten in some extreme cases
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => PaymentUPI(
+                                            amount: 
+                                                snapshot.data['total'],
+                                            upiId: "6363345756@paytm",
+                                          ),
+                                        ),
+                                      );
+                                    } else {
+                                      Fluttertoast.showToast(
+                                        msg:
+                                            "Please wait until your order gets delivered",
+                                        gravity: ToastGravity.SNACKBAR,
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        backgroundColor: Colors.black54,
+                                        textColor: Colors.white,
+                                      );
+                                    }
+                                  },
+                            child: Row(
+                              children: [
+                                Icon(
+                                  snapshot.data['total'] == 0
+                                      ? Icons.exit_to_app
+                                      : Icons.credit_card,
+                                  color: Colors.green,
+                                  size: 19,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  snapshot.data['total'] == 0 ? "Exit" : "Pay",
+                                  style: GoogleFonts.righteous(
+                                    color: Colors.green,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
+                          );
+                        }),
                     SizedBox(
                       width: 15,
                     ),

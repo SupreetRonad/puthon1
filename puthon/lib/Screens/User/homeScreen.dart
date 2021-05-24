@@ -7,6 +7,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puthon/Screens/User/bottomMenu.dart';
 import 'package:puthon/Screens/User/homeDrawer.dart';
 import 'package:puthon/Screens/User/qrScanning.dart';
+import 'package:puthon/Shared/loadingScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'cartButton.dart';
 
@@ -55,14 +56,6 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     init();
-
-    FirebaseFirestore.instance.collection('users').doc(uid).get().then((value) {
-      if (value.exists) {
-        setState(() {
-          scanned = value['scanned'];
-        });
-      }
-    });
   }
 
   @override
@@ -79,46 +72,67 @@ class _HomeScreenState extends State<HomeScreen> {
           sigmaX: 5,
           sigmaY: 5,
         ),
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          floatingActionButton: scanned == 1
-              ? null
-              : FloatingActionButton(
-                  backgroundColor: Colors.deepOrange[300].withOpacity(.9),
-                  onPressed: () {
-                    showModalBottomSheet(
-                      context: context,
-                      backgroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(20),
-                          topLeft: Radius.circular(20),
-                        ),
-                      ),
-                      builder: (BuildContext context) {
-                        return CartButton(refresh: refresh);
-                      },
-                    );
-                  },
-                  child: Icon(
-                    Icons.shopping_cart,
-                    size: 20,
+        child: StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection('users')
+              .doc(uid)
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return LoadingScreen();
+            }
+            if (!snapshot.hasData || snapshot.hasError) {
+              return Center(
+                child: Text(
+                  "Loading...",
+                  style: TextStyle(
+                    fontSize: 20,
                   ),
                 ),
-          endDrawer: HomeDrawer(),
-          appBar: AppBar(
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            title: const Text("PUTHON"),
-          ),
-          body: scanned == 0
-              ? SpinKitWave(color: Colors.black, size: 20)
-              : scanned == 1
-                  ? QrScanning()
-                  : BottomMenu(
-                      prefs: prefs,
-                      refresh: refresh,
+              );
+            }
+            return Scaffold(
+              backgroundColor: Colors.transparent,
+              floatingActionButton: snapshot.data['scanned'] == 1
+                  ? null
+                  : FloatingActionButton(
+                      backgroundColor: Colors.deepOrange[300].withOpacity(.9),
+                      onPressed: () {
+                        showModalBottomSheet(
+                          context: context,
+                          backgroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(20),
+                              topLeft: Radius.circular(20),
+                            ),
+                          ),
+                          builder: (BuildContext context) {
+                            return CartButton(refresh: refresh);
+                          },
+                        );
+                      },
+                      child: Icon(
+                        Icons.shopping_cart,
+                        size: 20,
+                      ),
                     ),
+              endDrawer: HomeDrawer(),
+              appBar: AppBar(
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+                title: const Text("PUTHON"),
+              ),
+              body: snapshot.data['scanned'] == 0
+                  ? SpinKitWave(color: Colors.black, size: 20)
+                  : snapshot.data['scanned'] == 1
+                      ? QrScanning()
+                      : BottomMenu(
+                          prefs: prefs,
+                          refresh: refresh,
+                        ),
+            );
+          },
         ),
       ),
     );

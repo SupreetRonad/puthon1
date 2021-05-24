@@ -53,7 +53,6 @@ class _HomeDrawerState extends State<HomeDrawer> {
                     child: Drawer(
                       elevation: 10,
                       child: Container(
-                        // TODO: bg for drawer goes here
                         color: Color.fromRGBO(247, 197, 126, 0.4),
                         child: Column(
                           children: [

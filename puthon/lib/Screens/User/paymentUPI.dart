@@ -22,16 +22,6 @@ class _PaymentUPIState extends State<PaymentUPI> {
   UpiIndia _upiIndia = UpiIndia();
   List<UpiApp> apps;
 
-  TextStyle header = TextStyle(
-    fontSize: 18,
-    fontWeight: FontWeight.bold,
-  );
-
-  TextStyle value = TextStyle(
-    fontWeight: FontWeight.w400,
-    fontSize: 14,
-  );
-
   @override
   void initState() {
     _upiIndia.getAllUpiApps(allowNonVerifiedApps: true).then((value) {
@@ -51,11 +41,11 @@ class _PaymentUPIState extends State<PaymentUPI> {
   Future<UpiResponse> initiateTransaction(UpiApp app) async {
     return _upiIndia.startTransaction(
       app: app,
-      receiverUpiId: "BHARATPE09893654294@yesbankltd",
+      receiverUpiId: widget.upiId, //"BHARATPE09893654294@yesbankltd",
       receiverName: HomeScreen.resName,
       transactionRefId: 'Payment For Test',
       transactionNote: 'Not actual. Just an example.',
-      amount: widget.amount,
+      amount: 1.00,
     );
   }
 
@@ -152,10 +142,14 @@ class _PaymentUPIState extends State<PaymentUPI> {
         children: [
           Text("$title: ", style: TextStyle(fontWeight: FontWeight.bold)),
           Flexible(
-              child: Text(
-            body,
-            style: value,
-          )),
+            child: Text(
+              body,
+              style: TextStyle(
+                fontWeight: FontWeight.w400,
+                fontSize: 14,
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -165,9 +159,9 @@ class _PaymentUPIState extends State<PaymentUPI> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        image: DecorationImage(
-            image: AssetImage("assets/images/leaves5.jpg"), fit: BoxFit.cover),
-      ),
+          image: DecorationImage(
+              image: AssetImage("assets/images/leaves5.jpg"),
+              fit: BoxFit.cover)),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
@@ -187,7 +181,7 @@ class _PaymentUPIState extends State<PaymentUPI> {
                 child: Container(
                   padding: const EdgeInsets.all(15.0),
                   decoration: BoxDecoration(
-                      color: Colors.black45.withOpacity(.2),
+                      color: Colors.black45.withOpacity(.1),
                       borderRadius: BorderRadius.circular(20)),
                   height: MediaQuery.of(context).size.width * .6 - 30,
                   width: MediaQuery.of(context).size.width - 30,
@@ -232,16 +226,11 @@ class _PaymentUPIState extends State<PaymentUPI> {
                                   style: TextStyle(
                                       color: Colors.white70, fontSize: 30),
                                 ),
-                                // Container(
-                                //   height: 30,
-                                //   width: 30,
-                                //   child: Image.asset("assets/images/rupee.png"),
-                                // ),
                                 SizedBox(
                                   width: 10,
                                 ),
                                 Text(
-                                  HomeScreen.total.toString(),
+                                  widget.amount.toString(),
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 45,
