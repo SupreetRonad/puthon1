@@ -10,14 +10,13 @@ import 'package:puthon/Shared/durationConfirm.dart';
 class OrderCard extends StatefulWidget {
   final order, customerId, orderNo, timeStamp;
   final bool cookOrder, acceptedOrder;
-  OrderCard({
-    this.order,
-    this.customerId,
-    this.orderNo,
-    this.timeStamp,
-    this.cookOrder,
-    this.acceptedOrder
-  });
+  OrderCard(
+      {this.order,
+      this.customerId,
+      this.orderNo,
+      this.timeStamp,
+      this.cookOrder,
+      this.acceptedOrder});
 
   @override
   _OrderCardState createState() => _OrderCardState();
@@ -138,65 +137,66 @@ class _OrderCardState extends State<OrderCard> {
               ),
             if (widget.cookOrder)
               Padding(
-                padding: const EdgeInsets.all(2.0),
+                padding: const EdgeInsets.all(4.0),
                 child: Row(
                   children: [
                     Spacer(),
+                    // Container(
+                    //   height: 40,
+                    //   width: 40,
+                    //   decoration: BoxDecoration(
+                    //       color: Colors.black12,
+                    //       borderRadius: BorderRadius.circular(100)),
+                    //   child: IconButton(
+                    //     splashColor: Colors.red,
+                    //     onPressed: () {
+                    //       showDialog(
+                    //         context: context,
+                    //         builder: (BuildContext context) {
+                    //           return ConfirmBox(
+                    //             b1: "Go Back",
+                    //             b2: "Decline",
+                    //             height: 150,
+                    //             color: Colors.red[300],
+                    //             message:
+                    //                 Text("Do you want to cancel the order ?"),
+                    //             function: () async {
+                    //               Navigator.pop(context);
+                    //               await FirebaseFirestore.instance
+                    //                   .collection('admins')
+                    //                   .doc(HomeScreen.resId)
+                    //                   .collection('activeOrders')
+                    //                   .doc(widget.timeStamp)
+                    //                   .delete();
+                    //               await FirebaseFirestore.instance
+                    //                   .collection('orders')
+                    //                   .doc(widget.customerId)
+                    //                   .collection(widget.customerId)
+                    //                   .doc(widget.orderNo)
+                    //                   .update({
+                    //                 "flag": 1,
+                    //               });
+                    //             },
+                    //           );
+                    //         },
+                    //       );
+                    //     },
+                    //     icon: Icon(
+                    //       Icons.close,
+                    //       color: Colors.red,
+                    //     ),
+                    //   ),
+                    // ),
+                    // SizedBox(
+                    //   width: 10,
+                    // ),
                     Container(
-                      height: 40,
-                      width: 40,
+                      height: 45,
+                      width: 100,
                       decoration: BoxDecoration(
-                          color: Colors.black12,
-                          borderRadius: BorderRadius.circular(100)),
-                      child: IconButton(
-                        splashColor: Colors.red,
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return ConfirmBox(
-                                b1: "Go Back",
-                                b2: "Decline",
-                                height: 150,
-                                color: Colors.red[300],
-                                message:
-                                    Text("Do you want to cancel the order ?"),
-                                function: () async {
-                                  Navigator.pop(context);
-                                  await FirebaseFirestore.instance
-                                      .collection('admins')
-                                      .doc(HomeScreen.resId)
-                                      .collection('activeOrders')
-                                      .doc(widget.timeStamp)
-                                      .delete();
-                                  await FirebaseFirestore.instance
-                                      .collection('orders')
-                                      .doc(widget.customerId)
-                                      .collection(widget.customerId)
-                                      .doc(widget.orderNo)
-                                      .update({
-                                    "flag": 1,
-                                  });
-                                },
-                              );
-                            },
-                          );
-                        },
-                        icon: Icon(
-                          Icons.close,
-                          color: Colors.red,
-                        ),
+                        color: Colors.green[100],
+                        borderRadius: BorderRadius.circular(100),
                       ),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Container(
-                      height: 50,
-                      width: 50,
-                      decoration: BoxDecoration(
-                          color: Colors.black12,
-                          borderRadius: BorderRadius.circular(100)),
                       child: IconButton(
                         splashColor: Colors.green,
                         onPressed: () {
@@ -218,9 +218,10 @@ class _OrderCardState extends State<OrderCard> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      width: 10,
-                    ),
+                    // SizedBox(
+                    //   width: 10,
+                    // ),
+                    Spacer()
                   ],
                 ),
               ),

@@ -44,6 +44,16 @@ class _QrScanningState extends State<QrScanning> {
                         .update({
                       'scanned': 2,
                     });
+
+                    // var hour = DateTime.now().hour > 12
+                    //     ? DateTime.now().hour - 12
+                    //     : DateTime.now().hour;
+                    // var hour1 = hour < 10 ? "0${hour}" : "${hour}";
+                    // var minute = DateTime.now().minute < 10
+                    //     ? "0${DateTime.now().minute}"
+                    //     : "${DateTime.now().minute}";
+                    // var hh = DateTime.now().hour > 12 ? "pm" : "am";
+
                     FirebaseFirestore.instance
                         .collection('orders')
                         .doc(FirebaseAuth.instance.currentUser.uid)
@@ -53,6 +63,7 @@ class _QrScanningState extends State<QrScanning> {
                       'resName': HomeScreen.resName,
                       'ordered': false,
                       'total': 0,
+                      'timeEntered': DateTime.now(),
                     });
                     scanned = 2;
                   }
@@ -73,24 +84,6 @@ class _QrScanningState extends State<QrScanning> {
           SizedBox(
             height: 10,
           ),
-          // QrImage(
-          //   data: 'Hello1234 asdhbf asdbf asdfj asdkjfh asdjf',
-          //   version: QrVersions.auto,
-          //   size: 320,
-          //   gapless: false,
-          //   eyeStyle: const QrEyeStyle(
-          //     eyeShape: QrEyeShape.circle,
-          //     color: Color(0xff128760),
-          //   ),
-          //   dataModuleStyle: const QrDataModuleStyle(
-          //     dataModuleShape: QrDataModuleShape.circle,
-          //     color: Color(0xff1a5441),
-          //   ),
-          //   embeddedImage: AssetImage('assets/images/cardbg2.jpg'),
-          //   embeddedImageStyle: QrEmbeddedImageStyle(
-          //     size: Size(80, 80),
-          //   ),
-          // ),
         ],
       ),
     );

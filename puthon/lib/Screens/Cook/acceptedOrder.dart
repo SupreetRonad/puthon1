@@ -96,7 +96,9 @@ class _AcceptedOrderState extends State<AcceptedOrder> {
                         height: 35,
                         child: Image.asset("assets/images/cooking.png"),
                       ),
-                      SizedBox(width: 10,),
+                      SizedBox(
+                        width: 10,
+                      ),
                       Text(
                         "Cooking...",
                         style: GoogleFonts.righteous(
@@ -110,7 +112,7 @@ class _AcceptedOrderState extends State<AcceptedOrder> {
                   Column(
                     children: [
                       Text(
-                        "Table. " + order['tableNo'],
+                        "Table " + order['tableNo'],
                         style: GoogleFonts.roboto(
                           color: Colors.black,
                           fontSize: 20,
@@ -132,52 +134,57 @@ class _AcceptedOrderState extends State<AcceptedOrder> {
                     duration: int.parse(order['duration']),
                   ),
                   Container(
-                    height: MediaQuery.of(context).size.height * .5,
-                    child: SingleChildScrollView(
-                      child: Column(children: [
-                        for (var item in order['orderList'].keys)
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                  width: 15,
-                                ),
-                                Icon(
-                                  Icons.radio_button_checked,
-                                  color: order['orderList'][item][1]
-                                      ? Colors.green[300]
-                                      : Colors.red[300],
-                                  size: 20,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.6,
-                                  child: Text(
-                                    item,
-                                    softWrap: false,
-                                    overflow: TextOverflow.fade,
-                                    maxLines: 1,
-                                    style: TextStyle(fontSize: 16),
+                    height: MediaQuery.of(context).size.height * .4,
+                    child: Scrollbar(
+                      child: SingleChildScrollView(
+                        //reverse: true,
+                        physics: BouncingScrollPhysics(),
+                        child: Column(children: [
+                          for (var item in order['orderList'].keys)
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: 15,
                                   ),
-                                ),
-                                Spacer(),
-                                Text(
-                                  "x " + order['orderList'][item][0].toString(),
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                              ],
+                                  Icon(
+                                    Icons.radio_button_checked,
+                                    color: order['orderList'][item][1]
+                                        ? Colors.green[300]
+                                        : Colors.red[300],
+                                    size: 20,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Container(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.6,
+                                    child: Text(
+                                      item,
+                                      softWrap: false,
+                                      overflow: TextOverflow.fade,
+                                      maxLines: 1,
+                                      style: TextStyle(fontSize: 16),
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  Text(
+                                    "x " +
+                                        order['orderList'][item][0].toString(),
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                      ]),
+                        ]),
+                      ),
                     ),
                   ),
                   Padding(
@@ -254,6 +261,14 @@ class _AcceptedOrderState extends State<AcceptedOrder> {
                                   'flag': 2,
                                   'bot': botNo,
                                 });
+
+                                await FirebaseFirestore.instance
+                                    .collection("orders")
+                                    .doc(widget.orderNo.substring(0, 28))
+                                    .update({
+                                  'ordered': false,
+                                });
+
                                 await FirebaseFirestore.instance
                                     .collection("users")
                                     .doc(FirebaseAuth.instance.currentUser.uid)

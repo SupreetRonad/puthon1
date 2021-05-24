@@ -36,7 +36,7 @@ class _OrderTimerState extends State<OrderTimer> {
         elapsed = (now_hour - initial_hour) * 60 + 60 - initial_minute;
       }
 
-      return (widget.duration - elapsed) <= 1
+      return (widget.duration - elapsed) <= 2
           ? Row(
               children: [
                 Icon(
