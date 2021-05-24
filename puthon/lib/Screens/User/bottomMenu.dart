@@ -48,7 +48,6 @@ class _BottomMenuState extends State<BottomMenu> {
     return SlidingUpPanel(
       backdropEnabled: true,
       backdropOpacity: 0,
-      //backdropEnabled: true,
       borderRadius: BorderRadius.only(
         topLeft: Radius.circular(20),
         topRight: Radius.circular(20),
@@ -256,9 +255,7 @@ class _BottomMenuState extends State<BottomMenu> {
                               ),
                             ),
                           ),
-                          Container(
-                            height:
-                                MediaQuery.of(context).size.height * .8 - 54,
+                          Expanded(
                             child: ListView.builder(
                               physics: BouncingScrollPhysics(),
                               padding: const EdgeInsets.only(

@@ -10,7 +10,7 @@ Future<void> PayAndExit(var prefs, Function refresh) async {
   var total, resName, table, time;
 
   // for (var i = 0; i < HomeScreen.list.length; i++) {
-  //   prefs.remove(HomeScreen.list[i]);
+  //   prefs.remove(HomeScreen.list[i]);fas
   //   prefs.remove(HomeScreen.list[i] + "1");
   //   prefs.remove(HomeScreen.list[i] + "2");
   // }
@@ -55,7 +55,7 @@ Future<void> PayAndExit(var prefs, Function refresh) async {
       .get()
       .then((value) {
     if (value.exists) {
-      total = value.data()['total'] + value.data()['total'] * 0.18;
+      total = value.data()['total'];
       resName = value.data()['resName'];
       table = value.data()['table'];
       time = value.data()['timeEntered'];
@@ -65,7 +65,7 @@ Future<void> PayAndExit(var prefs, Function refresh) async {
   await FirebaseFirestore.instance
       .collection('history')
       .doc(FirebaseAuth.instance.currentUser.uid)
-      .collection(timeStamp)
+      .collection(FirebaseAuth.instance.currentUser.uid)
       .doc(timeStamp)
       .set({
     'orderList': orderList,

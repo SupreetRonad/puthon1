@@ -52,221 +52,227 @@ class _HomeDrawerState extends State<HomeDrawer> {
                     borderRadius: BorderRadius.circular(30),
                     child: Drawer(
                       elevation: 10,
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 140,
-                            child: Row(
-                              children: [
-                                SizedBox(width: 15),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(100),
-                                    color: Colors.red.withOpacity(.6),
-                                  ),
-                                  width: 90,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(100),
-                                    child: BackdropFilter(
-                                      filter: ImageFilter.blur(
-                                          sigmaX: 5.0, sigmaY: 5.0),
-                                      child: Image.asset(
-                                        info['gender'] == 1
-                                            ? "assets/images/female2.png"
-                                            : "assets/images/male2.png",
-                                        fit: BoxFit.cover,
-                                      ),
+                      child: Container(
+                        // TODO: bg for drawer goes here
+                        color: Color.fromRGBO(247, 197, 126, 0.4),
+                        child: Column(
+                          children: [
+                            Container(
+                              color: Color.fromRGBO(241, 117, 60, 1),
+                              height: 140,
+                              child: Row(
+                                children: [
+                                  SizedBox(width: 15),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(100),
+                                      color: Colors.red.withOpacity(.6),
                                     ),
-                                  ),
-                                ),
-                                SizedBox(width: 10),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      width: 130,
-                                      child: Text(
-                                        info['name'] ?? 'Name',
-                                        overflow: TextOverflow.fade,
-                                        softWrap: false,
-                                        maxLines: 1,
-                                        style: TextStyle(
-                                          fontSize: 18,
+                                    width: 90,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(100),
+                                      child: BackdropFilter(
+                                        filter: ImageFilter.blur(
+                                            sigmaX: 5.0, sigmaY: 5.0),
+                                        child: Image.asset(
+                                          info['gender'] == 1
+                                              ? "assets/images/female2.png"
+                                              : "assets/images/male2.png",
+                                          fit: BoxFit.cover,
                                         ),
                                       ),
                                     ),
-                                    SizedBox(
-                                      height: 3,
-                                    ),
-                                    Container(
-                                      width: 130,
-                                      child: Text(
-                                        info['email'] ?? 'name@email.com',
-                                        overflow: TextOverflow.fade,
-                                        softWrap: false,
-                                        maxLines: 1,
-                                        style: TextStyle(
-                                            fontSize: 13,
-                                            color: Colors.black45),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    if (info["admin"])
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.pushNamed(
-                                              context, '/adminScreen');
-                                        },
+                                  ),
+                                  SizedBox(width: 10),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        width: 130,
                                         child: Text(
-                                          "Admin Mode",
+                                          info['name'] ?? 'Name',
+                                          overflow: TextOverflow.fade,
+                                          softWrap: false,
+                                          maxLines: 1,
                                           style: TextStyle(
-                                            decoration:
-                                                TextDecoration.underline,
-                                            color: Colors.red[400],
-                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18,
                                           ),
                                         ),
                                       ),
-                                    if (info["cook"])
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.pushNamed(
-                                              context, '/cookScreen');
-                                        },
+                                      SizedBox(
+                                        height: 3,
+                                      ),
+                                      Container(
+                                        width: 130,
                                         child: Text(
-                                          "Cook Mode",
+                                          info['email'] ?? 'name@email.com',
+                                          overflow: TextOverflow.fade,
+                                          softWrap: false,
+                                          maxLines: 1,
                                           style: TextStyle(
-                                            decoration:
-                                                TextDecoration.underline,
-                                            color: Colors.red[400],
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                              fontSize: 13,
+                                              color: Colors.black45),
                                         ),
                                       ),
-                                  ],
-                                ),
-                                Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(60),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      if (info["admin"])
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.pushNamed(
+                                                context, '/adminScreen');
+                                          },
+                                          child: Text(
+                                            "Admin Mode",
+                                            style: TextStyle(
+                                              decoration:
+                                                  TextDecoration.underline,
+                                              color: Colors.red[400],
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      if (info["cook"])
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.pushNamed(
+                                                context, '/cookScreen');
+                                          },
+                                          child: Text(
+                                            "Cook Mode",
+                                            style: TextStyle(
+                                              decoration:
+                                                  TextDecoration.underline,
+                                              color: Colors.red[400],
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                    ],
                                   ),
-                                  child: IconButton(
+                                  Card(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(60),
+                                    ),
+                                    child: IconButton(
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                            context, '/detailScreen');
+                                      },
+                                      icon: Icon(
+                                        Icons.edit,
+                                        color: Colors.black54,
+                                        size: 20,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                              child: Column(
+                                children: [
+                                  TextButton(
                                     onPressed: () {
                                       Navigator.pushNamed(
-                                          context, '/detailScreen');
+                                          context, '/ordersHistory');
                                     },
-                                    icon: Icon(
-                                      Icons.edit,
-                                      color: Colors.black54,
-                                      size: 20,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                            child: Column(
-                              children: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pushNamed(
-                                        context, '/ordersHistory');
-                                  },
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Icon(
-                                        Icons.list_alt,
-                                        color: Colors.black,
-                                      ),
-                                      Text(
-                                        "  My Orders",
-                                        style: TextStyle(
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Icon(
+                                          Icons.list_alt,
                                           color: Colors.black,
                                         ),
-                                      ),
-                                    ],
+                                        Text(
+                                          "  My Orders",
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                info['admin']
-                                    ? SizedBox()
-                                    : TextButton(
-                                        onPressed: () {
-                                          Navigator.pushNamed(context,
-                                              '/businessRegisterScreen');
-                                        },
-                                        child: Row(
-                                          children: [
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            Icon(
-                                              Icons.list_alt,
-                                              color: Colors.black,
-                                            ),
-                                            Text(
-                                              "  Register my business",
-                                              style: TextStyle(
+                                  info['admin']
+                                      ? SizedBox()
+                                      : TextButton(
+                                          onPressed: () {
+                                            Navigator.pushNamed(context,
+                                                '/businessRegisterScreen');
+                                          },
+                                          child: Row(
+                                            children: [
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                              Icon(
+                                                Icons.list_alt,
                                                 color: Colors.black,
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                if (prefs.getInt('orderNo') == 0)
-                                  Row(
-                                    children: [
-                                      Spacer(),
-                                      Container(
-                                        width: 110,
-                                        decoration: BoxDecoration(
-                                            color: Colors.red.withOpacity(.7),
-                                            borderRadius:
-                                                BorderRadius.circular(20)),
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                          child: TextButton(
-                                            onPressed: () {
-                                              _confirm(context);
-                                            },
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Icon(
-                                                  Icons.exit_to_app_rounded,
-                                                  color: Colors.white,
+                                              Text(
+                                                "  Register my business",
+                                                style: TextStyle(
+                                                  color: Colors.black,
                                                 ),
-                                                Text(
-                                                  "  Log out",
-                                                  style: TextStyle(
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  if (prefs.getInt('orderNo') == 0)
+                                    Row(
+                                      children: [
+                                        Spacer(),
+                                        Container(
+                                          width: 110,
+                                          decoration: BoxDecoration(
+                                              color: Colors.red.withOpacity(.7),
+                                              borderRadius:
+                                                  BorderRadius.circular(20)),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            child: TextButton(
+                                              onPressed: () {
+                                                _confirm(context);
+                                              },
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Icon(
+                                                    Icons.exit_to_app_rounded,
                                                     color: Colors.white,
                                                   ),
-                                                ),
-                                              ],
+                                                  Text(
+                                                    "  Log out",
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(width: 10),
-                                    ],
-                                  ),
-                              ],
-                            ),
-                          )
-                        ],
+                                        SizedBox(width: 10),
+                                      ],
+                                    ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),

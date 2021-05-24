@@ -52,6 +52,7 @@ class _CartButtonState extends State<CartButton> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      
       child: Column(
         children: [
           Padding(
@@ -104,19 +105,18 @@ class _CartButtonState extends State<CartButton> {
                           ),
                         ],
                       )
-                    : Container(
-                        height: MediaQuery.of(context).size.height * 0.4,
+                    : Expanded(
                         child: ListView.builder(
                           physics: BouncingScrollPhysics(),
                           itemExtent: 90.0,
                           itemCount: HomeScreen.list.length,
                           itemBuilder: (BuildContext context, int index) {
                             var qty =
-                                prefs.getInt("${HomeScreen.list[index]}") ?? 0;
-                            // var qty = 0;
-                            var price =
-                                prefs.getString("${HomeScreen.list[index]}1") ??
-                                    "";
+                                prefs.getInt("${HomeScreen.list[index]}") ??
+                                    0;
+                            var price = prefs.getString(
+                                    "${HomeScreen.list[index]}1") ??
+                                "";
                             var veg =
                                 prefs.getBool("${HomeScreen.list[index]}2") ??
                                     true;
@@ -262,18 +262,21 @@ class _CartButtonState extends State<CartButton> {
                                           "time": "${hour1} : ${minute} ${hh}",
                                           "flag": 0,
                                           "duration": "0",
-                                          "acceptedTime":  "${hour1} : ${minute} ${hh}",
+                                          "acceptedTime":
+                                              "${hour1} : ${minute} ${hh}",
                                           "timeStamp": timeStamp,
                                         });
                                         var total;
                                         await FirebaseFirestore.instance
                                             .collection('orders')
                                             .doc(FirebaseAuth
-                                                .instance.currentUser.uid).get().then((value) {
-                                                  if(value.exists) {
-                                                    total = value['total'];
-                                                  }
-                                                });
+                                                .instance.currentUser.uid)
+                                            .get()
+                                            .then((value) {
+                                          if (value.exists) {
+                                            total = value['total'];
+                                          }
+                                        });
                                         await FirebaseFirestore.instance
                                             .collection('orders')
                                             .doc(FirebaseAuth
@@ -346,6 +349,7 @@ class _CartButtonState extends State<CartButton> {
                 SizedBox(width: 15),
               ],
             ),
+            SizedBox(height: 15),
         ],
       ),
     );

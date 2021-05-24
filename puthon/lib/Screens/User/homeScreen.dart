@@ -90,7 +90,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       context: context,
                       backgroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(20),
+                          topLeft: Radius.circular(20),
+                        ),
                       ),
                       builder: (BuildContext context) {
                         return CartButton(refresh: refresh);

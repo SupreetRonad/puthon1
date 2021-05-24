@@ -16,6 +16,7 @@ class OrdersHistory extends StatelessWidget {
         stream: FirebaseFirestore.instance
             .collection('history')
             .doc(FirebaseAuth.instance.currentUser.uid)
+            .collection(FirebaseAuth.instance.currentUser.uid)
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -31,10 +32,15 @@ class OrdersHistory extends StatelessWidget {
               ),
             );
           }
+          // print(snapshot.data.docs.toString());
           return ListView.builder(
-            itemCount: snapshot.data.length,
+            itemCount: snapshot.data.docs.length,
             itemBuilder: (context, index) {
-              return Text("llalalala");
+              return Column(
+                children: [
+                  
+                ],
+              );
             },
           );
         },

@@ -55,7 +55,7 @@ class _PaymentUPIState extends State<PaymentUPI> {
       receiverName: HomeScreen.resName,
       transactionRefId: 'Payment For Test',
       transactionNote: 'Not actual. Just an example.',
-      amount: 1.00,
+      amount: widget.amount,
     );
   }
 
