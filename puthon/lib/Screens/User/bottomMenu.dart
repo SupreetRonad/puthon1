@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:puthon/Screens/User/payAndExit.dart';
 import 'package:puthon/Screens/User/paymentUPI.dart';
 import 'package:puthon/Shared/orderCard.dart';
 import 'package:puthon/Shared/itemCard.dart';
@@ -104,26 +105,9 @@ class _BottomMenuState extends State<BottomMenu> {
                         ),
                       ),
                       onPressed: () async {
-                        for (var i = 0; i < HomeScreen.list.length; i++) {
-                          prefs.remove(HomeScreen.list[i]);
-                          prefs.remove(HomeScreen.list[i] + "1");
-                          prefs.remove(HomeScreen.list[i] + "2");
-                        }
-                        HomeScreen.list = [];
-                        widget.prefs.setStringList("orderList", []);
-                        CartButton.orderList = {};
-                        widget.prefs.setInt("orderNo", 0);
-                        await FirebaseFirestore.instance
-                            .collection('users')
-                            .doc(FirebaseAuth.instance.currentUser.uid)
-                            .update({
-                          'scanned': 1,
-                        });
-                        scanned = 1;
-                        setState(() {
-                          widget.refresh();
-                          cameraScanResult = null;
-                        });
+                        PayAndExit(widget.prefs, widget.refresh); 
+
+                        
                         // TODO: Storing order number in cloud, as it can be overwritten in some extreme cases
                         // Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentUPI(amount: 1, upiId: "6363345756@paytm",)));
                       },
@@ -171,11 +155,13 @@ class _BottomMenuState extends State<BottomMenu> {
                       return Expanded(
                         child: ListView.builder(
                             physics: BouncingScrollPhysics(),
-                            padding: const EdgeInsets.only(
-                                bottom: kFloatingActionButtonMargin + 160),
+                            padding: EdgeInsets.only(
+                              bottom: kFloatingActionButtonMargin + 160,
+                            ),
                             itemCount: snapshot.data.docs.length,
                             itemBuilder: (context, index) {
-                              var order = snapshot.data.docs[index];
+                              var order = snapshot.data.docs[snapshot.data.docs.length - index - 1];
+                              
                               return OrderCard(
                                 order: order,
                                 timeStamp: order["timeStamp"],
@@ -278,5 +264,3 @@ class _BottomMenuState extends State<BottomMenu> {
     );
   }
 }
-
-
