@@ -56,7 +56,7 @@ Future<void> PayAndExit(var prefs, Function refresh) async {
       .get()
       .then((value) {
     if (value.exists) {
-      total = value.data()['total'];
+      total = value.data()['total'] + value.data()['total'] * 0.18;
       resName = value.data()['resName'];
       table = value.data()['table'];
       time = value.data()['timeEntered'];

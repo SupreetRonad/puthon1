@@ -1,10 +1,7 @@
 import 'dart:ui';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:puthon/Screens/User/homeScreen.dart';
 import 'package:puthon/Screens/User/orderTimer.dart';
-import 'package:puthon/Shared/confirmBox.dart';
 import 'package:puthon/Shared/durationConfirm.dart';
 
 class OrderCard extends StatefulWidget {
