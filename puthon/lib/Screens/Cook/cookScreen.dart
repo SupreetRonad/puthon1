@@ -40,7 +40,7 @@ class _CookScreenState extends State<CookScreen> {
             : Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage("assets/images/pot1.jpg"),
+                      image: AssetImage("assets/images/bg2.jpg"),
                       fit: BoxFit.cover),
                 ),
                 child: Scaffold(

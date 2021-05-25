@@ -33,6 +33,7 @@ class OrdersHistory extends StatelessWidget {
               ),
             );
           }
+          
           // print(snapshot.data.docs.toString());
           return ListView.builder(
             physics: BouncingScrollPhysics(),
@@ -40,6 +41,12 @@ class OrdersHistory extends StatelessWidget {
             itemBuilder: (context, index) {
               var order =
                   snapshot.data.docs[snapshot.data.docs.length - index - 1];
+              var timeEntered = order['timeEntered'].toDate().toString().split(" ");
+              var date = timeEntered[0];
+              var time = timeEntered[1].split(":");
+              var hh = int.parse(time[0]);
+              var hh1 =  hh > 12 ? hh - 12 : hh == 0 ? 12 : hh;
+              var gg = hh >= 12 ? "pm" : "am";
               return Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Card(
@@ -75,7 +82,7 @@ class OrdersHistory extends StatelessWidget {
                               children: [
                                 // TODO: Time format
                                 Text(
-                                   "04" + " : " + "32" + " pm",
+                                   hh1.toString() + " : " + time[1] + " " +  gg,
                                   style: GoogleFonts.raleway(
                                     color: Colors.black54,
                                     fontSize: 15,
@@ -83,10 +90,7 @@ class OrdersHistory extends StatelessWidget {
                                   )
                                 ),
                                 Text(
-                                  order['timeEntered']
-                                      .toDate()
-                                      .toString()
-                                      .split(" ")[0],
+                                  date,
                                   style: GoogleFonts.raleway(
                                     color: Colors.black45,
                                     fontSize: 14,
