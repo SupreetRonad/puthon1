@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:puthon/Screens/User/paymentGateway.dart';
 import 'package:puthon/Shared/orderCard.dart';
 import 'package:puthon/Shared/itemCard.dart';
 import 'package:puthon/Shared/loadingScreen.dart';
@@ -105,7 +106,7 @@ class _BottomMenuState extends State<BottomMenu> {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
                             return Text(
-                              "Loading",
+                              "Loading...",
                               style: TextStyle(
                                 color: Colors.black54,
                                 fontSize: 13,
@@ -115,9 +116,10 @@ class _BottomMenuState extends State<BottomMenu> {
                           if (!snapshot.hasData || snapshot.hasError) {
                             return Center(
                               child: Text(
-                                "Loading",
+                                "No Active Orders...",
                                 style: TextStyle(
-                                  fontSize: 13,
+                                  fontSize: 17,
+                                  color: Colors.black54,
                                 ),
                               ),
                             );
@@ -147,11 +149,8 @@ class _BottomMenuState extends State<BottomMenu> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => PaymentUPI(
-                                            amount: 
-                                                snapshot.data['total'],
-                                            upiId: "6363345756@paytm",
-                                          ),
+                                          builder: (context) =>
+                                              PaymentGateway(),
                                         ),
                                       );
                                     } else {
@@ -215,12 +214,17 @@ class _BottomMenuState extends State<BottomMenu> {
                         ),
                       );
                     }
-                    if (!snapshot.hasData || snapshot.hasError) {
-                      return Center(
-                        child: Text(
-                          "No Orders Placed...",
-                          style: TextStyle(
-                            fontSize: 20,
+                    if (!snapshot.hasData ||
+                        snapshot.hasError ||
+                        snapshot.data.docs.length == 0) {
+                      return Expanded(
+                        child: Center(
+                          child: Text(
+                            "No Orders Placed Yet...",
+                            style: TextStyle(
+                              fontSize: 17,
+                              color: Colors.black54,
+                            ),
                           ),
                         ),
                       );
@@ -253,7 +257,7 @@ class _BottomMenuState extends State<BottomMenu> {
       maxHeight: MediaQuery.of(context).size.height - 155,
       panel: Container(
         width: double.infinity,
-        child: scanned != 2
+        child: scanned != 2 //TODO: something fishy here
             ? LoadingScreen()
             : StreamBuilder(
                 stream: FirebaseFirestore.instance
@@ -264,7 +268,10 @@ class _BottomMenuState extends State<BottomMenu> {
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return LoadingScreen();
+                    return SpinKitWave(
+                      color: Colors.black,
+                      size: 20,
+                    );
                   }
                   if (!snapshot.hasData) {
                     return Text(

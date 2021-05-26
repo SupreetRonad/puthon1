@@ -25,8 +25,6 @@ Future<void> PayAndExit(var prefs, Function refresh) async {
       .update({
     'scanned': 1,
   });
-
-  scanned = 1;
   refresh();
   cameraScanResult = null;
 

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:puthon/Shared/orderCard.dart';
 import 'package:puthon/Screens/User/homeScreen.dart';
@@ -82,14 +83,20 @@ class _CookScreenState extends State<CookScreen> {
                         .snapshots(),
                     builder: (BuildContext context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return LoadingScreen();
+                        return SpinKitWave(
+                          size: 20,
+                          color: Colors.black54,
+                        );
                       }
-                      if (!snapshot.hasData || snapshot.hasError) {
+                      if (!snapshot.hasData ||
+                          snapshot.hasError ||
+                          snapshot.data.docs.length == 0) {
                         return Center(
                           child: Text(
                             "No Active Orders...",
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 17,
+                              color: Colors.black54,
                             ),
                           ),
                         );

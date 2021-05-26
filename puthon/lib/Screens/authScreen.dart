@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lottie/lottie.dart';
 import 'dart:ui';
 import '/shared/textField.dart';
 
@@ -68,14 +67,12 @@ class _AuthScreenState extends State<AuthScreen> {
       }
     } on FirebaseAuthException catch (err) {
       var message = 'An error occurred, please check your credentials';
-
       if (err.message != null) {
         message = err.message;
       }
       setState(() {
         _isLoading = false;
       });
-      print(message);
       ScaffoldMessenger.of(ctx).showSnackBar(
         SnackBar(
           content: Text(
@@ -101,7 +98,6 @@ class _AuthScreenState extends State<AuthScreen> {
     final node = FocusScope.of(context);
     return Container(
       decoration: BoxDecoration(
-          //color: Colors.amber[400],
           image: DecorationImage(
               image: AssetImage("assets/images/amber1.jpg"),
               fit: BoxFit.cover)),

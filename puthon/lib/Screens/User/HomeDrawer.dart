@@ -115,41 +115,6 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                               color: Colors.black45),
                                         ),
                                       ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      if (info["admin"])
-                                        GestureDetector(
-                                          onTap: () {
-                                            Navigator.pushNamed(
-                                                context, '/adminScreen');
-                                          },
-                                          child: Text(
-                                            "Admin Mode",
-                                            style: TextStyle(
-                                              decoration:
-                                                  TextDecoration.underline,
-                                              color: Colors.red[400],
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
-                                      if (info["cook"])
-                                        GestureDetector(
-                                          onTap: () {
-                                            Navigator.pushNamed(
-                                                context, '/cookScreen');
-                                          },
-                                          child: Text(
-                                            "Cook Mode",
-                                            style: TextStyle(
-                                              decoration:
-                                                  TextDecoration.underline,
-                                              color: Colors.red[400],
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
                                     ],
                                   ),
                                   Card(
@@ -223,6 +188,54 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                             ],
                                           ),
                                         ),
+                                  if (info["admin"])
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                            context, '/adminScreen');
+                                      },
+                                      child: Row(
+                                        children: [
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Icon(
+                                            Icons.how_to_reg,
+                                            color: Colors.black,
+                                          ),
+                                          Text(
+                                            "  Admin Mode",
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  if (info["cook"])
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                            context, '/cookScreen');
+                                      },
+                                      child: Row(
+                                        children: [
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Icon(
+                                            Icons.restaurant,
+                                            color: Colors.black,
+                                          ),
+                                          Text(
+                                            "  Cook Mode",
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   SizedBox(
                                     height: 10,
                                   ),
