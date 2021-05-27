@@ -114,13 +114,13 @@ class _AddMenuItemState extends State<AddMenuItem> {
       ),
       child: Dialog(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
+          borderRadius: BorderRadius.circular(20.0),
         ),
         backgroundColor: Colors.white70,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
+          padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
           child: SizedBox(
-            height: 500,
+            height: 480,
             width: MediaQuery.of(context).size.width * .8,
             child: loading1
                 ? SpinKitWave(
@@ -137,14 +137,12 @@ class _AddMenuItemState extends State<AddMenuItem> {
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 17),
                           ),
+                          Divider(),
                           Container(
-                            //height: 300,
-                            padding: EdgeInsets.all(10),
+                            padding: EdgeInsets.all(15),
                             child: Column(
                               children: [
-                                SizedBox(
-                                  height: 10,
-                                ),
+                                
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(15),
                                   child: BackdropFilter(
@@ -415,217 +413,242 @@ class _AddMenuItemState extends State<AddMenuItem> {
                           SizedBox(
                             height: 7,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              FloatingActionButton(
-                                backgroundColor: Colors.white,
-                                elevation: 0,
-                                child: loading
-                                    ? SpinKitFadingCircle(
-                                        color: Colors.black,
-                                        size: 30,
-                                      )
-                                    : Icon(
-                                        Icons.arrow_forward_ios,
-                                      ),
-                                onPressed: () {
-                                  _formkey.currentState.validate();
+                          //Spacer(),
+                          Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(colors: [
+                                Colors.orangeAccent,
+                                Colors.deepOrange[300]
+                              ]),
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(20),
+                                bottomRight: Radius.circular(20),
+                              ),
+                            ),
+                            child: TextButton(
+                              style: TextButton.styleFrom(
+                                  primary: Colors.white70),
+                              onPressed: () {
+                                _formkey.currentState.validate();
+                                setState(() {
+                                  loading = true;
+                                });
+                                FocusScope.of(context).unfocus();
+                                Future.delayed(
+                                    const Duration(milliseconds: 1000), () {
                                   setState(() {
-                                    loading = true;
-                                  });
-                                  FocusScope.of(context).unfocus();
-                                  Future.delayed(
-                                      const Duration(milliseconds: 1000), () {
-                                    setState(() {
-                                      loading = false;
-                                      if (flag.reduce((a, b) => a + b) == 0) {
-                                        flag1 = false;
-                                        _formkey.currentState.save();
-                                        showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return ConfirmBox(
-                                              b1: "Go Back",
-                                              b2: widget.modify
-                                                  ? "Modify item"
-                                                  : "Add Item",
-                                              color: Colors.green[300],
-                                              message: Padding(
-                                                padding:
-                                                    const EdgeInsets.fromLTRB(
-                                                        15, 0, 15, 0),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Center(
-                                                      child: Icon(
-                                                        Icons.fastfood,
-                                                        color:
-                                                            Colors.green[400],
-                                                        size: 40,
+                                    loading = false;
+                                    if (flag.reduce((a, b) => a + b) == 0) {
+                                      flag1 = false;
+                                      _formkey.currentState.save();
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return ConfirmBox(
+                                            b1: "Go Back",
+                                            b2: widget.modify
+                                                ? "Modify item"
+                                                : "Add Item",
+                                            color: [Colors.greenAccent, Colors.green[300]],
+                                            message: Padding(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      15, 0, 15, 0),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment
+                                                        .start,
+                                                children: [
+                                                  Center(
+                                                    child: Icon(
+                                                      Icons.fastfood,
+                                                      color:
+                                                          Colors.green[400],
+                                                      size: 40,
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons
+                                                            .radio_button_checked,
+                                                        color: _controller
+                                                                .value
+                                                            ? Colors.green
+                                                            : Colors.red,
                                                       ),
-                                                    ),
-                                                    SizedBox(
-                                                      height: 10,
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        Icon(
-                                                          Icons
-                                                              .radio_button_checked,
-                                                          color:
-                                                              _controller.value
-                                                                  ? Colors.green
-                                                                  : Colors.red,
+                                                      SizedBox(
+                                                        width: 10,
+                                                      ),
+                                                      Container(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            0.5,
+                                                        child: Text(
+                                                          itemName,
+                                                          maxLines: 1,
+                                                          softWrap: false,
+                                                          overflow:
+                                                              TextOverflow
+                                                                  .fade,
+                                                          style: TextStyle(
+                                                              fontSize: 25,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
                                                         ),
-                                                        SizedBox(
-                                                          width: 10,
-                                                        ),
-                                                        Container(
-                                                          width: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width *
-                                                              0.5,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Container(
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            35, 0, 0, 10),
+                                                    child: Text(
+                                                      ingredients,
+                                                      maxLines: 2,
+                                                      softWrap: false,
+                                                      overflow: TextOverflow
+                                                          .ellipsis,
+                                                      style: TextStyle(
+                                                          fontSize: 12,
+                                                          color: Colors
+                                                              .black54),
+                                                    ),
+                                                  ),
+                                                  moreInfo == null
+                                                      ? null
+                                                      : Container(
+                                                          padding:
+                                                              EdgeInsets
+                                                                  .fromLTRB(
+                                                                      35,
+                                                                      0,
+                                                                      0,
+                                                                      5),
                                                           child: Text(
-                                                            itemName,
+                                                            "-  " +
+                                                                moreInfo,
                                                             maxLines: 1,
                                                             softWrap: false,
                                                             overflow:
                                                                 TextOverflow
-                                                                    .fade,
+                                                                    .ellipsis,
                                                             style: TextStyle(
-                                                                fontSize: 25,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
+                                                                fontSize:
+                                                                    12,
+                                                                color: Colors
+                                                                    .black54),
                                                           ),
                                                         ),
-                                                      ],
-                                                    ),
-                                                    Container(
-                                                      padding:
-                                                          EdgeInsets.fromLTRB(
-                                                              35, 0, 0, 10),
-                                                      child: Text(
-                                                        ingredients,
-                                                        maxLines: 2,
-                                                        softWrap: false,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        style: TextStyle(
-                                                            fontSize: 12,
-                                                            color:
-                                                                Colors.black54),
+                                                  Row(
+                                                    children: [
+                                                      SizedBox(
+                                                        width: 35,
                                                       ),
-                                                    ),
-                                                    moreInfo == null
-                                                        ? null
-                                                        : Container(
-                                                            padding: EdgeInsets
-                                                                .fromLTRB(35, 0,
-                                                                    0, 5),
-                                                            child: Text(
-                                                              "-  " + moreInfo,
-                                                              maxLines: 1,
-                                                              softWrap: false,
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              style: TextStyle(
-                                                                  fontSize: 12,
-                                                                  color: Colors
-                                                                      .black54),
-                                                            ),
-                                                          ),
-                                                    Row(
-                                                      children: [
-                                                        SizedBox(
-                                                          width: 35,
-                                                        ),
-                                                        Text(
-                                                          category,
-                                                          maxLines: 1,
-                                                          softWrap: false,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
+                                                      Text(
+                                                        category,
+                                                        maxLines: 1,
+                                                        softWrap: false,
+                                                        overflow:
+                                                            TextOverflow
+                                                                .ellipsis,
+                                                        style: TextStyle(
+                                                            fontSize: 17,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold,
+                                                            color: Colors
+                                                                .amber),
+                                                      ),
+                                                      Spacer(),
+                                                      Container(
+                                                        padding: EdgeInsets
+                                                            .fromLTRB(35, 0,
+                                                                0, 5),
+                                                        child: Text(
+                                                          "Rs. " + price,
                                                           style: TextStyle(
-                                                              fontSize: 17,
+                                                              fontSize: 20,
+                                                              color: Colors
+                                                                  .green,
                                                               fontWeight:
                                                                   FontWeight
-                                                                      .bold,
-                                                              color:
-                                                                  Colors.amber),
+                                                                      .bold),
                                                         ),
-                                                        Spacer(),
-                                                        Container(
-                                                          padding: EdgeInsets
-                                                              .fromLTRB(
-                                                                  35, 0, 0, 5),
-                                                          child: Text(
-                                                            "Rs. " + price,
-                                                            style: TextStyle(
-                                                                fontSize: 20,
-                                                                color: Colors
-                                                                    .green,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    )
-                                                  ],
-                                                ),
+                                                      ),
+                                                    ],
+                                                  )
+                                                ],
                                               ),
-                                              function: () async {
-                                                await FirebaseFirestore.instance
-                                                    .collection('admins')
-                                                    .doc(FirebaseAuth.instance
-                                                        .currentUser.uid)
-                                                    .collection('menu')
-                                                    .doc(itemName)
-                                                    .set({
-                                                  "itemName": itemName,
-                                                  "price": price,
-                                                  "category": category,
-                                                  "veg": _controller.value,
-                                                  "ingredients": ingredients,
-                                                  "moreInfo": moreInfo,
-                                                  "inMenu": true,
-                                                });
-                                                Navigator.of(context).pop();
-                                                Navigator.of(context).pop();
-                                                showDialog(
-                                                  context: context,
-                                                  builder:
-                                                      (BuildContext context) {
-                                                    return SuccessBox(
-                                                      title: widget.modify
-                                                          ? 'Item modified successfully'
-                                                          : 'Item Added successfully',
-                                                      msg1: widget.modify
-                                                          ? 'The item has been successfully modified and updated in the menu.'
-                                                          : 'Item has been added successfully to the menu. You can now modify or delete it later.',
-                                                      msg2:
-                                                          'You can further modify, disable or delete from the menu list.',
-                                                    );
-                                                  },
-                                                );
-                                              },
-                                            );
-                                          },
-                                        );
-                                      } else {
-                                        flag1 = true;
-                                      }
-                                    });
+                                            ),
+                                            function: () async {
+                                              await FirebaseFirestore
+                                                  .instance
+                                                  .collection('admins')
+                                                  .doc(FirebaseAuth.instance
+                                                      .currentUser.uid)
+                                                  .collection('menu')
+                                                  .doc(itemName)
+                                                  .set({
+                                                "itemName": itemName,
+                                                "price": price,
+                                                "category": category,
+                                                "veg": _controller.value,
+                                                "ingredients": ingredients,
+                                                "moreInfo": moreInfo,
+                                                "inMenu": true,
+                                              });
+                                              Navigator.of(context).pop();
+                                              Navigator.of(context).pop();
+                                              showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return SuccessBox(
+                                                    title: widget.modify
+                                                        ? 'Item modified successfully'
+                                                        : 'Item Added successfully',
+                                                    msg1: widget.modify
+                                                        ? 'The item has been successfully modified and updated in the menu.'
+                                                        : 'Item has been added successfully to the menu. You can now modify or delete it later.',
+                                                    msg2:
+                                                        'You can further modify, disable or delete from the menu list.',
+                                                  );
+                                                },
+                                              );
+                                            },
+                                          );
+                                        },
+                                      );
+                                    } else {
+                                      flag1 = true;
+                                    }
                                   });
-                                },
-                              ),
-                            ],
+                                });
+                              },
+                              child: loading
+                                  ? SpinKitFadingCircle(
+                                      color: Colors.black,
+                                      size: 30,
+                                    )
+                                  : Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(Icons.save),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text("Save"),
+                                      ],
+                                    ),
+                            ),
                           ),
                         ],
                       ),

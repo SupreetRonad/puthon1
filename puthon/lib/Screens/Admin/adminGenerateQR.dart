@@ -25,7 +25,7 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
       ),
       child: Dialog(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
+          borderRadius: BorderRadius.circular(20.0),
         ),
         backgroundColor: Colors.white,
         child: Padding(
@@ -185,7 +185,7 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
                   ),
                 if (valid > 0)
                   Padding(
-                    padding: const EdgeInsets.all(5),
+                    padding: const EdgeInsets.all(10),
                     child: Text(
                       valid == 1
                           ? "QR code generated for ${flag == 0 ? "Table" : "Bot"} ${table}"
@@ -196,7 +196,7 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
                     ),
                   ),
                 SizedBox(
-                  height: 10,
+                  height: 5,
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * .25,
@@ -212,37 +212,45 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
                           result,
                         ),
                 ),
-                SizedBox(
-                  height: 10,
-                ),
+                Spacer(),
                 if (valid == 1)
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      elevation: 10,
-                      primary: Colors.white,
-                      //padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
+                  Container(
+                    height: 40,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      gradient: LinearGradient(
+                          colors: [Colors.greenAccent, Colors.green[300]]),
                     ),
-                    onPressed: () async {
-                      await ImageGallerySaver.saveImage(
-                          Uint8List.fromList(result),
-                          quality: 60,
-                          name: "${qrContent}${flag == 0 ? "Table" : "Bot"}");
-                      Fluttertoast.showToast(
-                          msg: "QR code saved to Gallery",
-                          gravity: ToastGravity.SNACKBAR,
-                          backgroundColor: Colors.white,
-                          textColor: Colors.black);
-                    },
-                    child: Text(
-                      "Save to Gallery",
-                      style: TextStyle(
-                        color: Colors.green,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        primary: Colors.transparent,
+
+                        //padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      onPressed: () async {
+                        await ImageGallerySaver.saveImage(
+                            Uint8List.fromList(result),
+                            quality: 60,
+                            name: "${qrContent}${flag == 0 ? "Table" : "Bot"}");
+                        Fluttertoast.showToast(
+                            msg: "QR code saved to Gallery",
+                            gravity: ToastGravity.SNACKBAR,
+                            backgroundColor: Colors.white,
+                            textColor: Colors.black);
+                      },
+                      child: Text(
+                        "Save to Gallery",
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
+                  SizedBox(height: 10,),
               ],
             ),
           ),

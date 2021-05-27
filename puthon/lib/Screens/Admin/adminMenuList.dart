@@ -17,7 +17,7 @@ class _AdminMenuListState extends State<AdminMenuList> {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(3.0),
           child: ElevatedButton.icon(
             style: ElevatedButton.styleFrom(
               primary: Colors.white,

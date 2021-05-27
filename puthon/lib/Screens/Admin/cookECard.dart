@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expansion_card/expansion_card.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../../Shared/confirmBox.dart';
+import '/Shared/confirmBox.dart';
 
 class CookECard extends StatelessWidget {
   final doc;
@@ -135,8 +135,8 @@ class CookECard extends StatelessWidget {
                                     b1: "Go Back",
                                     b2: flag ? "Add" : "Remove",
                                     color: flag
-                                        ? Colors.lightBlue[300]
-                                        : Colors.red[300],
+                                        ? [Colors.lightBlue[300], Colors.blue]
+                                        : [Colors.redAccent , Colors.red[300]],
                                     function: () async {
                                       if (flag) {
                                         FirebaseFirestore.instance
@@ -148,11 +148,6 @@ class CookECard extends StatelessWidget {
                                             .set({
                                           'registeredOn': DateTime.now(),
                                           'uid': doc["uid"],
-                                          'name': doc["name"],
-                                          'email': doc["email"],
-                                          'gender': doc["gender"],
-                                          'phone': doc["phone"],
-                                          'dob': doc["dob"],
                                         });
                                         FirebaseFirestore.instance
                                             .collection('users')

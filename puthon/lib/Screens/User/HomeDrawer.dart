@@ -311,7 +311,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
         return ConfirmBox(
           b1: "Go Back",
           b2: "Log Out",
-          color: Colors.red[300],
+          color: [Colors.redAccent, Colors.red[300]],
           function: () async {
             for (var i = 0; i < HomeScreen.list.length; i++) {
               prefs.remove(HomeScreen.list[i]);

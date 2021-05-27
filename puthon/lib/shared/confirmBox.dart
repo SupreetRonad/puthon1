@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class ConfirmBox extends StatelessWidget {
   final String b1, b2;
   final Widget message;
-  final Color color;
+  final List<Color> color;
   final Function function;
   final double height;
   ConfirmBox(
@@ -21,29 +21,33 @@ class ConfirmBox extends StatelessWidget {
       child: Container(
         child: Dialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
+            borderRadius: BorderRadius.circular(20.0),
           ),
           backgroundColor: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: SizedBox(
-              height: height ?? 250,
-              width: 320,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  message,
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      TextButton(
+          child: SizedBox(
+            height: height ?? 250,
+            width: 320,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(height: 10,),
+                message,
+                SizedBox(
+                  height: 20,
+                ),
+                Spacer(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      width: 152,
+                      child: TextButton(
                         style: TextButton.styleFrom(
                           primary: Colors.black,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0),
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(20.0),
+                            ),
                           ),
                         ),
                         onPressed: () {
@@ -51,30 +55,35 @@ class ConfirmBox extends StatelessWidget {
                         },
                         child: Text(b1),
                       ),
-                      SizedBox(
-                        width: 10,
+                    ),                    
+                    Container(
+                      width: 152,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(20.0),
+                        ),
+                        gradient: LinearGradient(colors: color),
                       ),
-                      Container(
-                        width: 110,
-                        child: TextButton(
-                            style: TextButton.styleFrom(
-                              backgroundColor: color,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                              ),
+                      child: TextButton(
+                        style: TextButton.styleFrom(                          
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              bottomRight: Radius.circular(20.0),
                             ),
-                            onPressed: function ?? null,
-                            child: Text(
-                              b2,
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                            )),
-                      )
-                    ],
-                  )
-                ],
-              ),
+                          ),
+                        ),
+                        onPressed: function ?? null,
+                        child: Text(
+                          b2,
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                )
+              ],
             ),
           ),
         ),

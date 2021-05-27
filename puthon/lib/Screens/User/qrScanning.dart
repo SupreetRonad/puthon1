@@ -44,16 +44,6 @@ class _QrScanningState extends State<QrScanning> {
                         .update({
                       'scanned': 2,
                     });
-
-                    // var hour = DateTime.now().hour > 12
-                    //     ? DateTime.now().hour - 12
-                    //     : DateTime.now().hour;
-                    // var hour1 = hour < 10 ? "0${hour}" : "${hour}";
-                    // var minute = DateTime.now().minute < 10
-                    //     ? "0${DateTime.now().minute}"
-                    //     : "${DateTime.now().minute}";
-                    // var hh = DateTime.now().hour > 12 ? "pm" : "am";
-
                     FirebaseFirestore.instance
                         .collection('orders')
                         .doc(FirebaseAuth.instance.currentUser.uid)
@@ -63,6 +53,16 @@ class _QrScanningState extends State<QrScanning> {
                       'resName': HomeScreen.resName,
                       'ordered': false,
                       'total': 0,
+                      'timeEntered': DateTime.now(),
+                    });
+                    FirebaseFirestore.instance
+                        .collection('admins')
+                        .doc(HomeScreen.resId)
+                        .collection('tables')
+                        .doc(HomeScreen.table)
+                        .set({
+                      'table': HomeScreen.table,
+                      'customerId': FirebaseAuth.instance.currentUser.uid,
                       'timeEntered': DateTime.now(),
                     });
                     scanned = 2;

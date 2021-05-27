@@ -210,7 +210,7 @@ class _CartButtonState extends State<CartButton> {
                                     return ConfirmBox(
                                       b1: "Go Back",
                                       b2: "Confirm",
-                                      color: Colors.green[300],
+                                      color: [Colors.greenAccent, Colors.green[300]],
                                       message:
                                           Text("Do you want to place order ?"),
                                       height: 120,

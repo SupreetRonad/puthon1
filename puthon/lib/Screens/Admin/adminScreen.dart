@@ -8,6 +8,8 @@ import 'package:puthon/Screens/Admin/aboutBusiness.dart';
 import 'package:puthon/Screens/Admin/adminMenuList.dart';
 import 'package:puthon/Screens/Admin/adminCooksList.dart';
 
+import 'adminTables.dart';
+
 class AdminScreen extends StatefulWidget {
   @override
   _AdminScreenState createState() => _AdminScreenState();
@@ -25,7 +27,7 @@ class _AdminScreenState extends State<AdminScreen> {
               image: AssetImage("assets/images/oranges1.jpg"),
               fit: BoxFit.cover)),
       child: DefaultTabController(
-        length: 3,
+        length: 4,
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           backgroundColor: Colors.transparent,
@@ -138,7 +140,6 @@ class _AdminScreenState extends State<AdminScreen> {
                           ],
                         ),
                         Spacer(),
-                        
                       ],
                     );
                   }
@@ -183,18 +184,21 @@ class _AdminScreenState extends State<AdminScreen> {
                                 child: Text("Menu"),
                               ),
                               Tab(
-                                child: Text("My business"),
+                                child: Text("Tables"),
+                              ),
+                              Tab(
+                                child: Text("More"),
                               ),
                             ],
                           ),
                           Expanded(
                             child: Container(
-                              //height: 300,
                               child: TabBarView(
                                 children: [
                                   AdminCooksList(),
                                   AdminMenuList(),
-                                  AboutBusiness()
+                                  AdminTables(),
+                                  AboutBusiness(),
                                 ],
                               ),
                             ),
@@ -205,50 +209,6 @@ class _AdminScreenState extends State<AdminScreen> {
                   ),
                 ),
               ),
-              // Expanded(
-              //   child: Builder(
-              //     builder: (BuildContext context) => HawkFabMenu(
-              //       icon: AnimatedIcons.menu_arrow,
-              //       fabColor: Colors.white,
-              //       iconColor: Colors.black,
-              //       items: [
-              //         HawkFabMenuItem(
-              //           label: 'Cooks List',
-              //           ontap: () {
-              //             setState(() {
-              //               flag = 0;
-              //             });
-              //           },
-              //           icon: Icon(Icons.local_library_rounded),
-              //           color: Colors.white,
-              //         ),
-              //         HawkFabMenuItem(
-              //           label: 'Menu List',
-              //           ontap: () {
-              //             setState(() {
-              //               flag = 1;
-              //             });
-              //           },
-              //           icon: Icon(Icons.menu_book),
-              //           color: Colors.white,
-              //         ),
-              //         HawkFabMenuItem(
-              //           label: 'My business',
-              //           ontap: () {
-              //             setState(() {
-              //               flag = 2;
-              //             });
-              //           },
-              //           icon: Icon(Icons.apartment_rounded),
-              //           color: Colors.white,
-              //         ),
-              //       ],
-              //       body: Center(
-              //         child: screenList[flag],
-              //       ),
-              //     ),
-              //   ),
-              // ),
             ],
           ),
         ),

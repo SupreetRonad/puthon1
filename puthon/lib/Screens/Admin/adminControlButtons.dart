@@ -34,9 +34,12 @@ class AdminControlButtons extends StatelessWidget {
                       height: 150,
                       b1: "Go Back",
                       b2: "Delete",
-                      color: Colors.red[300],
+                      color: [Colors.redAccent, Colors.red[300]],
                       message: Column(
                         children: [
+                          SizedBox(
+                            height: 15,
+                          ),
                           Text("Do you want to delete"),
                           SizedBox(
                             height: 5,
@@ -95,10 +98,13 @@ class AdminControlButtons extends StatelessWidget {
                               b1: "Go Back",
                               b2: item["inMenu"] ? "Disable" : "Enable",
                               color: item["inMenu"]
-                                  ? Colors.red[300]
-                                  : Colors.green[300],
+                                  ? [Colors.grey[200], Colors.black54]
+                                  : [Colors.greenAccent, Colors.green[300]],
                               message: Column(
                                 children: [
+                                  SizedBox(
+                                    height: 15,
+                                  ),
                                   Text(item["inMenu"]
                                       ? "Do you want to disable"
                                       : "Do you want to enable"),
@@ -110,7 +116,7 @@ class AdminControlButtons extends StatelessWidget {
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: item["inMenu"]
-                                            ? Colors.red[300]
+                                            ? Colors.grey[600]
                                             : Colors.green[300],
                                         fontSize: 20),
                                   )

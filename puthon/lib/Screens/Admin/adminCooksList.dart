@@ -22,7 +22,7 @@ class _AdminCooksListState extends State<AdminCooksList> {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(3.0),
           child: ElevatedButton.icon(
             style: ElevatedButton.styleFrom(
               primary: Colors.white,
@@ -64,9 +64,27 @@ class _AdminCooksListState extends State<AdminCooksList> {
                     itemCount: snapshot.data.docs.length,
                     itemBuilder: (BuildContext context, int index) {
                       var cook = snapshot.data.docs[index];
-                      return Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                        child: CookECard(doc: cook, flag: false),
+                      return StreamBuilder(
+                        stream: FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(cook['uid'])
+                            .snapshots(),
+                        builder: (context, snapshot1) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return LoadingScreen();
+                          }
+                          if (!snapshot1.hasData) {
+                            return Text(
+                              "Please Add cooks...",
+                              style: TextStyle(fontSize: 20),
+                            );
+                          }
+                          return Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                            child: CookECard(doc: snapshot1.data, flag: false),
+                          );
+                        },
                       );
                     },
                   );
