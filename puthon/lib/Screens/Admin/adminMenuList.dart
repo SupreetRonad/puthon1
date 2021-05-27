@@ -57,6 +57,7 @@ class _AdminMenuListState extends State<AdminMenuList> {
                   );
                 } else {
                   return ListView.builder(
+                    physics: BouncingScrollPhysics(),
                     padding: const EdgeInsets.only(
                       bottom: kFloatingActionButtonMargin + 60,
                     ),

@@ -5,6 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:puthon/Screens/User/paymentGateway.dart';
+import 'package:puthon/Screens/User/paymentUPI.dart';
 import 'package:puthon/Shared/orderCard.dart';
 import 'package:puthon/Shared/itemCard.dart';
 import 'package:puthon/Shared/loadingScreen.dart';
@@ -12,7 +13,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'homeScreen.dart';
 import 'payAndExit.dart';
-import 'paymentUPI.dart';
 
 class BottomMenu extends StatefulWidget {
   final SharedPreferences prefs;
@@ -23,6 +23,7 @@ class BottomMenu extends StatefulWidget {
 }
 
 var loading = true;
+var upiId;
 
 class _BottomMenuState extends State<BottomMenu> {
   @override
@@ -38,6 +39,18 @@ class _BottomMenuState extends State<BottomMenu> {
           HomeScreen.table = value['table'];
           HomeScreen.resName = value['resName'];
           HomeScreen.total = value['total'];
+          loading = false;
+        });
+      }
+    });
+    FirebaseFirestore.instance
+        .collection('admins')
+        .doc(HomeScreen.resId)
+        .get()
+        .then((value) {
+      if (value.exists) {
+        setState(() {
+          upiId = value['upiId'];
           loading = false;
         });
       }
@@ -144,13 +157,17 @@ class _BottomMenuState extends State<BottomMenu> {
                                   }
                                 : () {
                                     if (!snapshot.data['ordered']) {
-                                      PayAndExit(widget.prefs, widget.refresh);
+                                      // PayAndExit(widget.prefs, widget.refresh);
                                       // TODO: Storing order number in cloud, as it can be overwritten in some extreme cases
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              PaymentGateway(),
+                                              // PaymentGateway(),
+                                              PaymentUPI(
+                                            upiId: upiId,
+                                            amount: snapshot.data['total'],
+                                          ),
                                         ),
                                       );
                                     } else {
@@ -257,7 +274,7 @@ class _BottomMenuState extends State<BottomMenu> {
       maxHeight: MediaQuery.of(context).size.height - 155,
       panel: Container(
         width: double.infinity,
-        child: scanned != 2 //TODO: something fishy here
+        child: scanned != 2
             ? LoadingScreen()
             : StreamBuilder(
                 stream: FirebaseFirestore.instance
@@ -269,7 +286,7 @@ class _BottomMenuState extends State<BottomMenu> {
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return SpinKitWave(
-                      color: Colors.black,
+                      color: Colors.green,
                       size: 20,
                     );
                   }

@@ -45,6 +45,7 @@ class _PaymentUPIState extends State<PaymentUPI> {
       receiverName: HomeScreen.resName,
       transactionRefId: 'Payment For Test',
       transactionNote: 'Not actual. Just an example.',
+      merchantId: '5812',
       amount: 1.00,
     );
   }

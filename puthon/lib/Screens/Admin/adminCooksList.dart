@@ -58,6 +58,7 @@ class _AdminCooksListState extends State<AdminCooksList> {
                   );
                 } else {
                   return ListView.builder(
+                    physics: BouncingScrollPhysics(),
                     padding: const EdgeInsets.only(
                         bottom: kFloatingActionButtonMargin + 60),
                     itemCount: snapshot.data.docs.length,

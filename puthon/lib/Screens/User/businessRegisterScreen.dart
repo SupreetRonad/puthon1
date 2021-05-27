@@ -11,8 +11,8 @@ class RegisterBusiness extends StatefulWidget {
   _RegisterBusinessState createState() => _RegisterBusinessState();
 }
 
-var resName, building, street, city, state, pincode, name, phone, email;
-var flag = [0, 0, 0, 0, 0, 0];
+var resName, building, street, city, state, pincode, name, phone, email, upi;
+var flag = [0, 0, 0, 0, 0, 0, 0];
 bool flag1 = false, loading = false;
 
 class _RegisterBusinessState extends State<RegisterBusiness> {
@@ -80,7 +80,7 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       SizedBox(
-                        height: MediaQuery.of(context).size.height - 650,
+                        height: MediaQuery.of(context).size.height - 750,
                       ),
                       Container(
                         padding: EdgeInsets.all(10),
@@ -143,6 +143,72 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
                                     validator: (val) {
                                       flag[0] = val.isEmpty ? 1 : 0;
                                       resName = val;
+                                      return null;
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.play_arrow,
+                                  color: Colors.white,
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  "Enter business details..",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: BackdropFilter(
+                                filter: ImageFilter.blur(
+                                    sigmaX: 10.0, sigmaY: 10.0),
+                                child: Container(
+                                  color: Colors.white.withOpacity(.4),
+                                  child: TextFormField(
+                                    onChanged: (val) {
+                                      flag[5] = 0;
+                                      if (val.isEmpty) {
+                                        flag[5] = 1;
+                                      }
+                                      return null;
+                                    },
+                                    textCapitalization:
+                                        TextCapitalization.words,
+                                    textInputAction: TextInputAction.next,
+                                    key: ValueKey('upi'),
+                                    onEditingComplete: () => node.nextFocus(),
+                                    keyboardType: TextInputType.text,
+                                    decoration: textField.copyWith(
+                                      labelText: "Upi ID",
+                                      labelStyle: TextStyle(
+                                        color: Colors.black.withOpacity(.35),
+                                      ),
+                                      prefixIcon: Icon(
+                                        Icons.monetization_on,
+                                        color: flag[5] == 1
+                                            ? Colors.red
+                                            : Colors.black87,
+                                      ),
+                                    ),
+                                    validator: (val) {
+                                      flag[5] = val.isEmpty ? 1 : 0;
+                                      upi = val;
                                       return null;
                                     },
                                   ),
@@ -464,6 +530,7 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
                                           name: name,
                                           phone: phone,
                                           email: email,
+                                          upi: upi,
                                         );
                                       },
                                     );

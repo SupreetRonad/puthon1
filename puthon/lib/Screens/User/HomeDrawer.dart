@@ -104,7 +104,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                         height: 3,
                                       ),
                                       Container(
-                                        width: 130,
+                                        width: 150,
                                         child: Text(
                                           info['email'] ?? 'name@email.com',
                                           overflow: TextOverflow.fade,
@@ -117,22 +117,6 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                       ),
                                     ],
                                   ),
-                                  Card(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(60),
-                                    ),
-                                    child: IconButton(
-                                      onPressed: () {
-                                        Navigator.pushNamed(
-                                            context, '/detailScreen');
-                                      },
-                                      icon: Icon(
-                                        Icons.edit,
-                                        color: Colors.black54,
-                                        size: 20,
-                                      ),
-                                    ),
-                                  ),
                                 ],
                               ),
                             ),
@@ -140,6 +124,29 @@ class _HomeDrawerState extends State<HomeDrawer> {
                               padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
                               child: Column(
                                 children: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                          context, '/detailScreen');
+                                    },
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Icon(
+                                          Icons.edit,
+                                          color: Colors.black,
+                                        ),
+                                        Text(
+                                          "  Edit Profile",
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                   TextButton(
                                     onPressed: () {
                                       Navigator.pushNamed(
@@ -176,7 +183,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                                 width: 10,
                                               ),
                                               Icon(
-                                                Icons.list_alt,
+                                                Icons.business,
                                                 color: Colors.black,
                                               ),
                                               Text(

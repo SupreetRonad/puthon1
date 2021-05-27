@@ -58,10 +58,10 @@ class _PaymentGatewayState extends State<PaymentGateway> {
     final a = await UpiPay.initiateTransaction(
       amount: "1",
       app: app.upiApplication,
-      receiverName: 'Ratandeep',
-      receiverUpiAddress: "BHARATPE09893654294@yesbankltd",
+      receiverName: 'Puthon',
+      receiverUpiAddress: "6363345756@paytm", // "BHARATPE09893654294@yesbankltd",
       transactionRef: transactionRef,
-      merchantCode: '5691', // change it accordingly.
+      merchantCode: '5812', // change it accordingly.
     );
 
     print(a);

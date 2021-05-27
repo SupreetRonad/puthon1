@@ -15,7 +15,7 @@ class AdminGenerateQR extends StatefulWidget {
 class _AdminGenerateQRState extends State<AdminGenerateQR> {
   String qrContent, table;
   Uint8List result = Uint8List(0);
-  var valid = 0;
+  var valid = 0, flag = 0;
   @override
   Widget build(BuildContext context) {
     return BackdropFilter(
@@ -60,7 +60,9 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
                       key: ValueKey('table'),
                       keyboardType: TextInputType.number,
                       decoration: textField.copyWith(
-                        hintText: "Enter Table number...",
+                        hintText: flag == 0
+                            ? "Enter Table number..."
+                            : "Enter Bot number...",
                         hintStyle: TextStyle(
                           color: Colors.black.withOpacity(.35),
                         ),
@@ -68,31 +70,114 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
                     ),
                   ),
                 ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    elevation: 10,
-                    primary: Colors.white,
-                    //padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                      width: 70,
+                      child: Column(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                flag = 0;
+                              });
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.circle,
+                                  color: flag == 0
+                                      ? Colors.greenAccent
+                                      : Colors.grey,
+                                  size: flag == 0 ? 17 : 14,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  "Table",
+                                  style: TextStyle(
+                                    color: flag == 0
+                                        ? Colors.black87
+                                        : Colors.black45,
+                                    fontSize: flag == 0 ? 17 : 14,
+                                    fontWeight: flag == 0
+                                        ? FontWeight.bold
+                                        : FontWeight.normal,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                flag = 1;
+                              });
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.circle,
+                                  color: flag == 1
+                                      ? Colors.greenAccent
+                                      : Colors.grey,
+                                  size: flag == 1 ? 17 : 14,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  "Bot",
+                                  style: TextStyle(
+                                    color: flag == 1
+                                        ? Colors.black87
+                                        : Colors.black45,
+                                    fontSize: flag == 1 ? 17 : 14,
+                                    fontWeight: flag == 1
+                                        ? FontWeight.bold
+                                        : FontWeight.normal,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  onPressed: () async {
-                    if (qrContent.isNotEmpty &&
-                        (RegExp(r'^[0-9]{1}$').hasMatch(qrContent) ||
-                            RegExp(r'^[0-9]{2}$').hasMatch(qrContent))) {
-                      FocusScope.of(context).unfocus();
-                      result = await scanner.generateBarCode(
-                          "${qrContent}/*/${FirebaseAuth.instance.currentUser.uid}");
-                      table = qrContent;
-                      valid = 1;
-                    } else {
-                      valid = 2;
-                      result = Uint8List(0);
-                    }
-                    setState(() {});
-                  },
-                  child: Text("Generate Code"),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        elevation: 10,
+                        primary: Colors.white,
+                        //padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      onPressed: () async {
+                        if (qrContent.isNotEmpty &&
+                            (RegExp(r'^[0-9]{1}$').hasMatch(qrContent) ||
+                                RegExp(r'^[0-9]{2}$').hasMatch(qrContent))) {
+                          FocusScope.of(context).unfocus();
+                          result = await scanner.generateBarCode(
+                              "${qrContent}/*/${FirebaseAuth.instance.currentUser.uid}");
+                          table = qrContent;
+                          valid = 1;
+                        } else {
+                          valid = 2;
+                          result = Uint8List(0);
+                        }
+                        setState(() {});
+                      },
+                      child: Text("Generate Code"),
+                    ),
+                  ],
                 ),
                 if (valid == 0)
                   SizedBox(
@@ -103,7 +188,7 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
                     padding: const EdgeInsets.all(5),
                     child: Text(
                       valid == 1
-                          ? "QR code generated for Table ${table}"
+                          ? "QR code generated for ${flag == 0 ? "Table" : "Bot"} ${table}"
                           : "Invalid table number",
                       style: TextStyle(
                         color: valid == 1 ? Colors.green : Colors.red,
@@ -144,7 +229,7 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
                       await ImageGallerySaver.saveImage(
                           Uint8List.fromList(result),
                           quality: 60,
-                          name: "${qrContent}table");
+                          name: "${qrContent}${flag == 0 ? "Table" : "Bot"}");
                       Fluttertoast.showToast(
                           msg: "QR code saved to Gallery",
                           gravity: ToastGravity.SNACKBAR,

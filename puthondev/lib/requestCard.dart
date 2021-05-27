@@ -22,6 +22,7 @@ class RequestCard extends StatelessWidget {
             Text(request['resName']),
             Text(request['street']),
             Text(request['pincode']),
+            Text(request['upiId']),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -45,6 +46,7 @@ class RequestCard extends StatelessWidget {
                       'city': request["city"],
                       'building': request["building"],
                       'street': request["street"],
+                      'upiId': request['upiId'],
                     });
 
                     await FirebaseFirestore.instance

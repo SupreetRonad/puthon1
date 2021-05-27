@@ -7,17 +7,28 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:puthon/Shared/successBox.dart';
 
 class TnC extends StatefulWidget {
-  final resName, street, city, state, pincode, building, name, phone, email;
-  TnC(
-      {this.resName,
-      this.street,
-      this.city,
-      this.state,
-      this.pincode,
-      this.building,
-      this.name,
-      this.phone,
-      this.email});
+  final resName,
+      street,
+      city,
+      state,
+      pincode,
+      building,
+      name,
+      phone,
+      email,
+      upi;
+  TnC({
+    this.resName,
+    this.street,
+    this.city,
+    this.state,
+    this.pincode,
+    this.building,
+    this.name,
+    this.phone,
+    this.email,
+    this.upi,
+  });
   @override
   _TnCState createState() => _TnCState();
 }
@@ -147,7 +158,8 @@ class _TnCState extends State<TnC> {
                                   'uid': FirebaseAuth.instance.currentUser.uid,
                                   'email': widget.email,
                                   'phone': widget.phone,
-                                  'name': widget.name
+                                  'name': widget.name,
+                                  'upiId': widget.upi,
                                 });
                                 Navigator.of(context).pop();
                                 Navigator.of(context).pop();
@@ -249,6 +261,8 @@ Notwithstanding any damages that You might incur, the entire liability of the Co
 To the maximum extent permitted by applicable law, in no event shall the Company or its suppliers be liable for any special, incidental, indirect, or consequential damages whatsoever (including, but not limited to, damages for loss of profits, loss of data or other information, for business interruption, for personal injury, loss of privacy arising out of or in any way related to the use of or inability to use the Service, third-party software and/or third-party hardware used with the Service, or otherwise in connection with any provision of this Terms), even if the Company or any supplier has been advised of the possibility of such damages and even if the remedy fails of its essential purpose.
 
 Some states do not allow the exclusion of implied warranties or limitation of liability for incidental or consequential damages, which means that some of the above limitations may not apply. In these states, each party's liability will be limited to the greatest extent permitted by law.
+
+If given a invalid or fraudulent Business information, we are not responsible for the consequences.
 
 "AS IS" and "AS AVAILABLE" Disclaimer
 The Service is provided to You "AS IS" and "AS AVAILABLE" and with all faults and defects without warranty of any kind. To the maximum extent permitted under applicable law, the Company, on its own behalf and on behalf of its Affiliates and its and their respective licensors and service providers, expressly disclaims all warranties, whether express, implied, statutory or otherwise, with respect to the Service, including all implied warranties of merchantability, fitness for a particular purpose, title and non-infringement, and warranties that may arise out of course of dealing, course of performance, usage or trade practice. Without limitation to the foregoing, the Company provides no warranty or undertaking, and makes no representation of any kind that the Service will meet Your requirements, achieve any intended results, be compatible or work with any other software, applications, systems or services, operate without interruption, meet any performance or reliability standards or be error free or that any errors or defects can or will be corrected.

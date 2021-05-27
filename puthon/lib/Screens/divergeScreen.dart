@@ -18,6 +18,7 @@ class DivergeScreen extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return LoadingScreen();
         }
+        scanned = snapshot.data['scanned'];
         return snapshot.data['register'] ? DetailScreen() : HomeScreen();
       },
     );

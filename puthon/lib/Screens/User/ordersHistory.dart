@@ -80,7 +80,6 @@ class OrdersHistory extends StatelessWidget {
                             Spacer(),
                             Column(
                               children: [
-                                // TODO: Time format
                                 Text(
                                    hh1.toString() + " : " + time[1] + " " +  gg,
                                   style: GoogleFonts.raleway(
