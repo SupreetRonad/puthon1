@@ -58,8 +58,8 @@ class _UserControlButtonsState extends State<UserControlButtons> {
       height: 40,
       width: count > 0 ? 120 : 100,
       decoration: BoxDecoration(
-        border: Border.all(color : count == 0 ? Colors.transparent : Colors.amberAccent),
-        color: count > 0 ? Colors.amber[100] : Colors.orange[300],
+        border: Border.all(color : count == 0 ? Colors.transparent : Colors.amber[300]),
+        color: count > 0 ? Colors.amber.withOpacity(.1) : Colors.amber[300],
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20),
           bottomRight: Radius.circular(20),

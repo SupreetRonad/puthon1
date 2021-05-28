@@ -37,267 +37,266 @@ class _HomeDrawerState extends State<HomeDrawer> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return LoadingScreen();
         }
-        return BackdropFilter(
-          filter: ImageFilter.blur(
-            sigmaX: 10.0,
-            sigmaY: 10.0,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(0, 50, 10, 0),
-            child: Column(
-              children: [
-                Container(
-                  height: 500,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(30),
-                    child: Drawer(
-                      elevation: 10,
-                      child: Container(
-                        color: Color.fromRGBO(247, 197, 126, 0.4),
-                        child: Column(
-                          children: [
-                            Container(
-                              color: Color.fromRGBO(241, 117, 60, 1),
-                              height: 140,
-                              child: Row(
-                                children: [
-                                  SizedBox(width: 15),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(100),
-                                      color: Colors.red.withOpacity(.6),
-                                    ),
-                                    width: 90,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(100),
-                                      child: BackdropFilter(
-                                        filter: ImageFilter.blur(
-                                            sigmaX: 5.0, sigmaY: 5.0),
-                                        child: Image.asset(
-                                          info['gender'] == 1
-                                              ? "assets/images/female2.png"
-                                              : "assets/images/male2.png",
-                                          fit: BoxFit.cover,
-                                        ),
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(0, 50, 10, 0),
+          child: Column(
+            children: [
+              Container(
+                height: 500,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(30),
+                  child: Drawer(
+                    elevation: 10,
+                    child: Container(
+                      color: Colors.yellow[50],
+                      child: Column(
+                        children: [
+                          Container(
+                            color: Colors.yellow[200],
+                            height: 140,
+                            child: Row(
+                              children: [
+                                SizedBox(width: 15),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(100),
+                                    color: Colors.red.withOpacity(.6),
+                                  ),
+                                  width: 90,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(100),
+                                    child: BackdropFilter(
+                                      filter: ImageFilter.blur(
+                                          sigmaX: 5.0, sigmaY: 5.0),
+                                      child: Image.asset(
+                                        info['gender'] == 1
+                                            ? "assets/images/female2.png"
+                                            : "assets/images/male2.png",
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
                                   ),
-                                  SizedBox(width: 10),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        width: 130,
-                                        child: Text(
-                                          info['name'] ?? 'Name',
-                                          overflow: TextOverflow.fade,
-                                          softWrap: false,
-                                          maxLines: 1,
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                          ),
+                                ),
+                                SizedBox(width: 10),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      width: 130,
+                                      child: Text(
+                                        info['name'] ?? 'Name',
+                                        overflow: TextOverflow.fade,
+                                        softWrap: false,
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                          fontSize: 18,
                                         ),
                                       ),
-                                      SizedBox(
-                                        height: 3,
+                                    ),
+                                    SizedBox(
+                                      height: 3,
+                                    ),
+                                    Container(
+                                      width: 150,
+                                      child: Text(
+                                        info['email'] ?? 'name@email.com',
+                                        overflow: TextOverflow.fade,
+                                        softWrap: false,
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                            fontSize: 13,
+                                            color: Colors.black45),
                                       ),
-                                      Container(
-                                        width: 150,
-                                        child: Text(
-                                          info['email'] ?? 'name@email.com',
-                                          overflow: TextOverflow.fade,
-                                          softWrap: false,
-                                          maxLines: 1,
-                                          style: TextStyle(
-                                              fontSize: 13,
-                                              color: Colors.black45),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                            child: Column(
+                              children: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                        context, '/detailScreen');
+                                  },
+                                  child: Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Icon(
+                                        Icons.edit,
+                                        color: Colors.black,
+                                      ),
+                                      Text(
+                                        "  Edit Profile",
+                                        style: TextStyle(
+                                          color: Colors.black,
                                         ),
                                       ),
                                     ],
                                   ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                              child: Column(
-                                children: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pushNamed(
-                                          context, '/detailScreen');
-                                    },
-                                    child: Row(
-                                      children: [
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        Icon(
-                                          Icons.edit,
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                        context, '/ordersHistory');
+                                  },
+                                  child: Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Icon(
+                                        Icons.list_alt,
+                                        color: Colors.black,
+                                      ),
+                                      Text(
+                                        "  My Orders",
+                                        style: TextStyle(
                                           color: Colors.black,
                                         ),
-                                        Text(
-                                          "  Edit Profile",
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pushNamed(
-                                          context, '/ordersHistory');
-                                    },
-                                    child: Row(
-                                      children: [
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        Icon(
-                                          Icons.list_alt,
-                                          color: Colors.black,
-                                        ),
-                                        Text(
-                                          "  My Orders",
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  info['admin']
-                                      ? SizedBox()
-                                      : TextButton(
-                                          onPressed: () {
-                                            Navigator.pushNamed(context,
-                                                '/businessRegisterScreen');
-                                          },
-                                          child: Row(
-                                            children: [
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              Icon(
-                                                Icons.business,
+                                ),
+                                info['admin']
+                                    ? SizedBox()
+                                    : TextButton(
+                                        onPressed: () {
+                                          Navigator.pushNamed(context,
+                                              '/businessRegisterScreen');
+                                        },
+                                        child: Row(
+                                          children: [
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Icon(
+                                              Icons.business,
+                                              color: Colors.black,
+                                            ),
+                                            Text(
+                                              "  Register my business",
+                                              style: TextStyle(
                                                 color: Colors.black,
                                               ),
-                                              Text(
-                                                "  Register my business",
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
-                                  if (info["admin"])
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pushNamed(
-                                            context, '/adminScreen');
-                                      },
-                                      child: Row(
-                                        children: [
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Icon(
-                                            Icons.how_to_reg,
-                                            color: Colors.black,
-                                          ),
-                                          Text(
-                                            "  Admin Mode",
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                        ],
                                       ),
-                                    ),
-                                  if (info["cook"])
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pushNamed(
-                                            context, '/cookScreen');
-                                      },
-                                      child: Row(
-                                        children: [
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Icon(
-                                            Icons.restaurant,
-                                            color: Colors.black,
-                                          ),
-                                          Text(
-                                            "  Cook Mode",
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  if (prefs.getInt('orderNo') == 0)
-                                    Row(
+                                if (info["admin"])
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                          context, '/adminScreen');
+                                    },
+                                    child: Row(
                                       children: [
-                                        Spacer(),
-                                        Container(
-                                          width: 110,
-                                          decoration: BoxDecoration(
-                                              color: Colors.red.withOpacity(.7),
-                                              borderRadius:
-                                                  BorderRadius.circular(20)),
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            child: TextButton(
-                                              onPressed: () {
-                                                _confirm(context);
-                                              },
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Icon(
-                                                    Icons.exit_to_app_rounded,
-                                                    color: Colors.white,
-                                                  ),
-                                                  Text(
-                                                    "  Log out",
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Icon(
+                                          Icons.how_to_reg,
+                                          color: Colors.black,
+                                        ),
+                                        Text(
+                                          "  Admin Mode",
+                                          style: TextStyle(
+                                            color: Colors.black,
                                           ),
                                         ),
-                                        SizedBox(width: 10),
                                       ],
                                     ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
+                                  ),
+                                if (info["cook"])
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                          context, '/cookScreen');
+                                    },
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Icon(
+                                          Icons.restaurant,
+                                          color: Colors.black,
+                                        ),
+                                        Text(
+                                          "  Cook Mode",
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                SizedBox(
+                                  height: 105,
+                                ),
+                                if (prefs.getInt('orderNo') == 0)
+                                  Row(
+                                    children: [
+                                      Spacer(),
+                                      Container(
+                                        width: 110,
+                                        decoration: BoxDecoration(
+                                            gradient: LinearGradient(
+                                              colors: [
+                                                Colors.redAccent,
+                                                Colors.red[500],
+                                              ],
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(20)),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          child: TextButton(
+                                            onPressed: () {
+                                              _confirm(context);
+                                            },
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Icon(
+                                                  Icons.exit_to_app_rounded,
+                                                  color: Colors.white,
+                                                ),
+                                                Text(
+                                                  "  Log out",
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(width: 10),
+                                    ],
+                                  ),
+                              ],
+                            ),
+                          )
+                        ],
                       ),
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },

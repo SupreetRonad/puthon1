@@ -1,7 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:puthon/Shared/loadingScreen.dart';
+import 'package:puthon/Shared/orderCard.dart';
 
 class AdminTables extends StatelessWidget {
   @override
@@ -19,7 +23,7 @@ class AdminTables extends StatelessWidget {
           }
           if (!snapshot.hasData) {
             return Text(
-              "Please Add cooks...",
+              "No Tables occupied yet...",
               style: TextStyle(fontSize: 20),
             );
           } else {
@@ -35,20 +39,43 @@ class AdminTables extends StatelessWidget {
                 itemBuilder: (BuildContext context, int index) {
                   var table = snapshot.data.docs[index];
                   return GestureDetector(
-                    onTap: () async {
-
+                    onTap: () {
+                      showMaterialModalBottomSheet(
+                        backgroundColor: Colors.grey[200],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(20),
+                            topLeft: Radius.circular(20),
+                          ),
+                        ),
+                        context: context,
+                        builder: (context) => TablesInfo(
+                          customerId: table['customerId'],
+                          tableNo: table['table'],
+                        ),
+                      );
+                      // showModalBottomSheet(
+                      //     context: context,
+                      //     builder: (context) {
+                      //       return TablesInfo(table['customerId']);
+                      //     });
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.red[300],
+                        color: Colors.orange[400],
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Center(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(table['table']),
-                            //Icon(Icons.table)
+                            Text(
+                              table['table'],
+                              style: GoogleFonts.righteous(
+                                fontSize: 30,
+                                color: Colors.white,
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -58,6 +85,149 @@ class AdminTables extends StatelessWidget {
               ),
             );
           }
+        },
+      ),
+    );
+  }
+}
+
+class TablesInfo extends StatefulWidget {
+  final customerId, tableNo;
+  TablesInfo({this.customerId, this.tableNo});
+
+  @override
+  _TablesInfoState createState() => _TablesInfoState();
+}
+
+class _TablesInfoState extends State<TablesInfo> {
+  var bill, timeEntered, hh, mm, date, hh1, gg, time;
+  void initState() {
+    super.initState();
+    FirebaseFirestore.instance
+        .collection('orders')
+        .doc(FirebaseAuth.instance.currentUser.uid)
+        .get()
+        .then((value) {
+      if (value.exists) {
+        bill = value['total'];
+        timeEntered = value['timeEntered'].toDate().toString().split(" ");
+        date = timeEntered[0];
+        time = timeEntered[1].split(":");
+        mm = hh = int.parse(time[1]);
+        hh = int.parse(time[0]);
+        hh1 = hh > 12
+            ? hh - 12
+            : hh == 0
+                ? 12
+                : hh;
+        gg = hh >= 12 ? "pm" : "am";
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // backgroundColor: Colors.white,
+      child: StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('orders')
+            .doc(widget.customerId)
+            .collection(widget.customerId)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return SpinKitFadingCircle(
+              size: 15,
+              color: Colors.black,
+            );
+          }
+          if (!snapshot.hasData) {
+            return Text("No order placed");
+          }
+
+          return Container(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height - 160,
+            ),
+            child: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  decoration: BoxDecoration(
+                    color: Colors.orange,
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(20),
+                      topLeft: Radius.circular(20),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        widget.tableNo,
+                        style: GoogleFonts.righteous(
+                          fontSize: 25,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 10,),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        "Entered at  ",
+                        style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black54),
+                      ),
+                      Text(
+                        hh1.toString() + " : " + mm.toString() + " " + gg,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Spacer(),
+                      Text(
+                        "Total Rs. ",
+                        style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black54),
+                      ),
+                      Text(
+                        bill.toString(),
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      itemCount: snapshot.data.docs.length,
+                      itemBuilder: (context, index) {
+                        var or = snapshot.data.docs[snapshot.data.docs.length - index - 1];
+                        return OrderCard(
+                          order: or,
+                          timeStamp: or["timeStamp"],
+                          cookOrder: false,
+                        );
+                      }),
+                ),
+              ],
+            ),
+          );
         },
       ),
     );

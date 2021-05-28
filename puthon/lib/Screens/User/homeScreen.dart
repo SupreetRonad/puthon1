@@ -63,14 +63,16 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/images/veg1.jpg"),
+          image: AssetImage(
+            "assets/images/bg3.jpg",
+          ),
           fit: BoxFit.cover,
         ),
       ),
       child: BackdropFilter(
         filter: ImageFilter.blur(
-          sigmaX: 5,
-          sigmaY: 5,
+          sigmaX: 0,
+          sigmaY: 0,
         ),
         child: StreamBuilder(
           stream: FirebaseFirestore.instance

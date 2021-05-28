@@ -62,6 +62,13 @@ Future<void> PayAndExit(var prefs, Function refresh) async {
   });
 
   await FirebaseFirestore.instance
+      .collection('admins')
+      .doc(HomeScreen.resId)
+      .collection('tables')
+      .doc(HomeScreen.table)
+      .delete();
+
+  await FirebaseFirestore.instance
       .collection('history')
       .doc(FirebaseAuth.instance.currentUser.uid)
       .collection(FirebaseAuth.instance.currentUser.uid)

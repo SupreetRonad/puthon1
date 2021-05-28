@@ -26,7 +26,7 @@ class ConfirmBox extends StatelessWidget {
           backgroundColor: Colors.white,
           child: SizedBox(
             height: height ?? 250,
-            width: 320,
+            width: MediaQuery.of(context).size.width - 80,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -40,7 +40,7 @@ class ConfirmBox extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                      width: 152,
+                      width: (MediaQuery.of(context).size.width - 80)/2,
                       child: TextButton(
                         style: TextButton.styleFrom(
                           primary: Colors.black,
@@ -57,7 +57,7 @@ class ConfirmBox extends StatelessWidget {
                       ),
                     ),                    
                     Container(
-                      width: 152,
+                      width: (MediaQuery.of(context).size.width - 80)/2,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.only(
                           bottomRight: Radius.circular(20.0),

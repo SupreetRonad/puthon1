@@ -28,7 +28,6 @@ class _PaymentUPIState extends State<PaymentUPI> {
       setState(() {
         apps = value;
       });
-      print(apps.toString());
     }).catchError((e) {
       print(e);
       setState(() {

@@ -131,10 +131,12 @@ class AdminControlButtons extends StatelessWidget {
                                 child: Column(
                                   children: [
                                     Text(
-                                      "Enable item ?",
+                                      item["inMenu"]
+                                          ? "Disable item ?"
+                                          : "Enable item ?",
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        color: Colors.green[400],
+                                        color: item["inMenu"] ? Colors.black54 : Colors.green[400],
                                         fontSize: 20,
                                       ),
                                     ),
@@ -176,9 +178,9 @@ class AdminControlButtons extends StatelessWidget {
                                   builder: (context) {
                                     return Dialog(
                                       backgroundColor: Colors.transparent,
-                                      child: Container(  
+                                      child: Container(
                                         width: 50,
-                                        height: 50,                                      
+                                        height: 50,
                                         decoration: BoxDecoration(
                                           color: Colors.white,
                                           borderRadius:

@@ -246,7 +246,7 @@ class _AcceptedOrderState extends State<AcceptedOrder> {
                                   botNo = cameraScanResult.split("/*/")[0];
                                 });
 
-                                Loading(context);
+                                // Loading(context);
 
                                 databaseRef
                                     .child(snapshot.data['resId'])
@@ -272,7 +272,6 @@ class _AcceptedOrderState extends State<AcceptedOrder> {
                                     .update({
                                   'ordered': false,
                                 });
-                                Navigator.pop(context);
                                 
                                 await FirebaseFirestore.instance
                                     .collection("users")

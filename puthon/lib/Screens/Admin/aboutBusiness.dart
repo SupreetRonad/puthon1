@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:puthon/Shared/textField.dart';
 
@@ -17,33 +18,249 @@ class _AboutBusinessState extends State<AboutBusiness> {
   var resName, upi;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.orange,
-            borderRadius: BorderRadius.circular(200),
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance
+          .collection('admins')
+          .doc(FirebaseAuth.instance.currentUser.uid)
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return SpinKitWave(
+            color: Colors.black54,
+            size: 20,
+          );
+        }
+        if (!snapshot.hasData) {
+          return Center(
+            child: Text("Cannot fetch the details at the moment"),
+          );
+        }
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  //color: Colors.white60,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                width: MediaQuery.of(context).size.width - 30,
+                padding: EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 10,
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      snapshot.data["resName"],
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Divider(),
+                    Row(
+                      children: [
+                        Text(
+                          "Building info : ",
+                          style: TextStyle(fontSize: 13, color: Colors.black54
+                              //fontWeight: FontWeight.bold,
+                              ),
+                        ),
+                        Text(
+                          snapshot.data["building"],
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          "Street : ",
+                          style: TextStyle(fontSize: 13, color: Colors.black54
+                              //fontWeight: FontWeight.bold,
+                              ),
+                        ),
+                        Text(
+                          snapshot.data["street"],
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          "State : ",
+                          style: TextStyle(fontSize: 13, color: Colors.black54
+                              //fontWeight: FontWeight.bold,
+                              ),
+                        ),
+                        Text(
+                          snapshot.data["state"] + ', ',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
+                        Text(
+                          snapshot.data["country"],
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          "Pincode : ",
+                          style: TextStyle(fontSize: 13, color: Colors.black54
+                              //fontWeight: FontWeight.bold,
+                              ),
+                        ),
+                        Text(
+                          snapshot.data["pincode"],
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                      backgroundColor: Colors.white60,
+                      primary: Colors.black,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      )),
+                  onPressed: () {
+                    _editInfo();
+                  },
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.border_color,
+                        size: 30,
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Edit",
+                            style: TextStyle(
+                              color: Colors.black87,
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            "Edit your business' info.",
+                            style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: 13,
+                              //fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                      backgroundColor: Colors.white60,
+                      primary: Colors.black,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      )),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AdminGenerateQR();
+                      },
+                    );
+                  },
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.qr_code_scanner,
+                        size: 30,
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Generate QR code",
+                            style: TextStyle(
+                              color: Colors.black87,
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            "Generate QR code for tables or bots.",
+                            style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: 13,
+                              //fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-          child: IconButton(
-            splashColor: Colors.orange,
-            onPressed: () {
-              _editInfo();
-            },
-            icon: Icon(Icons.edit),
-          ),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AdminGenerateQR();
-              },
-            );
-          },
-          child: Text("QR Code"),
-        ),
-      ],
+        );
+      },
     );
   }
 

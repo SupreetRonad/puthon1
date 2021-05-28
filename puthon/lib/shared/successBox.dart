@@ -12,7 +12,9 @@ class SuccessBox extends StatelessWidget {
     return BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
       child: AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(25),
+        ),
         title: Column(
           children: [
             Lottie.asset(
@@ -34,22 +36,47 @@ class SuccessBox extends StatelessWidget {
         content: SingleChildScrollView(
           child: ListBody(
             children: <Widget>[
-              Text("\t${msg1}"),
-              Text("\n\t${msg2}"),
+              Text(
+                "\t${msg1}",
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                "\n\t${msg2}",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.black54,
+                  fontSize: 13,
+                ),
+              ),
             ],
           ),
         ),
         actions: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextButton(
-                child: Text('OK'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
+          Container(
+            decoration: BoxDecoration(
+              gradient:
+                  LinearGradient(colors: [Colors.greenAccent, Colors.green]),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(20),
+                bottomRight: Radius.circular(20),
               ),
-            ],
+            ),
+            child: TextButton(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'OK',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
           ),
         ],
       ),

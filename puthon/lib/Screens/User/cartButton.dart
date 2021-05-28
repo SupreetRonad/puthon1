@@ -255,6 +255,7 @@ class _CartButtonState extends State<CartButton> {
                                       height: 160,
                                       function: () async {
                                         Loading(context);
+
                                         var orderNo =
                                             prefs.getInt("orderNo") ?? 0;
                                         orderNo++;
@@ -333,7 +334,7 @@ class _CartButtonState extends State<CartButton> {
                                           'ordered': true,
                                         });
                                         prefs.setInt("orderNo", orderNo);
-                                        
+
                                         for (var i = 0;
                                             i < HomeScreen.list.length;
                                             i++) {

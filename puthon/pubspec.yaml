@@ -48,6 +48,7 @@ dependencies:
   sliding_up_panel: ^2.0.0+1
   upi_india: ^3.0.1
   upi_pay: ^0.2.0
+  modal_bottom_sheet: ^2.0.0
 
 flutter_icons:
   android: true

@@ -16,240 +16,247 @@ class CookECard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
-      child: ExpansionCard(
-        margin: const EdgeInsets.only(top: 8),
-        borderRadius: 20,
-        background: Image.asset(
-          flag ? 'assets/images/cardbg2.jpg' : 'assets/images/cardbg1.jpg',
-          fit: BoxFit.fill,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Colors.white70,
         ),
-        title: Container(
-          child: Row(
-            children: [
-              Container(
-                width: 60,
-                padding: EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                    color: Colors.yellow,
-                    borderRadius: BorderRadius.circular(100)),
-                child: Image.asset(
-                  doc['gender'] == 1
-                      ? "assets/images/female2.png"
-                      : "assets/images/male2.png",
-                ),
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      child: Text(
-                        doc['name'],
-                        overflow: TextOverflow.fade,
-                        softWrap: false,
-                        maxLines: 1,
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.black,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Container(
+                    width: 60,
+                    padding: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                        color: Colors.yellow,
+                        borderRadius: BorderRadius.circular(100)),
+                    child: Image.asset(
+                      doc['gender'] == 1
+                          ? "assets/images/female2.png"
+                          : "assets/images/male2.png",
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          child: Text(
+                            doc['name'],
+                            overflow: TextOverflow.fade,
+                            softWrap: false,
+                            maxLines: 1,
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.black,
+                            ),
+                          ),
                         ),
-                      ),
+                        Text(
+                          doc['email'],
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: Colors.black45,
+                          ),
+                        ),
+                      ],
                     ),
-                    Text(
-                      doc['email'],
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.black45,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Row(
+            ),
+            Row(
               children: [
                 Expanded(
-                  child: Column(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Icon(
-                            Icons.phone,
-                            size: 18,
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            doc['phone'],
-                            style: TextStyle(fontSize: 15, color: Colors.black),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Icon(
-                            Icons.date_range,
-                            size: 18,
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            doc['dob'],
-                            style: TextStyle(fontSize: 15, color: Colors.black),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Spacer(),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              elevation: 5,
-                              primary: Colors.white60,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 10,
                               ),
-                            ),
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return ConfirmBox(
-                                    b1: "Go Back",
-                                    b2: flag ? "Add" : "Remove",
-                                    color: flag
-                                        ? [Colors.lightBlue[300], Colors.blue]
-                                        : [Colors.redAccent, Colors.red[300]],
-                                    function: () async {
-                                      Loading(context);
-                                      if (flag) {
-                                        FirebaseFirestore.instance
-                                            .collection('admins')
-                                            .doc(FirebaseAuth
-                                                .instance.currentUser.uid)
-                                            .collection('cooks')
-                                            .doc(doc["uid"])
-                                            .set({
-                                          'registeredOn': DateTime.now(),
-                                          'uid': doc["uid"],
-                                        });
-                                        FirebaseFirestore.instance
-                                            .collection('users')
-                                            .doc(doc["uid"])
-                                            .update({
-                                          'cook': true,
-                                        });
-                                        Navigator.of(context).pop();
-                                      } else {
-                                        FirebaseFirestore.instance
-                                            .collection('admins')
-                                            .doc(FirebaseAuth
-                                                .instance.currentUser.uid)
-                                            .collection('cooks')
-                                            .doc(doc["uid"])
-                                            .delete();
-                                        FirebaseFirestore.instance
-                                            .collection('users')
-                                            .doc(doc["uid"])
-                                            .update({'cook': false});
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              "${doc['name']} has been removed successfully!",
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                            backgroundColor: Colors.black,
-                                          ),
-                                        );
-                                      }
-                                      Navigator.of(context).pop();
-                                      Navigator.of(context).pop();
-                                    },
-                                    height: 160,
-                                    message: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          "${flag ? "Add" : "Remove"} Cook ?",
-                                          style: GoogleFonts.roboto(
-                                            fontSize: 20,
-                                            color: flag
-                                                ? Colors.blue[300]
-                                                : Colors.red,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        Divider(),
-                                        Text("Do you really want to " +
-                                            (flag ? "Add" : "Remove") +
-                                            " the cook"),
-                                        Text(
-                                          "${doc["name"]} ?",
-                                          style: TextStyle(
-                                            color: Colors.black87,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                },
-                              );
-                            },
-                            child: Row(
-                              children: [
-                                Icon(
-                                  flag
-                                      ? Icons.person_add_alt_1
-                                      : Icons.person_remove_rounded,
-                                  size: 20,
-                                  color: flag ? Colors.blue : Colors.red,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  flag ? "Add Cook" : "Remove",
-                                  style: TextStyle(
-                                      color: flag ? Colors.blue : Colors.red),
-                                ),
-                              ],
-                            ),
+                              Icon(
+                                Icons.phone,
+                                size: 18,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                doc['phone'],
+                                style: TextStyle(
+                                    fontSize: 15, color: Colors.black),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Icon(
+                                Icons.date_range,
+                                size: 18,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                doc['dob'],
+                                style: TextStyle(
+                                    fontSize: 15, color: Colors.black),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
                           ),
                         ],
+                      ),
+                      Spacer(),
+                      Container(
+                        height: 40,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            bottomRight: Radius.circular(20),
+                            topLeft: Radius.circular(20),
+                          ),
+                          color: flag ? Colors.blue : Colors.red[300],
+                        ),
+                        child: TextButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return ConfirmBox(
+                                  b1: "Go Back",
+                                  b2: flag ? "Add" : "Remove",
+                                  color: flag
+                                      ? [Colors.lightBlue[300], Colors.blue]
+                                      : [Colors.redAccent, Colors.red[300]],
+                                  function: () async {
+                                    Loading(context);
+                                    if (flag) {
+                                      FirebaseFirestore.instance
+                                          .collection('admins')
+                                          .doc(FirebaseAuth
+                                              .instance.currentUser.uid)
+                                          .collection('cooks')
+                                          .doc(doc["uid"])
+                                          .set({
+                                        'registeredOn': DateTime.now(),
+                                        'uid': doc["uid"],
+                                      });
+                                      FirebaseFirestore.instance
+                                          .collection('users')
+                                          .doc(doc["uid"])
+                                          .update({
+                                        'cook': true,
+                                      });
+                                      Navigator.of(context).pop();
+                                    } else {
+                                      FirebaseFirestore.instance
+                                          .collection('admins')
+                                          .doc(FirebaseAuth
+                                              .instance.currentUser.uid)
+                                          .collection('cooks')
+                                          .doc(doc["uid"])
+                                          .delete();
+                                      FirebaseFirestore.instance
+                                          .collection('users')
+                                          .doc(doc["uid"])
+                                          .update({'cook': false});
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            "${doc['name']} has been removed successfully!",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          backgroundColor: Colors.black,
+                                        ),
+                                      );
+                                    }
+                                    Navigator.of(context).pop();
+                                    Navigator.of(context).pop();
+                                  },
+                                  height: 160,
+                                  message: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "${flag ? "Add" : "Remove"} Cook ?",
+                                        style: GoogleFonts.roboto(
+                                          fontSize: 20,
+                                          color: flag
+                                              ? Colors.blue[300]
+                                              : Colors.red,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Divider(),
+                                      Text("Do you really want to " +
+                                          (flag ? "Add" : "Remove") +
+                                          " the cook"),
+                                      Text(
+                                        "${doc["name"]} ?",
+                                        style: TextStyle(
+                                          color: Colors.black87,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                          child: Row(
+                            children: [
+                              Icon(
+                                flag
+                                    ? Icons.person_add_alt_1
+                                    : Icons.person_remove_rounded,
+                                size: 20,
+                                color: Colors.white,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                flag ? "Add Cook" : "Remove",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ],
                   ),
                 ),
               ],
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

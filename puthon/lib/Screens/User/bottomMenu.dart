@@ -87,7 +87,7 @@ class _BottomMenuState extends State<BottomMenu> {
                           child: Text(
                             HomeScreen.resName ?? "RESTUARANT NAME",
                             style: TextStyle(
-                              color: Colors.white,
+                              color: Colors.black54,
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
@@ -102,8 +102,8 @@ class _BottomMenuState extends State<BottomMenu> {
                         Text(
                           "Table. " + HomeScreen.table,
                           style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: 18,
+                            color: Colors.black38,
+                            fontSize: 15,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -157,7 +157,7 @@ class _BottomMenuState extends State<BottomMenu> {
                                   }
                                 : () {
                                     if (!snapshot.data['ordered']) {
-                                      // PayAndExit(widget.prefs, widget.refresh);
+                                      PayAndExit(widget.prefs, widget.refresh);
                                       // TODO: Storing order number in cloud, as it can be overwritten in some extreme cases
                                       Navigator.push(
                                         context,

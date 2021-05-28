@@ -42,8 +42,9 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
                     fontSize: 17,
                   ),
                 ),
+                Divider(),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(0.0, 10, 0.0, 8),
+                  padding: const EdgeInsets.fromLTRB(0.0, 0, 0.0, 8),
                   child: Container(
                     padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
                     decoration: BoxDecoration(
