@@ -2,6 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expansion_card/expansion_card.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:puthon/Shared/loading.dart';
 import '/Shared/confirmBox.dart';
 
 class CookECard extends StatelessWidget {
@@ -136,8 +139,9 @@ class CookECard extends StatelessWidget {
                                     b2: flag ? "Add" : "Remove",
                                     color: flag
                                         ? [Colors.lightBlue[300], Colors.blue]
-                                        : [Colors.redAccent , Colors.red[300]],
+                                        : [Colors.redAccent, Colors.red[300]],
                                     function: () async {
+                                      Loading(context);
                                       if (flag) {
                                         FirebaseFirestore.instance
                                             .collection('admins')
@@ -182,44 +186,33 @@ class CookECard extends StatelessWidget {
                                         );
                                       }
                                       Navigator.of(context).pop();
+                                      Navigator.of(context).pop();
                                     },
+                                    height: 160,
                                     message: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            SizedBox(
-                                              width: flag ? 30 : 25,
-                                            ),
-                                            Icon(
-                                              flag
-                                                  ? Icons
-                                                      .person_add_alt_1_rounded
-                                                  : Icons
-                                                      .person_remove_alt_1_rounded,
-                                              color: flag
-                                                  ? Colors.blue[300]
-                                                  : Colors.red[300],
-                                              size: 130,
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        Text("Do you really want to " +
-                                            (flag ? "Add" : "Remove")),
                                         Text(
-                                          "${doc["name"]} ?",
-                                          style: TextStyle(
+                                          "${flag ? "Add" : "Remove"} Cook ?",
+                                          style: GoogleFonts.roboto(
+                                            fontSize: 20,
                                             color: flag
                                                 ? Colors.blue[300]
                                                 : Colors.red,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 20,
+                                          ),
+                                        ),
+                                        Divider(),
+                                        Text("Do you really want to " +
+                                            (flag ? "Add" : "Remove") +
+                                            " the cook"),
+                                        Text(
+                                          "${doc["name"]} ?",
+                                          style: TextStyle(
+                                            color: Colors.black87,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18,
                                           ),
                                         ),
                                       ],

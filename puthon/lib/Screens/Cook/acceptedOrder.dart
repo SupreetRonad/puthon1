@@ -4,8 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:puthon/Screens/Cook/cookTimer.dart';
+import 'package:puthon/Shared/loading.dart';
 import 'package:qrscans/qrscan.dart' as scanner;
 
 class AcceptedOrder extends StatefulWidget {
@@ -244,6 +246,8 @@ class _AcceptedOrderState extends State<AcceptedOrder> {
                                   botNo = cameraScanResult.split("/*/")[0];
                                 });
 
+                                Loading(context);
+
                                 databaseRef
                                     .child(snapshot.data['resId'])
                                     .child(botNo.toString())
@@ -268,13 +272,16 @@ class _AcceptedOrderState extends State<AcceptedOrder> {
                                     .update({
                                   'ordered': false,
                                 });
-
+                                Navigator.pop(context);
+                                
                                 await FirebaseFirestore.instance
                                     .collection("users")
                                     .doc(FirebaseAuth.instance.currentUser.uid)
                                     .update({
                                   'cooking': false,
-                                });
+                                });  
+                                
+                                
                               },
                             ),
                             SizedBox(

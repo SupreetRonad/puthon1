@@ -3,9 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:puthon/Screens/User/homeScreen.dart';
 import 'package:puthon/Shared/confirmBox.dart';
+import 'package:puthon/Shared/loading.dart';
 import 'package:puthon/Shared/successBox.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -52,7 +54,6 @@ class _CartButtonState extends State<CartButton> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      
       child: Column(
         children: [
           Padding(
@@ -112,11 +113,10 @@ class _CartButtonState extends State<CartButton> {
                           itemCount: HomeScreen.list.length,
                           itemBuilder: (BuildContext context, int index) {
                             var qty =
-                                prefs.getInt("${HomeScreen.list[index]}") ??
-                                    0;
-                            var price = prefs.getString(
-                                    "${HomeScreen.list[index]}1") ??
-                                "";
+                                prefs.getInt("${HomeScreen.list[index]}") ?? 0;
+                            var price =
+                                prefs.getString("${HomeScreen.list[index]}1") ??
+                                    "";
                             var veg =
                                 prefs.getBool("${HomeScreen.list[index]}2") ??
                                     true;
@@ -210,11 +210,51 @@ class _CartButtonState extends State<CartButton> {
                                     return ConfirmBox(
                                       b1: "Go Back",
                                       b2: "Confirm",
-                                      color: [Colors.greenAccent, Colors.green[300]],
-                                      message:
-                                          Text("Do you want to place order ?"),
-                                      height: 120,
+                                      color: [
+                                        Colors.greenAccent,
+                                        Colors.green[300]
+                                      ],
+                                      message: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10.0),
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              "Place order ?",
+                                              style: GoogleFonts.roboto(
+                                                fontSize: 20,
+                                                color: Colors.greenAccent,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            Divider(),
+                                            Text(
+                                              "Do you want to place your order ?",
+                                              style: GoogleFonts.roboto(
+                                                fontSize: 14,
+                                                color: Colors.black87,
+                                                //fontWeight: FontWeight.bold,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            SizedBox(
+                                              height: 5,
+                                            ),
+                                            Text(
+                                              "(Please check your cart again and confirm.)",
+                                              style: GoogleFonts.roboto(
+                                                fontSize: 12,
+                                                color: Colors.black54,
+                                                //fontWeight: FontWeight.bold,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      height: 160,
                                       function: () async {
+                                        Loading(context);
                                         var orderNo =
                                             prefs.getInt("orderNo") ?? 0;
                                         orderNo++;
@@ -293,8 +333,7 @@ class _CartButtonState extends State<CartButton> {
                                           'ordered': true,
                                         });
                                         prefs.setInt("orderNo", orderNo);
-                                        Navigator.pop(context);
-                                        Navigator.pop(context);
+                                        
                                         for (var i = 0;
                                             i < HomeScreen.list.length;
                                             i++) {
@@ -307,6 +346,9 @@ class _CartButtonState extends State<CartButton> {
                                         HomeScreen.list = [];
                                         prefs.setStringList("orderList", []);
                                         CartButton.orderList = {};
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
                                         showDialog(
                                           context: context,
                                           builder: (BuildContext context) {
@@ -349,7 +391,7 @@ class _CartButtonState extends State<CartButton> {
                 SizedBox(width: 15),
               ],
             ),
-            SizedBox(height: 15),
+          SizedBox(height: 15),
         ],
       ),
     );

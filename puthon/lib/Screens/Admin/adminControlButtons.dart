@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puthon/Shared/confirmBox.dart';
+import 'package:puthon/Shared/loading.dart';
 
 import 'addMenuItem.dart';
 
@@ -31,35 +33,58 @@ class AdminControlButtons extends StatelessWidget {
                   context: context,
                   builder: (BuildContext context) {
                     return ConfirmBox(
-                      height: 150,
+                      height: 200,
                       b1: "Go Back",
                       b2: "Delete",
                       color: [Colors.redAccent, Colors.red[300]],
-                      message: Column(
-                        children: [
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Text("Do you want to delete"),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            item["itemName"] + " ?",
-                            style: TextStyle(
+                      message: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Column(
+                          children: [
+                            Text(
+                              "Delete item ?",
+                              style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.red[300],
-                                fontSize: 20),
-                          )
-                        ],
+                                fontSize: 20,
+                              ),
+                            ),
+                            Divider(),
+                            Text("Do you want to delete the item"),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              item["itemName"] + " ?",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black87,
+                                fontSize: 16,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "Once deleted, all the info related to item will be deleted. Cannot be restored.",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.red[200],
+                                fontSize: 12,
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                       function: () async {
+                        Loading(context);
                         await FirebaseFirestore.instance
                             .collection('admins')
                             .doc(FirebaseAuth.instance.currentUser.uid)
                             .collection("menu")
                             .doc(item["itemName"])
                             .delete();
+                        Navigator.of(context).pop();
                         Navigator.of(context).pop();
                       },
                     );
@@ -94,41 +119,86 @@ class AdminControlButtons extends StatelessWidget {
                           context: context,
                           builder: (BuildContext context) {
                             return ConfirmBox(
-                              height: 150,
+                              height: 200,
                               b1: "Go Back",
                               b2: item["inMenu"] ? "Disable" : "Enable",
                               color: item["inMenu"]
                                   ? [Colors.grey[200], Colors.black54]
                                   : [Colors.greenAccent, Colors.green[300]],
-                              message: Column(
-                                children: [
-                                  SizedBox(
-                                    height: 15,
-                                  ),
-                                  Text(item["inMenu"]
-                                      ? "Do you want to disable"
-                                      : "Do you want to enable"),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    item["itemName"] + " ?",
-                                    style: TextStyle(
+                              message: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10.0),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "Enable item ?",
+                                      style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        color: item["inMenu"]
-                                            ? Colors.grey[600]
-                                            : Colors.green[300],
-                                        fontSize: 20),
-                                  )
-                                ],
+                                        color: Colors.green[400],
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                    Divider(),
+                                    Text(item["inMenu"]
+                                        ? "Do you want to disable the item"
+                                        : "Do you want to enable the item"),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      item["itemName"] + " ?",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black87,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      item["inMenu"]
+                                          ? "Once disabled, the item will no longer be visible to the customers."
+                                          : "Once enabled, the item will be visible to the customers to order from.",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Colors.black54,
+                                        fontSize: 12,
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                               function: () async {
+                                showDialog(
+                                  barrierDismissible: false,
+                                  context: context,
+                                  builder: (context) {
+                                    return Dialog(
+                                      backgroundColor: Colors.transparent,
+                                      child: Container(  
+                                        width: 50,
+                                        height: 50,                                      
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        child: SpinKitCircle(
+                                          color: Colors.black87,
+                                          size: 30,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
                                 await FirebaseFirestore.instance
                                     .collection('admins')
                                     .doc(FirebaseAuth.instance.currentUser.uid)
                                     .collection('menu')
                                     .doc(item["itemName"])
                                     .update({"inMenu": !item["inMenu"]});
+                                Navigator.of(context).pop();
                                 Navigator.of(context).pop();
                               },
                             );
@@ -156,13 +226,14 @@ class AdminControlButtons extends StatelessWidget {
                   child: TextButton(
                     onPressed: () {
                       showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AddMenuItem(
-                              modify: true,
-                              itemName: item["itemName"],
-                            );
-                          });
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AddMenuItem(
+                            modify: true,
+                            itemName: item["itemName"],
+                          );
+                        },
+                      );
                     },
                     child: Icon(
                       Icons.edit_rounded,

@@ -3,7 +3,10 @@ import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puthon/Screens/User/homeScreen.dart';
+
+import 'loading.dart';
 
 class DurationConfirm extends StatefulWidget {
   final order, customerId, timeStamp, orderNo;
@@ -136,7 +139,8 @@ class _DurationConfirmState extends State<DurationConfirm> {
                               ),
                             ),
                             onPressed: () async {
-                              Navigator.pop(context);
+                              Loading(context);
+
                               var hour = DateTime.now().hour > 12
                                   ? DateTime.now().hour - 12
                                   : DateTime.now().hour;
@@ -170,6 +174,8 @@ class _DurationConfirmState extends State<DurationConfirm> {
                                 "cooking": true,
                                 "orderNo": widget.orderNo,
                               });
+                              Navigator.pop(context);
+                              Navigator.pop(context);
                             },
                             child: Text(
                               "Accept",
