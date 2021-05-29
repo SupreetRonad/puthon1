@@ -140,15 +140,14 @@ class _CookScreenState extends State<CookScreen> {
                                       ),
                                     ),
                                   );
-                                } else {
-                                  return OrderCard(
-                                    order: snapshot.data,
-                                    customerId: order['customerId'],
-                                    orderNo: order['orderNo'],
-                                    timeStamp: order['timeStamp'],
-                                    cookOrder: true,
-                                  );
                                 }
+                                return OrderCard(
+                                  order: snapshot.data,
+                                  customerId: order['customerId'],
+                                  orderNo: order['orderNo'],
+                                  timeStamp: order['timeStamp'],
+                                  cookOrder: true,
+                                );
                               },
                             );
                           },
