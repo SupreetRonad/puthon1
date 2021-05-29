@@ -71,31 +71,6 @@ class _DetailScreenState extends State<DetailScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // Expanded(
-                      //   child: Column(
-                      //     mainAxisAlignment: MainAxisAlignment.center,
-                      //     children: [
-                      //       SizedBox(
-                      //         height: 40,
-                      //       ),
-                      //       Text(
-                      //         "Welcome to..",
-                      //         style: TextStyle(
-                      //           fontSize:
-                      //               MediaQuery.of(context).size.height * .028,
-                      //           fontWeight: FontWeight.bold,
-                      //           color: Colors.white,
-                      //         ),
-                      //       ),
-                      //       Container(
-                      //         height: MediaQuery.of(context).size.height * .06,
-                      //         child: Image.asset(
-                      //           "assets/images/puthon2.png",
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
                       ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child: BackdropFilter(
@@ -440,7 +415,6 @@ class _DetailScreenState extends State<DetailScreen> {
                                             height: 60,
                                             width: 120,
                                             child: Card(
-                                              //shadowColor: Colors.white70,
                                               color: Colors.white,
                                               elevation: 20,
                                               shape: RoundedRectangleBorder(
@@ -505,9 +479,8 @@ class _DetailScreenState extends State<DetailScreen> {
                                                           if (!register) {
                                                             Navigator.pop(
                                                                 context);
-                                                            Navigator.pop(
-                                                                context);
-                                                            //Navigator.pushReplacementNamed(context, '/homeScreen');
+                                                            //Navigator.pop(
+                                                                // context);
                                                           }
                                                         }
                                                         _isLoading = false;

@@ -123,7 +123,7 @@ class _AddMenuItemState extends State<AddMenuItem> {
             height: 480,
             width: MediaQuery.of(context).size.width * .8,
             child: loading1
-                ? SpinKitWave(
+                ? SpinKitFadingCircle(
                     color: Colors.black54,
                     size: 25,
                   )

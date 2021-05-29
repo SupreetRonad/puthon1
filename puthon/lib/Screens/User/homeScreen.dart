@@ -126,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 title: const Text("PUTHON"),
               ),
               body: snapshot.data['scanned'] == 0
-                  ? SpinKitWave(color: Colors.black, size: 20)
+                  ? SpinKitFadingCircle(color: Colors.black, size: 20)
                   : snapshot.data['scanned'] == 1
                       ? QrScanning()
                       : BottomMenu(

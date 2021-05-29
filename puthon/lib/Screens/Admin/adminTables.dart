@@ -19,7 +19,10 @@ class AdminTables extends StatelessWidget {
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return LoadingScreen();
+            return SpinKitFadingCircle(
+            color: Colors.black54,
+            size: 20,
+          );
           }
           if (!snapshot.hasData) {
             return Text(
@@ -54,11 +57,6 @@ class AdminTables extends StatelessWidget {
                           tableNo: table['table'],
                         ),
                       );
-                      // showModalBottomSheet(
-                      //     context: context,
-                      //     builder: (context) {
-                      //       return TablesInfo(table['customerId']);
-                      //     });
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -128,7 +126,6 @@ class _TablesInfoState extends State<TablesInfo> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // backgroundColor: Colors.white,
       child: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('orders')
@@ -143,7 +140,7 @@ class _TablesInfoState extends State<TablesInfo> {
             );
           }
           if (!snapshot.hasData) {
-            return Text("No order placed");
+            return Text("No orders placed");
           }
 
           return Container(

@@ -68,7 +68,7 @@ class _BottomMenuState extends State<BottomMenu> {
         topRight: Radius.circular(20),
       ),
       body: loading
-          ? SpinKitWave(
+          ? SpinKitFadingCircle(
               color: Colors.black87,
               size: 20,
             )
@@ -256,7 +256,6 @@ class _BottomMenuState extends State<BottomMenu> {
                             itemBuilder: (context, index) {
                               var order = snapshot.data
                                   .docs[snapshot.data.docs.length - index - 1];
-
                               return OrderCard(
                                 order: order,
                                 timeStamp: order["timeStamp"],
@@ -285,7 +284,7 @@ class _BottomMenuState extends State<BottomMenu> {
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return SpinKitWave(
+                    return SpinKitFadingCircle(
                       color: Colors.green,
                       size: 20,
                     );

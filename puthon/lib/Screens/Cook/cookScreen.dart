@@ -83,7 +83,7 @@ class _CookScreenState extends State<CookScreen> {
                         .snapshots(),
                     builder: (BuildContext context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return SpinKitWave(
+                        return SpinKitFadingCircle(
                           size: 20,
                           color: Colors.black54,
                         );

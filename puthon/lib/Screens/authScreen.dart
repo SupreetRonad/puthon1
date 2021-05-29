@@ -355,7 +355,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                                   }
                                                 },
                                           child: _isLoading
-                                              ? SpinKitWave(
+                                              ? SpinKitFadingCircle(
                                                   color: Colors.white,
                                                   size: 20.0,
                                                 )
@@ -396,7 +396,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                                   }
                                                 },
                                           child: _isLoading
-                                              ? SpinKitWave(
+                                              ? SpinKitFadingCircle(
                                                   color: Colors.white,
                                                   size: 20.0,
                                                 )

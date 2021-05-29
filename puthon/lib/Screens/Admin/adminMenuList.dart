@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puthon/Screens/Admin/addMenuItem.dart';
 import 'package:puthon/Shared/itemCard.dart';
 import 'package:puthon/Shared/loadingScreen.dart';
@@ -48,7 +49,10 @@ class _AdminMenuListState extends State<AdminMenuList> {
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return LoadingScreen();
+                  return SpinKitFadingCircle(
+                    color: Colors.black54,
+                    size: 20,
+                  );
                 }
                 if (!snapshot.hasData) {
                   return Text(

@@ -25,7 +25,7 @@ class _AboutBusinessState extends State<AboutBusiness> {
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return SpinKitWave(
+          return SpinKitFadingCircle(
             color: Colors.black54,
             size: 20,
           );

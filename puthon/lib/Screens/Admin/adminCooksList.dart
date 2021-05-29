@@ -49,7 +49,10 @@ class _AdminCooksListState extends State<AdminCooksList> {
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return LoadingScreen();
+                  return SpinKitFadingCircle(
+                    color: Colors.black54,
+                    size: 20,
+                  );
                 }
                 if (!snapshot.hasData) {
                   return Text(
@@ -72,12 +75,17 @@ class _AdminCooksListState extends State<AdminCooksList> {
                         builder: (context, snapshot1) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return LoadingScreen();
+                            return SpinKitFadingCircle(
+                              color: Colors.black54,
+                              size: 20,
+                            );
                           }
                           if (!snapshot1.hasData) {
-                            return Text(
-                              "Please Add cooks...",
-                              style: TextStyle(fontSize: 20),
+                            return Center(
+                              child: Text(
+                                "Loading...",
+                                style: TextStyle(fontSize: 20),
+                              ),
                             );
                           }
                           return Padding(
@@ -162,7 +170,7 @@ class _AdminCooksListState extends State<AdminCooksList> {
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
-                              return SpinKitWave(
+                              return SpinKitFadingCircle(
                                 color: Colors.black,
                                 size: 20,
                               );

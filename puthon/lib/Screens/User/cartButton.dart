@@ -85,7 +85,7 @@ class _CartButtonState extends State<CartButton> {
           ),
           Container(
             child: loading
-                ? SpinKitWave(
+                ? SpinKitFadingCircle(
                     color: Colors.black87,
                   )
                 : HomeScreen.list.length == 0
