@@ -84,11 +84,12 @@ class CookECard extends StatelessWidget {
                           Row(
                             children: [
                               SizedBox(
-                                width: 10,
+                                width: 13,
                               ),
                               Icon(
                                 Icons.phone,
-                                size: 18,
+                                size: 15,
+                                color: Colors.black54,
                               ),
                               SizedBox(
                                 width: 5,
@@ -96,7 +97,10 @@ class CookECard extends StatelessWidget {
                               Text(
                                 doc['phone'],
                                 style: TextStyle(
-                                    fontSize: 15, color: Colors.black),
+                                  fontSize: 13,
+                                  color: Colors.black54,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ],
                           ),
@@ -106,11 +110,12 @@ class CookECard extends StatelessWidget {
                           Row(
                             children: [
                               SizedBox(
-                                width: 10,
+                                width: 13,
                               ),
                               Icon(
                                 Icons.date_range,
-                                size: 18,
+                                size: 15,
+                                color: Colors.black54,
                               ),
                               SizedBox(
                                 width: 5,
@@ -118,7 +123,10 @@ class CookECard extends StatelessWidget {
                               Text(
                                 doc['dob'],
                                 style: TextStyle(
-                                    fontSize: 15, color: Colors.black),
+                                  fontSize: 13,
+                                  color: Colors.black54,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ],
                           ),

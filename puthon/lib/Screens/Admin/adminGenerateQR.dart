@@ -82,6 +82,8 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
                             onTap: () {
                               setState(() {
                                 flag = 0;
+                                result = Uint8List(0);
+                                valid = 0;
                               });
                             },
                             child: Row(
@@ -119,6 +121,8 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
                             onTap: () {
                               setState(() {
                                 flag = 1;
+                                result = Uint8List(0);
+                                valid = 0;
                               });
                             },
                             child: Row(
@@ -251,7 +255,9 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
               ],
             ),
           ),

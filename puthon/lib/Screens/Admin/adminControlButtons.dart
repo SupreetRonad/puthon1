@@ -172,28 +172,7 @@ class AdminControlButtons extends StatelessWidget {
                                 ),
                               ),
                               function: () async {
-                                showDialog(
-                                  barrierDismissible: false,
-                                  context: context,
-                                  builder: (context) {
-                                    return Dialog(
-                                      backgroundColor: Colors.transparent,
-                                      child: Container(
-                                        width: 50,
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        ),
-                                        child: SpinKitCircle(
-                                          color: Colors.black87,
-                                          size: 30,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                );
+                                Loading(context);
                                 await FirebaseFirestore.instance
                                     .collection('admins')
                                     .doc(FirebaseAuth.instance.currentUser.uid)

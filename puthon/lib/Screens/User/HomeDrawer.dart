@@ -308,6 +308,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
       context: context,
       builder: (BuildContext context) {
         return ConfirmBox(
+          height: 180,
           b1: "Go Back",
           b2: "Log Out",
           color: [Colors.redAccent, Colors.red[300]],
@@ -323,28 +324,33 @@ class _HomeDrawerState extends State<HomeDrawer> {
             await FirebaseAuth.instance.signOut();
             Navigator.of(context).pop();
           },
-          message: Column(
-            children: [
-              Icon(
-                Icons.exit_to_app_rounded,
-                size: 130,
-                color: Colors.red[300],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("Do you really want to "),
-                  Text(
-                    "Log out ?",
-                    style: TextStyle(
-                        color: Colors.red, fontWeight: FontWeight.bold),
-                  )
-                ],
-              ),
-            ],
+          message: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Column(
+              children: [
+                Text(
+                  "Logout ?",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red[300],
+                    fontSize: 20,
+                  ),
+                ),
+                Divider(),
+                Text("Do you really want to logout ?"),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "Once logged out, you will have to login again using credentils.",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.red[200],
+                    fontSize: 12,
+                  ),
+                )
+              ],
+            ),
           ),
         );
       },
