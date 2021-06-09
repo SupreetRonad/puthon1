@@ -25,6 +25,7 @@ class _OrderCardState extends State<OrderCard> {
   var duration = 1;
   @override
   Widget build(BuildContext context) {
+   
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: ClipRRect(
@@ -70,11 +71,14 @@ class _OrderCardState extends State<OrderCard> {
                         ),
                       ),
                     if (!widget.cookOrder)
+                   
                       OrderTimer(
                         time: widget.order['acceptedTime'],
                         duration: int.parse(widget.order['duration']),
                         flag: widget.order['flag'],
                         cookOrder: widget.cookOrder,
+                        bot: widget.order['bot'],
+                        orderNo: widget.order['orderNo'],
                       ),
                     Spacer(),
                     Text(
@@ -145,62 +149,16 @@ class _OrderCardState extends State<OrderCard> {
                     padding: const EdgeInsets.all(0.0),
                     child: Row(
                       children: [
-                        // Container(
-                        //   height: 40,
-                        //   width: 40,
-                        //   decoration: BoxDecoration(
-                        //       color: Colors.black12,
-                        //       borderRadius: BorderRadius.circular(100)),
-                        //   child: IconButton(
-                        //     splashColor: Colors.red,
-                        //     onPressed: () {
-                        //       showDialog(
-                        //         context: context,
-                        //         builder: (BuildContext context) {
-                        //           return ConfirmBox(
-                        //             b1: "Go Back",
-                        //             b2: "Decline",
-                        //             height: 150,
-                        //             color: Colors.red[300],
-                        //             message:
-                        //                 Text("Do you want to cancel the order ?"),
-                        //             function: () async {
-                        //               Navigator.pop(context);
-                        //               await FirebaseFirestore.instance
-                        //                   .collection('admins')
-                        //                   .doc(HomeScreen.resId)
-                        //                   .collection('activeOrders')
-                        //                   .doc(widget.timeStamp)
-                        //                   .delete();
-                        //               await FirebaseFirestore.instance
-                        //                   .collection('orders')
-                        //                   .doc(widget.customerId)
-                        //                   .collection(widget.customerId)
-                        //                   .doc(widget.orderNo)
-                        //                   .update({
-                        //                 "flag": 1,
-                        //               });
-                        //             },
-                        //           );
-                        //         },
-                        //       );
-                        //     },
-                        //     icon: Icon(
-                        //       Icons.close,
-                        //       color: Colors.red,
-                        //     ),
-                        //   ),
-                        // ),
-                        // SizedBox(
-                        //   width: 10,
-                        // ),
                         Expanded(
                           child: Container(
                             height: 45,
                             width: 100,
                             decoration: BoxDecoration(
-                              gradient: new LinearGradient(
-                                  colors: [Colors.white.withOpacity(.0), Colors.green[400].withOpacity(.3), Colors.green[400]]),
+                              gradient: new LinearGradient(colors: [
+                                Colors.white.withOpacity(.0),
+                                Colors.green[400].withOpacity(.3),
+                                Colors.green[400]
+                              ]),
                               borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(20),
                                 bottomRight: Radius.circular(20),

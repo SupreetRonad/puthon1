@@ -261,7 +261,7 @@ class _AcceptedOrderState extends State<AcceptedOrder> {
                                     .doc(widget.orderNo)
                                     .update({
                                   'flag': 2,
-                                  'bot': botNo,
+                                  'bot': int.parse(botNo),
                                 });
 
                                 await FirebaseFirestore.instance

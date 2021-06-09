@@ -20,9 +20,9 @@ class AdminTables extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return SpinKitFadingCircle(
-            color: Colors.black54,
-            size: 20,
-          );
+              color: Colors.black54,
+              size: 20,
+            );
           }
           if (!snapshot.hasData) {
             return Text(
@@ -99,11 +99,13 @@ class TablesInfo extends StatefulWidget {
 
 class _TablesInfoState extends State<TablesInfo> {
   var bill, timeEntered, hh, mm, date, hh1, gg, time;
-  void initState() {
-    super.initState();
-    FirebaseFirestore.instance
+  bool loading = true;
+
+  void init() async {
+    print(widget.customerId);
+    await FirebaseFirestore.instance
         .collection('orders')
-        .doc(FirebaseAuth.instance.currentUser.uid)
+        .doc(widget.customerId)
         .get()
         .then((value) {
       if (value.exists) {
@@ -121,6 +123,15 @@ class _TablesInfoState extends State<TablesInfo> {
         gg = hh >= 12 ? "pm" : "am";
       }
     });
+    setState(() {
+      loading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    init();
   }
 
   @override
@@ -147,83 +158,91 @@ class _TablesInfoState extends State<TablesInfo> {
             constraints: BoxConstraints(
               maxHeight: MediaQuery.of(context).size.height - 160,
             ),
-            child: Column(
-              children: [
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 10),
-                  decoration: BoxDecoration(
-                    color: Colors.orange,
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(20),
-                      topLeft: Radius.circular(20),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+            child: loading
+                ? SpinKitFadingCircle(
+                    size: 20,
+                    color: Colors.black54,
+                  )
+                : Column(
                     children: [
-                      Text(
-                        widget.tableNo,
-                        style: GoogleFonts.righteous(
-                          fontSize: 25,
-                          color: Colors.white,
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        decoration: BoxDecoration(
+                          color: Colors.orange,
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(20),
+                            topLeft: Radius.circular(20),
+                          ),
                         ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              widget.tableNo,
+                              style: GoogleFonts.righteous(
+                                fontSize: 25,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              "Entered at  ",
+                              style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black54),
+                            ),
+                            Text(
+                              hh1.toString() + " : " + mm.toString() + " " + gg,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Spacer(),
+                            Text(
+                              "Total Rs. ",
+                              style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black54),
+                            ),
+                            Text(
+                              bill.toString(),
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: ListView.builder(
+                            physics: BouncingScrollPhysics(),
+                            itemCount: snapshot.data.docs.length,
+                            itemBuilder: (context, index) {
+                              var or = snapshot.data
+                                  .docs[snapshot.data.docs.length - index - 1];
+                              return OrderCard(
+                                order: or,
+                                timeStamp: or["timeStamp"],
+                                cookOrder: false,
+                              );
+                            }),
                       ),
                     ],
                   ),
-                ),
-                SizedBox(height: 10,),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        "Entered at  ",
-                        style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black54),
-                      ),
-                      Text(
-                        hh1.toString() + " : " + mm.toString() + " " + gg,
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Spacer(),
-                      Text(
-                        "Total Rs. ",
-                        style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black54),
-                      ),
-                      Text(
-                        bill.toString(),
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      itemCount: snapshot.data.docs.length,
-                      itemBuilder: (context, index) {
-                        var or = snapshot.data.docs[snapshot.data.docs.length - index - 1];
-                        return OrderCard(
-                          order: or,
-                          timeStamp: or["timeStamp"],
-                          cookOrder: false,
-                        );
-                      }),
-                ),
-              ],
-            ),
           );
         },
       ),

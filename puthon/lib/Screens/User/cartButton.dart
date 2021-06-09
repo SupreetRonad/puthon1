@@ -306,6 +306,10 @@ class _CartButtonState extends State<CartButton> {
                                           "acceptedTime":
                                               "${hour1} : ${minute} ${hh}",
                                           "timeStamp": timeStamp,
+                                          "orderNo": FirebaseAuth
+                                                  .instance.currentUser.uid +
+                                              orderNo.toString(),
+                                          "bot": 0,
                                         });
                                         var total;
                                         await FirebaseFirestore.instance

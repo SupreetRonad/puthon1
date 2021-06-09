@@ -1,15 +1,38 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:puthon/Screens/User/homeScreen.dart';
 
 class OrderTimer extends StatefulWidget {
-  final time, duration, flag, cookOrder;
-  OrderTimer({this.time, this.duration, this.flag, this.cookOrder});
+  final time, duration, flag, cookOrder, bot, orderNo;
+  OrderTimer({
+    this.time,
+    this.duration,
+    this.flag,
+    this.cookOrder,
+    this.bot,
+    this.orderNo,
+  });
   @override
   _OrderTimerState createState() => _OrderTimerState();
 }
 
 class _OrderTimerState extends State<OrderTimer> {
   var count = 0;
+  void setFlag() async {
+    await FirebaseFirestore.instance
+        .collection("orders")
+        .doc(FirebaseAuth.instance.currentUser.uid)
+        .collection(FirebaseAuth.instance.currentUser.uid)
+        .doc(widget.orderNo)
+        .update(
+      {
+        "flag": 3,
+      },
+    );
+  }
 
   Widget _timer() {
     Timer.periodic(Duration(seconds: 60), (timer) {
@@ -87,22 +110,47 @@ class _OrderTimerState extends State<OrderTimer> {
               ],
             );
     } else if (widget.flag == 2) {
-      return Row(
-        children: [
-          Icon(
-            Icons.fiber_smart_record,
-            size: 16,
-            color: Colors.green[300],
-          ),
-          Text(
-            "  On the Bot",
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.bold,
-              color: Colors.green[300],
-            ),
-          ),
-        ],
+      return StreamBuilder(
+        stream: FirebaseDatabase.instance
+            .reference()
+            .child(HomeScreen.resId)
+            .child(widget.bot.toString())
+            .child("delivered")
+            .onValue,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: Text("Please Wait..."),
+            );
+          }
+          if (!snapshot.hasData) {
+            return Center(
+              child: Text("Loading..."),
+            );
+          }
+          var ref = snapshot.data.snapshot.value;
+          print(ref);
+          if (ref) {
+            setFlag();
+          }
+          return Row(
+            children: [
+              Icon(
+                Icons.fiber_smart_record,
+                size: 16,
+                color: Colors.green[300],
+              ),
+              Text(
+                "  On the Bot",
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.green[300],
+                ),
+              ),
+            ],
+          );
+        },
       );
     } else if (widget.flag == 3) {
       return Row(
