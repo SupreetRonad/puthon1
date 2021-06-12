@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -23,7 +22,6 @@ class _AuthScreenState extends State<AuthScreen> {
   bool isLogin = false;
   final _store = FirebaseFirestore.instance;
   bool _isLoading = false;
-  String deviceToken = '';
 
   void _trySubmit(
       String email, String password, bool isLogin, BuildContext ctx) async {
@@ -36,33 +34,28 @@ class _AuthScreenState extends State<AuthScreen> {
       if (isLogin) {
         _userCreds = await FirebaseAuth.instance.signInWithEmailAndPassword(
             email: email.trim(), password: password.trim());
-        await FirebaseMessaging.instance.getToken().then((token) async {
-          deviceToken = token;
-          await _store
-              .collection('users')
-              .doc(_userCreds.user.uid)
-              .update({'deviceToken': deviceToken, 'register': false});
-        });
+
+        await _store
+            .collection('users')
+            .doc(_userCreds.user.uid)
+            .update({'register': false});
       } else {
         _userCreds = await FirebaseAuth.instance.createUserWithEmailAndPassword(
             email: email.trim(), password: password.trim());
-        await FirebaseMessaging.instance.getToken().then((token) async {
-          deviceToken = token;
-          await _store.collection('users').doc(_userCreds.user.uid).set({
-            'uid': _userCreds.user.uid,
-            'email': _userCreds.user.email,
-            'register': true,
-            'deviceToken': deviceToken,
-            'name': null,
-            'phone': null,
-            'dob': '2000-01-01',
-            'gender': 1,
-            'admin': false,
-            'cook': false,
-            'orderNo': null,
-            'cooking': false,
-            'scanned': 1,
-          });
+
+        await _store.collection('users').doc(_userCreds.user.uid).set({
+          'uid': _userCreds.user.uid,
+          'email': _userCreds.user.email,
+          'register': true,
+          'name': null,
+          'phone': null,
+          'dob': '2000-01-01',
+          'gender': 1,
+          'admin': false,
+          'cook': false,
+          'orderNo': null,
+          'cooking': false,
+          'scanned': 1,
         });
       }
     } on FirebaseAuthException catch (err) {
@@ -135,8 +128,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           style: GoogleFonts.raleway(
                             color: Colors.black54,
                             fontWeight: FontWeight.bold,
-                            fontSize:
-                                MediaQuery.of(context).size.height * .017,
+                            fontSize: MediaQuery.of(context).size.height * .017,
                           ),
                         ),
                       ],

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -109,7 +110,7 @@ class _OrderTimerState extends State<OrderTimer> {
                 ),
               ],
             );
-    } else if (widget.flag == 2) {
+    } else if(widget.flag == 2 || widget.flag == 3){
       return StreamBuilder(
         stream: FirebaseDatabase.instance
             .reference()
@@ -129,11 +130,11 @@ class _OrderTimerState extends State<OrderTimer> {
             );
           }
           var ref = snapshot.data.snapshot.value;
-          print(ref);
+          log(ref.toString());
           if (ref) {
             setFlag();
           }
-          return Row(
+          return widget.flag == 2 ? Row(
             children: [
               Icon(
                 Icons.fiber_smart_record,
@@ -149,11 +150,7 @@ class _OrderTimerState extends State<OrderTimer> {
                 ),
               ),
             ],
-          );
-        },
-      );
-    } else if (widget.flag == 3) {
-      return Row(
+          ) : Row(
         children: [
           Icon(
             Icons.check_circle,
@@ -169,6 +166,8 @@ class _OrderTimerState extends State<OrderTimer> {
             ),
           ),
         ],
+      );
+        },
       );
     } else {
       return Row(
