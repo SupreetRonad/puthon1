@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:puthon/Shared/loadingScreen.dart';
 import 'package:puthon/Shared/orderCard.dart';
 
 class AdminTables extends StatelessWidget {

@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lottie/lottie.dart';
 import 'package:puthon/Screens/Admin/cookECard.dart';
-import 'package:puthon/shared/loadingScreen.dart';
 import 'package:puthon/shared/textField.dart';
 
 class AdminCooksList extends StatefulWidget {
