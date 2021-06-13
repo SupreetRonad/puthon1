@@ -250,7 +250,7 @@ class _AcceptedOrderState extends State<AcceptedOrder> {
                                     .child(snapshot.data['resId'])
                                     .child(botNo.toString())
                                     .set({
-                                  'tableNo': snapshot.data['table'],
+                                  'tableNo': int.parse(snapshot.data['table']),
                                   'delivered': false,
                                 });
 
