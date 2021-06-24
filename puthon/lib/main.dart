@@ -51,19 +51,9 @@ class _MyAppState extends State<MyApp> {
           },
           home: snapshot.connectionState != ConnectionState.done
               ? LoadingScreen()
-              : StreamBuilder(
-                  stream: FirebaseAuth.instance.authStateChanges(),
-                  builder: (ctx, userSnapshot) {
-                    if (userSnapshot.connectionState ==
-                        ConnectionState.waiting) {
-                      return LoadingScreen();
-                    }
-                    if (userSnapshot.data != null) {
-                      return DivergeScreen();
-                    }
-                    return AuthScreen();
-                  },
-                ),
+              : FirebaseAuth.instance.currentUser != null
+                  ? DivergeScreen()
+                  : AuthScreen(),
         );
       },
     );
