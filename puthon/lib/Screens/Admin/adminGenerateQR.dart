@@ -235,8 +235,6 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
                       style: ElevatedButton.styleFrom(
                         elevation: 0,
                         primary: Colors.transparent,
-
-                        //padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),

@@ -6,7 +6,7 @@ class ConfirmBox extends StatelessWidget {
   final String b1, b2;
   final Widget message;
   final List<Color> color;
-  final Function function;
+  final Function() function;
   final double height;
   ConfirmBox({
     required this.b1,
@@ -80,7 +80,7 @@ class ConfirmBox extends StatelessWidget {
                             ),
                           ),
                         ),
-                        onPressed: function(),
+                        onPressed: function,
                         child: Text(
                           b2,
                           style: TextStyle(

@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:puthon/Screens/authScreen.dart';
 import 'package:puthon/Shared/confirmBox.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -326,6 +327,12 @@ class _HomeDrawerState extends State<HomeDrawer> {
             CartButton.orderList = {};
             await FirebaseAuth.instance.signOut();
             Navigator.of(context).pop();
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (builder) => AuthScreen(),
+              ),
+            );
           },
           message: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
