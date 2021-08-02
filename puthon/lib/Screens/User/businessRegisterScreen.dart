@@ -46,7 +46,6 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
     return Theme(
       data: ThemeData(
           primaryColor: Colors.black,
-          accentColor: Colors.white,
           textSelectionTheme:
               TextSelectionThemeData(cursorColor: Colors.white)),
       child: Container(
