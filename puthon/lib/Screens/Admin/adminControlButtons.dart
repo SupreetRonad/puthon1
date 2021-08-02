@@ -35,7 +35,10 @@ class AdminControlButtons extends StatelessWidget {
                       height: 200,
                       b1: "Go Back",
                       b2: "Delete",
-                      color: [Colors.redAccent, Colors.red[300]],
+                      color: [
+                        Colors.redAccent,
+                        Colors.red[300]!,
+                      ],
                       message: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Column(
@@ -79,7 +82,7 @@ class AdminControlButtons extends StatelessWidget {
                         Loading(context);
                         await FirebaseFirestore.instance
                             .collection('admins')
-                            .doc(FirebaseAuth.instance.currentUser.uid)
+                            .doc(FirebaseAuth.instance.currentUser!.uid)
                             .collection("menu")
                             .doc(item["itemName"])
                             .delete();
@@ -122,8 +125,8 @@ class AdminControlButtons extends StatelessWidget {
                               b1: "Go Back",
                               b2: item["inMenu"] ? "Disable" : "Enable",
                               color: item["inMenu"]
-                                  ? [Colors.grey[200], Colors.black54]
-                                  : [Colors.greenAccent, Colors.green[300]],
+                                  ? [Colors.grey[200]!, Colors.black54]
+                                  : [Colors.greenAccent, Colors.green[300]!],
                               message: Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 10.0),
@@ -135,7 +138,9 @@ class AdminControlButtons extends StatelessWidget {
                                           : "Enable item ?",
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        color: item["inMenu"] ? Colors.black54 : Colors.green[400],
+                                        color: item["inMenu"]
+                                            ? Colors.black54
+                                            : Colors.green[400],
                                         fontSize: 20,
                                       ),
                                     ),
@@ -174,7 +179,7 @@ class AdminControlButtons extends StatelessWidget {
                                 Loading(context);
                                 await FirebaseFirestore.instance
                                     .collection('admins')
-                                    .doc(FirebaseAuth.instance.currentUser.uid)
+                                    .doc(FirebaseAuth.instance.currentUser!.uid)
                                     .collection('menu')
                                     .doc(item["itemName"])
                                     .update({"inMenu": !item["inMenu"]});

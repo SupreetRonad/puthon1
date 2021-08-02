@@ -146,7 +146,7 @@ class _TnCState extends State<TnC> {
                               if (agree) {
                                 await FirebaseFirestore.instance
                                     .collection('requests')
-                                    .doc(FirebaseAuth.instance.currentUser.uid)
+                                    .doc(FirebaseAuth.instance.currentUser!.uid)
                                     .set({
                                   'resName': widget.resName,
                                   'city': widget.city,
@@ -155,7 +155,7 @@ class _TnCState extends State<TnC> {
                                   'pincode': widget.pincode,
                                   'building': widget.building,
                                   'country': 'India',
-                                  'uid': FirebaseAuth.instance.currentUser.uid,
+                                  'uid': FirebaseAuth.instance.currentUser!.uid,
                                   'email': widget.email,
                                   'phone': widget.phone,
                                   'name': widget.name,

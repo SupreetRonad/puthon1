@@ -8,7 +8,7 @@ import '/Shared/confirmBox.dart';
 class CookECard extends StatelessWidget {
   final doc;
   final bool flag;
-  CookECard({this.doc, this.flag});
+  CookECard({this.doc, required this.flag});
 
   @override
   Widget build(BuildContext context) {
@@ -152,15 +152,15 @@ class CookECard extends StatelessWidget {
                                   b1: "Go Back",
                                   b2: flag ? "Add" : "Remove",
                                   color: flag
-                                      ? [Colors.lightBlue[300], Colors.blue]
-                                      : [Colors.redAccent, Colors.red[300]],
+                                      ? [Colors.lightBlue[300]!, Colors.blue]
+                                      : [Colors.redAccent, Colors.red[300]!],
                                   function: () async {
                                     Loading(context);
                                     if (flag) {
                                       FirebaseFirestore.instance
                                           .collection('admins')
                                           .doc(FirebaseAuth
-                                              .instance.currentUser.uid)
+                                              .instance.currentUser!.uid)
                                           .collection('cooks')
                                           .doc(doc["uid"])
                                           .set({
@@ -178,7 +178,7 @@ class CookECard extends StatelessWidget {
                                       FirebaseFirestore.instance
                                           .collection('admins')
                                           .doc(FirebaseAuth
-                                              .instance.currentUser.uid)
+                                              .instance.currentUser!.uid)
                                           .collection('cooks')
                                           .doc(doc["uid"])
                                           .delete();

@@ -8,13 +8,14 @@ import 'package:puthon/Shared/durationConfirm.dart';
 class OrderCard extends StatefulWidget {
   final order, customerId, orderNo, timeStamp;
   final bool cookOrder, acceptedOrder;
-  OrderCard(
-      {this.order,
-      this.customerId,
-      this.orderNo,
-      this.timeStamp,
-      this.cookOrder,
-      this.acceptedOrder});
+  OrderCard({
+    this.order,
+    this.customerId,
+    this.orderNo,
+    this.timeStamp,
+    required this.cookOrder,
+    this.acceptedOrder = false,
+  });
 
   @override
   _OrderCardState createState() => _OrderCardState();
@@ -25,7 +26,6 @@ class _OrderCardState extends State<OrderCard> {
   var duration = 1;
   @override
   Widget build(BuildContext context) {
-   
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: ClipRRect(
@@ -71,7 +71,6 @@ class _OrderCardState extends State<OrderCard> {
                         ),
                       ),
                     if (!widget.cookOrder)
-                   
                       OrderTimer(
                         time: widget.order['acceptedTime'],
                         duration: int.parse(widget.order['duration']),
@@ -156,8 +155,8 @@ class _OrderCardState extends State<OrderCard> {
                             decoration: BoxDecoration(
                               gradient: new LinearGradient(colors: [
                                 Colors.white.withOpacity(.0),
-                                Colors.green[400].withOpacity(.3),
-                                Colors.green[400]
+                                Colors.green[400]!.withOpacity(.3),
+                                Colors.green[400]!,
                               ]),
                               borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(20),

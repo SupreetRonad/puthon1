@@ -21,14 +21,14 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
   void readData() async {
     await FirebaseFirestore.instance
         .collection('users')
-        .doc(FirebaseAuth.instance.currentUser.uid)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .get()
         .then((value) {
       if (value.exists) {
         setState(() {
-          name = value.data()["name"];
-          phone = value.data()["phone"];
-          email = FirebaseAuth.instance.currentUser.email;
+          name = value.data()!["name"];
+          phone = value.data()!["phone"];
+          email = FirebaseAuth.instance.currentUser!.email;
         });
       }
     });
@@ -141,7 +141,7 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
                                       ),
                                     ),
                                     validator: (val) {
-                                      flag[0] = val.isEmpty ? 1 : 0;
+                                      flag[0] = val!.isEmpty ? 1 : 0;
                                       resName = val;
                                       return null;
                                     },
@@ -207,7 +207,7 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
                                       ),
                                     ),
                                     validator: (val) {
-                                      flag[5] = val.isEmpty ? 1 : 0;
+                                      flag[5] = val!.isEmpty ? 1 : 0;
                                       upi = val;
                                       return null;
                                     },
@@ -274,7 +274,7 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
                                       ),
                                     ),
                                     validator: (val) {
-                                      flag[1] = val.isEmpty ? 1 : 0;
+                                      flag[1] = val!.isEmpty ? 1 : 0;
                                       building = val;
                                       return null;
                                     },
@@ -319,7 +319,7 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
                                       ),
                                     ),
                                     validator: (val) {
-                                      flag[2] = val.isEmpty ? 1 : 0;
+                                      flag[2] = val!.isEmpty ? 1 : 0;
                                       street = val;
                                       return null;
                                     },
@@ -364,7 +364,7 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
                                       ),
                                     ),
                                     validator: (val) {
-                                      flag[3] = val.isEmpty ? 1 : 0;
+                                      flag[3] = val!.isEmpty ? 1 : 0;
                                       city = val;
                                       return null;
                                     },
@@ -413,7 +413,7 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
                                           ),
                                         ),
                                         validator: (val) {
-                                          flag[4] = val.isEmpty ? 1 : 0;
+                                          flag[4] = val!.isEmpty ? 1 : 0;
                                           state = val;
                                           return null;
                                         },
@@ -461,7 +461,7 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
                                           ),
                                         ),
                                         validator: (val) {
-                                          flag[5] = val.isEmpty
+                                          flag[5] = val!.isEmpty
                                               ? 1
                                               : val.length < 6
                                                   ? 1
@@ -505,7 +505,7 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
                                     Icons.arrow_forward_ios,
                                   ),
                             onPressed: () {
-                              _formkey.currentState.validate();
+                              _formkey.currentState!.validate();
                               setState(() {
                                 loading = true;
                               });
@@ -516,7 +516,7 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
                                   loading = false;
                                   if (flag.reduce((a, b) => a + b) == 0) {
                                     flag1 = false;
-                                    _formkey.currentState.save();
+                                    _formkey.currentState!.save();
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext context) {

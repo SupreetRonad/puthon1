@@ -13,12 +13,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'cartCard.dart';
 
-SharedPreferences prefs;
+late SharedPreferences prefs;
 
 class CartButton extends StatefulWidget {
   final Function refresh;
   static Map<String, List> orderList = {};
-  CartButton({this.refresh});
+  CartButton({required this.refresh});
   @override
   _CartButtonState createState() => _CartButtonState();
 }
@@ -34,8 +34,8 @@ class _CartButtonState extends State<CartButton> {
       loading = false;
       sum = 0;
       for (var i = 0; i < HomeScreen.list.length; i++) {
-        sum += (prefs.getInt(HomeScreen.list[i]) *
-            int.parse(prefs.getString(HomeScreen.list[i] + "1")));
+        sum += (prefs.getInt(HomeScreen.list[i])! *
+            int.parse(prefs.getString(HomeScreen.list[i] + "1")!));
         CartButton.orderList[HomeScreen.list[i]] = [
           prefs.getInt(HomeScreen.list[i]),
           prefs.getBool(HomeScreen.list[i] + "2")
@@ -165,9 +165,9 @@ class _CartButtonState extends State<CartButton> {
                 StreamBuilder(
                     stream: FirebaseFirestore.instance
                         .collection('orders')
-                        .doc(FirebaseAuth.instance.currentUser.uid)
+                        .doc(FirebaseAuth.instance.currentUser!.uid)
                         .snapshots(),
-                    builder: (context, snapshot) {
+                    builder: (context, AsyncSnapshot snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Text("Please wait...");
                       }
@@ -212,7 +212,7 @@ class _CartButtonState extends State<CartButton> {
                                       b2: "Confirm",
                                       color: [
                                         Colors.greenAccent,
-                                        Colors.green[300]
+                                        Colors.green[300]!,
                                       ],
                                       message: Padding(
                                         padding: const EdgeInsets.symmetric(
@@ -268,9 +268,9 @@ class _CartButtonState extends State<CartButton> {
                                             .doc(timeStamp)
                                             .set({
                                           "customerId": FirebaseAuth
-                                              .instance.currentUser.uid,
+                                              .instance.currentUser!.uid,
                                           "orderNo": FirebaseAuth
-                                                  .instance.currentUser.uid +
+                                                  .instance.currentUser!.uid +
                                               orderNo.toString(),
                                           "timeStamp": timeStamp,
                                           "flag": 0,
@@ -290,11 +290,11 @@ class _CartButtonState extends State<CartButton> {
                                         await FirebaseFirestore.instance
                                             .collection('orders')
                                             .doc(FirebaseAuth
-                                                .instance.currentUser.uid)
+                                                .instance.currentUser!.uid)
                                             .collection(FirebaseAuth
-                                                .instance.currentUser.uid)
+                                                .instance.currentUser!.uid)
                                             .doc(FirebaseAuth
-                                                    .instance.currentUser.uid +
+                                                    .instance.currentUser!.uid +
                                                 orderNo.toString())
                                             .set({
                                           "total": sum,
@@ -307,7 +307,7 @@ class _CartButtonState extends State<CartButton> {
                                               "${hour1} : ${minute} ${hh}",
                                           "timeStamp": timeStamp,
                                           "orderNo": FirebaseAuth
-                                                  .instance.currentUser.uid +
+                                                  .instance.currentUser!.uid +
                                               orderNo.toString(),
                                           "bot": 0,
                                         });
@@ -315,7 +315,7 @@ class _CartButtonState extends State<CartButton> {
                                         await FirebaseFirestore.instance
                                             .collection('orders')
                                             .doc(FirebaseAuth
-                                                .instance.currentUser.uid)
+                                                .instance.currentUser!.uid)
                                             .get()
                                             .then((value) {
                                           if (value.exists) {
@@ -325,7 +325,7 @@ class _CartButtonState extends State<CartButton> {
                                         await FirebaseFirestore.instance
                                             .collection('orders')
                                             .doc(FirebaseAuth
-                                                .instance.currentUser.uid)
+                                                .instance.currentUser!.uid)
                                             .update({
                                           'ordered': true,
                                           'total': sum + total
@@ -333,7 +333,7 @@ class _CartButtonState extends State<CartButton> {
                                         await FirebaseFirestore.instance
                                             .collection('orders')
                                             .doc(FirebaseAuth
-                                                .instance.currentUser.uid)
+                                                .instance.currentUser!.uid)
                                             .update({
                                           'ordered': true,
                                         });

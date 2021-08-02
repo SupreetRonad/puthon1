@@ -17,7 +17,7 @@ class AcceptedOrder extends StatefulWidget {
 }
 
 class _AcceptedOrderState extends State<AcceptedOrder> {
-  String cameraScanResult;
+  late String cameraScanResult;
   var botNo;
   final databaseRef = FirebaseDatabase.instance.reference();
 
@@ -67,7 +67,7 @@ class _AcceptedOrderState extends State<AcceptedOrder> {
                 .collection(widget.orderNo.substring(0, 28))
                 .doc(widget.orderNo)
                 .snapshots(),
-            builder: (context, snapshot) {
+            builder: (context,AsyncSnapshot snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
                   child: Text("Loading"),
@@ -112,7 +112,7 @@ class _AcceptedOrderState extends State<AcceptedOrder> {
                   Column(
                     children: [
                       Text(
-                        "Table " + order['tableNo'],
+                        "Table " + order!['tableNo'],
                         style: GoogleFonts.roboto(
                           color: Colors.black,
                           fontSize: 20,
@@ -200,7 +200,7 @@ class _AcceptedOrderState extends State<AcceptedOrder> {
                           .collection('orders')
                           .doc(widget.orderNo.substring(0, 28))
                           .snapshots(),
-                      builder: (context, snapshot) {
+                      builder: (context,AsyncSnapshot snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
                           return Center(
@@ -247,7 +247,7 @@ class _AcceptedOrderState extends State<AcceptedOrder> {
                                 // Loading(context);
 
                                 databaseRef
-                                    .child(snapshot.data['resId'])
+                                    .child(snapshot.data!['resId'])
                                     .child(botNo.toString())
                                     .set({
                                   'tableNo': int.parse(snapshot.data['table']),
@@ -273,7 +273,7 @@ class _AcceptedOrderState extends State<AcceptedOrder> {
                                 
                                 await FirebaseFirestore.instance
                                     .collection("users")
-                                    .doc(FirebaseAuth.instance.currentUser.uid)
+                                    .doc(FirebaseAuth.instance.currentUser!.uid)
                                     .update({
                                   'cooking': false,
                                 });  

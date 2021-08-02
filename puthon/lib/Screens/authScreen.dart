@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:puthon/Screens/User/homeScreen.dart';
+import 'package:puthon/shared/snackBar.dart';
 import 'dart:ui';
 import '/shared/textField.dart';
 
@@ -24,7 +26,11 @@ class _AuthScreenState extends State<AuthScreen> {
   bool _isLoading = false;
 
   void _trySubmit(
-      String email, String password, bool isLogin, BuildContext ctx) async {
+    String email,
+    String password,
+    bool isLogin,
+    BuildContext ctx,
+  ) async {
     UserCredential _userCreds;
 
     try {
@@ -33,19 +39,30 @@ class _AuthScreenState extends State<AuthScreen> {
       });
       if (isLogin) {
         _userCreds = await FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: email.trim(), password: password.trim());
+          email: email.trim(),
+          password: password.trim(),
+        );
 
-        await _store
-            .collection('users')
-            .doc(_userCreds.user.uid)
-            .update({'register': false});
+        await _store.collection('users').doc(_userCreds.user!.uid).update(
+          {'register': false},
+        );
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (builder) => HomeScreen(),
+          ),
+        );
+        
       } else {
         _userCreds = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-            email: email.trim(), password: password.trim());
+          email: email.trim(),
+          password: password.trim(),
+        );
 
-        await _store.collection('users').doc(_userCreds.user.uid).set({
-          'uid': _userCreds.user.uid,
-          'email': _userCreds.user.email,
+        await _store.collection('users').doc(_userCreds.user!.uid).set({
+          'uid': _userCreds.user!.uid,
+          'email': _userCreds.user!.email,
           'register': true,
           'name': null,
           'phone': null,
@@ -59,24 +76,21 @@ class _AuthScreenState extends State<AuthScreen> {
         });
       }
     } on FirebaseAuthException catch (err) {
-      var message = 'An error occurred, please check your credentials';
+      String message = 'An error occurred, please check your credentials';
+
       if (err.message != null) {
-        message = err.message;
+        message = err.message!;
       }
+
+      showMsg(
+        context,
+        msg: message,
+        color: Colors.black,
+      );
+
       setState(() {
         _isLoading = false;
       });
-      ScaffoldMessenger.of(ctx).showSnackBar(
-        SnackBar(
-          content: Text(
-            message,
-            style: TextStyle(
-              color: Colors.white,
-            ),
-          ),
-          backgroundColor: Colors.black,
-        ),
-      );
     } catch (err) {
       print(err);
       setState(() {
@@ -106,12 +120,6 @@ class _AuthScreenState extends State<AuthScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    // Expanded(
-                    //   child: Container(
-                    //     height: MediaQuery.of(context).size.height * .3,
-                    //     child: Lottie.asset('assets/animations/login1.json'),
-                    //   ),
-                    // ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -173,7 +181,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 ),
                               ),
                               validator: (val) {
-                                if (val.isEmpty) {
+                                if (val!.isEmpty) {
                                   setState(() {
                                     flag[0] = 1;
                                   });
@@ -236,7 +244,7 @@ class _AuthScreenState extends State<AuthScreen> {
                               ),
                               obscureText: true,
                               validator: (val) {
-                                if (val.isNotEmpty) {
+                                if (val!.isNotEmpty) {
                                   setState(() {
                                     flag[1] = val.length < 6 ? 1 : 0;
                                   });
@@ -298,7 +306,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                   ),
                                 ),
                                 validator: (val) {
-                                  if (val.isNotEmpty &&
+                                  if (val!.isNotEmpty &&
                                       confirm_pass.isNotEmpty) {
                                     setState(() {
                                       flag[2] = val != pass ? 1 : 0;
@@ -331,12 +339,12 @@ class _AuthScreenState extends State<AuthScreen> {
                                               ? null
                                               : () {
                                                   final _isValid = _formkey
-                                                      .currentState
+                                                      .currentState!
                                                       .validate();
                                                   FocusScope.of(context)
                                                       .unfocus();
                                                   if (_isValid) {
-                                                    _formkey.currentState
+                                                    _formkey.currentState!
                                                         .save();
                                                     _trySubmit(
                                                         email,
@@ -374,12 +382,12 @@ class _AuthScreenState extends State<AuthScreen> {
                                               ? null
                                               : () {
                                                   final _isValid = _formkey
-                                                      .currentState
+                                                      .currentState!
                                                       .validate();
                                                   FocusScope.of(context)
                                                       .unfocus();
                                                   if (_isValid) {
-                                                    _formkey.currentState
+                                                    _formkey.currentState!
                                                         .save();
                                                     _trySubmit(email, pass,
                                                         true, context);

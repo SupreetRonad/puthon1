@@ -26,13 +26,13 @@ class HomeScreen extends StatefulWidget {
 
 var scanned = 0;
 
-String cameraScanResult, qrContent;
+late String cameraScanResult, qrContent;
 Uint8List result = Uint8List(0);
 
 class _HomeScreenState extends State<HomeScreen> {
-  final uid = FirebaseAuth.instance.currentUser.uid;
+  final uid = FirebaseAuth.instance.currentUser!.uid;
 
-  SharedPreferences prefs;
+  late SharedPreferences prefs;
 
   Future init() async {
     prefs = await SharedPreferences.getInstance();
@@ -80,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
               .collection('users')
               .doc(uid)
               .snapshots(),
-          builder: (context, snapshot) {
+          builder: (context,AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return LoadingScreen();
             }
@@ -99,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
               floatingActionButton: snapshot.data['scanned'] == 1
                   ? null
                   : FloatingActionButton(
-                      backgroundColor: Colors.deepOrange[300].withOpacity(.9),
+                      backgroundColor: Colors.deepOrange[300]!.withOpacity(.9),
                       onPressed: () {
                         showModalBottomSheet(
                           context: context,

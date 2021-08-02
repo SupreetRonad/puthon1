@@ -16,10 +16,10 @@ class OrdersHistory extends StatelessWidget {
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('history')
-            .doc(FirebaseAuth.instance.currentUser.uid)
-            .collection(FirebaseAuth.instance.currentUser.uid)
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection(FirebaseAuth.instance.currentUser!.uid)
             .snapshots(),
-        builder: (context, snapshot) {
+        builder: (context,AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return LoadingScreen();
           }

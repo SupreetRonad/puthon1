@@ -13,10 +13,10 @@ class AdminTables extends StatelessWidget {
       child: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('admins')
-            .doc(FirebaseAuth.instance.currentUser.uid)
+            .doc(FirebaseAuth.instance.currentUser!.uid)
             .collection("tables")
             .snapshots(),
-        builder: (context, snapshot) {
+        builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return SpinKitFadingCircle(
               color: Colors.black54,
@@ -142,7 +142,7 @@ class _TablesInfoState extends State<TablesInfo> {
             .doc(widget.customerId)
             .collection(widget.customerId)
             .snapshots(),
-        builder: (context, snapshot) {
+        builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return SpinKitFadingCircle(
               size: 15,
@@ -229,7 +229,7 @@ class _TablesInfoState extends State<TablesInfo> {
                       Expanded(
                         child: ListView.builder(
                             physics: BouncingScrollPhysics(),
-                            itemCount: snapshot.data.docs.length,
+                            itemCount: snapshot.data!.docs.length,
                             itemBuilder: (context, index) {
                               var or = snapshot.data
                                   .docs[snapshot.data.docs.length - index - 1];
@@ -237,6 +237,7 @@ class _TablesInfoState extends State<TablesInfo> {
                                 order: or,
                                 timeStamp: or["timeStamp"],
                                 cookOrder: false,
+                                acceptedOrder: false,
                               );
                             }),
                       ),

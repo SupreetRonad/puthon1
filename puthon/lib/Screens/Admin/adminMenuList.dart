@@ -42,11 +42,11 @@ class _AdminMenuListState extends State<AdminMenuList> {
             child: StreamBuilder(
               stream: FirebaseFirestore.instance
                   .collection('admins')
-                  .doc(FirebaseAuth.instance.currentUser.uid)
+                  .doc(FirebaseAuth.instance.currentUser!.uid)
                   .collection('menu')
                   .orderBy('itemName')
                   .snapshots(),
-              builder: (context, snapshot) {
+              builder: (context, AsyncSnapshot snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return SpinKitFadingCircle(
                     color: Colors.black54,
@@ -64,9 +64,9 @@ class _AdminMenuListState extends State<AdminMenuList> {
                     padding: const EdgeInsets.only(
                       bottom: kFloatingActionButtonMargin + 60,
                     ),
-                    itemCount: snapshot.data.docs.length,
+                    itemCount: snapshot.data!.docs.length,
                     itemBuilder: (BuildContext context, int index) {
-                      var item = snapshot.data.docs[index];
+                      var item = snapshot.data!.docs[index];
                       return Padding(
                         padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                         child: ItemCard(

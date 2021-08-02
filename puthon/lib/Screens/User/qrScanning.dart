@@ -87,13 +87,13 @@ class _QrScanningState extends State<QrScanning> {
                           HomeScreen.table = cameraScanResult.split("/*/")[0];
                           FirebaseFirestore.instance
                               .collection('users')
-                              .doc(FirebaseAuth.instance.currentUser.uid)
+                              .doc(FirebaseAuth.instance.currentUser!.uid)
                               .update({
                             'scanned': 2,
                           });
                           FirebaseFirestore.instance
                               .collection('orders')
-                              .doc(FirebaseAuth.instance.currentUser.uid)
+                              .doc(FirebaseAuth.instance.currentUser!.uid)
                               .set({
                             'resId': HomeScreen.resId,
                             'table': HomeScreen.table,
@@ -109,7 +109,7 @@ class _QrScanningState extends State<QrScanning> {
                               .doc(HomeScreen.table)
                               .set({
                             'table': HomeScreen.table,
-                            'customerId': FirebaseAuth.instance.currentUser.uid,
+                            'customerId': FirebaseAuth.instance.currentUser!.uid,
                             'timeEntered': DateTime.now(),
                           });
                           scanned = 2;

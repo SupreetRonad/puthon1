@@ -23,16 +23,16 @@ class _DetailScreenState extends State<DetailScreen> {
   void readData() async {
     await FirebaseFirestore.instance
         .collection('users')
-        .doc(FirebaseAuth.instance.currentUser.uid)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .get()
         .then((value) {
       if (value.exists) {
         setState(() {
-          name = value.data()["name"];
-          phone = value.data()["phone"];
-          dob = value.data()["dob"];
-          gender = value.data()["gender"];
-          register = value.data()["register"];
+          name = value.data()!["name"];
+          phone = value.data()!["phone"];
+          dob = value.data()!["dob"];
+          gender = value.data()!["gender"];
+          register = value.data()!["register"];
           _isLoading1 = false;
         });
       }
@@ -150,7 +150,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                             ),
                                           ),
                                           validator: (val) {
-                                            if (val.isEmpty) {
+                                            if (val!.isEmpty) {
                                               setState(() {
                                                 flag[0] = 1;
                                               });
@@ -212,7 +212,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                               ),
                                               prefixText: "+91 "),
                                           validator: (val) {
-                                            if (val.isEmpty ||
+                                            if (val!.isEmpty ||
                                                 !RegExp(r'^[0-9]{10}$')
                                                     .hasMatch(val)) {
                                               setState(() {
@@ -428,9 +428,9 @@ class _DetailScreenState extends State<DetailScreen> {
                                                         _isLoading = true;
                                                         final _isValid =
                                                             _formkey
-                                                                .currentState
+                                                                .currentState!
                                                                 .validate();
-                                                        _formkey.currentState
+                                                        _formkey.currentState!
                                                             .save();
                                                         if (_isValid &&
                                                             flag[0] == 0 &&
@@ -442,7 +442,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                                                     'users')
                                                                 .doc(FirebaseAuth
                                                                     .instance
-                                                                    .currentUser
+                                                                    .currentUser!
                                                                     .uid)
                                                                 .update({
                                                               'name': name,
@@ -459,7 +459,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                                                     'users')
                                                                 .doc(FirebaseAuth
                                                                     .instance
-                                                                    .currentUser
+                                                                    .currentUser!
                                                                     .uid)
                                                                 .update({
                                                               'name': name,

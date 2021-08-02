@@ -20,9 +20,9 @@ class _CookScreenState extends State<CookScreen> {
     return StreamBuilder(
       stream: FirebaseFirestore.instance
           .collection('users')
-          .doc(FirebaseAuth.instance.currentUser.uid)
+          .doc(FirebaseAuth.instance.currentUser!.uid)
           .snapshots(),
-      builder: (context, snapshot) {
+      builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return LoadingScreen();
         }
@@ -81,7 +81,7 @@ class _CookScreenState extends State<CookScreen> {
                         .collection('activeOrders')
                         .where("flag", isEqualTo: 0)
                         .snapshots(),
-                    builder: (BuildContext context, snapshot) {
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return SpinKitFadingCircle(
                           size: 20,
@@ -147,6 +147,7 @@ class _CookScreenState extends State<CookScreen> {
                                   orderNo: order['orderNo'],
                                   timeStamp: order['timeStamp'],
                                   cookOrder: true,
+                                  acceptedOrder: false,
                                 );
                               },
                             );

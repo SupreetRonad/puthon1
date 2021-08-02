@@ -179,7 +179,7 @@ class _DurationConfirmState extends State<DurationConfirm> {
                           });
                           await FirebaseFirestore.instance
                               .collection('users')
-                              .doc(FirebaseAuth.instance.currentUser.uid)
+                              .doc(FirebaseAuth.instance.currentUser!.uid)
                               .update({
                             "cooking": true,
                             "orderNo": widget.orderNo,

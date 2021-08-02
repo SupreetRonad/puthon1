@@ -25,8 +25,8 @@ class _OrderTimerState extends State<OrderTimer> {
   void setFlag() async {
     await FirebaseFirestore.instance
         .collection("orders")
-        .doc(FirebaseAuth.instance.currentUser.uid)
-        .collection(FirebaseAuth.instance.currentUser.uid)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection(FirebaseAuth.instance.currentUser!.uid)
         .doc(widget.orderNo)
         .update(
       {
@@ -118,7 +118,7 @@ class _OrderTimerState extends State<OrderTimer> {
             .child(widget.bot.toString())
             .child("delivered")
             .onValue,
-        builder: (context, snapshot) {
+        builder: (context,AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
               child: Text("Please Wait..."),

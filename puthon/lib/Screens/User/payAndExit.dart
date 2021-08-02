@@ -21,17 +21,18 @@ Future<void> PayAndExit(var prefs, Function refresh) async {
 
   await FirebaseFirestore.instance
       .collection('users')
-      .doc(FirebaseAuth.instance.currentUser.uid)
+      .doc(FirebaseAuth.instance.currentUser!.uid)
       .update({
     'scanned': 1,
   });
+
   refresh();
-  cameraScanResult = null;
+  cameraScanResult = '';
 
   var data = await FirebaseFirestore.instance
       .collection('orders')
-      .doc(FirebaseAuth.instance.currentUser.uid)
-      .collection(FirebaseAuth.instance.currentUser.uid)
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection(FirebaseAuth.instance.currentUser!.uid)
       .snapshots();
 
   data.forEach((element) {
@@ -50,14 +51,14 @@ Future<void> PayAndExit(var prefs, Function refresh) async {
 
   await FirebaseFirestore.instance
       .collection('orders')
-      .doc(FirebaseAuth.instance.currentUser.uid)
+      .doc(FirebaseAuth.instance.currentUser!.uid)
       .get()
       .then((value) {
     if (value.exists) {
-      total = value.data()['total'];
-      resName = value.data()['resName'];
-      table = value.data()['table'];
-      time = value.data()['timeEntered'];
+      total = value.data()!['total'];
+      resName = value.data()!['resName'];
+      table = value.data()!['table'];
+      time = value.data()!['timeEntered'];
     }
   });
 
@@ -70,8 +71,8 @@ Future<void> PayAndExit(var prefs, Function refresh) async {
 
   await FirebaseFirestore.instance
       .collection('history')
-      .doc(FirebaseAuth.instance.currentUser.uid)
-      .collection(FirebaseAuth.instance.currentUser.uid)
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection(FirebaseAuth.instance.currentUser!.uid)
       .doc(timeStamp)
       .set({
     'orderList': orderList,
@@ -87,7 +88,7 @@ Future<void> PayAndExit(var prefs, Function refresh) async {
       .collection('completedOrders')
       .doc(timeStamp)
       .set({
-    "customerId": FirebaseAuth.instance.currentUser.uid,
+    "customerId": FirebaseAuth.instance.currentUser!.uid,
     "timeStamp": timeStamp,
   });
 
@@ -95,7 +96,7 @@ Future<void> PayAndExit(var prefs, Function refresh) async {
       .collection('admins')
       .doc(HomeScreen.resId)
       .collection('activeOrders')
-      .where('customerId', isEqualTo: FirebaseAuth.instance.currentUser.uid)
+      .where('customerId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
       .get()
       .then((value) {
     value.docs.forEach((element) {
@@ -110,19 +111,19 @@ Future<void> PayAndExit(var prefs, Function refresh) async {
 
   await FirebaseFirestore.instance
       .collection('orders')
-      .doc(FirebaseAuth.instance.currentUser.uid)
+      .doc(FirebaseAuth.instance.currentUser!.uid)
       .delete();
   await FirebaseFirestore.instance
       .collection('orders')
-      .doc(FirebaseAuth.instance.currentUser.uid)
-      .collection(FirebaseAuth.instance.currentUser.uid)
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection(FirebaseAuth.instance.currentUser!.uid)
       .get()
       .then((value) {
     value.docs.forEach((element) {
       FirebaseFirestore.instance
           .collection("orders")
-          .doc(FirebaseAuth.instance.currentUser.uid)
-          .collection(FirebaseAuth.instance.currentUser.uid)
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection(FirebaseAuth.instance.currentUser!.uid)
           .doc(element.id)
           .delete();
     });

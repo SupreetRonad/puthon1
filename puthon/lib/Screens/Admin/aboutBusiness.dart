@@ -22,9 +22,9 @@ class _AboutBusinessState extends State<AboutBusiness> {
     return StreamBuilder(
       stream: FirebaseFirestore.instance
           .collection('admins')
-          .doc(FirebaseAuth.instance.currentUser.uid)
+          .doc(FirebaseAuth.instance.currentUser!.uid)
           .snapshots(),
-      builder: (context, snapshot) {
+      builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return SpinKitFadingCircle(
             color: Colors.black54,
@@ -54,7 +54,7 @@ class _AboutBusinessState extends State<AboutBusiness> {
                 child: Column(
                   children: [
                     Text(
-                      snapshot.data["resName"],
+                      snapshot.data!["resName"],
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -285,9 +285,9 @@ class _AboutBusinessState extends State<AboutBusiness> {
               child: StreamBuilder(
                 stream: FirebaseFirestore.instance
                     .collection("admins")
-                    .doc(FirebaseAuth.instance.currentUser.uid)
+                    .doc(FirebaseAuth.instance.currentUser!.uid)
                     .snapshots(),
-                builder: (context, snapshot) {
+                builder: (context,AsyncSnapshot snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
                       child: Text(
@@ -342,7 +342,7 @@ class _AboutBusinessState extends State<AboutBusiness> {
                               textCapitalization: TextCapitalization.words,
                               textInputAction: TextInputAction.next,
                               key: ValueKey('resName'),
-                              initialValue: doc['resName'],
+                              initialValue: doc!['resName'],
                               keyboardType: TextInputType.name,
                               decoration: textField.copyWith(
                                 labelText: "Restaurant Name",
@@ -357,7 +357,7 @@ class _AboutBusinessState extends State<AboutBusiness> {
                                 ),
                               ),
                               validator: (val) {
-                                flag[0] = val.isEmpty ? 1 : 0;
+                                flag[0] = val!.isEmpty ? 1 : 0;
                                 resName = val;
                                 return null;
                               },
@@ -394,7 +394,7 @@ class _AboutBusinessState extends State<AboutBusiness> {
                                 ),
                               ),
                               validator: (val) {
-                                flag[1] = val.isEmpty ? 1 : 0;
+                                flag[1] = val!.isEmpty ? 1 : 0;
                                 upi = val;
                                 return null;
                               },
@@ -418,7 +418,7 @@ class _AboutBusinessState extends State<AboutBusiness> {
                             decoration: BoxDecoration(
                               gradient: LinearGradient(colors: [
                                 Colors.orangeAccent,
-                                Colors.deepOrange[300]
+                                Colors.deepOrange[300]!
                               ]),
                               borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(20),
@@ -430,13 +430,13 @@ class _AboutBusinessState extends State<AboutBusiness> {
                                   TextButton.styleFrom(primary: Colors.white70),
                               onPressed: () async {
                                 FocusScope.of(context).unfocus();
-                                if (_formkey.currentState.validate() &&
+                                if (_formkey.currentState!.validate() &&
                                     flag.reduce((a, b) => a = a + b) == 0) {
                                   Loading(context);
                                   await FirebaseFirestore.instance
                                       .collection('admins')
                                       .doc(
-                                          FirebaseAuth.instance.currentUser.uid)
+                                          FirebaseAuth.instance.currentUser!.uid)
                                       .update({
                                     'resName': resName ?? doc['resName'],
                                     'upiId': upi ?? doc['upiId'],

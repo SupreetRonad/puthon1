@@ -12,9 +12,9 @@ class DivergeScreen extends StatelessWidget {
     return StreamBuilder(
       stream: FirebaseFirestore.instance
           .collection('users')
-          .doc(FirebaseAuth.instance.currentUser.uid)
+          .doc(FirebaseAuth.instance.currentUser!.uid)
           .snapshots(),
-      builder: (context, snapshot) {
+      builder: (context,AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return LoadingScreen();
         }

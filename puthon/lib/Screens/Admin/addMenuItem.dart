@@ -12,7 +12,7 @@ import 'package:puthon/Shared/textField.dart';
 class AddMenuItem extends StatefulWidget {
   final bool modify;
   final String itemName;
-  AddMenuItem({this.modify, this.itemName});
+  AddMenuItem({required this.modify, this.itemName = ''});
   @override
   _AddMenuItemState createState() => _AddMenuItemState();
 }
@@ -24,7 +24,7 @@ class _AddMenuItemState extends State<AddMenuItem> {
   var itemName, price, veg, moreInfo, ingredients;
   var flag = [0, 0, 0];
   bool flag1 = false, loading = false, loading1 = true;
-  String category;
+  late String category;
 
   List<String> categories = <String>[
     'Main Course',
@@ -39,19 +39,19 @@ class _AddMenuItemState extends State<AddMenuItem> {
   void readData(String itemName) async {
     await FirebaseFirestore.instance
         .collection('admins')
-        .doc(FirebaseAuth.instance.currentUser.uid)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('menu')
         .doc(widget.itemName)
         .get()
         .then((value) {
       if (value.exists) {
         setState(() {
-          itemName = value.data()["itemName"];
-          price = value.data()["price"];
-          veg = value.data()["veg"];
-          category = value.data()["category"];
-          ingredients = value.data()["ingredients"];
-          moreInfo = value.data()["moreInfo"];
+          itemName = value.data()!["itemName"];
+          price = value.data()!["price"];
+          veg = value.data()!["veg"];
+          category = value.data()!["category"];
+          ingredients = value.data()!["ingredients"];
+          moreInfo = value.data()!["moreInfo"];
           _controller = AdvancedSwitchController(veg);
           loading1 = false;
         });
@@ -142,7 +142,6 @@ class _AddMenuItemState extends State<AddMenuItem> {
                             padding: EdgeInsets.all(15),
                             child: Column(
                               children: [
-                                
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(15),
                                   child: BackdropFilter(
@@ -180,7 +179,7 @@ class _AddMenuItemState extends State<AddMenuItem> {
                                           ),
                                         ),
                                         validator: (val) {
-                                          flag[0] = val.isEmpty ? 1 : 0;
+                                          flag[0] = val!.isEmpty ? 1 : 0;
                                           itemName = val;
                                           return null;
                                         },
@@ -229,7 +228,7 @@ class _AddMenuItemState extends State<AddMenuItem> {
                                           ),
                                         ),
                                         validator: (val) {
-                                          flag[1] = val.isEmpty ? 1 : 0;
+                                          flag[1] = val!.isEmpty ? 1 : 0;
                                           price = val;
                                           return null;
                                         },
@@ -352,7 +351,7 @@ class _AddMenuItemState extends State<AddMenuItem> {
                                           ),
                                         ),
                                         validator: (val) {
-                                          flag[2] = val.isEmpty ? 1 : 0;
+                                          flag[2] = val!.isEmpty ? 1 : 0;
                                           ingredients = val;
                                           return null;
                                         },
@@ -418,7 +417,7 @@ class _AddMenuItemState extends State<AddMenuItem> {
                             decoration: BoxDecoration(
                               gradient: LinearGradient(colors: [
                                 Colors.orangeAccent,
-                                Colors.deepOrange[300]
+                                Colors.deepOrange[300]!
                               ]),
                               borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(20),
@@ -426,10 +425,10 @@ class _AddMenuItemState extends State<AddMenuItem> {
                               ),
                             ),
                             child: TextButton(
-                              style: TextButton.styleFrom(
-                                  primary: Colors.white70),
+                              style:
+                                  TextButton.styleFrom(primary: Colors.white70),
                               onPressed: () {
-                                _formkey.currentState.validate();
+                                _formkey.currentState!.validate();
                                 setState(() {
                                   loading = true;
                                 });
@@ -440,7 +439,7 @@ class _AddMenuItemState extends State<AddMenuItem> {
                                     loading = false;
                                     if (flag.reduce((a, b) => a + b) == 0) {
                                       flag1 = false;
-                                      _formkey.currentState.save();
+                                      _formkey.currentState!.save();
                                       showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
@@ -449,21 +448,22 @@ class _AddMenuItemState extends State<AddMenuItem> {
                                             b2: widget.modify
                                                 ? "Modify item"
                                                 : "Add Item",
-                                            color: [Colors.greenAccent, Colors.green[300]],
+                                            color: [
+                                              Colors.greenAccent,
+                                              Colors.green[300]!,
+                                            ],
                                             message: Padding(
                                               padding:
                                                   const EdgeInsets.fromLTRB(
                                                       15, 0, 15, 0),
                                               child: Column(
                                                 crossAxisAlignment:
-                                                    CrossAxisAlignment
-                                                        .start,
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   Center(
                                                     child: Icon(
                                                       Icons.fastfood,
-                                                      color:
-                                                          Colors.green[400],
+                                                      color: Colors.green[400],
                                                       size: 40,
                                                     ),
                                                   ),
@@ -475,8 +475,7 @@ class _AddMenuItemState extends State<AddMenuItem> {
                                                       Icon(
                                                         Icons
                                                             .radio_button_checked,
-                                                        color: _controller
-                                                                .value
+                                                        color: _controller.value
                                                             ? Colors.green
                                                             : Colors.red,
                                                       ),
@@ -494,8 +493,7 @@ class _AddMenuItemState extends State<AddMenuItem> {
                                                           maxLines: 1,
                                                           softWrap: false,
                                                           overflow:
-                                                              TextOverflow
-                                                                  .fade,
+                                                              TextOverflow.fade,
                                                           style: TextStyle(
                                                               fontSize: 25,
                                                               fontWeight:
@@ -513,35 +511,29 @@ class _AddMenuItemState extends State<AddMenuItem> {
                                                       ingredients,
                                                       maxLines: 2,
                                                       softWrap: false,
-                                                      overflow: TextOverflow
-                                                          .ellipsis,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
                                                       style: TextStyle(
                                                           fontSize: 12,
-                                                          color: Colors
-                                                              .black54),
+                                                          color:
+                                                              Colors.black54),
                                                     ),
                                                   ),
                                                   moreInfo == null
-                                                      ? null
+                                                      ? SizedBox()
                                                       : Container(
-                                                          padding:
-                                                              EdgeInsets
-                                                                  .fromLTRB(
-                                                                      35,
-                                                                      0,
-                                                                      0,
-                                                                      5),
+                                                          padding: EdgeInsets
+                                                              .fromLTRB(
+                                                                  35, 0, 0, 5),
                                                           child: Text(
-                                                            "-  " +
-                                                                moreInfo,
+                                                            "-  " + moreInfo,
                                                             maxLines: 1,
                                                             softWrap: false,
                                                             overflow:
                                                                 TextOverflow
                                                                     .ellipsis,
                                                             style: TextStyle(
-                                                                fontSize:
-                                                                    12,
+                                                                fontSize: 12,
                                                                 color: Colors
                                                                     .black54),
                                                           ),
@@ -555,28 +547,26 @@ class _AddMenuItemState extends State<AddMenuItem> {
                                                         category,
                                                         maxLines: 1,
                                                         softWrap: false,
-                                                        overflow:
-                                                            TextOverflow
-                                                                .ellipsis,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
                                                         style: TextStyle(
                                                             fontSize: 17,
                                                             fontWeight:
-                                                                FontWeight
-                                                                    .bold,
-                                                            color: Colors
-                                                                .amber),
+                                                                FontWeight.bold,
+                                                            color:
+                                                                Colors.amber),
                                                       ),
                                                       Spacer(),
                                                       Container(
-                                                        padding: EdgeInsets
-                                                            .fromLTRB(35, 0,
-                                                                0, 5),
+                                                        padding:
+                                                            EdgeInsets.fromLTRB(
+                                                                35, 0, 0, 5),
                                                         child: Text(
                                                           "Rs. " + price,
                                                           style: TextStyle(
                                                               fontSize: 20,
-                                                              color: Colors
-                                                                  .green,
+                                                              color:
+                                                                  Colors.green,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold),
@@ -588,11 +578,10 @@ class _AddMenuItemState extends State<AddMenuItem> {
                                               ),
                                             ),
                                             function: () async {
-                                              await FirebaseFirestore
-                                                  .instance
+                                              await FirebaseFirestore.instance
                                                   .collection('admins')
-                                                  .doc(FirebaseAuth.instance
-                                                      .currentUser.uid)
+                                                  .doc(FirebaseAuth
+                                                      .instance.currentUser!.uid)
                                                   .collection('menu')
                                                   .doc(itemName)
                                                   .set({

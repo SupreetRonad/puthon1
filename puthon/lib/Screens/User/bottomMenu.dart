@@ -17,7 +17,7 @@ import 'payAndExit.dart';
 class BottomMenu extends StatefulWidget {
   final SharedPreferences prefs;
   final Function refresh;
-  BottomMenu({this.prefs, this.refresh});
+  BottomMenu({required this.prefs, required this.refresh});
   @override
   _BottomMenuState createState() => _BottomMenuState();
 }
@@ -30,7 +30,7 @@ class _BottomMenuState extends State<BottomMenu> {
   void initState() {
     FirebaseFirestore.instance
         .collection('orders')
-        .doc(FirebaseAuth.instance.currentUser.uid)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .get()
         .then((value) {
       if (value.exists) {
@@ -113,9 +113,9 @@ class _BottomMenuState extends State<BottomMenu> {
                     StreamBuilder(
                         stream: FirebaseFirestore.instance
                             .collection('orders')
-                            .doc(FirebaseAuth.instance.currentUser.uid)
+                            .doc(FirebaseAuth.instance.currentUser!.uid)
                             .snapshots(),
-                        builder: (context, snapshot) {
+                        builder: (context, AsyncSnapshot snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
                             return Text(
@@ -152,7 +152,7 @@ class _BottomMenuState extends State<BottomMenu> {
                                     await FirebaseFirestore.instance
                                         .collection('users')
                                         .doc(FirebaseAuth
-                                            .instance.currentUser.uid)
+                                            .instance.currentUser!.uid)
                                         .update({'scanned': 1});
                                   }
                                 : () {
@@ -213,10 +213,10 @@ class _BottomMenuState extends State<BottomMenu> {
                 StreamBuilder(
                   stream: FirebaseFirestore.instance
                       .collection('orders')
-                      .doc(FirebaseAuth.instance.currentUser.uid)
-                      .collection(FirebaseAuth.instance.currentUser.uid)
+                      .doc(FirebaseAuth.instance.currentUser!.uid)
+                      .collection(FirebaseAuth.instance.currentUser!.uid)
                       .snapshots(),
-                  builder: (context, snapshot) {
+                  builder: (context, AsyncSnapshot snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Padding(
                         padding: const EdgeInsets.all(20.0),
@@ -256,11 +256,12 @@ class _BottomMenuState extends State<BottomMenu> {
                             itemBuilder: (context, index) {
                               var order = snapshot.data
                                   .docs[snapshot.data.docs.length - index - 1];
-                              
+
                               return OrderCard(
                                 order: order,
                                 timeStamp: order["timeStamp"],
                                 cookOrder: false,
+                                acceptedOrder: false,
                               );
                             }),
                       );
@@ -283,7 +284,7 @@ class _BottomMenuState extends State<BottomMenu> {
                     .collection('menu')
                     .orderBy('category')
                     .snapshots(),
-                builder: (context, snapshot) {
+                builder: (context, AsyncSnapshot snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return SpinKitFadingCircle(
                       color: Colors.green,

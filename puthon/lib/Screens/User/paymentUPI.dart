@@ -18,9 +18,9 @@ class PaymentUPI extends StatefulWidget {
 }
 
 class _PaymentUPIState extends State<PaymentUPI> {
-  Future<UpiResponse> _transaction;
+  late Future<UpiResponse> _transaction;
   UpiIndia _upiIndia = UpiIndia();
-  List<UpiApp> apps;
+  late List<UpiApp> apps;
 
   @override
   void initState() {
@@ -305,10 +305,10 @@ class _PaymentUPIState extends State<PaymentUPI> {
 
                     // If we have data then definitely we will have UpiResponse.
                     // It cannot be null
-                    UpiResponse _upiResponse = snapshot.data;
+                    UpiResponse? _upiResponse = snapshot.data;
 
                     // Data in UpiResponse can be null. Check before printing
-                    String txnId = _upiResponse.transactionId ?? 'N/A';
+                    String txnId = _upiResponse!.transactionId ?? 'N/A';
                     String resCode = _upiResponse.responseCode ?? 'N/A';
                     String txnRef = _upiResponse.transactionRefId ?? 'N/A';
                     String status = _upiResponse.status ?? 'N/A';

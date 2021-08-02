@@ -16,7 +16,7 @@ class AdminCooksList extends StatefulWidget {
 class _AdminCooksListState extends State<AdminCooksList> {
   @override
   Widget build(BuildContext context) {
-    String query;
+    String query = '';
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
@@ -43,10 +43,10 @@ class _AdminCooksListState extends State<AdminCooksList> {
             child: StreamBuilder(
               stream: FirebaseFirestore.instance
                   .collection('admins')
-                  .doc(FirebaseAuth.instance.currentUser.uid)
+                  .doc(FirebaseAuth.instance.currentUser!.uid)
                   .collection('cooks')
                   .snapshots(),
-              builder: (context, snapshot) {
+              builder: (context,AsyncSnapshot snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return SpinKitFadingCircle(
                     color: Colors.black54,
@@ -63,7 +63,7 @@ class _AdminCooksListState extends State<AdminCooksList> {
                     physics: BouncingScrollPhysics(),
                     padding: const EdgeInsets.only(
                         bottom: kFloatingActionButtonMargin + 60),
-                    itemCount: snapshot.data.docs.length,
+                    itemCount: snapshot.data!.docs.length,
                     itemBuilder: (BuildContext context, int index) {
                       var cook = snapshot.data.docs[index];
                       return StreamBuilder(
@@ -164,7 +164,7 @@ class _AdminCooksListState extends State<AdminCooksList> {
                               .where('email', isEqualTo: query ?? "@gmail.com")
                               .where('email',
                                   isNotEqualTo:
-                                      FirebaseAuth.instance.currentUser.email)
+                                      FirebaseAuth.instance.currentUser!.email)
                               .snapshots(),
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
@@ -175,11 +175,11 @@ class _AdminCooksListState extends State<AdminCooksList> {
                               );
                             }
                             if (snapshot.hasData &&
-                                snapshot.data.docs.length > 0) {
+                                snapshot.data!.docs.length > 0) {
                               return ListView.builder(
-                                itemCount: snapshot.data.docs.length,
+                                itemCount: snapshot.data!.docs.length,
                                 itemBuilder: (BuildContext context, int index) {
-                                  if (snapshot.data.docs[index]['cook'] ==
+                                  if (snapshot.data!.docs[index]['cook'] ==
                                       true) {
                                     return Container(
                                       padding: const EdgeInsets.fromLTRB(
@@ -203,7 +203,7 @@ class _AdminCooksListState extends State<AdminCooksList> {
                                     );
                                   }
                                   return CookECard(
-                                      doc: snapshot.data.docs[index],
+                                      doc: snapshot.data!.docs[index],
                                       flag: true);
                                 },
                               );

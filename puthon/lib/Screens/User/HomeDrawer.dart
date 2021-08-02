@@ -28,11 +28,11 @@ class _HomeDrawerState extends State<HomeDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    final uid = FirebaseAuth.instance.currentUser.uid;
+    final uid = FirebaseAuth.instance.currentUser!.uid;
     return StreamBuilder(
       stream:
           FirebaseFirestore.instance.collection('users').doc(uid).snapshots(),
-      builder: (context, snapshot) {
+      builder: (context, AsyncSnapshot snapshot) {
         var info = snapshot.data;
         if (snapshot.connectionState == ConnectionState.waiting) {
           return LoadingScreen();
@@ -70,7 +70,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                       filter: ImageFilter.blur(
                                           sigmaX: 5.0, sigmaY: 5.0),
                                       child: Image.asset(
-                                        info['gender'] == 1
+                                        info!['gender'] == 1
                                             ? "assets/images/female2.png"
                                             : "assets/images/male2.png",
                                         fit: BoxFit.cover,
@@ -250,7 +250,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                               gradient: LinearGradient(
                                                 colors: [
                                                   Colors.redAccent,
-                                                  Colors.red[500],
+                                                  Colors.red[500]!,
                                                 ],
                                               ),
                                               borderRadius:
@@ -311,7 +311,10 @@ class _HomeDrawerState extends State<HomeDrawer> {
           height: 180,
           b1: "Go Back",
           b2: "Log Out",
-          color: [Colors.redAccent, Colors.red[300]],
+          color: [
+            Colors.redAccent,
+            Colors.red[300]!,
+          ],
           function: () async {
             for (var i = 0; i < HomeScreen.list.length; i++) {
               prefs.remove(HomeScreen.list[i]);

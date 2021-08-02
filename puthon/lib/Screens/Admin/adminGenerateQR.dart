@@ -13,7 +13,7 @@ class AdminGenerateQR extends StatefulWidget {
 }
 
 class _AdminGenerateQRState extends State<AdminGenerateQR> {
-  String qrContent, table;
+  late String qrContent, table;
   Uint8List result = Uint8List(0);
   var valid = 0, flag = 0;
   @override
@@ -171,7 +171,7 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
                                 RegExp(r'^[0-9]{2}$').hasMatch(qrContent))) {
                           FocusScope.of(context).unfocus();
                           result = await scanner.generateBarCode(
-                              "${qrContent}/*/${FirebaseAuth.instance.currentUser.uid}");
+                              "${qrContent}/*/${FirebaseAuth.instance.currentUser!.uid}");
                           table = qrContent;
                           valid = 1;
                         } else {
@@ -224,7 +224,11 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       gradient: LinearGradient(
-                          colors: [Colors.greenAccent, Colors.green[300]]),
+                        colors: [
+                          Colors.greenAccent,
+                          Colors.green[300]!,
+                        ],
+                      ),
                     ),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
