@@ -21,10 +21,9 @@ class BottomMenu extends StatefulWidget {
   _BottomMenuState createState() => _BottomMenuState();
 }
 
-var loading = true;
-var upiId;
-
 class _BottomMenuState extends State<BottomMenu> {
+  bool loading = true;
+  String? upiId;
   @override
   void initState() {
     FirebaseFirestore.instance
@@ -171,7 +170,8 @@ class _BottomMenuState extends State<BottomMenu> {
                                       );
                                     } else {
                                       showToast(
-                                          "Please wait until your order gets delivered");
+                                        "Please wait until your order gets delivered",
+                                      );
                                     }
                                   },
                             child: Row(

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 void showSnack(
-  BuildContext context, {
-  required String msg,
+  BuildContext context,
+  String msg, {
   Color color = Colors.amber,
   Color textColor = Colors.white,
 }) {
