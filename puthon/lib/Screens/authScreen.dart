@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:puthon/Screens/User/homeScreen.dart';
-import 'package:puthon/shared/snackBar.dart';
+import 'package:puthon/shared/showMsg.dart';
 import 'dart:ui';
 import '/shared/textField.dart';
 
@@ -82,7 +82,7 @@ class _AuthScreenState extends State<AuthScreen> {
         message = err.message!;
       }
 
-      showMsg(
+      showSnack(
         context,
         msg: message,
         color: Colors.black,

@@ -50,6 +50,7 @@ class _PaymentUPIState extends State<PaymentUPI> {
   }
 
   Widget displayUpiApps() {
+    // ignore: unnecessary_null_comparison
     if (apps == null)
       return Center(child: CircularProgressIndicator());
     else if (apps.length == 0)

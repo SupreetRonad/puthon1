@@ -21,6 +21,45 @@ class _AcceptedOrderState extends State<AcceptedOrder> {
   var botNo;
   final databaseRef = FirebaseDatabase.instance.reference();
 
+  void assignBot(AsyncSnapshot snapshot) async {
+    cameraScanResult = await scanner.scan() ?? '';
+
+    setState(() {
+      botNo = cameraScanResult.split("/*/")[0];
+    });
+
+    // Loading(context);
+
+    databaseRef.child(snapshot.data!['resId']).child(botNo.toString()).set({
+      'tableNo': int.parse(snapshot.data['table']),
+      'delivered': false,
+    });
+
+    await FirebaseFirestore.instance
+        .collection("orders")
+        .doc(widget.orderNo.substring(0, 28))
+        .collection(widget.orderNo.substring(0, 28))
+        .doc(widget.orderNo)
+        .update({
+      'flag': 2,
+      'bot': int.parse(botNo),
+    });
+
+    await FirebaseFirestore.instance
+        .collection("orders")
+        .doc(widget.orderNo.substring(0, 28))
+        .update({
+      'ordered': false,
+    });
+
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .update({
+      'cooking': false,
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -67,7 +106,7 @@ class _AcceptedOrderState extends State<AcceptedOrder> {
                 .collection(widget.orderNo.substring(0, 28))
                 .doc(widget.orderNo)
                 .snapshots(),
-            builder: (context,AsyncSnapshot snapshot) {
+            builder: (context, AsyncSnapshot snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
                   child: Text("Loading"),
@@ -133,66 +172,15 @@ class _AcceptedOrderState extends State<AcceptedOrder> {
                     time: order['acceptedTime'],
                     duration: int.parse(order['duration']),
                   ),
-                  Container(
-                    height: MediaQuery.of(context).size.height * .4,
-                    child: Scrollbar(
-                      child: SingleChildScrollView(
-                        //reverse: true,
-                        physics: BouncingScrollPhysics(),
-                        child: Column(children: [
-                          for (var item in order['orderList'].keys)
-                            Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: Row(
-                                children: [
-                                  SizedBox(
-                                    width: 15,
-                                  ),
-                                  Icon(
-                                    Icons.radio_button_checked,
-                                    color: order['orderList'][item][1]
-                                        ? Colors.green[300]
-                                        : Colors.red[300],
-                                    size: 20,
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Container(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.6,
-                                    child: Text(
-                                      item,
-                                      softWrap: false,
-                                      overflow: TextOverflow.fade,
-                                      maxLines: 1,
-                                      style: TextStyle(fontSize: 16),
-                                    ),
-                                  ),
-                                  Spacer(),
-                                  Text(
-                                    "x " +
-                                        order['orderList'][item][0].toString(),
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                ],
-                              ),
-                            ),
-                        ]),
-                      ),
-                    ),
-                  ),
+                  displayOrder(order),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                     child: Text(
                       "Note : Once you are done, please scan the QR code on bot after placing the order on it.",
-                      //maxLines: 2,
-                      style: TextStyle(color: Colors.black54, fontSize: 12),
+                      style: TextStyle(
+                        color: Colors.black54,
+                        fontSize: 12,
+                      ),
                     ),
                   ),
                   StreamBuilder(
@@ -200,7 +188,7 @@ class _AcceptedOrderState extends State<AcceptedOrder> {
                           .collection('orders')
                           .doc(widget.orderNo.substring(0, 28))
                           .snapshots(),
-                      builder: (context,AsyncSnapshot snapshot) {
+                      builder: (context, AsyncSnapshot snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
                           return Center(
@@ -239,46 +227,7 @@ class _AcceptedOrderState extends State<AcceptedOrder> {
                                   ),
                                   padding: EdgeInsets.all(20)),
                               onPressed: () async {
-                                cameraScanResult = (await scanner.scan())!;
-                                setState(() {
-                                  botNo = cameraScanResult.split("/*/")[0];
-                                });
-
-                                // Loading(context);
-
-                                databaseRef
-                                    .child(snapshot.data!['resId'])
-                                    .child(botNo.toString())
-                                    .set({
-                                  'tableNo': int.parse(snapshot.data['table']),
-                                  'delivered': false,
-                                });
-
-                                await FirebaseFirestore.instance
-                                    .collection("orders")
-                                    .doc(widget.orderNo.substring(0, 28))
-                                    .collection(widget.orderNo.substring(0, 28))
-                                    .doc(widget.orderNo)
-                                    .update({
-                                  'flag': 2,
-                                  'bot': int.parse(botNo),
-                                });
-
-                                await FirebaseFirestore.instance
-                                    .collection("orders")
-                                    .doc(widget.orderNo.substring(0, 28))
-                                    .update({
-                                  'ordered': false,
-                                });
-                                
-                                await FirebaseFirestore.instance
-                                    .collection("users")
-                                    .doc(FirebaseAuth.instance.currentUser!.uid)
-                                    .update({
-                                  'cooking': false,
-                                });  
-                                
-                                
+                                assignBot(snapshot);
                               },
                             ),
                             SizedBox(
@@ -295,4 +244,56 @@ class _AcceptedOrderState extends State<AcceptedOrder> {
       ),
     );
   }
+
+  Widget displayOrder(var order) => Container(
+        height: MediaQuery.of(context).size.height * .4,
+        child: Scrollbar(
+          child: SingleChildScrollView(
+            //reverse: true,
+            physics: BouncingScrollPhysics(),
+            child: Column(children: [
+              for (var item in order['orderList'].keys)
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Icon(
+                        Icons.radio_button_checked,
+                        color: order['orderList'][item][1]
+                            ? Colors.green[300]
+                            : Colors.red[300],
+                        size: 20,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.6,
+                        child: Text(
+                          item,
+                          softWrap: false,
+                          overflow: TextOverflow.fade,
+                          maxLines: 1,
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                      Spacer(),
+                      Text(
+                        "x " + order['orderList'][item][0].toString(),
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                    ],
+                  ),
+                ),
+            ]),
+          ),
+        ),
+      );
 }

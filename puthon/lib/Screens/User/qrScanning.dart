@@ -14,7 +14,7 @@ class QrScanning extends StatefulWidget {
 
 class _QrScanningState extends State<QrScanning> {
   void scanQR() async {
-    cameraScanResult = (await scanner.scan())!;
+    cameraScanResult = await scanner.scan() ?? '';
 
     if (cameraScanResult.split("/*/").length == 2) {
       await FirebaseFirestore.instance
@@ -130,10 +130,7 @@ class _QrScanningState extends State<QrScanning> {
               ],
             ),
             SizedBox(
-              height: 10,
-            ),
-            SizedBox(
-              height: 10,
+              height: 20,
             ),
           ],
         ),

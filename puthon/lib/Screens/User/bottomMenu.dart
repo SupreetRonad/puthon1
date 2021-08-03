@@ -2,13 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:puthon/Screens/User/paymentGateway.dart';
 import 'package:puthon/Screens/User/paymentUPI.dart';
 import 'package:puthon/Shared/orderCard.dart';
 import 'package:puthon/Shared/itemCard.dart';
 import 'package:puthon/Shared/loadingScreen.dart';
+import 'package:puthon/shared/showMsg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'homeScreen.dart';
@@ -171,14 +171,8 @@ class _BottomMenuState extends State<BottomMenu> {
                                         ),
                                       );
                                     } else {
-                                      Fluttertoast.showToast(
-                                        msg:
-                                            "Please wait until your order gets delivered",
-                                        gravity: ToastGravity.SNACKBAR,
-                                        toastLength: Toast.LENGTH_SHORT,
-                                        backgroundColor: Colors.black54,
-                                        textColor: Colors.white,
-                                      );
+                                      showToast(
+                                          "Please wait until your order gets delivered");
                                     }
                                   },
                             child: Row(
@@ -248,22 +242,23 @@ class _BottomMenuState extends State<BottomMenu> {
                     } else {
                       return Expanded(
                         child: ListView.builder(
-                            physics: BouncingScrollPhysics(),
-                            padding: EdgeInsets.only(
-                              bottom: kFloatingActionButtonMargin + 160,
-                            ),
-                            itemCount: snapshot.data.docs.length,
-                            itemBuilder: (context, index) {
-                              var order = snapshot.data
-                                  .docs[snapshot.data.docs.length - index - 1];
+                          physics: BouncingScrollPhysics(),
+                          padding: EdgeInsets.only(
+                            bottom: kFloatingActionButtonMargin + 160,
+                          ),
+                          itemCount: snapshot.data.docs.length,
+                          itemBuilder: (context, index) {
+                            var order = snapshot.data
+                                .docs[snapshot.data.docs.length - index - 1];
 
-                              return OrderCard(
-                                order: order,
-                                timeStamp: order["timeStamp"],
-                                cookOrder: false,
-                                acceptedOrder: false,
-                              );
-                            }),
+                            return OrderCard(
+                              order: order,
+                              timeStamp: order["timeStamp"],
+                              cookOrder: false,
+                              acceptedOrder: false,
+                            );
+                          },
+                        ),
                       );
                     }
                   },
