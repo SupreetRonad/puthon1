@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:puthon/Shared/successBox.dart';
+import 'package:puthon/shared/showMsg.dart';
 
 class TnC extends StatefulWidget {
   final resName,
@@ -61,7 +62,7 @@ class _TnCState extends State<TnC> {
                     children: [
                       Icon(
                         Icons.info_outline_rounded,
-                        size: 30,
+                        size: 20,
                       ),
                       SizedBox(
                         width: 10,
@@ -69,19 +70,25 @@ class _TnCState extends State<TnC> {
                       Text(
                         "Terms and Conditions...",
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 17),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17,
+                        ),
                       ),
                     ],
                   ),
                   SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
                     height: MediaQuery.of(context).size.height * .5,
                     child: SingleChildScrollView(
+                      physics: BouncingScrollPhysics(),
                       child: Container(
                         padding: EdgeInsets.all(10),
                         constraints: BoxConstraints(
-                            minWidth: 100,
-                            maxWidth:
-                                MediaQuery.of(context).size.width * .8 - 40),
+                          minWidth: 100,
+                          maxWidth: MediaQuery.of(context).size.width * .8 - 40,
+                        ),
                         child: Text(
                           tnc,
                           style: TextStyle(
@@ -116,7 +123,7 @@ class _TnCState extends State<TnC> {
                     height: 10,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       TextButton(
                         style: TextButton.styleFrom(
@@ -177,11 +184,7 @@ class _TnCState extends State<TnC> {
                                   },
                                 );
                               } else {
-                                Fluttertoast.showToast(
-                                  msg: "Please accept terms and conditions",
-                                  toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.SNACKBAR,
-                                );
+                                showToast('Please accept terms and conditions');
                               }
                             },
                             child: Text(

@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puthon/Screens/User/tnc.dart';
+import 'package:puthon/shared/showMsg.dart';
 import 'package:puthon/shared/textField.dart';
 
 class RegisterBusiness extends StatefulWidget {
@@ -11,12 +12,17 @@ class RegisterBusiness extends StatefulWidget {
   _RegisterBusinessState createState() => _RegisterBusinessState();
 }
 
-var resName, building, street, city, state, pincode, name, phone, email, upi;
-var flag = [0, 0, 0, 0, 0, 0, 0];
-bool flag1 = false, loading = false;
-
 class _RegisterBusinessState extends State<RegisterBusiness> {
-  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  bool flag1 = false, loading = false;
+  String? name, phone, email;
+
+  TextEditingController _resName = TextEditingController();
+  TextEditingController _upi = TextEditingController();
+  TextEditingController _building = TextEditingController();
+  TextEditingController _street = TextEditingController();
+  TextEditingController _city = TextEditingController();
+  TextEditingController _state = TextEditingController();
+  TextEditingController _pincode = TextEditingController();
 
   void readData() async {
     await FirebaseFirestore.instance
@@ -30,7 +36,63 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
           phone = value.data()!["phone"];
           email = FirebaseAuth.instance.currentUser!.email;
         });
+      }else{
+        showSnack(context, 'Something went wrong!');
+        Navigator.pop(context);
       }
+    });
+  }
+
+  void onSubmit() {
+    setState(() {
+      loading = true;
+    });
+    FocusScope.of(context).unfocus();
+    Future.delayed(const Duration(milliseconds: 1000), () {
+      setState(() {
+        loading = false;
+        if (_resName.text.isNotEmpty &&
+            _upi.text.isNotEmpty &&
+            _building.text.isNotEmpty &&
+            _street.text.isNotEmpty &&
+            _city.text.isNotEmpty &&
+            _state.text.isNotEmpty &&
+            _pincode.text.isNotEmpty) {
+          if (!RegExp(r'^[0-9]{6}$').hasMatch(_pincode.text)) {
+            showSnack(
+              context,
+              'Enter valid pincode!',
+              color: Colors.red,
+            );
+            loading = false;
+            setState(() {});
+            return;
+          }
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return TnC(
+                city: _city.text,
+                street: _street.text,
+                resName: _resName.text,
+                pincode: _pincode.text,
+                state: _state.text,
+                building: _building.text,
+                name: name,
+                phone: phone,
+                email: email,
+                upi: _upi.text,
+              );
+            },
+          );
+        } else {
+          showSnack(
+            context,
+            'Please fill in all the fields!',
+            color: Colors.red,
+          );
+        }
+      });
     });
   }
 
@@ -42,12 +104,13 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
 
   @override
   Widget build(BuildContext context) {
-    final node = FocusScope.of(context);
     return Theme(
       data: ThemeData(
-          primaryColor: Colors.black,
-          textSelectionTheme:
-              TextSelectionThemeData(cursorColor: Colors.white)),
+        primaryColor: Colors.black,
+        textSelectionTheme: TextSelectionThemeData(
+          cursorColor: Colors.white,
+        ),
+      ),
       child: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -73,477 +136,120 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
               child: SingleChildScrollView(
-                child: Form(
-                  key: _formkey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height - 750,
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(10),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.play_arrow,
-                                  color: Colors.white,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  "Enter the Name of your restaurant..",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(15),
-                              child: BackdropFilter(
-                                filter: ImageFilter.blur(
-                                    sigmaX: 10.0, sigmaY: 10.0),
-                                child: Container(
-                                  color: Colors.white.withOpacity(.4),
-                                  child: TextFormField(
-                                    onChanged: (val) {
-                                      flag[0] = 0;
-                                      if (val.isEmpty) {
-                                        flag[0] = 1;
-                                      }
-                                      return null;
-                                    },
-                                    textCapitalization:
-                                        TextCapitalization.words,
-                                    textInputAction: TextInputAction.next,
-                                    key: ValueKey('resname'),
-                                    onEditingComplete: () => node.nextFocus(),
-                                    keyboardType: TextInputType.text,
-                                    decoration: textField.copyWith(
-                                      labelText: "Restaurant name",
-                                      labelStyle: TextStyle(
-                                        color: Colors.black.withOpacity(.35),
-                                      ),
-                                      prefixIcon: Icon(
-                                        Icons.restaurant,
-                                        color: flag[0] == 1
-                                            ? Colors.red
-                                            : Colors.black87,
-                                      ),
-                                    ),
-                                    validator: (val) {
-                                      flag[0] = val!.isEmpty ? 1 : 0;
-                                      resName = val;
-                                      return null;
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.play_arrow,
-                                  color: Colors.white,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  "Enter business details..",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(15),
-                              child: BackdropFilter(
-                                filter: ImageFilter.blur(
-                                    sigmaX: 10.0, sigmaY: 10.0),
-                                child: Container(
-                                  color: Colors.white.withOpacity(.4),
-                                  child: TextFormField(
-                                    onChanged: (val) {
-                                      flag[5] = 0;
-                                      if (val.isEmpty) {
-                                        flag[5] = 1;
-                                      }
-                                      return null;
-                                    },
-                                    textCapitalization:
-                                        TextCapitalization.words,
-                                    textInputAction: TextInputAction.next,
-                                    key: ValueKey('upi'),
-                                    onEditingComplete: () => node.nextFocus(),
-                                    keyboardType: TextInputType.text,
-                                    decoration: textField.copyWith(
-                                      labelText: "Upi ID",
-                                      labelStyle: TextStyle(
-                                        color: Colors.black.withOpacity(.35),
-                                      ),
-                                      prefixIcon: Icon(
-                                        Icons.monetization_on,
-                                        color: flag[5] == 1
-                                            ? Colors.red
-                                            : Colors.black87,
-                                      ),
-                                    ),
-                                    validator: (val) {
-                                      flag[5] = val!.isEmpty ? 1 : 0;
-                                      upi = val;
-                                      return null;
-                                    },
-                                  ),
+                reverse: true,
+                physics: BouncingScrollPhysics(),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height - 750,
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      child: Column(
+                        children: [
+                          head("Restaurant information.."),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          CField(
+                            controller: _resName,
+                            bgColor: Colors.white38,
+                            label: 'Restaurant name',
+                            preIcon: Icons.restaurant,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          CField(
+                            controller: _upi,
+                            bgColor: Colors.white38,
+                            label: 'Merchant UPI ID',
+                            preIcon: Icons.monetization_on,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          head("Tell us where it is located.."),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          CField(
+                            controller: _building,
+                            bgColor: Colors.white38,
+                            label: 'Building info (number, floor etc.)',
+                            preIcon: Icons.business,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          CField(
+                            controller: _street,
+                            bgColor: Colors.white38,
+                            label: 'Street name',
+                            preIcon: Icons.streetview,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          CField(
+                            controller: _city,
+                            bgColor: Colors.white38,
+                            label: 'City',
+                            preIcon: Icons.location_city,
+                          ),
+                          SizedBox(height: 10),
+                          Row(
+                            children: [
+                              Flexible(
+                                child: CField(
+                                  controller: _state,
+                                  bgColor: Colors.white38,
+                                  label: 'State',
+                                  preIcon: Icons.room,
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.play_arrow,
-                                  color: Colors.white,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  "Tell us where it is located..",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(15),
-                              child: BackdropFilter(
-                                filter: ImageFilter.blur(
-                                    sigmaX: 10.0, sigmaY: 10.0),
-                                child: Container(
-                                  color: Colors.white.withOpacity(.4),
-                                  child: TextFormField(
-                                    onChanged: (val) {
-                                      flag[1] = 0;
-                                      if (val.isEmpty) {
-                                        flag[1] = 1;
-                                      }
-                                      return null;
-                                    },
-                                    textCapitalization:
-                                        TextCapitalization.words,
-                                    textInputAction: TextInputAction.next,
-                                    key: ValueKey('buildingname'),
-                                    onEditingComplete: () => node.nextFocus(),
-                                    keyboardType: TextInputType.streetAddress,
-                                    decoration: textField.copyWith(
-                                      labelText:
-                                          "Building info (number, floor etc.)",
-                                      labelStyle: TextStyle(
-                                        color: Colors.black.withOpacity(.35),
-                                      ),
-                                      prefixIcon: Icon(
-                                        Icons.business,
-                                        color: flag[1] == 1
-                                            ? Colors.red
-                                            : Colors.black87,
-                                      ),
-                                    ),
-                                    validator: (val) {
-                                      flag[1] = val!.isEmpty ? 1 : 0;
-                                      building = val;
-                                      return null;
-                                    },
-                                  ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * .34,
+                                child: CField(
+                                  controller: _pincode,
+                                  bgColor: Colors.white38,
+                                  label: 'Pincode',
+                                  preIcon: Icons.pin_drop,
+                                  maxLen: 6,
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(15),
-                              child: BackdropFilter(
-                                filter: ImageFilter.blur(
-                                    sigmaX: 10.0, sigmaY: 10.0),
-                                child: Container(
-                                  color: Colors.white.withOpacity(.4),
-                                  child: TextFormField(
-                                    onChanged: (val) {
-                                      flag[2] = 0;
-                                      if (val.isEmpty) {
-                                        flag[2] = 1;
-                                      }
-                                      return null;
-                                    },
-                                    textCapitalization:
-                                        TextCapitalization.words,
-                                    textInputAction: TextInputAction.next,
-                                    key: ValueKey('streetname'),
-                                    onEditingComplete: () => node.nextFocus(),
-                                    keyboardType: TextInputType.streetAddress,
-                                    decoration: textField.copyWith(
-                                      labelText: "Street name",
-                                      labelStyle: TextStyle(
-                                        color: Colors.black.withOpacity(.35),
-                                      ),
-                                      prefixIcon: Icon(
-                                        Icons.streetview,
-                                        color: flag[2] == 1
-                                            ? Colors.red
-                                            : Colors.black87,
-                                      ),
-                                    ),
-                                    validator: (val) {
-                                      flag[2] = val!.isEmpty ? 1 : 0;
-                                      street = val;
-                                      return null;
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(15),
-                              child: BackdropFilter(
-                                filter: ImageFilter.blur(
-                                    sigmaX: 10.0, sigmaY: 10.0),
-                                child: Container(
-                                  color: Colors.white.withOpacity(.4),
-                                  child: TextFormField(
-                                    onChanged: (val) {
-                                      flag[3] = 0;
-                                      if (val.isEmpty) {
-                                        flag[3] = 1;
-                                      }
-                                      return null;
-                                    },
-                                    textCapitalization:
-                                        TextCapitalization.words,
-                                    textInputAction: TextInputAction.next,
-                                    key: ValueKey('cityname'),
-                                    onEditingComplete: () => node.nextFocus(),
-                                    keyboardType: TextInputType.text,
-                                    decoration: textField.copyWith(
-                                      labelText: "City ",
-                                      labelStyle: TextStyle(
-                                        color: Colors.black.withOpacity(.35),
-                                      ),
-                                      prefixIcon: Icon(
-                                        Icons.location_city,
-                                        color: flag[3] == 1
-                                            ? Colors.red
-                                            : Colors.black87,
-                                      ),
-                                    ),
-                                    validator: (val) {
-                                      flag[3] = val!.isEmpty ? 1 : 0;
-                                      city = val;
-                                      return null;
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            Row(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(15),
-                                  child: BackdropFilter(
-                                    filter: ImageFilter.blur(
-                                        sigmaX: 10.0, sigmaY: 10.0),
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          .5,
-                                      color: Colors.white.withOpacity(.4),
-                                      child: TextFormField(
-                                        onChanged: (val) {
-                                          flag[4] = 0;
-                                          if (val.isEmpty) {
-                                            flag[4] = 1;
-                                          }
-                                          return null;
-                                        },
-                                        textCapitalization:
-                                            TextCapitalization.words,
-                                        textInputAction: TextInputAction.next,
-                                        key: ValueKey('statename'),
-                                        onEditingComplete: () =>
-                                            node.nextFocus(),
-                                        keyboardType: TextInputType.text,
-                                        decoration: textField.copyWith(
-                                          labelText: "State",
-                                          labelStyle: TextStyle(
-                                            color:
-                                                Colors.black.withOpacity(.35),
-                                          ),
-                                          prefixIcon: Icon(
-                                            Icons.room,
-                                            color: flag[4] == 1
-                                                ? Colors.red
-                                                : Colors.black87,
-                                          ),
-                                        ),
-                                        validator: (val) {
-                                          flag[4] = val!.isEmpty ? 1 : 0;
-                                          state = val;
-                                          return null;
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(15),
-                                  child: BackdropFilter(
-                                    filter: ImageFilter.blur(
-                                        sigmaX: 10.0, sigmaY: 10.0),
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          .34,
-                                      color: Colors.white.withOpacity(.4),
-                                      child: TextFormField(
-                                        onChanged: (val) {
-                                          flag[5] = 0;
-                                          if (val.isEmpty) {
-                                            flag[5] = 1;
-                                          }
-                                          return null;
-                                        },
-                                        maxLength: 6,
-                                        textInputAction: TextInputAction.done,
-                                        key: ValueKey('pincode'),
-                                        onEditingComplete: () => node.unfocus(),
-                                        keyboardType: TextInputType.phone,
-                                        decoration: textField.copyWith(
-                                          counterText: "",
-                                          labelText: "Pincode",
-                                          labelStyle: TextStyle(
-                                            color:
-                                                Colors.black.withOpacity(.35),
-                                          ),
-                                          prefixIcon: Icon(
-                                            Icons.pin_drop,
-                                            color: flag[5] == 1
-                                                ? Colors.red
-                                                : Colors.black87,
-                                          ),
-                                        ),
-                                        validator: (val) {
-                                          flag[5] = val!.isEmpty
-                                              ? 1
-                                              : val.length < 6
-                                                  ? 1
-                                                  : 0;
-                                          pincode = val;
-                                          return null;
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 7,
-                      ),
-                      Text(
-                        flag1
-                            ? "Please fill all the fields with valid info"
-                            : "",
-                        style: TextStyle(color: Colors.red),
-                      ),
-                      SizedBox(
-                        height: 7,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          FloatingActionButton(
-                            backgroundColor: Colors.white,
-                            elevation: 0,
-                            child: loading
-                                ? SpinKitFadingCircle(
-                                    color: Colors.black,
-                                    size: 30,
-                                  )
-                                : Icon(
-                                    Icons.arrow_forward_ios,
-                                  ),
-                            onPressed: () {
-                              _formkey.currentState!.validate();
-                              setState(() {
-                                loading = true;
-                              });
-                              FocusScope.of(context).unfocus();
-                              Future.delayed(const Duration(milliseconds: 1000),
-                                  () {
-                                setState(() {
-                                  loading = false;
-                                  if (flag.reduce((a, b) => a + b) == 0) {
-                                    flag1 = false;
-                                    _formkey.currentState!.save();
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return TnC(
-                                          city: city,
-                                          street: street,
-                                          resName: resName,
-                                          pincode: pincode,
-                                          state: state,
-                                          building: building,
-                                          name: name,
-                                          phone: phone,
-                                          email: email,
-                                          upi: upi,
-                                        );
-                                      },
-                                    );
-                                  } else {
-                                    flag1 = true;
-                                  }
-                                });
-                              });
-                            },
+                            ],
                           ),
                         ],
                       ),
-                    ],
-                  ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        FloatingActionButton(
+                          backgroundColor: Colors.white,
+                          elevation: 0,
+                          child: loading
+                              ? SpinKitFadingCircle(
+                                  color: Colors.black,
+                                  size: 20,
+                                )
+                              : Icon(
+                                  Icons.arrow_forward_ios,
+                                  color: Colors.black87,
+                                ),
+                          onPressed: onSubmit,
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -552,4 +258,23 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
       ),
     );
   }
+
+  Widget head(String head) => Row(
+        children: [
+          Icon(
+            Icons.play_arrow,
+            color: Colors.white,
+          ),
+          SizedBox(
+            width: 5,
+          ),
+          Text(
+            head,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 15,
+            ),
+          ),
+        ],
+      );
 }

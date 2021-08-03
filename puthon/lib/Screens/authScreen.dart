@@ -91,7 +91,7 @@ class _AuthScreenState extends State<AuthScreen> {
           'scanned': 1,
         });
       }
-    } on FirebaseAuthException catch (err) {
+    } catch (err) {
       showSnack(
         context,
         message,
@@ -101,12 +101,7 @@ class _AuthScreenState extends State<AuthScreen> {
       setState(() {
         _isLoading = false;
       });
-    } catch (err) {
-      print(err);
-      setState(() {
-        _isLoading = false;
-      });
-    }
+    } 
   }
 
   @override

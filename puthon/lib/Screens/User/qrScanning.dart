@@ -79,9 +79,10 @@ class _QrScanningState extends State<QrScanning> {
                 Text(
                   "Hey, Welcome",
                   style: GoogleFonts.josefinSans(
-                      fontSize: 40,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.black54),
+                    fontSize: 40,
+                    fontWeight: FontWeight.w900,
+                    color: Colors.black54,
+                  ),
                 ),
               ],
             ),
@@ -91,9 +92,10 @@ class _QrScanningState extends State<QrScanning> {
             Text(
               "Your virtual waiter is at your service..",
               style: GoogleFonts.josefinSans(
-                  fontSize: 25,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black54),
+                fontSize: 25,
+                fontWeight: FontWeight.w600,
+                color: Colors.black54,
+              ),
             ),
             Expanded(
               child: Container(
@@ -107,9 +109,10 @@ class _QrScanningState extends State<QrScanning> {
                 Text(
                   "Scan QR code",
                   style: GoogleFonts.josefinSans(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.black54),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w900,
+                    color: Colors.black54,
+                  ),
                 ),
                 SizedBox(
                   width: 15,

@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puthon/Shared/loadingScreen.dart';
+import 'package:puthon/shared/showMsg.dart';
 import 'package:puthon/shared/textField.dart';
 
 class DetailScreen extends StatefulWidget {
@@ -14,13 +15,11 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
-  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   TextEditingController _name = TextEditingController();
   TextEditingController _phone = TextEditingController();
 
   var dob = null, gender = 1, register = true;
   bool _isLoading = false, _isLoading1 = true;
-  var flag = [0, 0, 0, 0], flag1 = 0;
 
   void readData() async {
     await FirebaseFirestore.instance
@@ -43,9 +42,15 @@ class _DetailScreenState extends State<DetailScreen> {
 
   void saveInfo() async {
     _isLoading = true;
-    final _isValid = _formkey.currentState!.validate();
-    _formkey.currentState!.save();
-    if (_isValid && flag[0] == 0 && flag[1] == 0) {
+    if (_name.text.isNotEmpty && _phone.text.isNotEmpty) {
+      if (!RegExp(r'^[0-9]{10}$').hasMatch(_phone.text)) {
+        showSnack(
+          context,
+          'Please enter valid mobile number!',
+          color: Colors.red,
+        );
+        return;
+      }
       if (register) {
         await FirebaseFirestore.instance
             .collection('users')
@@ -72,14 +77,16 @@ class _DetailScreenState extends State<DetailScreen> {
       }
       _isLoading1 = true;
       _isLoading = false;
-      setState(() {
-        flag[0] = 0;
-        flag[1] = 0;
-      });
 
       if (!register) {
         Navigator.pop(context);
       }
+    } else {
+      showSnack(
+        context,
+        'Please fill in all the fields!',
+        color: Colors.red,
+      );
     }
     _isLoading = false;
   }
@@ -110,179 +117,177 @@ class _DetailScreenState extends State<DetailScreen> {
         body: _isLoading1
             ? LoadingScreen()
             : Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white30,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: 25,
-                                ),
-                                Text(
-                                  register
-                                      ? "Tell us about yourself"
-                                      : "Edit Profile",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 20,
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white30,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 20,
                               ),
-                              child: Column(
+                              Row(
                                 children: [
-                                  SizedBox(height: 15),
-                                  CField(
-                                    controller: _name,
-                                    label: 'Name',
-                                    preIcon: Icons.person,
-                                    bgColor: Colors.white70,
-                                  ),
                                   SizedBox(
-                                    height: 10,
+                                    width: 25,
                                   ),
-                                  CField(
-                                    controller: _phone,
-                                    label: 'Phone',
-                                    preIcon: Icons.phone,
-                                    bgColor: Colors.white70,
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      selectDate(),
-                                      Text(
-                                        "|",
-                                        style: TextStyle(
-                                          fontSize: 40,
-                                          color: Colors.black26,
-                                        ),
-                                      ),
-                                      imageRadio(
-                                        "assets/images/female2.png",
-                                        selectC: 1,
-                                      ),
-                                      imageRadio(
-                                        "assets/images/male2.png",
-                                        selectC: 2,
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.center,
-                                    children: [
-                                      if (!register)
-                                        Container(
-                                          height: 60,
-                                          width: 70,
-                                          child: Card(
-                                            shadowColor: Colors.white70,
-                                            color: Colors.white60,
-                                            elevation: 10,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                      20.0),
-                                            ),
-                                            child: TextButton(
-                                              onPressed: () =>
-                                                  Navigator.pop(context),
-                                              child: Icon(
-                                                Icons.close_rounded,
-                                                color: Colors.black,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      Container(
-                                        height: 60,
-                                        width: 120,
-                                        child: Card(
-                                          color: Colors.white,
-                                          elevation: 20,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(20.0),
-                                          ),
-                                          child: TextButton(
-                                            onPressed: _isLoading
-                                                ? null
-                                                : saveInfo,
-                                            child: _isLoading
-                                                ? SpinKitFadingCircle(
-                                                    color: Colors.black,
-                                                    size: 20.0,
-                                                  )
-                                                : Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Text(
-                                                        "Save  ",
-                                                        style: TextStyle(
-                                                            color: Colors
-                                                                .black,
-                                                            fontSize: 15),
-                                                      ),
-                                                      Icon(
-                                                        Icons
-                                                            .arrow_forward_ios,
-                                                        color: Colors.black,
-                                                        size: 18,
-                                                      ),
-                                                    ],
-                                                  ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 15,
+                                  Text(
+                                    register
+                                        ? "Tell us about yourself"
+                                        : "Edit Profile",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ],
                               ),
-                            ),
-                          ],
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                ),
+                                child: Column(
+                                  children: [
+                                    SizedBox(height: 15),
+                                    CField(
+                                      controller: _name,
+                                      label: 'Name',
+                                      preIcon: Icons.person,
+                                      bgColor: Colors.white70,
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    CField(
+                                      controller: _phone,
+                                      label: 'Phone',
+                                      preIcon: Icons.phone,
+                                      bgColor: Colors.white70,
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        selectDate(),
+                                        Text(
+                                          "|",
+                                          style: TextStyle(
+                                            fontSize: 40,
+                                            color: Colors.black26,
+                                          ),
+                                        ),
+                                        imageRadio(
+                                          "assets/images/female2.png",
+                                          selectC: 1,
+                                        ),
+                                        imageRadio(
+                                          "assets/images/male2.png",
+                                          selectC: 2,
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        if (!register)
+                                          Container(
+                                            height: 60,
+                                            width: 70,
+                                            child: Card(
+                                              shadowColor: Colors.white70,
+                                              color: Colors.white60,
+                                              elevation: 10,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20.0),
+                                              ),
+                                              child: TextButton(
+                                                onPressed: () =>
+                                                    Navigator.pop(context),
+                                                child: Icon(
+                                                  Icons.close_rounded,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        Container(
+                                          height: 60,
+                                          width: 120,
+                                          child: Card(
+                                            color: Colors.white,
+                                            elevation: 20,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                            ),
+                                            child: TextButton(
+                                              onPressed:
+                                                  _isLoading ? null : saveInfo,
+                                              child: _isLoading
+                                                  ? SpinKitFadingCircle(
+                                                      color: Colors.black,
+                                                      size: 20.0,
+                                                    )
+                                                  : Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Text(
+                                                          "Save  ",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 15),
+                                                        ),
+                                                        Icon(
+                                                          Icons
+                                                              .arrow_forward_ios,
+                                                          color: Colors.black,
+                                                          size: 18,
+                                                        ),
+                                                      ],
+                                                    ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 15,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                ],
+                    SizedBox(
+                      height: 10,
+                    ),
+                  ],
+                ),
               ),
-            ),
       ),
     );
   }

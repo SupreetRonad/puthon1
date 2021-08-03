@@ -9,6 +9,7 @@ var textField = InputDecoration(
   labelStyle: TextStyle(
     color: Colors.black.withOpacity(.35),
   ),
+  counterText: '',
 );
 
 class CField extends StatelessWidget {
@@ -20,6 +21,7 @@ class CField extends StatelessWidget {
   final TextEditingController controller;
   final Color? bgColor;
   final bool hidden;
+  final int? maxLen;
 
   CField({
     Key? key,
@@ -31,6 +33,7 @@ class CField extends StatelessWidget {
     this.initial,
     this.bgColor,
     this.hidden = false,
+    this.maxLen,
   }) : super(key: key);
 
   @override
@@ -48,6 +51,7 @@ class CField extends StatelessWidget {
         textInputAction: inputAction,
         keyboardType: inputType,
         obscureText: hidden,
+        maxLength: maxLen,
         decoration: textField.copyWith(
           labelText: label,
           labelStyle: TextStyle(
