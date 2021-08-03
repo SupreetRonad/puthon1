@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:puthon/Screens/User/paymentGateway.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 
 import 'homeScreen.dart';
@@ -121,7 +122,16 @@ class _QrScanningState extends State<QrScanning> {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       padding: EdgeInsets.symmetric(vertical: 10)),
-                  onPressed: scanQR,
+                  onPressed: true
+                      ? () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (builder) => PaymentScreen(),
+                            ),
+                          );
+                        }
+                      : scanQR,
                   child: Icon(
                     Icons.qr_code_scanner_rounded,
                     size: 30,

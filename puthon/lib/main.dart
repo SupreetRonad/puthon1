@@ -59,3 +59,11 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
+
+// final a = await UpiPay.initiateTransaction(
+//       amount: "1",
+//       app: app.upiApplication,
+//       receiverName: 'Puthon',
+//       receiverUpiAddress: "6363345756@paytm", // "BHARATPE09893654294@yesbankltd",
+//       transactionRef: transactionRef, // change it accordingly.
+//     );
