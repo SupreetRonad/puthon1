@@ -6,7 +6,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:puthon/Screens/Cook/cookTimer.dart';
-import 'package:qrscans/qrscan.dart' as scanner;
+import 'package:qrscan/qrscan.dart' as scanner;
 
 class AcceptedOrder extends StatefulWidget {
   final orderNo;
@@ -239,7 +239,7 @@ class _AcceptedOrderState extends State<AcceptedOrder> {
                                   ),
                                   padding: EdgeInsets.all(20)),
                               onPressed: () async {
-                                cameraScanResult = await scanner.scan();
+                                cameraScanResult = (await scanner.scan())!;
                                 setState(() {
                                   botNo = cameraScanResult.split("/*/")[0];
                                 });

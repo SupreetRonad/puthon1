@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
-import 'package:qrscans/qrscan.dart' as scanner;
+import 'package:qrscan/qrscan.dart' as scanner;
 
 import 'homeScreen.dart';
 
@@ -13,6 +13,55 @@ class QrScanning extends StatefulWidget {
 }
 
 class _QrScanningState extends State<QrScanning> {
+  void scanQR() async {
+    cameraScanResult = (await scanner.scan())!;
+
+    if (cameraScanResult.split("/*/").length == 2) {
+      await FirebaseFirestore.instance
+          .collection('admins')
+          .doc(cameraScanResult.split("/*/")[1])
+          .get()
+          .then((value) {
+        if (value.exists) {
+          HomeScreen.resName = value['resName'];
+          HomeScreen.resId = cameraScanResult.split("/*/")[1];
+          HomeScreen.table = cameraScanResult.split("/*/")[0];
+          FirebaseFirestore.instance
+              .collection('users')
+              .doc(FirebaseAuth.instance.currentUser!.uid)
+              .update({
+            'scanned': 2,
+          });
+          FirebaseFirestore.instance
+              .collection('orders')
+              .doc(FirebaseAuth.instance.currentUser!.uid)
+              .set({
+            'resId': HomeScreen.resId,
+            'table': HomeScreen.table,
+            'resName': HomeScreen.resName,
+            'ordered': false,
+            'total': 0,
+            'timeEntered': DateTime.now(),
+          });
+          FirebaseFirestore.instance
+              .collection('admins')
+              .doc(HomeScreen.resId)
+              .collection('tables')
+              .doc(HomeScreen.table)
+              .set({
+            'table': HomeScreen.table,
+            'customerId': FirebaseAuth.instance.currentUser!.uid,
+            'timeEntered': DateTime.now(),
+          });
+          scanned = 2;
+        }
+      });
+    } else {
+      scanned = 1;
+    }
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -72,54 +121,7 @@ class _QrScanningState extends State<QrScanning> {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       padding: EdgeInsets.symmetric(vertical: 10)),
-                  onPressed: () async {
-                    cameraScanResult = await scanner.scan();
-
-                    if (cameraScanResult.split("/*/").length == 2) {
-                      await FirebaseFirestore.instance
-                          .collection('admins')
-                          .doc(cameraScanResult.split("/*/")[1])
-                          .get()
-                          .then((value) {
-                        if (value.exists) {
-                          HomeScreen.resName = value['resName'];
-                          HomeScreen.resId = cameraScanResult.split("/*/")[1];
-                          HomeScreen.table = cameraScanResult.split("/*/")[0];
-                          FirebaseFirestore.instance
-                              .collection('users')
-                              .doc(FirebaseAuth.instance.currentUser!.uid)
-                              .update({
-                            'scanned': 2,
-                          });
-                          FirebaseFirestore.instance
-                              .collection('orders')
-                              .doc(FirebaseAuth.instance.currentUser!.uid)
-                              .set({
-                            'resId': HomeScreen.resId,
-                            'table': HomeScreen.table,
-                            'resName': HomeScreen.resName,
-                            'ordered': false,
-                            'total': 0,
-                            'timeEntered': DateTime.now(),
-                          });
-                          FirebaseFirestore.instance
-                              .collection('admins')
-                              .doc(HomeScreen.resId)
-                              .collection('tables')
-                              .doc(HomeScreen.table)
-                              .set({
-                            'table': HomeScreen.table,
-                            'customerId': FirebaseAuth.instance.currentUser!.uid,
-                            'timeEntered': DateTime.now(),
-                          });
-                          scanned = 2;
-                        }
-                      });
-                    } else {
-                      scanned = 1;
-                    }
-                    setState(() {});
-                  },
+                  onPressed: scanQR,
                   child: Icon(
                     Icons.qr_code_scanner_rounded,
                     size: 30,

@@ -27,10 +27,8 @@ dependencies:
   fluttertoast: ^8.0.6
   lottie: ^1.0.1
   google_fonts: ^2.0.0
-  expansion_card: ^0.1.0 #
-  qrscans: ^0.0.7 #
+  qrscan: ^0.3.2
   image_gallery_saver: '^1.6.9'
-  hawk_fab_menu: ^0.3.2 #
   menu_button: ^1.4.2+1
   flutter_advanced_switch: ^2.0.2+2
   shared_preferences: ^2.0.5

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:puthon/Shared/textField.dart';
-import 'package:qrscans/qrscan.dart' as scanner;
+import 'package:qrscan/qrscan.dart' as scanner;
 
 class AdminGenerateQR extends StatefulWidget {
   @override
@@ -17,6 +17,23 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
   late String qrContent, table;
   Uint8List result = Uint8List(0);
   var valid = 0, flag = 0;
+
+  void generateQR() async {
+    if (qrContent.isNotEmpty &&
+        (RegExp(r'^[0-9]{1}$').hasMatch(qrContent) ||
+            RegExp(r'^[0-9]{2}$').hasMatch(qrContent))) {
+      FocusScope.of(context).unfocus();
+      result = await scanner.generateBarCode(
+          "${qrContent}/*/${FirebaseAuth.instance.currentUser!.uid}");
+      table = qrContent;
+      valid = 1;
+    } else {
+      valid = 2;
+      result = Uint8List(0);
+    }
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return BackdropFilter(
@@ -75,88 +92,7 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Container(
-                      width: 70,
-                      child: Column(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                flag = 0;
-                                result = Uint8List(0);
-                                valid = 0;
-                              });
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.circle,
-                                  color: flag == 0
-                                      ? Colors.greenAccent
-                                      : Colors.grey,
-                                  size: flag == 0 ? 17 : 14,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  "Table",
-                                  style: TextStyle(
-                                    color: flag == 0
-                                        ? Colors.black87
-                                        : Colors.black45,
-                                    fontSize: flag == 0 ? 17 : 14,
-                                    fontWeight: flag == 0
-                                        ? FontWeight.bold
-                                        : FontWeight.normal,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                flag = 1;
-                                result = Uint8List(0);
-                                valid = 0;
-                              });
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.circle,
-                                  color: flag == 1
-                                      ? Colors.greenAccent
-                                      : Colors.grey,
-                                  size: flag == 1 ? 17 : 14,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  "Bot",
-                                  style: TextStyle(
-                                    color: flag == 1
-                                        ? Colors.black87
-                                        : Colors.black45,
-                                    fontSize: flag == 1 ? 17 : 14,
-                                    fontWeight: flag == 1
-                                        ? FontWeight.bold
-                                        : FontWeight.normal,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    radioButtons(),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         elevation: 10,
@@ -166,21 +102,7 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                       ),
-                      onPressed: () async {
-                        if (qrContent.isNotEmpty &&
-                            (RegExp(r'^[0-9]{1}$').hasMatch(qrContent) ||
-                                RegExp(r'^[0-9]{2}$').hasMatch(qrContent))) {
-                          FocusScope.of(context).unfocus();
-                          result = await scanner.generateBarCode(
-                              "${qrContent}/*/${FirebaseAuth.instance.currentUser!.uid}");
-                          table = qrContent;
-                          valid = 1;
-                        } else {
-                          valid = 2;
-                          result = Uint8List(0);
-                        }
-                        setState(() {});
-                      },
+                      onPressed: generateQR,
                       child: Text("Generate Code"),
                     ),
                   ],
@@ -204,20 +126,7 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
                 SizedBox(
                   height: 5,
                 ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * .25,
-                  child: result.isEmpty
-                      ? Center(
-                          child: Icon(
-                            Icons.qr_code_scanner,
-                            color: Colors.black38,
-                            size: 50,
-                          ),
-                        )
-                      : Image.memory(
-                          result,
-                        ),
-                ),
+                displayQR(context),
                 Spacer(),
                 if (valid == 1)
                   Container(
@@ -268,4 +177,92 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
       ),
     );
   }
+
+  Widget displayQR(BuildContext context) => SizedBox(
+        height: MediaQuery.of(context).size.height * .25,
+        child: result.isEmpty
+            ? Center(
+                child: Icon(
+                  Icons.qr_code_scanner,
+                  color: Colors.black38,
+                  size: 50,
+                ),
+              )
+            : Image.memory(
+                result,
+              ),
+      );
+
+  Widget radioButtons() => Container(
+        width: 70,
+        child: Column(
+          children: [
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  flag = 0;
+                  result = Uint8List(0);
+                  valid = 0;
+                });
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.circle,
+                    color: flag == 0 ? Colors.greenAccent : Colors.grey,
+                    size: flag == 0 ? 17 : 14,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    "Table",
+                    style: TextStyle(
+                      color: flag == 0 ? Colors.black87 : Colors.black45,
+                      fontSize: flag == 0 ? 17 : 14,
+                      fontWeight:
+                          flag == 0 ? FontWeight.bold : FontWeight.normal,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  flag = 1;
+                  result = Uint8List(0);
+                  valid = 0;
+                });
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.circle,
+                    color: flag == 1 ? Colors.greenAccent : Colors.grey,
+                    size: flag == 1 ? 17 : 14,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    "Bot",
+                    style: TextStyle(
+                      color: flag == 1 ? Colors.black87 : Colors.black45,
+                      fontSize: flag == 1 ? 17 : 14,
+                      fontWeight:
+                          flag == 1 ? FontWeight.bold : FontWeight.normal,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
 }
