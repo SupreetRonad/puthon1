@@ -41,13 +41,18 @@ class _HomeDrawerState extends State<HomeDrawer> {
         return Padding(
           padding: const EdgeInsets.fromLTRB(0, 50, 10, 0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              SizedBox(
+                width: double.infinity,
+              ),
               ClipRRect(
                 borderRadius: BorderRadius.circular(30),
                 child: Container(
-                  height: 500,
-                  width: 250,
-                  color: Colors.yellow[50],
+                  height: 533,
+                  width: MediaQuery.of(context).size.width * 0.75,
+                  // color: Colors.yellow[50],
                   child: Column(
                     children: [
                       displayInfo(info),
@@ -56,163 +61,69 @@ class _HomeDrawerState extends State<HomeDrawer> {
                           padding: EdgeInsets.fromLTRB(0, 5, 0, 10),
                           child: Column(
                             children: [
-                              TextButton(
-                                onPressed: () {
+                              drawerButton(
+                                "Edit profile",
+                                icon: Icons.border_color,
+                                func: () {
                                   Navigator.pushNamed(context, '/detailScreen');
                                 },
-                                child: Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Icon(
-                                      Icons.edit,
-                                      color: Colors.black,
-                                    ),
-                                    Text(
-                                      "  Edit Profile",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ],
-                                ),
                               ),
-                              TextButton(
-                                onPressed: () {
+                              drawerButton(
+                                "My Orders",
+                                icon: Icons.list_alt,
+                                func: () {
                                   Navigator.pushNamed(
                                       context, '/ordersHistory');
                                 },
-                                child: Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Icon(
-                                      Icons.list_alt,
-                                      color: Colors.black,
-                                    ),
-                                    Text(
-                                      "  My Orders",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ],
-                                ),
                               ),
                               info['admin']
                                   ? SizedBox()
-                                  : TextButton(
-                                      onPressed: () {
+                                  : drawerButton(
+                                      "Register business",
+                                      icon: Icons.business,
+                                      func: () {
                                         Navigator.pushNamed(
                                             context, '/businessRegisterScreen');
                                       },
-                                      child: Row(
-                                        children: [
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Icon(
-                                            Icons.business,
-                                            color: Colors.black,
-                                          ),
-                                          Text(
-                                            "  Register my business",
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
                                     ),
                               if (info["admin"])
-                                TextButton(
-                                  onPressed: () {
+                                drawerButton(
+                                  "Admin Mode",
+                                  icon: Icons.how_to_reg,
+                                  func: () {
                                     Navigator.pushNamed(
                                         context, '/adminScreen');
                                   },
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Icon(
-                                        Icons.how_to_reg,
-                                        color: Colors.black,
-                                      ),
-                                      Text(
-                                        "  Admin Mode",
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
                                 ),
                               if (info["cook"])
-                                TextButton(
-                                  onPressed: () {
+                                drawerButton(
+                                  "Cook Mode",
+                                  icon: Icons.restaurant,
+                                  func: () {
                                     Navigator.pushNamed(context, '/cookScreen');
                                   },
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Icon(
-                                        Icons.restaurant,
-                                        color: Colors.black,
-                                      ),
-                                      Text(
-                                        "  Cook Mode",
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
                                 ),
-                              Spacer(),
                               if (info['scanned'] != 2)
-                                Container(
-                                  // width: 110,
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        Colors.redAccent,
-                                        Colors.red[500]!,
-                                      ],
-                                    ),
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(15),
-                                    child: TextButton(
-                                      onPressed: () {
-                                        _confirm(context);
-                                      },
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.exit_to_app_rounded,
-                                            color: Colors.white,
-                                          ),
-                                          Text(
-                                            "  Log out",
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
+                                drawerButton(
+                                  "Log out",
+                                  icon: Icons.exit_to_app_rounded,
+                                  func: () {
+                                    _confirm(context);
+                                  },
+                                  primary: Colors.red,
                                 ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              CircleAvatar(
+                                backgroundColor: Colors.white,
+                                child: IconButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  icon: Icon(Icons.close),
+                                  splashRadius: 25,
+                                  color: Colors.black87,
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -228,62 +139,109 @@ class _HomeDrawerState extends State<HomeDrawer> {
     );
   }
 
-  Widget displayInfo(var info) => Container(
-        color: Colors.yellow[200],
-        height: 140,
-        child: Row(
-          children: [
-            SizedBox(width: 15),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                color: Colors.red.withOpacity(.6),
-              ),
-              width: 90,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-                  child: Image.asset(
-                    info!['gender'] == 1
-                        ? "assets/images/female2.png"
-                        : "assets/images/male2.png",
-                    fit: BoxFit.cover,
+  Widget drawerButton(
+    String name, {
+    required IconData icon,
+    required Function() func,
+    Color color = Colors.white,
+    Color primary = Colors.black,
+  }) =>
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 5),
+        child: TextButton(
+          style: TextButton.styleFrom(
+            primary: primary,
+            backgroundColor: color,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          onPressed: func,
+          child: Container(
+            height: 30,
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 10,
+                ),
+                Icon(
+                  icon,
+                  size: 15,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  name,
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+
+  Widget displayInfo(var info) => Stack(
+        alignment: Alignment.topCenter,
+        children: [
+          Container(
+            height: 130,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.yellow[300],
+            ),
+            margin: EdgeInsets.only(top: 40),
+          ),
+          Container(
+            height: 150,
+            child: Column(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                    color: Colors.white,
+                  ),
+                  width: 90,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                    child: Image.asset(
+                      info!['gender'] == 1
+                          ? "assets/images/female2.png"
+                          : "assets/images/male2.png",
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
-              ),
+                SizedBox(height: 20),
+                Flexible(
+                  child: Column(
+                    children: [
+                      Text(
+                        info['name'] ?? 'Name',
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: false,
+                        maxLines: 1,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 3,
+                      ),
+                      Text(
+                        info['email'] ?? 'name@email.com',
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: false,
+                        maxLines: 1,
+                        style: TextStyle(fontSize: 13, color: Colors.black45),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            SizedBox(width: 10),
-            Flexible(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    info['name'] ?? 'Name',
-                    overflow: TextOverflow.ellipsis,
-                    softWrap: false,
-                    maxLines: 1,
-                    style: TextStyle(
-                      fontSize: 18,
-                    ),
-                    
-                  ),
-                  SizedBox(
-                    height: 3,
-                  ),
-                  Text(
-                    info['email'] ?? 'name@email.com',
-                    overflow: TextOverflow.ellipsis,
-                    softWrap: false,
-                    maxLines: 1,
-                    style: TextStyle(fontSize: 13, color: Colors.black45),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       );
 
   void _confirm(context) {
