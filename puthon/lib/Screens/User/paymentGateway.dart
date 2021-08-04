@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:puthon/shared/showMsg.dart';
 import 'package:upi_pay/upi_pay.dart';
 
 class PaymentScreen extends StatefulWidget {
@@ -13,8 +14,8 @@ class PaymentScreen extends StatefulWidget {
 class _PaymentScreenState extends State<PaymentScreen> {
   String? _upiAddrError;
 
-  final _upiAddressController = TextEditingController();
-  final _amountController = TextEditingController();
+  TextEditingController _upiAddressController = TextEditingController();
+  TextEditingController _amountController = TextEditingController();
 
   bool _isUpiEditable = false;
   List<ApplicationMeta>? _apps;
@@ -28,7 +29,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
     Future.delayed(Duration(milliseconds: 0), () async {
       _apps = await UpiPay.getInstalledUpiApplications(
-          statusType: UpiApplicationDiscoveryAppStatusType.all);
+        statusType: UpiApplicationDiscoveryAppStatusType.all,
+      );
       setState(() {});
     });
   }
@@ -62,16 +64,28 @@ class _PaymentScreenState extends State<PaymentScreen> {
     final transactionRef = Random.secure().nextInt(1 << 32).toString();
     print("Starting transaction with id $transactionRef");
 
-    final a = await UpiPay.initiateTransaction(
+    UpiTransactionResponse res = await UpiPay.initiateTransaction(
       amount: '1.00',
       app: app.upiApplication,
       receiverName: 'Sathvik Saya',
-      receiverUpiAddress: "6363345756@paytm",
+      receiverUpiAddress: "supreet.ronad@axisbank",
       transactionRef: transactionRef,
       transactionNote: 'Test',
     );
 
-    dev.log(a.toString());
+    if (res.status == UpiTransactionStatus.success) {
+      showSnack(
+        context,
+        'Payment Successful!',
+        color: Colors.green,
+      );
+    } else {
+      showSnack(
+        context,
+        'Payment failed!',
+        color: Colors.red,
+      );
+    }
   }
 
   @override
@@ -99,7 +113,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
         children: <Widget>[
           Expanded(
             child: TextFormField(
-              initialValue: '6363345756@paytm',
+              initialValue: 'supreet.ronad@axisbank',
               // controller: _upiAddressController,
               enabled: _isUpiEditable,
               decoration: InputDecoration(

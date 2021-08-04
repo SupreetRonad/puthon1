@@ -18,8 +18,9 @@ class _DetailScreenState extends State<DetailScreen> {
   TextEditingController _name = TextEditingController();
   TextEditingController _phone = TextEditingController();
 
-  var dob = null, gender = 1, register = true;
-  bool _isLoading = false, _isLoading1 = true;
+  String? dob = null;
+  int gender = 1;
+  bool _isLoading = false, _isLoading1 = true, register = true;
 
   void readData() async {
     await FirebaseFirestore.instance
@@ -42,6 +43,7 @@ class _DetailScreenState extends State<DetailScreen> {
 
   void saveInfo() async {
     _isLoading = true;
+    setState(() {});
     if (_name.text.isNotEmpty && _phone.text.isNotEmpty) {
       if (!RegExp(r'^[0-9]{10}$').hasMatch(_phone.text)) {
         showSnack(
@@ -49,6 +51,9 @@ class _DetailScreenState extends State<DetailScreen> {
           'Please enter valid mobile number!',
           color: Colors.red,
         );
+        setState(() {
+          _isLoading = false;
+        });
         return;
       }
       if (register) {
@@ -117,9 +122,9 @@ class _DetailScreenState extends State<DetailScreen> {
         body: _isLoading1
             ? LoadingScreen()
             : Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(10),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(20),
@@ -204,70 +209,56 @@ class _DetailScreenState extends State<DetailScreen> {
                                     ),
                                     Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                          MainAxisAlignment.spaceEvenly,
                                       children: [
                                         if (!register)
-                                          Container(
-                                            height: 60,
-                                            width: 70,
-                                            child: Card(
-                                              shadowColor: Colors.white70,
-                                              color: Colors.white60,
-                                              elevation: 10,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(20.0),
-                                              ),
-                                              child: TextButton(
-                                                onPressed: () =>
-                                                    Navigator.pop(context),
-                                                child: Icon(
-                                                  Icons.close_rounded,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        Container(
-                                          height: 60,
-                                          width: 120,
-                                          child: Card(
-                                            color: Colors.white,
-                                            elevation: 20,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20.0),
-                                            ),
+                                          SizedBox(
+                                            height: 50,
                                             child: TextButton(
-                                              onPressed:
-                                                  _isLoading ? null : saveInfo,
-                                              child: _isLoading
-                                                  ? SpinKitFadingCircle(
-                                                      color: Colors.black,
-                                                      size: 20.0,
-                                                    )
-                                                  : Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Text(
-                                                          "Save  ",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 15),
-                                                        ),
-                                                        Icon(
-                                                          Icons
-                                                              .arrow_forward_ios,
-                                                          color: Colors.black,
-                                                          size: 18,
-                                                        ),
-                                                      ],
-                                                    ),
+                                              style: style(Colors.white38),
+                                              onPressed: () =>
+                                                  Navigator.pop(context),
+                                              child: Icon(
+                                                Icons.close_rounded,
+                                                color: Colors.black,
+                                              ),
                                             ),
                                           ),
+                                        SizedBox(
+                                          height: 50,
+                                          width: 120,
+                                          child: _isLoading
+                                              ? SpinKitFadingCircle(
+                                                  color: Colors.white60,
+                                                  size: 20.0,
+                                                )
+                                              : TextButton(
+                                                  style: style(
+                                                    Colors.white70,
+                                                  ),
+                                                  onPressed: _isLoading
+                                                      ? null
+                                                      : saveInfo,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Text(
+                                                        "Save  ",
+                                                        style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 15,
+                                                        ),
+                                                      ),
+                                                      Icon(
+                                                        Icons.arrow_forward_ios,
+                                                        color: Colors.black,
+                                                        size: 18,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
                                         ),
                                       ],
                                     ),
@@ -282,15 +273,21 @@ class _DetailScreenState extends State<DetailScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
                   ],
                 ),
               ),
       ),
     );
   }
+
+  ButtonStyle style(Color primary) => ElevatedButton.styleFrom(
+        primary: primary,
+        elevation: 20,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+      );
 
   Widget imageRadio(
     String img, {
@@ -325,55 +322,45 @@ class _DetailScreenState extends State<DetailScreen> {
         ),
       );
 
-  Widget selectDate() => Card(
-        color: Colors.white70,
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(20),
-          ),
+  Widget selectDate() => Container(
+        decoration: BoxDecoration(
+          color: Colors.white70,
+          borderRadius: BorderRadius.circular(20),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 160,
-              child: DateTimePicker(
-                calendarTitle: "Select Date Of Birth",
-                decoration: InputDecoration(
-                  prefixIcon: Icon(
-                    Icons.date_range,
-                    color: Colors.black,
-                  ),
-                  labelText: "DOB",
-                  border: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  errorBorder: InputBorder.none,
-                  disabledBorder: InputBorder.none,
-                  labelStyle: TextStyle(
-                    color: Colors.black.withOpacity(.35),
-                  ),
-                ),
-                type: DateTimePickerType.date,
-                dateMask: 'd MMM, yyyy',
-                initialValue: dob ?? "2000-05-07 18:51:51.502031",
-                firstDate: DateTime(1850),
-                lastDate: DateTime(2003),
-                icon: Icon(Icons.event),
-                dateLabelText: 'Date',
-                timeLabelText: "Hour",
-                onChanged: (val) => setState(() => dob = val),
-                validator: (val) {
-                  setState(() => dob = val ?? '');
-                  return null;
-                },
-                onSaved: (val) => setState(
-                  () => dob = val ?? '',
-                ),
-              ),
+        width: 160,
+        child: DateTimePicker(
+          calendarTitle: "Select Date Of Birth",
+          decoration: InputDecoration(
+            prefixIcon: Icon(
+              Icons.date_range,
+              color: Colors.black,
             ),
-          ],
+            labelText: "DOB",
+            border: InputBorder.none,
+            focusedBorder: InputBorder.none,
+            enabledBorder: InputBorder.none,
+            errorBorder: InputBorder.none,
+            disabledBorder: InputBorder.none,
+            labelStyle: TextStyle(
+              color: Colors.black.withOpacity(.35),
+            ),
+          ),
+          type: DateTimePickerType.date,
+          dateMask: 'd MMM, yyyy',
+          initialValue: dob ?? "2000-05-07 18:51:51.502031",
+          firstDate: DateTime(1850),
+          lastDate: DateTime(2003),
+          icon: Icon(Icons.event),
+          dateLabelText: 'Date',
+          timeLabelText: "Hour",
+          onChanged: (val) => setState(() => dob = val),
+          validator: (val) {
+            setState(() => dob = val ?? '');
+            return null;
+          },
+          onSaved: (val) => setState(
+            () => dob = val ?? '',
+          ),
         ),
       );
 }

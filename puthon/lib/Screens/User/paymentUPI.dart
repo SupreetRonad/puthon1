@@ -67,37 +67,39 @@ class _PaymentUPIState extends State<PaymentUPI> {
           child: SingleChildScrollView(
             physics: BouncingScrollPhysics(),
             child: Wrap(
-              children: apps.map<Widget>((UpiApp app) {
-                return GestureDetector(
-                  onTap: () {
-                    _transaction = initiateTransaction(app);
-                    setState(() {});
-                  },
-                  child: Container(
-                    // height: 100,
-                    // width: 100,
-                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Image.memory(
-                          app.icon,
-                          height: 50,
-                          width: 50,
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          app.name,
-                          style: TextStyle(color: Colors.black54, fontSize: 13),
-                        ),
-                      ],
+              children: apps.map<Widget>(
+                (UpiApp app) {
+                  return GestureDetector(
+                    onTap: () {
+                      _transaction = initiateTransaction(app);
+                      setState(() {});
+                    },
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Image.memory(
+                            app.icon,
+                            height: 50,
+                            width: 50,
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            app.name,
+                            style:
+                                TextStyle(color: Colors.black54, fontSize: 13),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              }).toList(),
+                  );
+                },
+              ).toList(),
             ),
           ),
         ),
@@ -160,9 +162,11 @@ class _PaymentUPIState extends State<PaymentUPI> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("assets/images/leaves5.jpg"),
-              fit: BoxFit.cover)),
+        image: DecorationImage(
+          image: AssetImage("assets/images/leaves5.jpg"),
+          fit: BoxFit.cover,
+        ),
+      ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
@@ -182,8 +186,9 @@ class _PaymentUPIState extends State<PaymentUPI> {
                 child: Container(
                   padding: const EdgeInsets.all(15.0),
                   decoration: BoxDecoration(
-                      color: Colors.black45.withOpacity(.1),
-                      borderRadius: BorderRadius.circular(20)),
+                    color: Colors.black45.withOpacity(.1),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                   height: MediaQuery.of(context).size.width * .6 - 30,
                   width: MediaQuery.of(context).size.width - 30,
                   child: Column(
@@ -201,7 +206,9 @@ class _PaymentUPIState extends State<PaymentUPI> {
                               Text(
                                 HomeScreen.resName,
                                 style: GoogleFonts.righteous(
-                                    color: Colors.white70, fontSize: 25),
+                                  color: Colors.white70,
+                                  fontSize: 25,
+                                ),
                               ),
                             ],
                           ),
@@ -225,7 +232,9 @@ class _PaymentUPIState extends State<PaymentUPI> {
                                 Text(
                                   "Rs.",
                                   style: TextStyle(
-                                      color: Colors.white70, fontSize: 30),
+                                    color: Colors.white70,
+                                    fontSize: 30,
+                                  ),
                                 ),
                                 SizedBox(
                                   width: 10,

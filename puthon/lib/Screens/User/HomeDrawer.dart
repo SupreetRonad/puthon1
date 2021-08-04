@@ -38,101 +38,82 @@ class _HomeDrawerState extends State<HomeDrawer> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return LoadingScreen();
         }
-        return Padding(
-          padding: const EdgeInsets.fromLTRB(0, 50, 10, 0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: double.infinity,
-              ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(30),
-                child: Container(
-                  height: 533,
-                  width: MediaQuery.of(context).size.width * 0.75,
-                  // color: Colors.yellow[50],
-                  child: Column(
-                    children: [
-                      displayInfo(info),
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.fromLTRB(0, 5, 0, 10),
-                          child: Column(
-                            children: [
-                              drawerButton(
-                                "Edit profile",
-                                icon: Icons.border_color,
-                                func: () {
-                                  Navigator.pushNamed(context, '/detailScreen');
-                                },
-                              ),
-                              drawerButton(
-                                "My Orders",
-                                icon: Icons.list_alt,
-                                func: () {
-                                  Navigator.pushNamed(
-                                      context, '/ordersHistory');
-                                },
-                              ),
-                              info['admin']
-                                  ? SizedBox()
-                                  : drawerButton(
-                                      "Register business",
-                                      icon: Icons.business,
-                                      func: () {
-                                        Navigator.pushNamed(
-                                            context, '/businessRegisterScreen');
-                                      },
-                                    ),
-                              if (info["admin"])
-                                drawerButton(
-                                  "Admin Mode",
-                                  icon: Icons.how_to_reg,
-                                  func: () {
-                                    Navigator.pushNamed(
-                                        context, '/adminScreen');
-                                  },
-                                ),
-                              if (info["cook"])
-                                drawerButton(
-                                  "Cook Mode",
-                                  icon: Icons.restaurant,
-                                  func: () {
-                                    Navigator.pushNamed(context, '/cookScreen');
-                                  },
-                                ),
-                              if (info['scanned'] != 2)
-                                drawerButton(
-                                  "Log out",
-                                  icon: Icons.exit_to_app_rounded,
-                                  func: () {
-                                    _confirm(context);
-                                  },
-                                  primary: Colors.red,
-                                ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              CircleAvatar(
-                                backgroundColor: Colors.white,
-                                child: IconButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  icon: Icon(Icons.close),
-                                  splashRadius: 25,
-                                  color: Colors.black87,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
+        return Center(
+          child: BackdropFilter(
+            filter: new ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+            child: Container(
+              width: 300,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  displayInfo(info),
+                  SizedBox(height: 10,),
+                  drawerButton(
+                    "Edit profile",
+                    icon: Icons.border_color,
+                    func: () {
+                      Navigator.pushNamed(context, '/detailScreen');
+                    },
                   ),
-                ),
+                  drawerButton(
+                    "My Orders",
+                    icon: Icons.list_alt,
+                    func: () {
+                      Navigator.pushNamed(
+                          context, '/ordersHistory');
+                    },
+                  ),
+                  info['admin']
+                      ? SizedBox()
+                      : drawerButton(
+                          "Register business",
+                          icon: Icons.business,
+                          func: () {
+                            Navigator.pushNamed(
+                                context, '/businessRegisterScreen');
+                          },
+                        ),
+                  if (info["admin"])
+                    drawerButton(
+                      "Admin Mode",
+                      icon: Icons.how_to_reg,
+                      func: () {
+                        Navigator.pushNamed(
+                            context, '/adminScreen');
+                      },
+                    ),
+                  if (info["cook"])
+                    drawerButton(
+                      "Cook Mode",
+                      icon: Icons.restaurant,
+                      func: () {
+                        Navigator.pushNamed(context, '/cookScreen');
+                      },
+                    ),
+                  if (info['scanned'] != 2)
+                    drawerButton(
+                      "Log out",
+                      icon: Icons.exit_to_app_rounded,
+                      func: () {
+                        _confirm(context);
+                      },
+                      primary: Colors.red,
+                    ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  CircleAvatar(
+                    backgroundColor: Colors.white,
+                    child: IconButton(
+                      onPressed: () => Navigator.pop(context),
+                      icon: Icon(Icons.close),
+                      splashRadius: 25,
+                      color: Colors.black87,
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         );
       },
@@ -174,6 +155,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                 Text(
                   name,
                 ),
+
               ],
             ),
           ),
@@ -287,6 +269,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   ),
                 ),
                 Divider(),
+                SizedBox(height: 5,),
                 Text("Do you really want to logout ?"),
                 SizedBox(
                   height: 10,
