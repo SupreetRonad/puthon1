@@ -116,143 +116,138 @@ class _AuthScreenState extends State<AuthScreen> {
           fit: BoxFit.cover,
         ),
       ),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 0.0, sigmaY: 0.0),
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          body: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            heading(context),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * .025,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 25),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "PUTHON",
-                        style: GoogleFonts.righteous(
-                            fontWeight: FontWeight.bold,
-                            fontSize: MediaQuery.of(context).size.height * .040,
-                            color: Colors.white),
-                      ),
-                      Text(
-                        "Your virtual waiter..",
-                        style: GoogleFonts.raleway(
-                          color: Colors.black54,
-                          fontWeight: FontWeight.bold,
-                          fontSize: MediaQuery.of(context).size.height * .017,
-                        ),
-                      ),
-                    ],
-                  ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * .025,
+                    height: MediaQuery.of(context).size.height * .018,
                   ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 25),
-                    color: Colors.white.withOpacity(.0),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * .018,
-                        ),
-                        CField(
-                          controller: _email,
-                          preIcon: Icons.email,
-                          label: 'Email',
-                          bgColor: Colors.white.withOpacity(.6),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        CField(
-                          controller: _pass,
-                          preIcon: Icons.lock,
-                          label: 'Password',
-                          bgColor: Colors.white.withOpacity(.6),
-                          hidden: true,
-                        ),
-                        const SizedBox(height: 20),
-                        if (!isLogin)
-                          CField(
-                            controller: _confirmPass,
-                            preIcon: Icons.lock,
-                            label: 'Confirm password',
-                            bgColor: Colors.white.withOpacity(.6),
-                            hidden: true,
-                          ),
-                        SizedBox(height: !isLogin ? 20 : 0),
-                        Row(
-                          children: [
-                            const Spacer(),
-                            _isLoading
-                                ? SizedBox(
-                                  width: 80,
-                                  child: const SpinKitFadingCircle(
-                                      color: Colors.white,
-                                      size: 20.0,
-                                    ),
-                                )
-                                : ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      elevation: 5,
-                                      primary: Colors.amber,
-                                      shadowColor: Colors.amber[700]!.withOpacity(0.6),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: 20,
-                                        vertical: 15,
-                                      ),
-                                    ),
-                                    onPressed: _isLoading
-                                        ? null
-                                        : () {
-                                            _trySubmit(
-                                              !isLogin ? false : true,
-                                              context,
-                                            );
-                                          },
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        if (!isLogin)
-                                          const Text(
-                                            "Register  ",
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15,
-                                            ),
-                                          ),
-                                        const Icon(
-                                          Icons.arrow_forward,
-                                          color: Colors.white,
-                                          size: 20,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                          ],
-                        ),
-                        const SizedBox(height: 30),
-                        changeAuthType(),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * .03,
-                        ),
-                      ],
+                  CField(
+                    controller: _email,
+                    preIcon: Icons.email,
+                    label: 'Email',
+                    bgColor: Colors.white.withOpacity(.6),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  CField(
+                    controller: _pass,
+                    preIcon: Icons.lock,
+                    label: 'Password',
+                    bgColor: Colors.white.withOpacity(.6),
+                    hidden: true,
+                  ),
+                  const SizedBox(height: 20),
+                  if (!isLogin)
+                    CField(
+                      controller: _confirmPass,
+                      preIcon: Icons.lock,
+                      label: 'Confirm password',
+                      bgColor: Colors.white.withOpacity(.6),
+                      hidden: true,
                     ),
+                  SizedBox(height: !isLogin ? 20 : 0),
+                  authButton(),
+                  const SizedBox(height: 30),
+                  changeAuthType(),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * .03,
                   ),
                 ],
               ),
             ),
-          ),
+          ],
         ),
       ),
     );
   }
+
+  Widget authButton() => Row(
+        children: [
+          const Spacer(),
+          _isLoading
+              ? SizedBox(
+                  width: 80,
+                  child: const SpinKitFadingCircle(
+                    color: Colors.white,
+                    size: 20.0,
+                  ),
+                )
+              : ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    elevation: 5,
+                    primary: Colors.amber,
+                    shadowColor: Colors.amber[700]!.withOpacity(0.6),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 15,
+                    ),
+                  ),
+                  onPressed: _isLoading
+                      ? null
+                      : () {
+                          _trySubmit(
+                            !isLogin ? false : true,
+                            context,
+                          );
+                        },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (!isLogin)
+                        const Text(
+                          "Register  ",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                          ),
+                        ),
+                      const Icon(
+                        Icons.arrow_forward,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                    ],
+                  ),
+                ),
+        ],
+      );
+
+  Widget heading(context) => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "PUTHON",
+            style: GoogleFonts.righteous(
+              fontWeight: FontWeight.bold,
+              fontSize: MediaQuery.of(context).size.height * .040,
+              color: Colors.white,
+            ),
+          ),
+          Text(
+            "Your virtual waiter..",
+            style: GoogleFonts.raleway(
+              color: Colors.black54,
+              fontWeight: FontWeight.bold,
+              fontSize: MediaQuery.of(context).size.height * .017,
+            ),
+          ),
+        ],
+      );
 
   Widget changeAuthType() => Row(
         mainAxisAlignment: MainAxisAlignment.center,
