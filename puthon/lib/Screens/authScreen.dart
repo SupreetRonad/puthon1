@@ -90,6 +90,13 @@ class _AuthScreenState extends State<AuthScreen> {
           'cooking': false,
           'scanned': 1,
         });
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (builder) => DivergeScreen(),
+          ),
+        );
       }
     } catch (err) {
       showSnack(
