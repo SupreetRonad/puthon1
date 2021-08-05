@@ -24,7 +24,7 @@ class OrdersHistory extends StatelessWidget {
             return LoadingScreen();
           }
           if (!snapshot.hasData || snapshot.hasError) {
-            return Center(
+            return const Center(
               child: Text(
                 "You haven't finished any orders...",
                 style: TextStyle(
@@ -60,7 +60,7 @@ class OrdersHistory extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             Container(
@@ -70,14 +70,14 @@ class OrdersHistory extends StatelessWidget {
                                 softWrap: false,
                                 maxLines: 1,
                                 overflow: TextOverflow.fade,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.black54,
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
-                            Spacer(),
+                            const Spacer(),
                             Column(
                               children: [
                                 Text(
@@ -99,18 +99,18 @@ class OrdersHistory extends StatelessWidget {
                                 
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                           ],
                         ),
-                        Divider(),
+                        const Divider(),
                         for (var item in order['orderList'].keys)
                           Padding(
                             padding: const EdgeInsets.all(2.0),
                             child: Row(
                               children: [
-                                SizedBox(
+                                const SizedBox(
                                   width: 15,
                                 ),
                                 Icon(
@@ -120,7 +120,7 @@ class OrdersHistory extends StatelessWidget {
                                       : Colors.red[300],
                                   size: 20,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
                                 Container(
@@ -133,16 +133,16 @@ class OrdersHistory extends StatelessWidget {
                                     maxLines: 1,
                                   ),
                                 ),
-                                Spacer(),
+                                const Spacer(),
                                 Text("x " +
                                     order['orderList'][item][0].toString()),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
                               ],
                             ),
                           ),
-                        Divider(),
+                        const Divider(),
                         Row(
                           children: [
                             Spacer(),
@@ -154,7 +154,7 @@ class OrdersHistory extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                           ],

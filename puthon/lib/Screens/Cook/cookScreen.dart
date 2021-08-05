@@ -27,7 +27,7 @@ class _CookScreenState extends State<CookScreen> {
           return LoadingScreen();
         }
         if (!snapshot.hasData || snapshot.hasError) {
-          return Center(
+          return const Center(
             child: Text(
               "No Active Orders...",
               style: TextStyle(
@@ -51,11 +51,11 @@ class _CookScreenState extends State<CookScreen> {
                     backgroundColor: Colors.transparent,
                     title: Row(
                       children: [
-                        Spacer(),
+                        const Spacer(),
                         RichText(
                           text: TextSpan(
                             text: 'PUTHON ',
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 20,
                                 fontWeight: FontWeight.w600),
@@ -63,7 +63,9 @@ class _CookScreenState extends State<CookScreen> {
                               TextSpan(
                                 text: "Cook",
                                 style: GoogleFonts.dancingScript(
-                                  textStyle: TextStyle(color: Colors.amber),
+                                  textStyle: const TextStyle(
+                                    color: Colors.amber,
+                                  ),
                                   fontSize: 20,
                                   fontStyle: FontStyle.italic,
                                 ),
@@ -83,7 +85,7 @@ class _CookScreenState extends State<CookScreen> {
                         .snapshots(),
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return SpinKitFadingCircle(
+                        return const SpinKitFadingCircle(
                           size: 20,
                           color: Colors.black54,
                         );
@@ -91,7 +93,7 @@ class _CookScreenState extends State<CookScreen> {
                       if (!snapshot.hasData ||
                           snapshot.hasError ||
                           snapshot.data.docs.length == 0) {
-                        return Center(
+                        return const Center(
                           child: Text(
                             "No Active Orders...",
                             style: TextStyle(
@@ -120,7 +122,7 @@ class _CookScreenState extends State<CookScreen> {
                                     ConnectionState.waiting) {
                                   return Padding(
                                     padding: const EdgeInsets.all(20.0),
-                                    child: Center(
+                                    child: const Center(
                                       child: Text(
                                         "Loading...",
                                         style: TextStyle(
@@ -132,7 +134,7 @@ class _CookScreenState extends State<CookScreen> {
                                   );
                                 }
                                 if (!snapshot.hasData || snapshot.hasError) {
-                                  return Center(
+                                  return const Center(
                                     child: Text(
                                       "No Active Orders...",
                                       style: TextStyle(

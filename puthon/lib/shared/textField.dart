@@ -34,7 +34,8 @@ class CField extends StatelessWidget {
     this.initial,
     this.bgColor,
     this.hidden = false,
-    this.maxLen, this.preText,
+    this.maxLen,
+    this.preText,
   }) : super(key: key);
 
   @override
@@ -54,7 +55,7 @@ class CField extends StatelessWidget {
         obscureText: hidden,
         maxLength: maxLen,
         decoration: textField.copyWith(
-          prefix: Text(preText?? ''),
+          prefix: Text(preText ?? ''),
           labelText: label,
           labelStyle: TextStyle(
             color: Colors.black.withOpacity(.35),

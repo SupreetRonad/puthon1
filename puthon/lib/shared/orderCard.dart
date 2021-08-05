@@ -42,20 +42,20 @@ class _OrderCardState extends State<OrderCard> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.baseline,
                   textBaseline: TextBaseline.alphabetic,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       width: 15,
                     ),
                     if (widget.cookOrder)
-                      Text(
+                      const Text(
                         "Table.  ",
-                        style: TextStyle(
+                        style:const  TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
                           color: Colors.black54,
@@ -64,7 +64,7 @@ class _OrderCardState extends State<OrderCard> {
                     if (widget.cookOrder)
                       Text(
                         widget.order['tableNo'].toString(),
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.amber,
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -79,10 +79,10 @@ class _OrderCardState extends State<OrderCard> {
                         bot: widget.order['bot'],
                         orderNo: widget.order['orderNo'],
                       ),
-                    Spacer(),
-                    Text(
+                    const Spacer(),
+                    const Text(
                       "Ordered at ",
-                      style: TextStyle(
+                      style:const  TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
                         color: Colors.black54,
@@ -96,18 +96,18 @@ class _OrderCardState extends State<OrderCard> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                   ],
                 ),
-                Divider(),
+                const Divider(),
                 for (var item in widget.order['orderList'].keys)
                   Padding(
                     padding: const EdgeInsets.all(2.0),
                     child: Row(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           width: 15,
                         ),
                         Icon(
@@ -117,7 +117,7 @@ class _OrderCardState extends State<OrderCard> {
                               : Colors.red[300],
                           size: 20,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Container(
@@ -129,20 +129,20 @@ class _OrderCardState extends State<OrderCard> {
                             maxLines: 1,
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Text("x " +
                             widget.order['orderList'][item][0].toString()),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                       ],
                     ),
                   ),
                 if (widget.cookOrder)
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
-                Spacer(),
+                const Spacer(),
                 if (widget.cookOrder)
                   Padding(
                     padding: const EdgeInsets.all(0.0),
@@ -188,15 +188,12 @@ class _OrderCardState extends State<OrderCard> {
                                         fontSize: 17,
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  SizedBox(width: 10)
+                                  const SizedBox(width: 10)
                                 ],
                               ),
                             ),
                           ),
                         ),
-                        // SizedBox(
-                        //   width: 10,
-                        // ),
                       ],
                     ),
                   ),

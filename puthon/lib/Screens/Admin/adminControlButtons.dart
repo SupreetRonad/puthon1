@@ -51,20 +51,20 @@ class AdminControlButtons extends StatelessWidget {
                                 fontSize: 20,
                               ),
                             ),
-                            Divider(),
-                            Text("Do you want to delete the item"),
-                            SizedBox(
+                            const Divider(),
+                            const Text("Do you want to delete the item"),
+                            const SizedBox(
                               height: 5,
                             ),
                             Text(
                               item["itemName"] + " ?",
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black87,
                                 fontSize: 16,
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Text(
@@ -144,22 +144,22 @@ class AdminControlButtons extends StatelessWidget {
                                         fontSize: 20,
                                       ),
                                     ),
-                                    Divider(),
+                                    const Divider(),
                                     Text(item["inMenu"]
                                         ? "Do you want to disable the item"
                                         : "Do you want to enable the item"),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 5,
                                     ),
                                     Text(
                                       item["itemName"] + " ?",
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black87,
                                         fontSize: 16,
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 10,
                                     ),
                                     Text(
@@ -167,7 +167,7 @@ class AdminControlButtons extends StatelessWidget {
                                           ? "Once disabled, the item will no longer be visible to the customers."
                                           : "Once enabled, the item will be visible to the customers to order from.",
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: Colors.black54,
                                         fontSize: 12,
                                       ),
@@ -220,7 +220,7 @@ class AdminControlButtons extends StatelessWidget {
                         },
                       );
                     },
-                    child: Icon(
+                    child: const Icon(
                       Icons.edit_rounded,
                       color: Colors.white,
                       size: 20,

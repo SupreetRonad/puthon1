@@ -39,27 +39,26 @@ class _DurationConfirmState extends State<DurationConfirm> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
-                Text(
+                const Text(
                   "Accept order ?",
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.amber,
                     fontSize: 20,
                   ),
                 ),
-                Divider(),
-                Text(
+                const Divider(),
+                const Text(
                   "Please select cooking duration.",
-                  style: TextStyle(
-                    //fontWeight: FontWeight.bold,
+                  style: const TextStyle(
                     color: Colors.black54,
                     fontSize: 12,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Row(
@@ -73,16 +72,15 @@ class _DurationConfirmState extends State<DurationConfirm> {
                       },
                       style: TextButton.styleFrom(
                         primary: Colors.black54,
-                        backgroundColor: duration == 1
-                            ? Colors.yellow
-                            : Colors.transparent,
+                        backgroundColor:
+                            duration == 1 ? Colors.yellow : Colors.transparent,
                         padding:
                             EdgeInsets.symmetric(vertical: 13, horizontal: 10),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
                         ),
                       ),
-                      child: Text("15"),
+                      child: const Text("15"),
                     ),
                     TextButton(
                       onPressed: () async {
@@ -92,16 +90,15 @@ class _DurationConfirmState extends State<DurationConfirm> {
                       },
                       style: TextButton.styleFrom(
                         primary: Colors.black54,
-                        backgroundColor: duration == 2
-                            ? Colors.yellow
-                            : Colors.transparent,
+                        backgroundColor:
+                            duration == 2 ? Colors.yellow : Colors.transparent,
                         padding:
                             EdgeInsets.symmetric(vertical: 13, horizontal: 10),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
                         ),
                       ),
-                      child: Text("30"),
+                      child: const Text("30"),
                     ),
                     TextButton(
                       onPressed: () {
@@ -111,25 +108,24 @@ class _DurationConfirmState extends State<DurationConfirm> {
                       },
                       style: TextButton.styleFrom(
                         primary: Colors.black54,
-                        backgroundColor: duration == 3
-                            ? Colors.yellow
-                            : Colors.transparent,
+                        backgroundColor:
+                            duration == 3 ? Colors.yellow : Colors.transparent,
                         padding:
                             EdgeInsets.symmetric(vertical: 13, horizontal: 10),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
                         ),
                       ),
-                      child: Text("45"),
+                      child: const Text("45"),
                     ),
                   ],
                 ),
-                Spacer(),
+                const Spacer(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                      width: (MediaQuery.of(context).size.width - 80)/2,
+                      width: (MediaQuery.of(context).size.width - 80) / 2,
                       child: TextButton(
                         style: TextButton.styleFrom(
                           primary: Colors.black,
@@ -137,7 +133,7 @@ class _DurationConfirmState extends State<DurationConfirm> {
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: Text("Go Back"),
+                        child: const Text("Go Back"),
                       ),
                     ),
                     Container(
@@ -146,7 +142,7 @@ class _DurationConfirmState extends State<DurationConfirm> {
                               colors: [Colors.yellow, Colors.amber]),
                           borderRadius: BorderRadius.only(
                               bottomRight: Radius.circular(20))),
-                      width: (MediaQuery.of(context).size.width - 80)/2,
+                      width: (MediaQuery.of(context).size.width - 80) / 2,
                       child: TextButton(
                         onPressed: () async {
                           Loading(context);
@@ -187,9 +183,9 @@ class _DurationConfirmState extends State<DurationConfirm> {
                           Navigator.pop(context);
                           Navigator.pop(context);
                         },
-                        child: Text(
+                        child: const Text(
                           "Accept",
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                           ),
                         ),

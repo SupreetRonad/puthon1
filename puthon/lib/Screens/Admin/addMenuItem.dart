@@ -97,7 +97,7 @@ class _AddMenuItemState extends State<AddMenuItem> {
               height: 17,
               child: FittedBox(
                 fit: BoxFit.fill,
-                child: Icon(
+                child: const Icon(
                   Icons.arrow_drop_down,
                   color: Colors.grey,
                 ),
@@ -123,7 +123,7 @@ class _AddMenuItemState extends State<AddMenuItem> {
             height: 480,
             width: MediaQuery.of(context).size.width * .8,
             child: loading1
-                ? SpinKitFadingCircle(
+                ? const SpinKitFadingCircle(
                     color: Colors.black54,
                     size: 25,
                   )
@@ -134,10 +134,10 @@ class _AddMenuItemState extends State<AddMenuItem> {
                         children: [
                           Text(
                             widget.modify ? "Edit Item" : "Add Item",
-                            style: TextStyle(
+                            style: const  TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 17),
                           ),
-                          Divider(),
+                          const Divider(),
                           Container(
                             padding: EdgeInsets.all(15),
                             child: Column(
@@ -187,7 +187,7 @@ class _AddMenuItemState extends State<AddMenuItem> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
                                 ClipRRect(
@@ -236,7 +236,7 @@ class _AddMenuItemState extends State<AddMenuItem> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
                                 Row(
@@ -279,9 +279,9 @@ class _AddMenuItemState extends State<AddMenuItem> {
                                                 category = value;
                                               });
                                             },
-                                            label: Text(
+                                            label: const Text(
                                               "Category",
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   color: Colors.black38,
                                                   fontSize: 11),
                                             ),
@@ -292,15 +292,15 @@ class _AddMenuItemState extends State<AddMenuItem> {
                                         ),
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
                                     AdvancedSwitch(
                                       controller: _controller,
                                       activeColor: Colors.green,
                                       inactiveColor: Colors.red,
-                                      activeChild: Text('  Veg'),
-                                      inactiveChild: Text('Non\nVeg'),
+                                      activeChild: const Text('  Veg'),
+                                      inactiveChild: const Text('Non\nVeg'),
                                       borderRadius: BorderRadius.all(
                                           const Radius.circular(15)),
                                       width: 80.0,
@@ -310,7 +310,7 @@ class _AddMenuItemState extends State<AddMenuItem> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
                                 ClipRRect(
@@ -359,7 +359,7 @@ class _AddMenuItemState extends State<AddMenuItem> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
                                 ClipRRect(
@@ -384,7 +384,7 @@ class _AddMenuItemState extends State<AddMenuItem> {
                                             color:
                                                 Colors.black.withOpacity(.35),
                                           ),
-                                          prefixIcon: Icon(
+                                          prefixIcon: const Icon(
                                             Icons.import_contacts,
                                             color: Colors.black87,
                                           ),
@@ -400,16 +400,16 @@ class _AddMenuItemState extends State<AddMenuItem> {
                               ],
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 7,
                           ),
                           Text(
                             flag1
                                 ? "Please fill all the fields with valid info"
                                 : "",
-                            style: TextStyle(color: Colors.red),
+                            style: const TextStyle(color: Colors.red),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 7,
                           ),
                           //Spacer(),
@@ -467,7 +467,7 @@ class _AddMenuItemState extends State<AddMenuItem> {
                                                       size: 40,
                                                     ),
                                                   ),
-                                                  SizedBox(
+                                                  const SizedBox(
                                                     height: 10,
                                                   ),
                                                   Row(
@@ -479,7 +479,7 @@ class _AddMenuItemState extends State<AddMenuItem> {
                                                             ? Colors.green
                                                             : Colors.red,
                                                       ),
-                                                      SizedBox(
+                                                      const SizedBox(
                                                         width: 10,
                                                       ),
                                                       Container(
@@ -494,7 +494,7 @@ class _AddMenuItemState extends State<AddMenuItem> {
                                                           softWrap: false,
                                                           overflow:
                                                               TextOverflow.fade,
-                                                          style: TextStyle(
+                                                          style: const TextStyle(
                                                               fontSize: 25,
                                                               fontWeight:
                                                                   FontWeight
@@ -513,14 +513,14 @@ class _AddMenuItemState extends State<AddMenuItem> {
                                                       softWrap: false,
                                                       overflow:
                                                           TextOverflow.ellipsis,
-                                                      style: TextStyle(
+                                                      style: const TextStyle(
                                                           fontSize: 12,
                                                           color:
                                                               Colors.black54),
                                                     ),
                                                   ),
                                                   moreInfo == null
-                                                      ? SizedBox()
+                                                      ? const SizedBox()
                                                       : Container(
                                                           padding: EdgeInsets
                                                               .fromLTRB(
@@ -532,7 +532,7 @@ class _AddMenuItemState extends State<AddMenuItem> {
                                                             overflow:
                                                                 TextOverflow
                                                                     .ellipsis,
-                                                            style: TextStyle(
+                                                            style: const TextStyle(
                                                                 fontSize: 12,
                                                                 color: Colors
                                                                     .black54),
@@ -540,7 +540,7 @@ class _AddMenuItemState extends State<AddMenuItem> {
                                                         ),
                                                   Row(
                                                     children: [
-                                                      SizedBox(
+                                                      const SizedBox(
                                                         width: 35,
                                                       ),
                                                       Text(
@@ -549,7 +549,7 @@ class _AddMenuItemState extends State<AddMenuItem> {
                                                         softWrap: false,
                                                         overflow: TextOverflow
                                                             .ellipsis,
-                                                        style: TextStyle(
+                                                        style: const TextStyle(
                                                             fontSize: 17,
                                                             fontWeight:
                                                                 FontWeight.bold,
@@ -563,7 +563,7 @@ class _AddMenuItemState extends State<AddMenuItem> {
                                                                 35, 0, 0, 5),
                                                         child: Text(
                                                           "Rs. " + price,
-                                                          style: TextStyle(
+                                                          style: const TextStyle(
                                                               fontSize: 20,
                                                               color:
                                                                   Colors.green,
@@ -630,11 +630,11 @@ class _AddMenuItemState extends State<AddMenuItem> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        Icon(Icons.save),
-                                        SizedBox(
+                                        const Icon(Icons.save),
+                                        const SizedBox(
                                           width: 10,
                                         ),
-                                        Text("Save"),
+                                        const Text("Save"),
                                       ],
                                     ),
                             ),

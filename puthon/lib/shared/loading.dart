@@ -28,7 +28,7 @@ void Loading(context) {
                     color: Colors.white.withOpacity(.8),
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: SpinKitFadingCircle(
+                  child: const SpinKitFadingCircle(
                     color: Colors.black87,
                     size: 30,
                   ),

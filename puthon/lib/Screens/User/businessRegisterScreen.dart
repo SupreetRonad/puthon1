@@ -145,11 +145,11 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
                       height: MediaQuery.of(context).size.height - 750,
                     ),
                     Container(
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       child: Column(
                         children: [
                           head("Restaurant information.."),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           CField(
@@ -158,7 +158,7 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
                             label: 'Restaurant name',
                             preIcon: Icons.restaurant,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           CField(
@@ -167,11 +167,11 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
                             label: 'Merchant UPI ID',
                             preIcon: Icons.monetization_on,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           head("Tell us where it is located.."),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           CField(
@@ -180,7 +180,7 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
                             label: 'Building info (number, floor etc.)',
                             preIcon: Icons.business,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           CField(
@@ -189,7 +189,7 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
                             label: 'Street name',
                             preIcon: Icons.streetview,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           CField(
@@ -198,7 +198,7 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
                             label: 'City',
                             preIcon: Icons.location_city,
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           Row(
                             children: [
                               Flexible(
@@ -209,7 +209,7 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
                                   preIcon: Icons.room,
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 10,
                               ),
                               SizedBox(
@@ -227,7 +227,7 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     Row(
@@ -261,16 +261,16 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
 
   Widget head(String head) => Row(
         children: [
-          Icon(
+          const Icon(
             Icons.play_arrow,
             color: Colors.white,
           ),
-          SizedBox(
+          const SizedBox(
             width: 5,
           ),
           Text(
             head,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 15,
             ),

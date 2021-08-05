@@ -60,9 +60,6 @@ class _AuthScreenState extends State<AuthScreen> {
           password: _pass.text.trim(),
         );
 
-        // await _store.collection('users').doc(_userCreds.user!.uid).update(
-        //   {'register': false},
-        // );
 
         Navigator.pushReplacement(
           context,
@@ -160,7 +157,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           label: 'Email',
                           bgColor: Colors.white.withOpacity(.6),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         CField(
@@ -170,7 +167,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           bgColor: Colors.white.withOpacity(.6),
                           hidden: true,
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         if (!isLogin)
                           CField(
                             controller: _confirmPass,
@@ -182,7 +179,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         SizedBox(height: !isLogin ? 20 : 0),
                         Row(
                           children: [
-                            Spacer(),
+                            const Spacer(),
                             Container(
                               height: 60,
                               width: !isLogin ? 160 : 80,
@@ -204,7 +201,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                                 );
                                               },
                                         child: _isLoading
-                                            ? SpinKitFadingCircle(
+                                            ? const SpinKitFadingCircle(
                                                 color: Colors.white,
                                                 size: 20.0,
                                               )
@@ -212,14 +209,14 @@ class _AuthScreenState extends State<AuthScreen> {
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.center,
                                                 children: [
-                                                  Text(
+                                                  const Text(
                                                     "Register  ",
                                                     style: TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 15,
                                                     ),
                                                   ),
-                                                  Icon(
+                                                  const Icon(
                                                     Icons.arrow_forward,
                                                     color: Colors.white,
                                                   ),
@@ -236,11 +233,11 @@ class _AuthScreenState extends State<AuthScreen> {
                                                 );
                                               },
                                         child: _isLoading
-                                            ? SpinKitFadingCircle(
+                                            ? const SpinKitFadingCircle(
                                                 color: Colors.white,
                                                 size: 20.0,
                                               )
-                                            : Icon(
+                                            : const Icon(
                                                 Icons.arrow_forward,
                                                 color: Colors.white,
                                               ),
@@ -249,7 +246,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
                         changeAuthType(),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * .03,
@@ -281,7 +278,7 @@ class _AuthScreenState extends State<AuthScreen> {
             },
             child: Text(
               !isLogin ? "Login" : "Register",
-              style: TextStyle(
+              style: const TextStyle(
                 decoration: TextDecoration.underline,
                 color: Colors.white70,
                 fontWeight: FontWeight.bold,

@@ -41,7 +41,7 @@ class _OrderTimerState extends State<OrderTimer> {
         setState(() {});
       }
     });
-    return SizedBox();
+    return const SizedBox();
   }
 
   @override
@@ -83,7 +83,7 @@ class _OrderTimerState extends State<OrderTimer> {
             )
           : Row(
               children: [
-                Text(
+                const Text(
                   "Delivery in ",
                   style: TextStyle(
                     fontSize: 12,
@@ -93,14 +93,14 @@ class _OrderTimerState extends State<OrderTimer> {
                 ),
                 Text(
                   (widget.duration - elapsed).toString(),
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 15.0,
                     color: Colors.amber,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 _timer(),
-                Text(
+                const Text(
                   " mins",
                   style: TextStyle(
                     fontSize: 12,
@@ -110,7 +110,7 @@ class _OrderTimerState extends State<OrderTimer> {
                 ),
               ],
             );
-    } else if(widget.flag == 2 || widget.flag == 3){
+    } else if (widget.flag == 2 || widget.flag == 3) {
       return StreamBuilder(
         stream: FirebaseDatabase.instance
             .reference()
@@ -118,14 +118,14 @@ class _OrderTimerState extends State<OrderTimer> {
             .child(widget.bot.toString())
             .child("delivered")
             .onValue,
-        builder: (context,AsyncSnapshot snapshot) {
+        builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: Text("Please Wait..."),
             );
           }
           if (!snapshot.hasData) {
-            return Center(
+            return const Center(
               child: Text("Loading..."),
             );
           }
@@ -134,50 +134,52 @@ class _OrderTimerState extends State<OrderTimer> {
           if (ref) {
             setFlag();
           }
-          return widget.flag == 2 ? Row(
-            children: [
-              Icon(
-                Icons.fiber_smart_record,
-                size: 16,
-                color: Colors.green[300],
-              ),
-              Text(
-                "  On the Bot",
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.green[300],
-                ),
-              ),
-            ],
-          ) : Row(
-        children: [
-          Icon(
-            Icons.check_circle,
-            size: 17,
-            color: Colors.green[300],
-          ),
-          Text(
-            "  Delivered",
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.bold,
-              color: Colors.green[300],
-            ),
-          ),
-        ],
-      );
+          return widget.flag == 2
+              ? Row(
+                  children: [
+                    Icon(
+                      Icons.fiber_smart_record,
+                      size: 16,
+                      color: Colors.green[300],
+                    ),
+                    Text(
+                      "  On the Bot",
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.green[300],
+                      ),
+                    ),
+                  ],
+                )
+              : Row(
+                  children: [
+                    Icon(
+                      Icons.check_circle,
+                      size: 17,
+                      color: Colors.green[300],
+                    ),
+                    Text(
+                      "  Delivered",
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.green[300],
+                      ),
+                    ),
+                  ],
+                );
         },
       );
     } else {
       return Row(
         children: [
-          Icon(
+          const Icon(
             Icons.timer,
             size: 17,
             color: Colors.amber,
           ),
-          Text(
+          const Text(
             "  Confirmation pending",
             style: TextStyle(
               fontSize: 13,

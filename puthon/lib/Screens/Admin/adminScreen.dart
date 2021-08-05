@@ -23,9 +23,11 @@ class _AdminScreenState extends State<AdminScreen> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("assets/images/oranges1.jpg"),
-              fit: BoxFit.cover)),
+        image: DecorationImage(
+          image: AssetImage("assets/images/oranges1.jpg"),
+          fit: BoxFit.cover,
+        ),
+      ),
       child: DefaultTabController(
         length: 4,
         child: Scaffold(
@@ -36,7 +38,7 @@ class _AdminScreenState extends State<AdminScreen> {
             backgroundColor: Colors.transparent,
             title: Row(
               children: [
-                Spacer(),
+                const Spacer(),
                 RichText(
                   text: TextSpan(
                     text: 'PUTHON ',
@@ -66,9 +68,9 @@ class _AdminScreenState extends State<AdminScreen> {
                     .collection("admins")
                     .doc(FirebaseAuth.instance.currentUser!.uid)
                     .snapshots(),
-                builder: (context,AsyncSnapshot snapshot) {
+                builder: (context, AsyncSnapshot snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
+                    return const Center(
                       child: Text(
                         "Please wait...",
                         style: TextStyle(
@@ -94,7 +96,7 @@ class _AdminScreenState extends State<AdminScreen> {
                     var doc = snapshot.data;
                     return Row(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Column(
@@ -139,13 +141,13 @@ class _AdminScreenState extends State<AdminScreen> {
                             ),
                           ],
                         ),
-                        Spacer(),
+                        const Spacer(),
                       ],
                     );
                   }
                 },
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               Expanded(
@@ -177,16 +179,16 @@ class _AdminScreenState extends State<AdminScreen> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                             tabs: [
-                              Tab(
+                              const Tab(
                                 child: Text("Cooks"),
                               ),
-                              Tab(
+                              const Tab(
                                 child: Text("Menu"),
                               ),
-                              Tab(
+                              const Tab(
                                 child: Text("Tables"),
                               ),
-                              Tab(
+                              const Tab(
                                 child: Text("More"),
                               ),
                             ],

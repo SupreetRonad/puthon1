@@ -28,17 +28,17 @@ class ItemCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
                     children: [
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Icon(
                         Icons.radio_button_checked,
                         color: item["veg"] ? Colors.green : Colors.red,
                       ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Container(
                         width: MediaQuery.of(context).size.width * 0.6,
                         child: Text(
@@ -56,7 +56,7 @@ class ItemCard extends StatelessWidget {
                         padding: EdgeInsets.fromLTRB(5, 0, 0, 5),
                         child: Text(
                           "Rs. " + item["price"],
-                          style: TextStyle(
+                          style:const TextStyle(
                               fontSize: 17,
                               color: Colors.green,
                               fontWeight: FontWeight.bold),
@@ -72,7 +72,10 @@ class ItemCard extends StatelessWidget {
                       maxLines: 2,
                       softWrap: false,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 12, color: Colors.black54),
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.black54,
+                      ),
                     ),
                   ),
                   Container(
@@ -83,16 +86,19 @@ class ItemCard extends StatelessWidget {
                       maxLines: 2,
                       softWrap: false,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 12, color: Colors.black54),
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.black54,
+                      ),
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Container(
                     width: MediaQuery.of(context).size.width - 28,
                     child: Container(
                       child: Row(
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             width: 45,
                           ),
                           Container(
@@ -111,7 +117,7 @@ class ItemCard extends StatelessWidget {
                                   color: Colors.amber),
                             ),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           order
                               ? UserControlButtons(
                                   itemName: item['itemName'],
@@ -120,7 +126,7 @@ class ItemCard extends StatelessWidget {
                                 )
                               : AdminControlButtons(
                                   item: item,
-                                )
+                                ),
                         ],
                       ),
                     ),

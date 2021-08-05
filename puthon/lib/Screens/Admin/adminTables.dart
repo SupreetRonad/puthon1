@@ -18,13 +18,13 @@ class AdminTables extends StatelessWidget {
             .snapshots(),
         builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return SpinKitFadingCircle(
+            return const SpinKitFadingCircle(
               color: Colors.black54,
               size: 20,
             );
           }
           if (!snapshot.hasData) {
-            return Text(
+            return const Text(
               "No Tables occupied yet...",
               style: TextStyle(fontSize: 20),
             );
@@ -144,13 +144,13 @@ class _TablesInfoState extends State<TablesInfo> {
             .snapshots(),
         builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return SpinKitFadingCircle(
+            return const SpinKitFadingCircle(
               size: 15,
               color: Colors.black,
             );
           }
           if (!snapshot.hasData) {
-            return Text("No orders placed");
+            return const Text("No orders placed");
           }
 
           return Container(
@@ -158,7 +158,7 @@ class _TablesInfoState extends State<TablesInfo> {
               maxHeight: MediaQuery.of(context).size.height - 160,
             ),
             child: loading
-                ? SpinKitFadingCircle(
+                ? const SpinKitFadingCircle(
                     size: 20,
                     color: Colors.black54,
                   )
@@ -186,7 +186,7 @@ class _TablesInfoState extends State<TablesInfo> {
                           ],
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Padding(
@@ -194,7 +194,7 @@ class _TablesInfoState extends State<TablesInfo> {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            Text(
+                            const Text(
                               "Entered at  ",
                               style: TextStyle(
                                   fontSize: 13,
@@ -203,13 +203,13 @@ class _TablesInfoState extends State<TablesInfo> {
                             ),
                             Text(
                               hh1.toString() + " : " + mm.toString() + " " + gg,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            Spacer(),
-                            Text(
+                            const Spacer(),
+                            const Text(
                               "Total Rs. ",
                               style: TextStyle(
                                   fontSize: 13,
@@ -218,7 +218,7 @@ class _TablesInfoState extends State<TablesInfo> {
                             ),
                             Text(
                               bill.toString(),
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),

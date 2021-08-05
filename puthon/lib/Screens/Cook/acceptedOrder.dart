@@ -74,11 +74,11 @@ class _AcceptedOrderState extends State<AcceptedOrder> {
           backgroundColor: Colors.transparent,
           title: Row(
             children: [
-              Spacer(),
+              const Spacer(),
               RichText(
                 text: TextSpan(
                   text: 'PUTHON ',
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.black,
                       fontSize: 20,
                       fontWeight: FontWeight.w600),
@@ -108,12 +108,12 @@ class _AcceptedOrderState extends State<AcceptedOrder> {
                 .snapshots(),
             builder: (context, AsyncSnapshot snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
+                return const Center(
                   child: Text("Loading"),
                 );
               }
               if (!snapshot.hasData || snapshot.hasError) {
-                return Center(
+                return const Center(
                   child: Text(
                     "No Active Orders...",
                     style: TextStyle(
@@ -128,14 +128,14 @@ class _AcceptedOrderState extends State<AcceptedOrder> {
                 children: [
                   Row(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         width: 15,
                       ),
                       Container(
                         height: 35,
                         child: Image.asset("assets/images/cooking.png"),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Text(
@@ -175,7 +175,7 @@ class _AcceptedOrderState extends State<AcceptedOrder> {
                   displayOrder(order),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                    child: Text(
+                    child: const Text(
                       "Note : Once you are done, please scan the QR code on bot after placing the order on it.",
                       style: TextStyle(
                         color: Colors.black54,
@@ -191,12 +191,12 @@ class _AcceptedOrderState extends State<AcceptedOrder> {
                       builder: (context, AsyncSnapshot snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return Center(
+                          return const Center(
                             child: Text("Loading"),
                           );
                         }
                         if (!snapshot.hasData || snapshot.hasError) {
-                          return Center(
+                          return const Center(
                             child: Text(
                               "No Active Orders...",
                               style: TextStyle(
@@ -211,8 +211,8 @@ class _AcceptedOrderState extends State<AcceptedOrder> {
                             ElevatedButton(
                               child: Row(
                                 children: [
-                                  Text("Assign a Bot  "),
-                                  Icon(
+                                  const Text("Assign a Bot  "),
+                                  const Icon(
                                     Icons.arrow_forward_rounded,
                                     size: 20,
                                   )
@@ -230,7 +230,7 @@ class _AcceptedOrderState extends State<AcceptedOrder> {
                                 assignBot(snapshot);
                               },
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 15,
                             ),
                           ],
@@ -251,48 +251,50 @@ class _AcceptedOrderState extends State<AcceptedOrder> {
           child: SingleChildScrollView(
             //reverse: true,
             physics: BouncingScrollPhysics(),
-            child: Column(children: [
-              for (var item in order['orderList'].keys)
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 15,
-                      ),
-                      Icon(
-                        Icons.radio_button_checked,
-                        color: order['orderList'][item][1]
-                            ? Colors.green[300]
-                            : Colors.red[300],
-                        size: 20,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.6,
-                        child: Text(
-                          item,
-                          softWrap: false,
-                          overflow: TextOverflow.fade,
-                          maxLines: 1,
-                          style: TextStyle(fontSize: 16),
+            child: Column(
+              children: [
+                for (var item in order['orderList'].keys)
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Row(
+                      children: [
+                        const SizedBox(
+                          width: 15,
                         ),
-                      ),
-                      Spacer(),
-                      Text(
-                        "x " + order['orderList'][item][0].toString(),
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                    ],
+                        Icon(
+                          Icons.radio_button_checked,
+                          color: order['orderList'][item][1]
+                              ? Colors.green[300]
+                              : Colors.red[300],
+                          size: 20,
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.6,
+                          child: Text(
+                            item,
+                            softWrap: false,
+                            overflow: TextOverflow.fade,
+                            maxLines: 1,
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                        ),
+                        const Spacer(),
+                        Text(
+                          "x " + order['orderList'][item][0].toString(),
+                          style: const TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-            ]),
+              ],
+            ),
           ),
         ),
       );

@@ -47,20 +47,20 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
         ),
         backgroundColor: Colors.white,
         child: Padding(
-          padding: EdgeInsets.all(15),
+          padding: const EdgeInsets.all(15),
           child: SizedBox(
             height: MediaQuery.of(context).size.height * .45 + 80,
             width: MediaQuery.of(context).size.width * .8,
             child: Column(
               children: [
-                Text(
+                const Text(
                   "Generate QR Code",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 17,
                   ),
                 ),
-                Divider(),
+                const Divider(),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0.0, 0, 0.0, 8),
                   child: Container(
@@ -103,12 +103,12 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
                         ),
                       ),
                       onPressed: generateQR,
-                      child: Text("Generate Code"),
+                      child: const Text("Generate Code"),
                     ),
                   ],
                 ),
                 if (valid == 0)
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                 if (valid > 0)
@@ -123,11 +123,11 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
                       ),
                     ),
                   ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 displayQR(context),
-                Spacer(),
+                const Spacer(),
                 if (valid == 1)
                   Container(
                     height: 40,
@@ -159,7 +159,7 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
                             backgroundColor: Colors.white,
                             textColor: Colors.black);
                       },
-                      child: Text(
+                      child: const Text(
                         "Save to Gallery",
                         style: TextStyle(
                           color: Colors.white,
@@ -167,7 +167,7 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
                       ),
                     ),
                   ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
               ],
@@ -181,7 +181,7 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
   Widget displayQR(BuildContext context) => SizedBox(
         height: MediaQuery.of(context).size.height * .25,
         child: result.isEmpty
-            ? Center(
+            ? const Center(
                 child: Icon(
                   Icons.qr_code_scanner,
                   color: Colors.black38,
@@ -228,7 +228,7 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             GestureDetector(
@@ -247,7 +247,7 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
                     color: flag == 1 ? Colors.greenAccent : Colors.grey,
                     size: flag == 1 ? 17 : 14,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   Text(
