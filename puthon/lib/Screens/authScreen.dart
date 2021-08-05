@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:puthon/Screens/User/homeScreen.dart';
 import 'package:puthon/Screens/divergeScreen.dart';
 import 'package:puthon/shared/showMsg.dart';
 import 'dart:ui';

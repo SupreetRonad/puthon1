@@ -1,4 +1,4 @@
-import 'dart:developer' as dev;
+// import 'dart:developer' as dev;
 import 'dart:io';
 import 'dart:math';
 
@@ -7,25 +7,25 @@ import 'package:puthon/shared/showMsg.dart';
 import 'package:upi_pay/upi_pay.dart';
 
 class PaymentScreen extends StatefulWidget {
+  final String? upi;
+  final double amount;
+
+  const PaymentScreen({
+    Key? key,
+    required this.upi,
+    required this.amount,
+  }) : super(key: key);
+
   @override
   _PaymentScreenState createState() => _PaymentScreenState();
 }
 
 class _PaymentScreenState extends State<PaymentScreen> {
-  String? _upiAddrError;
-
-  TextEditingController _upiAddressController = TextEditingController();
-  TextEditingController _amountController = TextEditingController();
-
-  bool _isUpiEditable = false;
   List<ApplicationMeta>? _apps;
 
   @override
   void initState() {
     super.initState();
-
-    _amountController.text =
-        (Random.secure().nextDouble() * 10).toStringAsFixed(2);
 
     Future.delayed(Duration(milliseconds: 0), () async {
       _apps = await UpiPay.getInstalledUpiApplications(
@@ -37,30 +37,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   @override
   void dispose() {
-    _amountController.dispose();
-    _upiAddressController.dispose();
     super.dispose();
   }
 
-  void _generateAmount() {
-    setState(() {
-      _amountController.text =
-          (Random.secure().nextDouble() * 10).toStringAsFixed(2);
-    });
-  }
-
   Future<void> _onTap(ApplicationMeta app) async {
-    final err = _validateUpiAddress(_upiAddressController.text);
-    if (err != null) {
-      setState(() {
-        _upiAddrError = err;
-      });
-      // return;
-    }
-    setState(() {
-      _upiAddrError = null;
-    });
-
     final transactionRef = Random.secure().nextInt(1 << 32).toString();
     print("Starting transaction with id $transactionRef");
 
@@ -91,90 +71,22 @@ class _PaymentScreenState extends State<PaymentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16),
-        child: ListView(
-          children: <Widget>[
-            _vpa(),
-            if (_upiAddrError != null) _vpaError(),
-            _amount(),
-            if (Platform.isIOS) _submitButton(),
-            Platform.isAndroid ? _androidApps() : _iosApps(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Expanded(
+              child: ListView(
+                physics: BouncingScrollPhysics(),
+                children: <Widget>[
+                  if (Platform.isIOS) _submitButton(),
+                  Platform.isAndroid ? _androidApps() : _iosApps(),
+                ],
+              ),
+            ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _vpa() {
-    return Container(
-      margin: EdgeInsets.only(top: 32),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: TextFormField(
-              initialValue: 'supreet.ronad@axisbank',
-              // controller: _upiAddressController,
-              enabled: _isUpiEditable,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'address@upi',
-                labelText: 'Receiving UPI Address',
-              ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 8),
-            child: IconButton(
-              icon: Icon(
-                _isUpiEditable ? Icons.check : Icons.edit,
-              ),
-              onPressed: () {
-                setState(() {
-                  _isUpiEditable = !_isUpiEditable;
-                });
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _vpaError() {
-    return Container(
-      margin: EdgeInsets.only(top: 4, left: 12),
-      child: Text(
-        _upiAddrError!,
-        style: TextStyle(color: Colors.red),
-      ),
-    );
-  }
-
-  Widget _amount() {
-    return Container(
-      margin: EdgeInsets.only(top: 32),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: TextField(
-              controller: _amountController,
-              readOnly: true,
-              enabled: false,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Amount',
-              ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 8),
-            child: IconButton(
-              icon: Icon(Icons.loop),
-              onPressed: _generateAmount,
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -196,7 +108,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
               ),
               height: 48,
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6)),
+                borderRadius: BorderRadius.circular(6),
+              ),
             ),
           ),
         ],
@@ -288,13 +201,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
       shrinkWrap: true,
       mainAxisSpacing: 4,
       crossAxisSpacing: 4,
-      // childAspectRatio: 1.6,
       physics: NeverScrollableScrollPhysics(),
       children: apps
           .map(
             (it) => Material(
               key: ObjectKey(it.upiApplication),
-              // color: Colors.grey[200],
               child: InkWell(
                 onTap: Platform.isAndroid ? () async => await _onTap(it) : null,
                 child: Column(
@@ -320,12 +231,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 }
 
-String? _validateUpiAddress(String value) {
-  if (value.isEmpty) {
-    return 'UPI VPA is required.';
-  }
-  if (value.split('@').length != 2) {
-    return 'Invalid UPI VPA';
-  }
-  return null;
-}
+// String? _validateUpiAddress(String value) {
+//   if (value.isEmpty) {
+//     return 'UPI VPA is required.';
+//   }
+//   if (value.split('@').length != 2) {
+//     return 'Invalid UPI VPA';
+//   }
+//   return null;
+// }
