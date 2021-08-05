@@ -28,11 +28,11 @@ class _AdminMenuListState extends State<AdminMenuList> {
             onPressed: () {
               _addItem();
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.restaurant_menu_rounded,
               size: 20,
             ),
-            label: Text(
+            label: const Text(
               "Add Item",
             ),
           ),
@@ -48,13 +48,13 @@ class _AdminMenuListState extends State<AdminMenuList> {
                   .snapshots(),
               builder: (context, AsyncSnapshot snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return SpinKitFadingCircle(
+                  return const SpinKitFadingCircle(
                     color: Colors.black54,
                     size: 20,
                   );
                 }
                 if (!snapshot.hasData) {
-                  return Text(
+                  return const Text(
                     "Please Add Items...",
                     style: TextStyle(fontSize: 20),
                   );

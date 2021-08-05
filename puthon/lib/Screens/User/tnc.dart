@@ -59,14 +59,14 @@ class _TnCState extends State<TnC> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.info_outline_rounded,
                         size: 20,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
-                      Text(
+                      const Text(
                         "Terms and Conditions...",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -75,7 +75,7 @@ class _TnCState extends State<TnC> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   SizedBox(
@@ -88,16 +88,16 @@ class _TnCState extends State<TnC> {
                           minWidth: 100,
                           maxWidth: MediaQuery.of(context).size.width * .8 - 40,
                         ),
-                        child: Text(
+                        child: const Text(
                           tnc,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 14,
                           ),
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -115,10 +115,10 @@ class _TnCState extends State<TnC> {
                           color: agree ? Colors.green : Colors.black,
                         ),
                       ),
-                      Text("I agree to terms and conditions"),
+                      const Text("I agree to terms and conditions"),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -134,9 +134,9 @@ class _TnCState extends State<TnC> {
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: Text("Go back"),
+                        child: const Text("Go back"),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Container(
@@ -186,7 +186,7 @@ class _TnCState extends State<TnC> {
                                 showToast('Please accept terms and conditions');
                               }
                             },
-                            child: Text(
+                            child: const Text(
                               "Confirm",
                               style: TextStyle(
                                 color: Colors.white,
@@ -205,7 +205,7 @@ class _TnCState extends State<TnC> {
   }
 }
 
-String tnc = """Last updated: May 14, 2021
+const String tnc = """Last updated: May 14, 2021
 
 Please read these terms and conditions carefully before using Our Service.
 

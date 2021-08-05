@@ -137,19 +137,19 @@ class _DetailScreenState extends State<DetailScreen> {
                           ),
                           child: Column(
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               Row(
                                 children: [
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 25,
                                   ),
                                   Text(
                                     register
                                         ? "Tell us about yourself"
                                         : "Edit Profile",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
@@ -170,7 +170,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                       preIcon: Icons.person,
                                       bgColor: Colors.white70,
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 10,
                                     ),
                                     CField(
@@ -182,7 +182,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                       maxLen: 10,
                                       inputType: TextInputType.phone,
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 10,
                                     ),
                                     Row(
@@ -190,7 +190,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         selectDate(),
-                                        Text(
+                                        const Text(
                                           "|",
                                           style: TextStyle(
                                             fontSize: 40,
@@ -207,7 +207,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 10,
                                     ),
                                     Row(
@@ -221,7 +221,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                               style: style(Colors.white38),
                                               onPressed: () =>
                                                   Navigator.pop(context),
-                                              child: Icon(
+                                              child: const Icon(
                                                 Icons.close_rounded,
                                                 color: Colors.black,
                                               ),
@@ -231,7 +231,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                           height: 50,
                                           width: 120,
                                           child: _isLoading
-                                              ? SpinKitFadingCircle(
+                                              ? const SpinKitFadingCircle(
                                                   color: Colors.white60,
                                                   size: 20.0,
                                                 )
@@ -247,14 +247,14 @@ class _DetailScreenState extends State<DetailScreen> {
                                                         MainAxisAlignment
                                                             .center,
                                                     children: [
-                                                      Text(
+                                                      const Text(
                                                         "Save  ",
                                                         style: TextStyle(
                                                           color: Colors.black,
                                                           fontSize: 15,
                                                         ),
                                                       ),
-                                                      Icon(
+                                                      const Icon(
                                                         Icons.arrow_forward_ios,
                                                         color: Colors.black,
                                                         size: 18,
@@ -265,7 +265,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 15,
                                     ),
                                   ],
@@ -334,7 +334,7 @@ class _DetailScreenState extends State<DetailScreen> {
         child: DateTimePicker(
           calendarTitle: "Select Date Of Birth",
           decoration: InputDecoration(
-            prefixIcon: Icon(
+            prefixIcon: const Icon(
               Icons.date_range,
               color: Colors.black,
             ),
@@ -353,7 +353,7 @@ class _DetailScreenState extends State<DetailScreen> {
           initialValue: dob ?? "2000-05-07 18:51:51.502031",
           firstDate: DateTime(1850),
           lastDate: DateTime(2003),
-          icon: Icon(Icons.event),
+          icon: const Icon(Icons.event),
           dateLabelText: 'Date',
           timeLabelText: "Hour",
           onChanged: (val) => setState(() => dob = val),

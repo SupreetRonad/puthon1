@@ -71,7 +71,7 @@ class _QrScanningState extends State<QrScanning> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
             Row(
@@ -86,7 +86,7 @@ class _QrScanningState extends State<QrScanning> {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Text(
@@ -114,17 +114,18 @@ class _QrScanningState extends State<QrScanning> {
                     color: Colors.black54,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 15,
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      elevation: 10,
-                      primary: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      padding: EdgeInsets.symmetric(vertical: 10)),
+                    elevation: 10,
+                    primary: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                  ),
                   onPressed: true
                       ? () {
                           Navigator.push(
@@ -138,14 +139,14 @@ class _QrScanningState extends State<QrScanning> {
                           );
                         }
                       : scanQR,
-                  child: Icon(
+                  child: const Icon(
                     Icons.qr_code_scanner_rounded,
                     size: 30,
                   ),
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
           ],

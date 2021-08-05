@@ -66,7 +66,7 @@ class _BottomMenuState extends State<BottomMenu> {
         topRight: Radius.circular(20),
       ),
       body: loading
-          ? SpinKitFadingCircle(
+          ? const SpinKitFadingCircle(
               color: Colors.black87,
               size: 20,
             )
@@ -74,7 +74,7 @@ class _BottomMenuState extends State<BottomMenu> {
               children: [
                 Row(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       width: 15,
                     ),
                     Column(
@@ -84,7 +84,7 @@ class _BottomMenuState extends State<BottomMenu> {
                           width: MediaQuery.of(context).size.width - 125,
                           child: Text(
                             HomeScreen.resName ?? "RESTUARANT NAME",
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.black54,
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -94,12 +94,12 @@ class _BottomMenuState extends State<BottomMenu> {
                             softWrap: false,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                         Text(
                           "Table. " + HomeScreen.table,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black38,
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
@@ -107,7 +107,7 @@ class _BottomMenuState extends State<BottomMenu> {
                         ),
                       ],
                     ),
-                    Spacer(),
+                    const Spacer(),
                     StreamBuilder(
                         stream: FirebaseFirestore.instance
                             .collection('orders')
@@ -116,7 +116,7 @@ class _BottomMenuState extends State<BottomMenu> {
                         builder: (context, AsyncSnapshot snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return Text(
+                            return const Text(
                               "Loading...",
                               style: TextStyle(
                                 color: Colors.black54,
@@ -125,7 +125,7 @@ class _BottomMenuState extends State<BottomMenu> {
                             );
                           }
                           if (!snapshot.hasData || snapshot.hasError) {
-                            return Center(
+                            return const Center(
                               child: Text(
                                 "No Active Orders...",
                                 style: TextStyle(
@@ -183,7 +183,7 @@ class _BottomMenuState extends State<BottomMenu> {
                                   color: Colors.green,
                                   size: 19,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
                                 Text(
@@ -198,7 +198,7 @@ class _BottomMenuState extends State<BottomMenu> {
                             ),
                           );
                         }),
-                    SizedBox(
+                    const SizedBox(
                       width: 15,
                     ),
                   ],
@@ -211,7 +211,7 @@ class _BottomMenuState extends State<BottomMenu> {
                       .snapshots(),
                   builder: (context, AsyncSnapshot snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Padding(
+                      return const Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: Center(
                           child: Text(
@@ -227,7 +227,7 @@ class _BottomMenuState extends State<BottomMenu> {
                     if (!snapshot.hasData ||
                         snapshot.hasError ||
                         snapshot.data.docs.length == 0) {
-                      return Expanded(
+                      return const Expanded(
                         child: Center(
                           child: Text(
                             "No Orders Placed Yet...",
@@ -280,13 +280,13 @@ class _BottomMenuState extends State<BottomMenu> {
                     .snapshots(),
                 builder: (context, AsyncSnapshot snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return SpinKitFadingCircle(
+                    return const SpinKitFadingCircle(
                       color: Colors.green,
                       size: 20,
                     );
                   }
                   if (!snapshot.hasData) {
-                    return Text(
+                    return const Text(
                       "No Items...",
                       style: TextStyle(fontSize: 20),
                     );
@@ -313,7 +313,7 @@ class _BottomMenuState extends State<BottomMenu> {
                               borderRadius: BorderRadius.circular(100),
                             ),
                           ),
-                          Padding(
+                          const Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Text(
                               "Menu",
@@ -333,7 +333,7 @@ class _BottomMenuState extends State<BottomMenu> {
                               itemBuilder: (BuildContext context, int index) {
                                 var item = snapshot.data.docs[index];
                                 return !item['inMenu']
-                                    ? SizedBox()
+                                    ? const SizedBox()
                                     : Padding(
                                         padding: const EdgeInsets.fromLTRB(
                                             8, 0, 8, 0),

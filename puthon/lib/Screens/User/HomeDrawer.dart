@@ -47,7 +47,9 @@ class _HomeDrawerState extends State<HomeDrawer> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   displayInfo(info),
-                  SizedBox(height: 10,),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   drawerButton(
                     "Edit profile",
                     icon: Icons.border_color,
@@ -59,12 +61,11 @@ class _HomeDrawerState extends State<HomeDrawer> {
                     "My Orders",
                     icon: Icons.list_alt,
                     func: () {
-                      Navigator.pushNamed(
-                          context, '/ordersHistory');
+                      Navigator.pushNamed(context, '/ordersHistory');
                     },
                   ),
                   info['admin']
-                      ? SizedBox()
+                      ? const SizedBox()
                       : drawerButton(
                           "Register business",
                           icon: Icons.business,
@@ -78,8 +79,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                       "Admin Mode",
                       icon: Icons.how_to_reg,
                       func: () {
-                        Navigator.pushNamed(
-                            context, '/adminScreen');
+                        Navigator.pushNamed(context, '/adminScreen');
                       },
                     ),
                   if (info["cook"])
@@ -99,14 +99,14 @@ class _HomeDrawerState extends State<HomeDrawer> {
                       },
                       primary: Colors.red,
                     ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   CircleAvatar(
                     backgroundColor: Colors.white,
                     child: IconButton(
                       onPressed: () => Navigator.pop(context),
-                      icon: Icon(Icons.close),
+                      icon: const Icon(Icons.close),
                       splashRadius: 25,
                       color: Colors.black87,
                     ),
@@ -142,20 +142,19 @@ class _HomeDrawerState extends State<HomeDrawer> {
             height: 30,
             child: Row(
               children: [
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 Icon(
                   icon,
                   size: 15,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 Text(
                   name,
                 ),
-
               ],
             ),
           ),
@@ -202,12 +201,12 @@ class _HomeDrawerState extends State<HomeDrawer> {
                         overflow: TextOverflow.ellipsis,
                         softWrap: false,
                         maxLines: 1,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 3,
                       ),
                       Text(
@@ -215,7 +214,10 @@ class _HomeDrawerState extends State<HomeDrawer> {
                         overflow: TextOverflow.ellipsis,
                         softWrap: false,
                         maxLines: 1,
-                        style: TextStyle(fontSize: 13, color: Colors.black45),
+                        style: const TextStyle(
+                          fontSize: 13,
+                          color: Colors.black45,
+                        ),
                       ),
                     ],
                   ),
@@ -268,10 +270,12 @@ class _HomeDrawerState extends State<HomeDrawer> {
                     fontSize: 20,
                   ),
                 ),
-                Divider(),
-                SizedBox(height: 5,),
-                Text("Do you really want to logout ?"),
-                SizedBox(
+                const Divider(),
+                const SizedBox(
+                  height: 5,
+                ),
+                const Text("Do you really want to logout ?"),
+                const SizedBox(
                   height: 10,
                 ),
                 Text(

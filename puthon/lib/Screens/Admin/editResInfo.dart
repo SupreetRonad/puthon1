@@ -60,7 +60,7 @@ class _EditResInfoState extends State<EditResInfo> {
                 .snapshots(),
             builder: (context, AsyncSnapshot snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
+                return const Center(
                   child: Text(
                     "Please wait...",
                     style: TextStyle(
@@ -90,10 +90,10 @@ class _EditResInfoState extends State<EditResInfo> {
                   key: _formkey,
                   child: Column(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 15,
                       ),
-                      Text(
+                      const Text(
                         "Edit Info",
                         style: TextStyle(
                           color: Colors.black54,
@@ -101,7 +101,7 @@ class _EditResInfoState extends State<EditResInfo> {
                           fontSize: 20,
                         ),
                       ),
-                      Divider(),
+                      const Divider(),
                       ClipRRect(
                         borderRadius: BorderRadius.circular(15),
                         child: TextFormField(
@@ -133,7 +133,7 @@ class _EditResInfoState extends State<EditResInfo> {
                           },
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       ClipRRect(
@@ -167,12 +167,12 @@ class _EditResInfoState extends State<EditResInfo> {
                           },
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Container(
                         width: MediaQuery.of(context).size.width * .65,
-                        child: Text(
+                        child: const Text(
                           "Note : Please consult our team to change other informations.",
                           style: TextStyle(
                             color: Colors.black38,
@@ -180,13 +180,15 @@ class _EditResInfoState extends State<EditResInfo> {
                           ),
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Container(
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(colors: [
-                            Colors.orangeAccent,
-                            Colors.deepOrange[300]!
-                          ]),
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.orangeAccent,
+                              Colors.deepOrange[300]!
+                            ],
+                          ),
                           borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(20),
                             bottomRight: Radius.circular(20),
@@ -200,11 +202,11 @@ class _EditResInfoState extends State<EditResInfo> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.save),
-                              SizedBox(
+                              const Icon(Icons.save),
+                              const SizedBox(
                                 width: 10,
                               ),
-                              Text("Save"),
+                              const Text("Save"),
                             ],
                           ),
                         ),

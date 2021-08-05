@@ -60,39 +60,39 @@ class _CartButtonState extends State<CartButton> {
             padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
-                Icon(Icons.shopping_cart),
-                SizedBox(
+                const Icon(Icons.shopping_cart),
+                const SizedBox(
                   width: 10,
                 ),
-                Text(
+                const Text(
                   "Cart",
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Spacer(),
+                const Spacer(),
                 IconButton(
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    icon: Icon(Icons.close))
+                    icon: const Icon(Icons.close))
               ],
             ),
           ),
           Container(
             child: loading
-                ? SpinKitFadingCircle(
+                ? const SpinKitFadingCircle(
                     color: Colors.black87,
                   )
                 : HomeScreen.list.length == 0
                     ? Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 100,
                           ),
                           Lottie.asset(
@@ -100,7 +100,7 @@ class _CartButtonState extends State<CartButton> {
                             height: 150,
                             //repeat: false,
                           ),
-                          Text(
+                          const Text(
                             "Cart is empty",
                             style: TextStyle(color: Colors.black54),
                           ),
@@ -130,20 +130,20 @@ class _CartButtonState extends State<CartButton> {
                         ),
                       ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           if (HomeScreen.list.length != 0)
             Row(
               children: [
-                SizedBox(
+                const SizedBox(
                   width: 15,
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       "Total : ",
                       style: TextStyle(
                         color: Colors.grey,
@@ -153,7 +153,7 @@ class _CartButtonState extends State<CartButton> {
                     ),
                     Text(
                       "Rs. " + sum.toString(),
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.green,
                         fontWeight: FontWeight.bold,
                         fontSize: 25,
@@ -161,7 +161,7 @@ class _CartButtonState extends State<CartButton> {
                     ),
                   ],
                 ),
-                Spacer(),
+                const Spacer(),
                 StreamBuilder(
                     stream: FirebaseFirestore.instance
                         .collection('orders')
@@ -169,10 +169,10 @@ class _CartButtonState extends State<CartButton> {
                         .snapshots(),
                     builder: (context, AsyncSnapshot snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Text("Please wait...");
+                        return const Text("Please wait...");
                       }
                       if (!snapshot.hasData || snapshot.hasError) {
-                        return Center(
+                        return const Center(
                           child: Text(
                             "Please wait...",
                             style: TextStyle(
@@ -187,7 +187,7 @@ class _CartButtonState extends State<CartButton> {
                           primary: snapshot.data['ordered']
                               ? Colors.grey[300]
                               : Colors.green[300],
-                          textStyle: TextStyle(color: Colors.white),
+                          textStyle: const TextStyle(color: Colors.white),
                           padding: EdgeInsets.symmetric(
                               horizontal: 20, vertical: 14),
                           shape: RoundedRectangleBorder(
@@ -227,7 +227,7 @@ class _CartButtonState extends State<CartButton> {
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
-                                            Divider(),
+                                            const Divider(),
                                             Text(
                                               "Do you want to place your order ?",
                                               style: GoogleFonts.roboto(
@@ -237,7 +237,7 @@ class _CartButtonState extends State<CartButton> {
                                               ),
                                               textAlign: TextAlign.center,
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               height: 5,
                                             ),
                                             Text(
@@ -376,16 +376,16 @@ class _CartButtonState extends State<CartButton> {
                               },
                         child: Row(
                           children: [
-                            Text(
+                            const Text(
                               "Place Order",
                               style: TextStyle(
                                 color: Colors.white,
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
-                            Icon(
+                            const Icon(
                               Icons.arrow_forward,
                               color: Colors.white,
                             )
@@ -393,10 +393,10 @@ class _CartButtonState extends State<CartButton> {
                         ),
                       );
                     }),
-                SizedBox(width: 15),
+                const SizedBox(width: 15),
               ],
             ),
-          SizedBox(height: 15),
+          const SizedBox(height: 15),
         ],
       ),
     );

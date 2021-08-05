@@ -85,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
               return LoadingScreen();
             }
             if (!snapshot.hasData || snapshot.hasError) {
-              return Center(
+              return const Center(
                 child: Text(
                   "Loading...",
                   style: TextStyle(
@@ -115,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                         );
                       },
-                      child: Icon(
+                      child: const Icon(
                         Icons.shopping_cart,
                         size: 20,
                       ),
@@ -127,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 title: const Text("PUTHON"),
               ),
               body: snapshot.data['scanned'] == 0
-                  ? SpinKitFadingCircle(color: Colors.black, size: 20)
+                  ? const SpinKitFadingCircle(color: Colors.black, size: 20)
                   : snapshot.data['scanned'] == 1
                       ? QrScanning()
                       : BottomMenu(

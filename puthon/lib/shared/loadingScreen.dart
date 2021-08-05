@@ -10,11 +10,11 @@ class LoadingScreen extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SpinKitFadingCircle(
+          const SpinKitFadingCircle(
             color: Colors.black,
             size: 40,
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Text(

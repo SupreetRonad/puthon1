@@ -24,13 +24,13 @@ class _AboutBusinessState extends State<AboutBusiness> {
           .snapshots(),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return SpinKitFadingCircle(
+          return const SpinKitFadingCircle(
             color: Colors.black54,
             size: 20,
           );
         }
         if (!snapshot.hasData) {
-          return Center(
+          return const Center(
             child: Text("Cannot fetch the details at the moment"),
           );
         }
@@ -38,7 +38,7 @@ class _AboutBusinessState extends State<AboutBusiness> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
               Container(
@@ -60,20 +60,20 @@ class _AboutBusinessState extends State<AboutBusiness> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Divider(),
+                    const Divider(),
                     displayInfo("Building info : ", snapshot.data["building"]),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     displayInfo("Street : ", snapshot.data["street"]),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     displayInfo(
                       "State : ",
                       snapshot.data["state"] + ', ' + snapshot.data["country"],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     displayInfo("Pincode : ", snapshot.data["pincode"]),
@@ -84,7 +84,7 @@ class _AboutBusinessState extends State<AboutBusiness> {
                 head: 'Edit',
                 subHead: 'Edit your business\' info.',
                 icon: Icons.border_color,
-                dialog: EditResInfo(),
+                dialog: const EditResInfo(),
               ),
               tileButton(
                 head: 'QR Code',
@@ -103,13 +103,13 @@ class _AboutBusinessState extends State<AboutBusiness> {
         children: [
           Text(
             head,
-            style: TextStyle(fontSize: 13, color: Colors.black54
+            style: const TextStyle(fontSize: 13, color: Colors.black54
                 //fontWeight: FontWeight.bold,
                 ),
           ),
           Text(
             value,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 15,
             ),
@@ -146,7 +146,7 @@ class _AboutBusinessState extends State<AboutBusiness> {
                 icon,
                 size: 30,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 15,
               ),
               Column(
@@ -154,18 +154,18 @@ class _AboutBusinessState extends State<AboutBusiness> {
                 children: [
                   Text(
                     head,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.black87,
                       fontSize: 17,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Text(
                     subHead,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.black54,
                       fontSize: 13,
                     ),

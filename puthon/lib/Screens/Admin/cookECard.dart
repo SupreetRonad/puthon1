@@ -27,7 +27,7 @@ class CookECard extends StatelessWidget {
                 children: [
                   Container(
                     width: 60,
-                    padding: EdgeInsets.all(5),
+                    padding: const EdgeInsets.all(5),
                     decoration: BoxDecoration(
                         color: Colors.yellow,
                         borderRadius: BorderRadius.circular(100)),
@@ -37,7 +37,7 @@ class CookECard extends StatelessWidget {
                           : "assets/images/male2.png",
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   Expanded(
@@ -50,7 +50,7 @@ class CookECard extends StatelessWidget {
                             overflow: TextOverflow.fade,
                             softWrap: false,
                             maxLines: 1,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 20,
                               color: Colors.black,
                             ),
@@ -58,7 +58,7 @@ class CookECard extends StatelessWidget {
                         ),
                         Text(
                           doc['email'],
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 13,
                             color: Colors.black45,
                           ),
@@ -81,20 +81,20 @@ class CookECard extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 width: 13,
                               ),
-                              Icon(
+                              const Icon(
                                 Icons.phone,
                                 size: 15,
                                 color: Colors.black54,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 5,
                               ),
                               Text(
                                 doc['phone'],
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 13,
                                   color: Colors.black54,
                                   fontWeight: FontWeight.w600,
@@ -102,25 +102,25 @@ class CookECard extends StatelessWidget {
                               ),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 5,
                           ),
                           Row(
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 width: 13,
                               ),
-                              Icon(
+                              const Icon(
                                 Icons.date_range,
                                 size: 15,
                                 color: Colors.black54,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 5,
                               ),
                               Text(
                                 doc['dob'],
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 13,
                                   color: Colors.black54,
                                   fontWeight: FontWeight.w600,
@@ -128,12 +128,12 @@ class CookECard extends StatelessWidget {
                               ),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                         ],
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Container(
                         height: 40,
                         decoration: BoxDecoration(
@@ -216,13 +216,13 @@ class CookECard extends StatelessWidget {
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      Divider(),
+                                      const Divider(),
                                       Text("Do you really want to " +
                                           (flag ? "Add" : "Remove") +
                                           " the cook"),
                                       Text(
                                         "${doc["name"]} ?",
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           color: Colors.black87,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 18,
@@ -243,12 +243,12 @@ class CookECard extends StatelessWidget {
                                 size: 20,
                                 color: Colors.white,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 5,
                               ),
                               Text(
                                 flag ? "Add Cook" : "Remove",
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.white,
                                 ),
                               ),

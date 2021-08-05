@@ -32,8 +32,8 @@ class _AdminCooksListState extends State<AdminCooksList> {
             onPressed: () {
               _addCook(query);
             },
-            icon: Icon(Icons.add),
-            label: Text(
+            icon: const Icon(Icons.add),
+            label: const Text(
               "Add Cook",
             ),
           ),
@@ -48,13 +48,13 @@ class _AdminCooksListState extends State<AdminCooksList> {
                   .snapshots(),
               builder: (context,AsyncSnapshot snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return SpinKitFadingCircle(
+                  return const SpinKitFadingCircle(
                     color: Colors.black54,
                     size: 20,
                   );
                 }
                 if (!snapshot.hasData) {
-                  return Text(
+                  return const Text(
                     "Please Add cooks...",
                     style: TextStyle(fontSize: 20),
                   );
@@ -80,7 +80,7 @@ class _AdminCooksListState extends State<AdminCooksList> {
                             );
                           }
                           if (!snapshot1.hasData) {
-                            return Center(
+                            return const Center(
                               child: Text(
                                 "Loading...",
                                 style: TextStyle(fontSize: 20),
@@ -126,7 +126,7 @@ class _AdminCooksListState extends State<AdminCooksList> {
                   width: MediaQuery.of(context).size.width * .8,
                   child: Column(
                     children: [
-                      Text(
+                      const Text(
                         "Add Cook",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 17),
@@ -146,7 +146,7 @@ class _AdminCooksListState extends State<AdminCooksList> {
                               });
                             },
                             textInputAction: TextInputAction.search,
-                            key: ValueKey('cook'),
+                            key: const ValueKey('cook'),
                             keyboardType: TextInputType.text,
                             decoration: textField.copyWith(
                               hintText: "Search User...",
@@ -169,7 +169,7 @@ class _AdminCooksListState extends State<AdminCooksList> {
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
-                              return SpinKitFadingCircle(
+                              return const SpinKitFadingCircle(
                                 color: Colors.black,
                                 size: 20,
                               );
@@ -192,7 +192,7 @@ class _AdminCooksListState extends State<AdminCooksList> {
                                               height: 200,
                                               repeat: false,
                                             ),
-                                            Text(
+                                            const Text(
                                               "Role as Cook given!",
                                               style: TextStyle(
                                                   color: Colors.black54),
@@ -216,10 +216,10 @@ class _AdminCooksListState extends State<AdminCooksList> {
                                   height: 150,
                                   repeat: false,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 15,
                                 ),
-                                Text(
+                                const Text(
                                   "No results found...",
                                   style: TextStyle(
                                     color: Colors.black45,

@@ -26,21 +26,21 @@ class _CartCardState extends State<CartCard> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width - 12,
                   child: Row(
                     children: [
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Icon(
                         Icons.radio_button_checked,
                         color: widget.veg ? Colors.green : Colors.red,
                       ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Container(
-                        constraints: BoxConstraints(maxWidth: 270),
+                        constraints: const BoxConstraints(maxWidth: 270),
                         width: MediaQuery.of(context).size.width * 0.55,
                         child: Text(
                           widget.itemName,
@@ -53,7 +53,7 @@ class _CartCardState extends State<CartCard> {
                           ),
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Container(
                         padding: EdgeInsets.fromLTRB(10, 0, 15, 5),
                         child: Text(
@@ -69,7 +69,7 @@ class _CartCardState extends State<CartCard> {
                     ],
                   ),
                 ),
-                Spacer(),
+                const Spacer(),
                 Container(
                   width: MediaQuery.of(context).size.width - 12,
                   child: Container(
@@ -79,18 +79,18 @@ class _CartCardState extends State<CartCard> {
                           padding: EdgeInsets.fromLTRB(45, 0, 0, 5),
                           child: Text(
                             "Rs. " + widget.price,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 15,
                                 color: Colors.black,
                                 fontWeight: FontWeight.normal),
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Container(
-                          padding: EdgeInsets.fromLTRB(45, 0, 15, 5),
+                          padding: const EdgeInsets.fromLTRB(45, 0, 15, 5),
                           child: Text(
                             "x " + widget.quantity.toString(),
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 17,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold),
@@ -100,7 +100,7 @@ class _CartCardState extends State<CartCard> {
                     ),
                   ),
                 ),
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,

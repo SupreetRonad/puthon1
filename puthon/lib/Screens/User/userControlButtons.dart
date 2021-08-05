@@ -79,7 +79,7 @@ class _UserControlButtonsState extends State<UserControlButtons> {
                   removeItem(widget.itemName, count);
                 });
               },
-              icon: Icon(Icons.remove),
+              icon: const Icon(Icons.remove),
             ),
           count > 0
               ? SizedBox(
@@ -94,8 +94,8 @@ class _UserControlButtonsState extends State<UserControlButtons> {
                   style: TextButton.styleFrom(
                     primary: Colors.white,
                   ),
-                  icon: Icon(Icons.add),
-                  label: Text("Add"),
+                  icon: const Icon(Icons.add),
+                  label: const Text("Add"),
                   onPressed: () {
                     setState(() {
                       count = count + 1;
@@ -111,7 +111,7 @@ class _UserControlButtonsState extends State<UserControlButtons> {
                   addItem(widget.itemName, count);
                 });
               },
-              icon: Icon(Icons.add),
+              icon: const Icon(Icons.add),
             ),
         ],
       ),

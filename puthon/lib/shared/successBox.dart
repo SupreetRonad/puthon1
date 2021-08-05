@@ -22,7 +22,7 @@ class SuccessBox extends StatelessWidget {
               repeat: false,
               height: 70,
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             Text(
@@ -43,7 +43,7 @@ class SuccessBox extends StatelessWidget {
               Text(
                 "\n\t${msg2}",
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style:const  TextStyle(
                   color: Colors.black54,
                   fontSize: 13,
                 ),
@@ -65,7 +65,7 @@ class SuccessBox extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     'OK',
                     style: TextStyle(
                       color: Colors.white,
