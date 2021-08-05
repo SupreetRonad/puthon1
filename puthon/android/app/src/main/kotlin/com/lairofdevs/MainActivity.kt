@@ -1,4 +1,4 @@
-package com.example.puthon
+package com.lairofdevs.puthon
 
 import io.flutter.embedding.android.FlutterActivity
 
