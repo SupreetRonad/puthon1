@@ -60,7 +60,6 @@ class _AuthScreenState extends State<AuthScreen> {
           password: _pass.text.trim(),
         );
 
-
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -105,7 +104,7 @@ class _AuthScreenState extends State<AuthScreen> {
       setState(() {
         _isLoading = false;
       });
-    } 
+    }
   }
 
   @override
@@ -187,70 +186,55 @@ class _AuthScreenState extends State<AuthScreen> {
                         Row(
                           children: [
                             const Spacer(),
-                            Container(
-                              height: 60,
-                              width: !isLogin ? 160 : 80,
-                              child: Card(
-                                shadowColor: Colors.amber.withOpacity(.5),
-                                color: Colors.amber.withOpacity(1),
-                                elevation: 8,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                ),
-                                child: !isLogin
-                                    ? TextButton(
-                                        onPressed: _isLoading
-                                            ? null
-                                            : () {
-                                                _trySubmit(
-                                                  false,
-                                                  context,
-                                                );
-                                              },
-                                        child: _isLoading
-                                            ? const SpinKitFadingCircle(
-                                                color: Colors.white,
-                                                size: 20.0,
-                                              )
-                                            : Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  const Text(
-                                                    "Register  ",
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 15,
-                                                    ),
-                                                  ),
-                                                  const Icon(
-                                                    Icons.arrow_forward,
-                                                    color: Colors.white,
-                                                  ),
-                                                ],
-                                              ),
-                                      )
-                                    : TextButton(
-                                        onPressed: _isLoading
-                                            ? null
-                                            : () {
-                                                _trySubmit(
-                                                  true,
-                                                  context,
-                                                );
-                                              },
-                                        child: _isLoading
-                                            ? const SpinKitFadingCircle(
-                                                color: Colors.white,
-                                                size: 20.0,
-                                              )
-                                            : const Icon(
-                                                Icons.arrow_forward,
-                                                color: Colors.white,
-                                              ),
+                            _isLoading
+                                ? SizedBox(
+                                  width: 80,
+                                  child: const SpinKitFadingCircle(
+                                      color: Colors.white,
+                                      size: 20.0,
+                                    ),
+                                )
+                                : ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      elevation: 5,
+                                      primary: Colors.amber,
+                                      shadowColor: Colors.amber[700]!.withOpacity(0.6),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(20),
                                       ),
-                              ),
-                            ),
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 20,
+                                        vertical: 15,
+                                      ),
+                                    ),
+                                    onPressed: _isLoading
+                                        ? null
+                                        : () {
+                                            _trySubmit(
+                                              !isLogin ? false : true,
+                                              context,
+                                            );
+                                          },
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        if (!isLogin)
+                                          const Text(
+                                            "Register  ",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                        const Icon(
+                                          Icons.arrow_forward,
+                                          color: Colors.white,
+                                          size: 20,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                           ],
                         ),
                         const SizedBox(height: 30),
