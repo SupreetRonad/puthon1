@@ -30,11 +30,11 @@ class _DetailScreenState extends State<DetailScreen> {
         .then((value) {
       if (value.exists) {
         setState(() {
-          _name.text = value.data()!["name"];
-          _phone.text = value.data()!["phone"];
-          dob = value.data()!["dob"];
-          gender = value.data()!["gender"];
-          register = value.data()!["register"];
+          _name.text = value.data()!["name"] ?? '';
+          _phone.text = value.data()!["phone"] ?? '';
+          dob = value.data()!["dob"] ?? '';
+          gender = value.data()!["gender"] ?? 0;
+          register = value.data()!["register"] ?? true;
           _isLoading1 = false;
         });
       }
@@ -178,6 +178,9 @@ class _DetailScreenState extends State<DetailScreen> {
                                       label: 'Phone',
                                       preIcon: Icons.phone,
                                       bgColor: Colors.white70,
+                                      preText: '+91 ',
+                                      maxLen: 10,
+                                      inputType: TextInputType.phone,
                                     ),
                                     SizedBox(
                                       height: 10,

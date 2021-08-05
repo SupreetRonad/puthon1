@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:puthon/Screens/User/homeScreen.dart';
+import 'package:puthon/Screens/divergeScreen.dart';
 import 'package:puthon/shared/showMsg.dart';
 import 'dart:ui';
 import '/shared/textField.dart';
@@ -60,14 +61,14 @@ class _AuthScreenState extends State<AuthScreen> {
           password: _pass.text.trim(),
         );
 
-        await _store.collection('users').doc(_userCreds.user!.uid).update(
-          {'register': false},
-        );
+        // await _store.collection('users').doc(_userCreds.user!.uid).update(
+        //   {'register': false},
+        // );
 
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (builder) => HomeScreen(),
+            builder: (builder) => DivergeScreen(),
           ),
         );
       } else {
