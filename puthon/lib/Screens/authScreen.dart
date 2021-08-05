@@ -187,7 +187,7 @@ class _AuthScreenState extends State<AuthScreen> {
               : ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     elevation: 5,
-                    primary: Colors.amber,
+                    primary: Colors.amber[600],
                     shadowColor: Colors.amber[700]!.withOpacity(0.6),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
@@ -252,7 +252,12 @@ class _AuthScreenState extends State<AuthScreen> {
   Widget changeAuthType() => Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(!isLogin ? "Already registered ? " : "Don't have an account ? "),
+          Text(
+            !isLogin ? "Already registered ? " : "Don't have an account ? ",
+            style: TextStyle(
+              color: Colors.black54,
+            ),
+          ),
           GestureDetector(
             onTap: () {
               setState(() {
