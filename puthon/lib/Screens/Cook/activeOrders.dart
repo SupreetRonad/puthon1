@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:puthon/Screens/User/homeScreen.dart';
+import 'package:puthon/shared/infoProvider.dart';
 import 'package:puthon/shared/orderCard.dart';
 
 class ActiveOrders extends StatelessWidget {
@@ -29,7 +29,7 @@ class ActiveOrders extends StatelessWidget {
         body: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('admins')
-              .doc(HomeScreen.resId)
+              .doc(Info.resId)
               .collection('activeOrders')
               .where("flag", isEqualTo: 0)
               .snapshots(),
@@ -41,9 +41,8 @@ class ActiveOrders extends StatelessWidget {
               );
             }
             if (!snapshot.hasData ||
-                snapshot.hasError ||
-                (snapshot.data.docs.length == 0)) {
-              log('2nd stream' + HomeScreen.resId);
+                snapshot.hasError ) {
+              log('2nd stream  --  ' + Info.resId);
               return const Center(
                 child: Text(
                   "No Active Orders...",

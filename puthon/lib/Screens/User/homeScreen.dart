@@ -28,7 +28,7 @@ class HomeScreen extends StatefulWidget {
 
 var scanned = 0;
 
-late String cameraScanResult, qrContent;
+late String? cameraScanResult, qrContent;
 Uint8List result = Uint8List(0);
 
 class _HomeScreenState extends State<HomeScreen> {

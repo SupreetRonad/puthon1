@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -26,12 +24,11 @@ class _CookScreenState extends State<CookScreen> {
           return LoadingScreen();
         }
         if (!snapshot.hasData || snapshot.hasError) {
-          log('1st stream' + snapshot.error.toString());
           return const Center(
             child: Text(
               "No Active Orders...",
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 15,
               ),
             ),
           );

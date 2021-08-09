@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:puthon/Screens/User/paymentGateway.dart';
+import 'package:puthon/shared/infoProvider.dart';
+import 'package:puthon/shared/showMsg.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 
 import 'homeScreen.dart';
@@ -15,28 +18,30 @@ class QrScanning extends StatefulWidget {
 
 class _QrScanningState extends State<QrScanning> {
   void scanQR() async {
-    cameraScanResult = await scanner.scan() ?? '';
+    log("entered");
+    try {
+      cameraScanResult = await scanner.scan();
+    } catch (e) {
+      showSnack(context, 'Invalid QR');
+    }
 
-    if (cameraScanResult.split("/*/").length == 2) {
+    log(cameraScanResult ?? 'Null');
+
+    if (cameraScanResult!.split("/*/").length == 2) {
+      log('Check');
       await FirebaseFirestore.instance
           .collection('admins')
-          .doc(cameraScanResult.split("/*/")[1])
+          .doc(cameraScanResult!.split("/*/")[1])
           .get()
           .then((value) {
         if (value.exists) {
           HomeScreen.resName = value['resName'];
-          HomeScreen.resId = cameraScanResult.split("/*/")[1];
-          HomeScreen.table = cameraScanResult.split("/*/")[0];
-          FirebaseFirestore.instance
-              .collection('users')
-              .doc(FirebaseAuth.instance.currentUser!.uid)
-              .update({
+          HomeScreen.resId = cameraScanResult!.split("/*/")[1];
+          HomeScreen.table = cameraScanResult!.split("/*/")[0];
+          FirebaseFirestore.instance.collection('users').doc(Info.uid).update({
             'scanned': 2,
           });
-          FirebaseFirestore.instance
-              .collection('orders')
-              .doc(FirebaseAuth.instance.currentUser!.uid)
-              .set({
+          FirebaseFirestore.instance.collection('orders').doc(Info.uid).set({
             'resId': HomeScreen.resId,
             'table': HomeScreen.table,
             'resName': HomeScreen.resName,
@@ -51,7 +56,7 @@ class _QrScanningState extends State<QrScanning> {
               .doc(HomeScreen.table)
               .set({
             'table': HomeScreen.table,
-            'customerId': FirebaseAuth.instance.currentUser!.uid,
+            'customerId': Info.uid,
             'timeEntered': DateTime.now(),
           });
           scanned = 2;
@@ -126,7 +131,7 @@ class _QrScanningState extends State<QrScanning> {
                     ),
                     padding: const EdgeInsets.symmetric(vertical: 10),
                   ),
-                  onPressed: true
+                  onPressed: false
                       ? () {
                           Navigator.push(
                             context,

@@ -103,7 +103,6 @@ class _HomeDrawerState extends State<HomeDrawer> {
         ),
       ),
     );
-    ;
   }
 
   Widget drawerButton(

@@ -7,6 +7,7 @@ import 'package:puthon/Screens/User/paymentGateway.dart';
 import 'package:puthon/Shared/orderCard.dart';
 import 'package:puthon/Shared/itemCard.dart';
 import 'package:puthon/Shared/loadingScreen.dart';
+import 'package:puthon/shared/infoProvider.dart';
 import 'package:puthon/shared/showMsg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -28,7 +29,7 @@ class _BottomMenuState extends State<BottomMenu> {
   void initState() {
     FirebaseFirestore.instance
         .collection('orders')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .doc(Info.uid)
         .get()
         .then((value) {
       if (value.exists) {
@@ -111,7 +112,7 @@ class _BottomMenuState extends State<BottomMenu> {
                     StreamBuilder(
                         stream: FirebaseFirestore.instance
                             .collection('orders')
-                            .doc(FirebaseAuth.instance.currentUser!.uid)
+                            .doc(Info.uid)
                             .snapshots(),
                         builder: (context, AsyncSnapshot snapshot) {
                           if (snapshot.connectionState ==
@@ -149,8 +150,7 @@ class _BottomMenuState extends State<BottomMenu> {
                                 ? () async {
                                     await FirebaseFirestore.instance
                                         .collection('users')
-                                        .doc(FirebaseAuth
-                                            .instance.currentUser!.uid)
+                                        .doc(Info.uid)
                                         .update({'scanned': 1});
                                   }
                                 : () {
@@ -206,8 +206,8 @@ class _BottomMenuState extends State<BottomMenu> {
                 StreamBuilder(
                   stream: FirebaseFirestore.instance
                       .collection('orders')
-                      .doc(FirebaseAuth.instance.currentUser!.uid)
-                      .collection(FirebaseAuth.instance.currentUser!.uid)
+                      .doc(Info.uid)
+                      .collection(Info.uid)
                       .snapshots(),
                   builder: (context, AsyncSnapshot snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
@@ -269,7 +269,7 @@ class _BottomMenuState extends State<BottomMenu> {
       maxHeight: MediaQuery.of(context).size.height - 155,
       panel: Container(
         width: double.infinity,
-        child: scanned != 2
+        child: Info.scanned != 2
             ? LoadingScreen()
             : StreamBuilder(
                 stream: FirebaseFirestore.instance
