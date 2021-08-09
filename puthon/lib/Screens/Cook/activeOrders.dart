@@ -29,7 +29,7 @@ class ActiveOrders extends StatelessWidget {
         body: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('admins')
-              .doc(Info.resId)
+              .doc(Info.resId.substring(0,28))
               .collection('activeOrders')
               .where("flag", isEqualTo: 0)
               .snapshots(),
@@ -41,7 +41,8 @@ class ActiveOrders extends StatelessWidget {
               );
             }
             if (!snapshot.hasData ||
-                snapshot.hasError ) {
+                snapshot.hasError ||
+                (snapshot.data.docs.length == 0)) {
               log('2nd stream  --  ' + Info.resId);
               return const Center(
                 child: Text(
@@ -60,8 +61,8 @@ class ActiveOrders extends StatelessWidget {
                 ),
                 itemCount: snapshot.data.docs.length,
                 itemBuilder: (BuildContext context, int index) {
-                  var order = snapshot.data.docs[index];
-                  return order(order);
+                  QueryDocumentSnapshot order1 = snapshot.data.docs[index];
+                  return order(order1);
                 },
               );
             }
@@ -71,7 +72,7 @@ class ActiveOrders extends StatelessWidget {
     );
   }
 
-  Widget order(var order) => StreamBuilder(
+  Widget order(QueryDocumentSnapshot order) => StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('orders')
             .doc(order['customerId'])

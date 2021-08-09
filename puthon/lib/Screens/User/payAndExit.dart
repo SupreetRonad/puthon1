@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:puthon/shared/infoProvider.dart';
 
 import 'cartButton.dart';
 import 'homeScreen.dart';
@@ -28,6 +29,7 @@ Future<void> PayAndExit(var prefs, Function refresh) async {
 
   refresh();
   cameraScanResult = '';
+  Info.scanned = 1;
 
   var data = await FirebaseFirestore.instance
       .collection('orders')
@@ -128,4 +130,6 @@ Future<void> PayAndExit(var prefs, Function refresh) async {
           .delete();
     });
   });
+
+  
 }
