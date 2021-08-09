@@ -5,7 +5,9 @@ import 'package:date_time_picker/date_time_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:puthon/Screens/User/homeScreen.dart';
 import 'package:puthon/Shared/loadingScreen.dart';
+import 'package:puthon/shared/pagesurf.dart';
 import 'package:puthon/shared/showMsg.dart';
 import 'package:puthon/shared/textField.dart';
 
@@ -68,6 +70,7 @@ class _DetailScreenState extends State<DetailScreen> {
           'register': false,
           'scanned': 1,
         });
+        replacePage(context, HomeScreen());
       } else {
         await FirebaseFirestore.instance
             .collection('users')
@@ -79,13 +82,10 @@ class _DetailScreenState extends State<DetailScreen> {
           'gender': gender,
           'register': false,
         });
+        Navigator.pop(context);
       }
       _isLoading1 = true;
       _isLoading = false;
-
-      if (!register) {
-        Navigator.pop(context);
-      }
     } else {
       showSnack(
         context,
