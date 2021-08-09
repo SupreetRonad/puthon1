@@ -18,24 +18,6 @@ class DivergeScreen extends StatelessWidget {
     } else {
       replacePage(context, HomeScreen());
     }
-    // await FirebaseFirestore.instance
-    //     .collection('users')
-    //     .doc(FirebaseAuth.instance.currentUser!.uid)
-    //     .get()
-    //     .then(
-    //   (value) {
-    //     if (value.exists) {
-    //       if (value['register']) {
-
-    //         replacePage(context, DetailScreen());
-
-    //       } else {
-
-    //         replacePage(context, HomeScreen());
-    //       }
-    //     }
-    //   },
-    // );
   }
 
   @override

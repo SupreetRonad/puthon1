@@ -35,22 +35,6 @@ class _DetailScreenState extends State<DetailScreen> {
     register = Info.register;
     _isLoading1 = false;
     setState(() {});
-    // await FirebaseFirestore.instance
-    //     .collection('users')
-    //     .doc(FirebaseAuth.instance.currentUser!.uid)
-    //     .get()
-    //     .then((value) {
-    //   if (value.exists) {
-    //     setState(() {
-    //       _name.text = value.data()!["name"] ?? '';
-    //       _phone.text = value.data()!["phone"] ?? '';
-    //       dob = value.data()!["dob"] ?? '';
-    //       gender = value.data()!["gender"] ?? 0;
-    //       register = value.data()!["register"] ?? true;
-    //       _isLoading1 = false;
-    //     });
-    //   }
-    // });
   }
 
   void saveInfo() async {
