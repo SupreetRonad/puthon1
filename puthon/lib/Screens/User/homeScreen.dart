@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:typed_data';
 import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,6 +9,7 @@ import 'package:puthon/Screens/User/bottomMenu.dart';
 import 'package:puthon/Screens/User/homeDrawer.dart';
 import 'package:puthon/Screens/User/qrScanning.dart';
 import 'package:puthon/Shared/loadingScreen.dart';
+import 'package:puthon/shared/infoProvider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'cartButton.dart';
 
@@ -36,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future init() async {
     prefs = await SharedPreferences.getInstance();
-
+    log(Info.register.toString());
     setState(() {
       if (prefs.getStringList("orderList") == null) {
         prefs.setStringList("orderList", []);

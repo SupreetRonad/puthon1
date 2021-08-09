@@ -85,6 +85,7 @@ class _AuthScreenState extends State<AuthScreen> {
           'orderNo': null,
           'cooking': false,
           'scanned': 1,
+          'resId':null,
         });
 
         Navigator.pushReplacement(
