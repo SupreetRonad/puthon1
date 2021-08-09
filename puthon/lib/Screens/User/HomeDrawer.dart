@@ -1,13 +1,10 @@
 import 'dart:ui';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:puthon/Screens/authScreen.dart';
 import 'package:puthon/Shared/confirmBox.dart';
+import 'package:puthon/shared/infoProvider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '/shared/loadingScreen.dart';
 import 'cartButton.dart';
 import 'homeScreen.dart';
 
@@ -29,95 +26,84 @@ class _HomeDrawerState extends State<HomeDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    final uid = FirebaseAuth.instance.currentUser!.uid;
-    return StreamBuilder(
-      stream:
-          FirebaseFirestore.instance.collection('users').doc(uid).snapshots(),
-      builder: (context, AsyncSnapshot snapshot) {
-        var info = snapshot.data;
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return LoadingScreen();
-        }
-        return Center(
-          child: BackdropFilter(
-            filter: new ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-            child: Container(
-              width: 300,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  displayInfo(info),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  drawerButton(
-                    "Edit profile",
-                    icon: Icons.border_color,
-                    func: () {
-                      Navigator.pushNamed(context, '/detailScreen');
-                    },
-                  ),
-                  drawerButton(
-                    "My Orders",
-                    icon: Icons.list_alt,
-                    func: () {
-                      Navigator.pushNamed(context, '/ordersHistory');
-                    },
-                  ),
-                  info['admin']
-                      ? const SizedBox()
-                      : drawerButton(
-                          "Register business",
-                          icon: Icons.business,
-                          func: () {
-                            Navigator.pushNamed(
-                                context, '/businessRegisterScreen');
-                          },
-                        ),
-                  if (info["admin"])
-                    drawerButton(
-                      "Admin Mode",
-                      icon: Icons.how_to_reg,
-                      func: () {
-                        Navigator.pushNamed(context, '/adminScreen');
-                      },
-                    ),
-                  if (info["cook"])
-                    drawerButton(
-                      "Cook Mode",
-                      icon: Icons.restaurant,
-                      func: () {
-                        Navigator.pushNamed(context, '/cookScreen');
-                      },
-                    ),
-                  if (info['scanned'] != 2)
-                    drawerButton(
-                      "Log out",
-                      icon: Icons.exit_to_app_rounded,
-                      func: () {
-                        _confirm(context);
-                      },
-                      primary: Colors.red,
-                    ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  CircleAvatar(
-                    backgroundColor: Colors.white,
-                    child: IconButton(
-                      onPressed: () => Navigator.pop(context),
-                      icon: const Icon(Icons.close),
-                      splashRadius: 25,
-                      color: Colors.black87,
-                    ),
-                  ),
-                ],
+    return Center(
+      child: BackdropFilter(
+        filter: new ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+        child: Container(
+          width: 300,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              displayInfo(),
+              const SizedBox(
+                height: 10,
               ),
-            ),
+              drawerButton(
+                "Edit profile",
+                icon: Icons.border_color,
+                func: () {
+                  Navigator.pushNamed(context, '/detailScreen');
+                },
+              ),
+              drawerButton(
+                "My Orders",
+                icon: Icons.list_alt,
+                func: () {
+                  Navigator.pushNamed(context, '/ordersHistory');
+                },
+              ),
+              Info.admin
+                  ? const SizedBox()
+                  : drawerButton(
+                      "Register business",
+                      icon: Icons.business,
+                      func: () {
+                        Navigator.pushNamed(context, '/businessRegisterScreen');
+                      },
+                    ),
+              if (Info.admin)
+                drawerButton(
+                  "Admin Mode",
+                  icon: Icons.how_to_reg,
+                  func: () {
+                    Navigator.pushNamed(context, '/adminScreen');
+                  },
+                ),
+              if (Info.cook)
+                drawerButton(
+                  "Cook Mode",
+                  icon: Icons.restaurant,
+                  func: () {
+                    Navigator.pushNamed(context, '/cookScreen');
+                  },
+                ),
+              if (Info.scanned != 2)
+                drawerButton(
+                  "Log out",
+                  icon: Icons.exit_to_app_rounded,
+                  func: () {
+                    _confirm(context);
+                  },
+                  primary: Colors.red,
+                ),
+              const SizedBox(
+                height: 10,
+              ),
+              CircleAvatar(
+                backgroundColor: Colors.white,
+                child: IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: const Icon(Icons.close),
+                  splashRadius: 25,
+                  color: Colors.black87,
+                ),
+              ),
+            ],
           ),
-        );
-      },
+        ),
+      ),
     );
+    ;
   }
 
   Widget drawerButton(
@@ -161,7 +147,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
         ),
       );
 
-  Widget displayInfo(var info) => Stack(
+  Widget displayInfo() => Stack(
         alignment: Alignment.topCenter,
         children: [
           Container(
@@ -185,7 +171,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(100),
                     child: Image.asset(
-                      info!['gender'] == 1
+                      Info.gender == 1
                           ? "assets/images/female2.png"
                           : "assets/images/male2.png",
                       fit: BoxFit.cover,
@@ -197,7 +183,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   child: Column(
                     children: [
                       Text(
-                        info['name'] ?? 'Name',
+                        Info.name,
                         overflow: TextOverflow.ellipsis,
                         softWrap: false,
                         maxLines: 1,
@@ -210,7 +196,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                         height: 3,
                       ),
                       Text(
-                        info['email'] ?? 'name@email.com',
+                        Info.email,
                         overflow: TextOverflow.ellipsis,
                         softWrap: false,
                         maxLines: 1,

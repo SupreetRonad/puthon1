@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:puthon/Screens/divergeScreen.dart';
+import 'package:puthon/shared/pagesurf.dart';
 import 'package:puthon/shared/showMsg.dart';
 import 'dart:ui';
 import '/shared/textField.dart';
@@ -22,10 +23,8 @@ class _AuthScreenState extends State<AuthScreen> {
   TextEditingController _pass = TextEditingController();
   TextEditingController _confirmPass = TextEditingController();
 
-  void _trySubmit(
-    bool isLogin,
-    BuildContext ctx,
-  ) async {
+  void _trySubmit(bool isLogin, BuildContext ctx) async {
+    
     String message = 'Something went wrong!';
 
     if (_email.text.isEmpty ||
@@ -59,13 +58,6 @@ class _AuthScreenState extends State<AuthScreen> {
           email: _email.text.trim(),
           password: _pass.text.trim(),
         );
-
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (builder) => DivergeScreen(),
-          ),
-        );
       } else {
         _userCreds = await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: _email.text.trim(),
@@ -85,15 +77,8 @@ class _AuthScreenState extends State<AuthScreen> {
           'orderNo': null,
           'cooking': false,
           'scanned': 1,
-          'resId':null,
+          'resId': null,
         });
-
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (builder) => DivergeScreen(),
-          ),
-        );
       }
     } catch (err) {
       showSnack(
@@ -105,6 +90,8 @@ class _AuthScreenState extends State<AuthScreen> {
       setState(() {
         _isLoading = false;
       });
+    } finally {
+      replacePage(context, DivergeScreen());
     }
   }
 

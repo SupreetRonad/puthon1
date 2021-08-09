@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puthon/Screens/User/homeScreen.dart';
 import 'package:puthon/Shared/loadingScreen.dart';
+import 'package:puthon/shared/infoProvider.dart';
 import 'package:puthon/shared/pagesurf.dart';
 import 'package:puthon/shared/showMsg.dart';
 import 'package:puthon/shared/textField.dart';
@@ -24,23 +25,32 @@ class _DetailScreenState extends State<DetailScreen> {
   int gender = 1;
   bool _isLoading = false, _isLoading1 = true, register = true;
 
+  Info info = Info();
+
   void readData() async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .get()
-        .then((value) {
-      if (value.exists) {
-        setState(() {
-          _name.text = value.data()!["name"] ?? '';
-          _phone.text = value.data()!["phone"] ?? '';
-          dob = value.data()!["dob"] ?? '';
-          gender = value.data()!["gender"] ?? 0;
-          register = value.data()!["register"] ?? true;
-          _isLoading1 = false;
-        });
-      }
-    });
+    _name.text = Info.name;
+    _phone.text = Info.phone;
+    dob = Info.dob;
+    gender = Info.gender;
+    register = Info.register;
+    _isLoading1 = false;
+    setState(() {});
+    // await FirebaseFirestore.instance
+    //     .collection('users')
+    //     .doc(FirebaseAuth.instance.currentUser!.uid)
+    //     .get()
+    //     .then((value) {
+    //   if (value.exists) {
+    //     setState(() {
+    //       _name.text = value.data()!["name"] ?? '';
+    //       _phone.text = value.data()!["phone"] ?? '';
+    //       dob = value.data()!["dob"] ?? '';
+    //       gender = value.data()!["gender"] ?? 0;
+    //       register = value.data()!["register"] ?? true;
+    //       _isLoading1 = false;
+    //     });
+    //   }
+    // });
   }
 
   void saveInfo() async {
@@ -70,6 +80,7 @@ class _DetailScreenState extends State<DetailScreen> {
           'register': false,
           'scanned': 1,
         });
+        await info.readData(FirebaseAuth.instance.currentUser!.uid);
         replacePage(context, HomeScreen());
       } else {
         await FirebaseFirestore.instance
@@ -82,6 +93,7 @@ class _DetailScreenState extends State<DetailScreen> {
           'gender': gender,
           'register': false,
         });
+        await info.readData(FirebaseAuth.instance.currentUser!.uid);
         Navigator.pop(context);
       }
       _isLoading1 = true;
