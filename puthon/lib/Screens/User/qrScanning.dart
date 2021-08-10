@@ -24,6 +24,7 @@ class _QrScanningState extends State<QrScanning> {
     try {
       cameraScanResult = await scanner.scan();
     } catch (e) {
+      log(e.toString());
       showSnack(context, 'Invalid QR');
     }
 

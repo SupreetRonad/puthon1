@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:puthon/Screens/User/homeScreen.dart';
+import 'package:puthon/shared/infoProvider.dart';
 
 class OrderTimer extends StatefulWidget {
   final time, duration, flag, cookOrder, bot, orderNo;
@@ -114,7 +115,7 @@ class _OrderTimerState extends State<OrderTimer> {
       return StreamBuilder(
         stream: FirebaseDatabase.instance
             .reference()
-            .child(HomeScreen.resId)
+            .child(Info.resId)
             .child(widget.bot.toString())
             .child("delivered")
             .onValue,

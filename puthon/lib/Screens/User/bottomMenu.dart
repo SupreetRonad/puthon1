@@ -24,6 +24,23 @@ class BottomMenu extends StatefulWidget {
 class _BottomMenuState extends State<BottomMenu> {
   bool loading = true;
   String? upiId;
+
+  void exit() async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(Info.uid)
+        .update({'scanned': 1});
+
+    await FirebaseFirestore.instance
+        .collection('admins')
+        .doc(HomeScreen.resId)
+        .collection('tables')
+        .doc(HomeScreen.table)
+        .delete();
+
+    Info.scanned = 1;
+  }
+
   @override
   void initState() {
     FirebaseFirestore.instance
@@ -117,13 +134,7 @@ class _BottomMenuState extends State<BottomMenu> {
                               ),
                             ),
                             onPressed: snapshot.data['total'] == 0
-                                ? () async {
-                                    await FirebaseFirestore.instance
-                                        .collection('users')
-                                        .doc(Info.uid)
-                                        .update({'scanned': 1});
-                                    Info.scanned = 1;
-                                  }
+                                ? exit
                                 : () {
                                     if (!snapshot.data['ordered']) {
                                       PayAndExit(widget.prefs, widget.refresh);

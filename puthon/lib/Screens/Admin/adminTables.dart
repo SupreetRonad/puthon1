@@ -102,6 +102,7 @@ class _TablesInfoState extends State<TablesInfo> {
 
   void init() async {
     print(widget.customerId);
+    
     await FirebaseFirestore.instance
         .collection('orders')
         .doc(widget.customerId)
