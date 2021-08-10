@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:puthon/Screens/User/paymentGateway.dart';
-import 'package:puthon/shared/infoProvider.dart';
-import 'package:puthon/shared/requestPermission.dart';
+import 'package:puthon/Utils/infoProvider.dart';
+import 'package:puthon/Utils/requestPermission.dart';
 import 'package:puthon/shared/showMsg.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 

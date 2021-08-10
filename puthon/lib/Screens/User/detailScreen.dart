@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puthon/Screens/User/homeScreen.dart';
 import 'package:puthon/Shared/loadingScreen.dart';
-import 'package:puthon/shared/infoProvider.dart';
-import 'package:puthon/shared/pagesurf.dart';
+import 'package:puthon/Utils/infoProvider.dart';
+import 'package:puthon/Utils/pagesurf.dart';
 import 'package:puthon/shared/showMsg.dart';
 import 'package:puthon/shared/textField.dart';
 

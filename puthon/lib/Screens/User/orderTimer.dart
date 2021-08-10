@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:puthon/Screens/User/homeScreen.dart';
-import 'package:puthon/shared/infoProvider.dart';
+import 'package:puthon/Utils/infoProvider.dart';
 
 class OrderTimer extends StatefulWidget {
   final time, duration, flag, cookOrder, bot, orderNo;

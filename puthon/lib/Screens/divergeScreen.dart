@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:puthon/Screens/User/detailScreen.dart';
-import 'package:puthon/shared/infoProvider.dart';
+import 'package:puthon/Utils/infoProvider.dart';
 import 'package:puthon/shared/loadingScreen.dart';
-import 'package:puthon/shared/pagesurf.dart';
+import 'package:puthon/Utils/pagesurf.dart';
 
 import 'User/homeScreen.dart';
 

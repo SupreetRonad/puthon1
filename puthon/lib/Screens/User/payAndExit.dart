@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:puthon/shared/infoProvider.dart';
+import 'package:puthon/Utils/infoProvider.dart';
 
 import 'cartButton.dart';
 import 'homeScreen.dart';

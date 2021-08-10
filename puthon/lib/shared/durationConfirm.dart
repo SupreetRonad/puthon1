@@ -3,8 +3,7 @@ import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:puthon/Screens/User/homeScreen.dart';
-import 'package:puthon/shared/infoProvider.dart';
+import 'package:puthon/Utils/infoProvider.dart';
 
 import 'loading.dart';
 

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:puthon/Screens/divergeScreen.dart';
-import 'package:puthon/shared/pagesurf.dart';
+import 'package:puthon/Utils/pagesurf.dart';
 import 'package:puthon/shared/showMsg.dart';
 import 'dart:ui';
 import '/shared/textField.dart';
