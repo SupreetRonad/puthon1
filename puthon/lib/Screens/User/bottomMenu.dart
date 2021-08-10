@@ -7,6 +7,7 @@ import 'package:puthon/Screens/User/paymentGateway.dart';
 import 'package:puthon/Shared/orderCard.dart';
 import 'package:puthon/Utils/infoProvider.dart';
 import 'package:puthon/Utils/pagesurf.dart';
+import 'package:puthon/shared/loadingScreen.dart';
 import 'package:puthon/shared/showMsg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -40,24 +41,20 @@ class _BottomMenuState extends State<BottomMenu> {
     EnteredRes.scanned = 1;
   }
 
-  @override
-  void initState() {
-    FirebaseFirestore.instance
+  init() async {
+    await FirebaseFirestore.instance
         .collection('orders')
         .doc(Info.uid)
         .get()
         .then((value) {
       if (value.exists) {
-        setState(() {
-          EnteredRes.resId = value['resId'];
-          EnteredRes.table = value['table'];
-          EnteredRes.resName = value['resName'];
-          EnteredRes.total = value['total'];
-          loading = false;
-        });
+        EnteredRes.resId = value['resId'];
+        EnteredRes.table = value['table'];
+        EnteredRes.resName = value['resName'];
+        EnteredRes.total = (value['total']);
       }
     });
-    FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection('admins')
         .doc(EnteredRes.resId)
         .get()
@@ -69,7 +66,12 @@ class _BottomMenuState extends State<BottomMenu> {
         });
       }
     });
+  }
+
+  @override
+  void initState() {
     super.initState();
+    init();
   }
 
   @override
@@ -244,7 +246,7 @@ class _BottomMenuState extends State<BottomMenu> {
       color: Colors.transparent,
       minHeight: 80,
       maxHeight: MediaQuery.of(context).size.height - 155,
-      panel: Menu(),
+      panel: loading ? LoadingScreen() : Menu(),
     );
   }
 
