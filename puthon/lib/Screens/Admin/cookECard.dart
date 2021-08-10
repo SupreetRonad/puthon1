@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:puthon/Shared/loading.dart';
+import 'package:puthon/shared/infoProvider.dart';
 import '/Shared/confirmBox.dart';
 
 class CookECard extends StatelessWidget {
@@ -172,6 +173,7 @@ class CookECard extends StatelessWidget {
                                           .doc(doc["uid"])
                                           .update({
                                         'cook': true,
+                                        'resId':Info.uid,
                                       });
                                       Navigator.of(context).pop();
                                     } else {

@@ -46,7 +46,7 @@ class _AdminCooksListState extends State<AdminCooksList> {
                   .doc(FirebaseAuth.instance.currentUser!.uid)
                   .collection('cooks')
                   .snapshots(),
-              builder: (context,AsyncSnapshot snapshot) {
+              builder: (context, AsyncSnapshot snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const SpinKitFadingCircle(
                     color: Colors.black54,
@@ -203,8 +203,9 @@ class _AdminCooksListState extends State<AdminCooksList> {
                                     );
                                   }
                                   return CookECard(
-                                      doc: snapshot.data!.docs[index],
-                                      flag: true);
+                                    doc: snapshot.data!.docs[index],
+                                    flag: true,
+                                  );
                                 },
                               );
                             }

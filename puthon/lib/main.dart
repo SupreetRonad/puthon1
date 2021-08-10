@@ -12,7 +12,7 @@ import 'Screens/divergeScreen.dart';
 import 'Screens/User/homeScreen.dart';
 import 'shared/loadingScreen.dart';
 
-void main() {
+void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,

@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:puthon/Screens/User/homeScreen.dart';
+import 'package:puthon/shared/infoProvider.dart';
 
 import 'loading.dart';
 
@@ -157,7 +158,7 @@ class _DurationConfirmState extends State<DurationConfirm> {
                           var hh = DateTime.now().hour > 12 ? "pm" : "am";
                           await FirebaseFirestore.instance
                               .collection('admins')
-                              .doc(HomeScreen.resId)
+                              .doc(Info.resId)
                               .collection('activeOrders')
                               .doc(widget.timeStamp)
                               .update({

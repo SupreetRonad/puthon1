@@ -29,7 +29,7 @@ class ActiveOrders extends StatelessWidget {
         body: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('admins')
-              .doc(Info.resId.substring(0,28))
+              .doc(Info.resId)
               .collection('activeOrders')
               .where("flag", isEqualTo: 0)
               .snapshots(),
@@ -62,7 +62,7 @@ class ActiveOrders extends StatelessWidget {
                 itemCount: snapshot.data.docs.length,
                 itemBuilder: (BuildContext context, int index) {
                   QueryDocumentSnapshot order1 = snapshot.data.docs[index];
-                  return order(order1);
+                  return displayOrder(order1);
                 },
               );
             }
@@ -72,7 +72,7 @@ class ActiveOrders extends StatelessWidget {
     );
   }
 
-  Widget order(QueryDocumentSnapshot order) => StreamBuilder(
+  Widget displayOrder(QueryDocumentSnapshot order) => StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('orders')
             .doc(order['customerId'])

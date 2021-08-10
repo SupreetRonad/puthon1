@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:puthon/Screens/User/paymentGateway.dart';
 import 'package:puthon/shared/infoProvider.dart';
+import 'package:puthon/shared/requestPermission.dart';
 import 'package:puthon/shared/showMsg.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 
@@ -19,6 +20,7 @@ class QrScanning extends StatefulWidget {
 class _QrScanningState extends State<QrScanning> {
   void scanQR() async {
     log("entered");
+    await checkPermission();
     try {
       cameraScanResult = await scanner.scan();
     } catch (e) {
@@ -60,10 +62,12 @@ class _QrScanningState extends State<QrScanning> {
             'timeEntered': DateTime.now(),
           });
           scanned = 2;
+          Info.scanned = 2;
         }
       });
     } else {
       scanned = 1;
+      Info.scanned = 1;
     }
     setState(() {});
   }

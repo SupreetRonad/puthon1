@@ -2,11 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:puthon/Screens/User/menu.dart';
 import 'package:puthon/Screens/User/paymentGateway.dart';
 import 'package:puthon/Shared/orderCard.dart';
-import 'package:puthon/Shared/itemCard.dart';
-import 'package:puthon/Shared/loadingScreen.dart';
 import 'package:puthon/shared/infoProvider.dart';
+import 'package:puthon/shared/pagesurf.dart';
 import 'package:puthon/shared/showMsg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -77,36 +77,7 @@ class _BottomMenuState extends State<BottomMenu> {
                     const SizedBox(
                       width: 15,
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width - 125,
-                          child: Text(
-                            HomeScreen.resName ?? "RESTUARANT NAME",
-                            style: const TextStyle(
-                              color: Colors.black54,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            overflow: TextOverflow.fade,
-                            maxLines: 1,
-                            softWrap: false,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          "Table. " + HomeScreen.table,
-                          style: const TextStyle(
-                            color: Colors.black38,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
+                    resInfo(),
                     const Spacer(),
                     StreamBuilder(
                         stream: FirebaseFirestore.instance
@@ -151,20 +122,17 @@ class _BottomMenuState extends State<BottomMenu> {
                                         .collection('users')
                                         .doc(Info.uid)
                                         .update({'scanned': 1});
+                                    Info.scanned = 1;
                                   }
                                 : () {
                                     if (!snapshot.data['ordered']) {
                                       PayAndExit(widget.prefs, widget.refresh);
                                       // TODO: Storing order number in cloud, as it can be overwritten in some extreme cases
-                                      Navigator.push(
+                                      pushPage(
                                         context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              // PaymentGateway(),
-                                              PaymentScreen(
-                                            upi: upiId,
-                                            amount: snapshot.data['total'],
-                                          ),
+                                        PaymentScreen(
+                                          upi: upiId,
+                                          amount: snapshot.data['total'],
                                         ),
                                       );
                                     } else {
@@ -266,91 +234,38 @@ class _BottomMenuState extends State<BottomMenu> {
       color: Colors.transparent,
       minHeight: 80,
       maxHeight: MediaQuery.of(context).size.height - 155,
-      panel: Container(
-        width: double.infinity,
-        child: Info.scanned != 2
-            ? LoadingScreen()
-            : StreamBuilder(
-                stream: FirebaseFirestore.instance
-                    .collection('admins')
-                    .doc(HomeScreen.resId)
-                    .collection('menu')
-                    .orderBy('category')
-                    .snapshots(),
-                builder: (context, AsyncSnapshot snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const SpinKitFadingCircle(
-                      color: Colors.green,
-                      size: 20,
-                    );
-                  }
-                  if (!snapshot.hasData) {
-                    return const Text(
-                      "No Items...",
-                      style: TextStyle(fontSize: 20),
-                    );
-                  } else {
-                    return Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
-                        ),
-                      ),
-                      child: Column(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.fromLTRB(0.0, 20, 0, 5),
-                            height: 4,
-                            width: 50,
-                            decoration: BoxDecoration(
-                              color: Colors.grey[300],
-                              border: Border.all(
-                                color: Colors.black.withOpacity(.1),
-                              ),
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                          ),
-                          const Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              "Menu",
-                              style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black54,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: ListView.builder(
-                              physics: BouncingScrollPhysics(),
-                              padding: const EdgeInsets.only(
-                                  bottom: kFloatingActionButtonMargin + 60),
-                              itemCount: snapshot.data.docs.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                var item = snapshot.data.docs[index];
-                                return !item['inMenu']
-                                    ? const SizedBox()
-                                    : Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            8, 0, 8, 0),
-                                        child: ItemCard(
-                                          item: item,
-                                          order: true,
-                                        ),
-                                      );
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  }
-                },
-              ),
-      ),
+      panel: Menu(),
     );
   }
+
+  Widget resInfo() => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width - 125,
+            child: Text(
+              HomeScreen.resName ?? "RESTUARANT NAME",
+              style: const TextStyle(
+                color: Colors.black54,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+              overflow: TextOverflow.fade,
+              maxLines: 1,
+              softWrap: false,
+            ),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          Text(
+            "Table. " + HomeScreen.table,
+            style: const TextStyle(
+              color: Colors.black38,
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      );
 }

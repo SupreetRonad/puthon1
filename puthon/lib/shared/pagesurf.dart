@@ -8,3 +8,13 @@ void replacePage(BuildContext context, Widget page) {
     ),
   );
 }
+void pushPage(BuildContext context, Widget page) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (builder) => page,
+    ),
+  );
+}
+
+
