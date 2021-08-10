@@ -12,18 +12,10 @@ import 'package:puthon/Utils/infoProvider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'cartButton.dart';
 
-var name = "Name",
-    email = "email@email.com",
-    dob = "00/00/0000",
-    phone = "1081081081",
-    gender = 1;
-
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
-
-var scanned = 0;
 
 late String? cameraScanResult, qrContent;
 Uint8List result = Uint8List(0);

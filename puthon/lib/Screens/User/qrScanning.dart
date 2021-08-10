@@ -64,13 +64,11 @@ class _QrScanningState extends State<QrScanning> {
             'customerId': Info.uid,
             'timeEntered': DateTime.now(),
           });
-          scanned = 2;
-          Info.scanned = 2;
+          EnteredRes.scanned = 2;
         }
       });
     } else {
-      scanned = 1;
-      Info.scanned = 1;
+      EnteredRes.scanned = 1;
     }
     setState(() {});
   }

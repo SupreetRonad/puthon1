@@ -76,7 +76,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                     Navigator.pushNamed(context, '/cookScreen');
                   },
                 ),
-              if (Info.scanned != 2)
+              if (EnteredRes.scanned != 2)
                 drawerButton(
                   "Log out",
                   icon: Icons.exit_to_app_rounded,

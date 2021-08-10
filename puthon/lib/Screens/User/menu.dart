@@ -12,7 +12,7 @@ class Menu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      child: Info.scanned != 2
+      child: EnteredRes.scanned != 2
           ? LoadingScreen()
           : StreamBuilder(
               stream: FirebaseFirestore.instance

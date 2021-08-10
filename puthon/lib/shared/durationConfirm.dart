@@ -157,7 +157,7 @@ class _DurationConfirmState extends State<DurationConfirm> {
                           var hh = DateTime.now().hour > 12 ? "pm" : "am";
                           await FirebaseFirestore.instance
                               .collection('admins')
-                              .doc(Info.resId)
+                              .doc(ResCook.resId)
                               .collection('activeOrders')
                               .doc(widget.timeStamp)
                               .update({

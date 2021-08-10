@@ -2,8 +2,9 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:puthon/Screens/User/orderTimer.dart';
 import 'package:puthon/Shared/durationConfirm.dart';
+
+import 'orderTimer.dart';
 
 class OrderCard extends StatefulWidget {
   final order, customerId, orderNo, timeStamp;

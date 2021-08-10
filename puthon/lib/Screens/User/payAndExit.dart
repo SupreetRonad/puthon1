@@ -29,7 +29,7 @@ Future<void> PayAndExit(var prefs, Function refresh) async {
 
   refresh();
   cameraScanResult = '';
-  Info.scanned = 1;
+  EnteredRes.scanned = 1;
 
   var data = await FirebaseFirestore.instance
       .collection('orders')

@@ -29,7 +29,7 @@ class ActiveOrders extends StatelessWidget {
         body: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('admins')
-              .doc(Info.resId)
+              .doc(ResCook.resId)
               .collection('activeOrders')
               .where("flag", isEqualTo: 0)
               .snapshots(),
@@ -43,7 +43,7 @@ class ActiveOrders extends StatelessWidget {
             if (!snapshot.hasData ||
                 snapshot.hasError ||
                 (snapshot.data.docs.length == 0)) {
-              log('2nd stream  --  ' + Info.resId);
+              log('2nd stream  --  ' + ResCook.resId);
               return const Center(
                 child: Text(
                   "No Active Orders...",

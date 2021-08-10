@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -44,7 +43,7 @@ class _OrderTimerState extends State<OrderTimer> {
     return const SizedBox();
   }
 
-  double getTime() {
+  int getTime() {
     var arr = widget.time.split(" ");
     var now_hour = DateTime.now().hour;
     var now_minute = DateTime.now().minute;
@@ -66,25 +65,22 @@ class _OrderTimerState extends State<OrderTimer> {
       var elapsed = getTime();
 
       return (widget.duration - elapsed) <= 2
-          ? cookTimeUp()
-          : cookTime(elapsed);
+          ? timeUp()
+          : displayTime(elapsed);
     } else if (widget.flag == 2 || widget.flag == 3) {
       return StreamBuilder(
         stream: FirebaseDatabase.instance
             .reference()
-            .child(Info.resId)
+            .child(widget.cookOrder ? ResCook.resId : EnteredRes.resId)
             .child(widget.bot.toString())
             .child("delivered")
             .onValue,
         builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting ||
               !snapshot.hasData) {
-            return const Center(
-              child: Text("Loading..."),
-            );
+            return loading;
           }
           var ref = snapshot.data.snapshot.value;
-          log(ref.toString());
           if (ref) {
             setFlag();
           }
@@ -96,7 +92,7 @@ class _OrderTimerState extends State<OrderTimer> {
     }
   }
 
-  Widget cookTime(var elapsed) => Row(
+  Widget displayTime(var elapsed) => Row(
         children: [
           const Text(
             "Delivery in ",
@@ -126,7 +122,7 @@ class _OrderTimerState extends State<OrderTimer> {
         ],
       );
 
-  Widget cookTimeUp() => Row(
+  Widget timeUp() => Row(
         children: [
           Icon(
             Icons.donut_large_rounded,
@@ -175,6 +171,24 @@ class _OrderTimerState extends State<OrderTimer> {
           fontSize: 13,
           fontWeight: FontWeight.bold,
           color: Colors.green[300],
+        ),
+      ),
+    ],
+  );
+
+  Widget loading = Row(
+    children: [
+      Icon(
+        Icons.timer,
+        size: 16,
+        color: Colors.black54,
+      ),
+      Text(
+        "  Loading",
+        style: TextStyle(
+          fontSize: 13,
+          fontWeight: FontWeight.bold,
+          color: Colors.black54,
         ),
       ),
     ],

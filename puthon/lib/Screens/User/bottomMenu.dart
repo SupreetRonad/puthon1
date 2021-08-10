@@ -37,7 +37,7 @@ class _BottomMenuState extends State<BottomMenu> {
         .doc(EnteredRes.table)
         .delete();
 
-    Info.scanned = 1;
+    EnteredRes.scanned = 1;
   }
 
   @override

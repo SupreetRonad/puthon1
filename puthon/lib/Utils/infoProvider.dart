@@ -11,11 +11,6 @@ class Info {
   static bool register = true;
   static bool admin = false;
   static bool cook = false;
-  static bool cooking = false;
-  static int scanned = 0;
-
-  static String resId = '';
-  static String orderNo = '';
 
   Future<void> readData(String uid) async {
     await FirebaseFirestore.instance.collection('users').doc(uid).get().then(
@@ -31,11 +26,12 @@ class Info {
           Info.register = value['register'] ?? true;
           Info.admin = value['admin'] ?? false;
           Info.cook = value['cook'] ?? false;
-          Info.cooking = value['cooking'] ?? false;
-          Info.scanned = value['scanned'] ?? 1;
+          
+          EnteredRes.scanned = value['scanned'] ?? 1;
 
-          Info.resId = value['resId'] ?? '';
-          Info.orderNo = value['orderNo'] ?? '';
+          ResCook.cooking = value['cooking'] ?? false;
+          ResCook.resId = value['resId'] ?? '';
+          ResCook.orderNo = value['orderNo'] ?? '';
         }
       },
     );
@@ -43,13 +39,16 @@ class Info {
 }
 
 class EnteredRes {
-  static String? resId = '';
+  static String resId = '';
   static String? resName = '';
   static String? table = '';
-  static int total = 0;
+  static double total = 0;
   static List<String> list = [];
+  static int scanned = 0;
 }
 
-class resCook {
-  static String? resId = '';
+class ResCook {
+  static String resId = '';
+  static String? orderNo = '';
+  static bool cooking = false;
 }
