@@ -24,7 +24,6 @@ class _AuthScreenState extends State<AuthScreen> {
   TextEditingController _confirmPass = TextEditingController();
 
   void _trySubmit(bool isLogin, BuildContext ctx) async {
-    
     String message = 'Something went wrong!';
 
     if (_email.text.isEmpty ||
@@ -59,10 +58,23 @@ class _AuthScreenState extends State<AuthScreen> {
           password: _pass.text.trim(),
         );
       } else {
-        _userCreds = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: _email.text.trim(),
-          password: _pass.text.trim(),
-        );
+        try {
+          _userCreds =
+              await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: _email.text.trim(),
+            password: _pass.text.trim(),
+          );
+        } catch (e) {
+          showSnack(
+            context,
+            message,
+            color: Colors.red,
+          );
+          setState(() {
+            _isLoading = false;
+          });
+          return;
+        }
 
         await _store.collection('users').doc(_userCreds.user!.uid).set({
           'uid': _userCreds.user!.uid,
@@ -80,6 +92,7 @@ class _AuthScreenState extends State<AuthScreen> {
           'resId': null,
         });
       }
+      replacePage(context, DivergeScreen());
     } catch (err) {
       showSnack(
         context,
@@ -90,8 +103,6 @@ class _AuthScreenState extends State<AuthScreen> {
       setState(() {
         _isLoading = false;
       });
-    } finally {
-      replacePage(context, DivergeScreen());
     }
   }
 

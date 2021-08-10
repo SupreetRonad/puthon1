@@ -100,9 +100,7 @@ class _TablesInfoState extends State<TablesInfo> {
   var bill, timeEntered, hh, mm, date, hh1, gg, time;
   bool loading = true;
 
-  void init() async {
-    print(widget.customerId);
-    
+  void init() async {    
     await FirebaseFirestore.instance
         .collection('orders')
         .doc(widget.customerId)

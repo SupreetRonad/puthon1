@@ -34,7 +34,6 @@ class OrdersHistory extends StatelessWidget {
             );
           }
           
-          // print(snapshot.data.docs.toString());
           return ListView.builder(
             physics: BouncingScrollPhysics(),
             itemCount: snapshot.data.docs.length,
