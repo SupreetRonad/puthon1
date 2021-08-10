@@ -42,7 +42,7 @@ class EnteredRes {
   static String resId = '';
   static String? resName = '';
   static String? table = '';
-  static var total = 0; // Actually double, but for fixing error
+  static var total; // Actually double, but for fixing error
   static List<String> list = [];
   static int scanned = 0;
 }
