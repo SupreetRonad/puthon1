@@ -38,27 +38,29 @@ class _QrScanningState extends State<QrScanning> {
           .get()
           .then((value) {
         if (value.exists) {
-          HomeScreen.resName = value['resName'];
-          HomeScreen.resId = cameraScanResult!.split("/*/")[1];
-          HomeScreen.table = cameraScanResult!.split("/*/")[0];
+          
+          EnteredRes.resName = value['resName'];
+          EnteredRes.resId = cameraScanResult!.split("/*/")[1];
+          EnteredRes.table = cameraScanResult!.split("/*/")[0];
+
           FirebaseFirestore.instance.collection('users').doc(Info.uid).update({
             'scanned': 2,
           });
           FirebaseFirestore.instance.collection('orders').doc(Info.uid).set({
-            'resId': HomeScreen.resId,
-            'table': HomeScreen.table,
-            'resName': HomeScreen.resName,
+            'resId': EnteredRes.resId,
+            'table': EnteredRes.table,
+            'resName': EnteredRes.resName,
             'ordered': false,
             'total': 0,
             'timeEntered': DateTime.now(),
           });
           FirebaseFirestore.instance
               .collection('admins')
-              .doc(HomeScreen.resId)
+              .doc(EnteredRes.resId)
               .collection('tables')
-              .doc(HomeScreen.table)
+              .doc(EnteredRes.table)
               .set({
-            'table': HomeScreen.table,
+            'table': EnteredRes.table,
             'customerId': Info.uid,
             'timeEntered': DateTime.now(),
           });

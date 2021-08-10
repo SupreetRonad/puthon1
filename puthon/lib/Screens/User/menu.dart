@@ -5,8 +5,6 @@ import 'package:puthon/Utils/infoProvider.dart';
 import 'package:puthon/shared/itemCard.dart';
 import 'package:puthon/shared/loadingScreen.dart';
 
-import 'homeScreen.dart';
-
 class Menu extends StatelessWidget {
   const Menu({Key? key}) : super(key: key);
 
@@ -19,7 +17,7 @@ class Menu extends StatelessWidget {
           : StreamBuilder(
               stream: FirebaseFirestore.instance
                   .collection('admins')
-                  .doc(HomeScreen.resId)
+                  .doc(EnteredRes.resId)
                   .collection('menu')
                   .orderBy('category')
                   .snapshots(),

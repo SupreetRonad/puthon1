@@ -6,7 +6,6 @@ import 'package:puthon/Shared/confirmBox.dart';
 import 'package:puthon/Utils/infoProvider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'cartButton.dart';
-import 'homeScreen.dart';
 
 class HomeDrawer extends StatefulWidget {
   @override
@@ -226,12 +225,12 @@ class _HomeDrawerState extends State<HomeDrawer> {
             Colors.red[300]!,
           ],
           function: () async {
-            for (var i = 0; i < HomeScreen.list.length; i++) {
-              prefs.remove(HomeScreen.list[i]);
-              prefs.remove(HomeScreen.list[i] + "1");
-              prefs.remove(HomeScreen.list[i] + "2");
+            for (var i = 0; i < EnteredRes.list.length; i++) {
+              prefs.remove(EnteredRes.list[i]);
+              prefs.remove(EnteredRes.list[i] + "1");
+              prefs.remove(EnteredRes.list[i] + "2");
             }
-            HomeScreen.list = [];
+            EnteredRes.list = [];
             prefs.setStringList("orderList", []);
             CartButton.orderList = {};
             await FirebaseAuth.instance.signOut();

@@ -10,12 +10,12 @@ Future<void> PayAndExit(var prefs, Function refresh) async {
   var orderList = {};
   var total, resName, table, time;
 
-  for (var i = 0; i < HomeScreen.list.length; i++) {
-    prefs.remove(HomeScreen.list[i]);
-    prefs.remove(HomeScreen.list[i] + "1");
-    prefs.remove(HomeScreen.list[i] + "2");
+  for (var i = 0; i < EnteredRes.list.length; i++) {
+    prefs.remove(EnteredRes.list[i]);
+    prefs.remove(EnteredRes.list[i] + "1");
+    prefs.remove(EnteredRes.list[i] + "2");
   }
-  HomeScreen.list = [];
+  EnteredRes.list = [];
   prefs.setStringList("orderList", <String>[]);
   CartButton.orderList = {};
   prefs.setInt("orderNo", 0);
@@ -66,9 +66,9 @@ Future<void> PayAndExit(var prefs, Function refresh) async {
 
   await FirebaseFirestore.instance
       .collection('admins')
-      .doc(HomeScreen.resId)
+      .doc(EnteredRes.resId)
       .collection('tables')
-      .doc(HomeScreen.table)
+      .doc(EnteredRes.table)
       .delete();
 
   await FirebaseFirestore.instance
@@ -86,7 +86,7 @@ Future<void> PayAndExit(var prefs, Function refresh) async {
 
   await FirebaseFirestore.instance
       .collection('admins')
-      .doc(HomeScreen.resId)
+      .doc(EnteredRes.resId)
       .collection('completedOrders')
       .doc(timeStamp)
       .set({
@@ -96,7 +96,7 @@ Future<void> PayAndExit(var prefs, Function refresh) async {
 
   await FirebaseFirestore.instance
       .collection('admins')
-      .doc(HomeScreen.resId)
+      .doc(EnteredRes.resId)
       .collection('activeOrders')
       .where('customerId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
       .get()
@@ -104,7 +104,7 @@ Future<void> PayAndExit(var prefs, Function refresh) async {
     value.docs.forEach((element) {
       FirebaseFirestore.instance
           .collection("admins")
-          .doc(HomeScreen.resId)
+          .doc(EnteredRes.resId)
           .collection('activeOrders')
           .doc(element['timeStamp'])
           .delete();

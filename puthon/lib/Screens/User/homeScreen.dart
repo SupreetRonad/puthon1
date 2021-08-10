@@ -8,6 +8,7 @@ import 'package:puthon/Screens/User/bottomMenu.dart';
 import 'package:puthon/Screens/User/homeDrawer.dart';
 import 'package:puthon/Screens/User/qrScanning.dart';
 import 'package:puthon/Shared/loadingScreen.dart';
+import 'package:puthon/Utils/infoProvider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'cartButton.dart';
 
@@ -18,8 +19,6 @@ var name = "Name",
     gender = 1;
 
 class HomeScreen extends StatefulWidget {
-  static List<String> list = [];
-  static var resId, table, resName, total;
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -40,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
       if (prefs.getStringList("orderList") == null) {
         prefs.setStringList("orderList", []);
       }
-      HomeScreen.list = prefs.getStringList('orderList') ?? [];
+      EnteredRes.list = prefs.getStringList('orderList') ?? [];
       if (prefs.getInt("orderNo") == null) {
         prefs.setInt("orderNo", 0);
       }

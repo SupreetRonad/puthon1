@@ -36,9 +36,20 @@ class Info {
 
           Info.resId = value['resId'] ?? '';
           Info.orderNo = value['orderNo'] ?? '';
-
         }
       },
     );
   }
+}
+
+class EnteredRes {
+  static String? resId = '';
+  static String? resName = '';
+  static String? table = '';
+  static int total = 0;
+  static List<String> list = [];
+}
+
+class resCook {
+  static String? resId = '';
 }

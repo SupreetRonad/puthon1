@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:puthon/Screens/User/homeScreen.dart';
+import 'package:puthon/Utils/infoProvider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserControlButtons extends StatefulWidget {
@@ -21,29 +21,29 @@ class _UserControlButtonsState extends State<UserControlButtons> {
   }
 
   void removeItem(var name, var count1) {
-    if (HomeScreen.list.contains(name)) {
+    if (EnteredRes.list.contains(name)) {
       if (prefs.getInt(name) == 1) {
-        HomeScreen.list.remove(name);
+        EnteredRes.list.remove(name);
         prefs.remove(name);
         prefs.remove(name + "1");
         prefs.remove(name + "2");
       } else {
         prefs.setInt(name, count1);
       }
-      prefs.setStringList('orderList', HomeScreen.list);
+      prefs.setStringList('orderList', EnteredRes.list);
     }
   }
 
   void addItem(var name, var count1) {
-    if (HomeScreen.list.contains(name)) {
+    if (EnteredRes.list.contains(name)) {
       prefs.setInt(name, count1);
     } else {
-      HomeScreen.list.add(name);
+      EnteredRes.list.add(name);
       prefs.setInt(name, count1);
       prefs.setString("${name}1", widget.price);
       prefs.setBool("${name}2", widget.veg);
     }
-    prefs.setStringList('orderList', HomeScreen.list);
+    prefs.setStringList('orderList', EnteredRes.list);
   }
 
   @override

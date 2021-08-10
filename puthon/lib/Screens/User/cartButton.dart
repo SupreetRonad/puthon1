@@ -5,10 +5,10 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
-import 'package:puthon/Screens/User/homeScreen.dart';
 import 'package:puthon/Shared/confirmBox.dart';
 import 'package:puthon/Shared/loading.dart';
 import 'package:puthon/Shared/successBox.dart';
+import 'package:puthon/Utils/infoProvider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'cartCard.dart';
@@ -33,12 +33,12 @@ class _CartButtonState extends State<CartButton> {
     setState(() {
       loading = false;
       sum = 0;
-      for (var i = 0; i < HomeScreen.list.length; i++) {
-        sum += (prefs.getInt(HomeScreen.list[i])! *
-            int.parse(prefs.getString(HomeScreen.list[i] + "1")!));
-        CartButton.orderList[HomeScreen.list[i]] = [
-          prefs.getInt(HomeScreen.list[i]),
-          prefs.getBool(HomeScreen.list[i] + "2")
+      for (var i = 0; i < EnteredRes.list.length; i++) {
+        sum += (prefs.getInt(EnteredRes.list[i])! *
+            int.parse(prefs.getString(EnteredRes.list[i] + "1")!));
+        CartButton.orderList[EnteredRes.list[i]] = [
+          prefs.getInt(EnteredRes.list[i]),
+          prefs.getBool(EnteredRes.list[i] + "2")
         ];
       }
     });
@@ -88,7 +88,7 @@ class _CartButtonState extends State<CartButton> {
                 ? const SpinKitFadingCircle(
                     color: Colors.black87,
                   )
-                : HomeScreen.list.length == 0
+                : EnteredRes.list.length == 0
                     ? Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -110,18 +110,18 @@ class _CartButtonState extends State<CartButton> {
                         child: ListView.builder(
                           physics: BouncingScrollPhysics(),
                           itemExtent: 90.0,
-                          itemCount: HomeScreen.list.length,
+                          itemCount: EnteredRes.list.length,
                           itemBuilder: (BuildContext context, int index) {
                             var qty =
-                                prefs.getInt("${HomeScreen.list[index]}") ?? 0;
+                                prefs.getInt("${EnteredRes.list[index]}") ?? 0;
                             var price =
-                                prefs.getString("${HomeScreen.list[index]}1") ??
+                                prefs.getString("${EnteredRes.list[index]}1") ??
                                     "";
                             var veg =
-                                prefs.getBool("${HomeScreen.list[index]}2") ??
+                                prefs.getBool("${EnteredRes.list[index]}2") ??
                                     true;
                             return CartCard(
-                              itemName: HomeScreen.list[index],
+                              itemName: EnteredRes.list[index],
                               price: price,
                               quantity: qty,
                               veg: veg,
@@ -133,7 +133,7 @@ class _CartButtonState extends State<CartButton> {
           const SizedBox(
             height: 10,
           ),
-          if (HomeScreen.list.length != 0)
+          if (EnteredRes.list.length != 0)
             Row(
               children: [
                 const SizedBox(
@@ -263,7 +263,7 @@ class _CartButtonState extends State<CartButton> {
                                             Timestamp.now().toString();
                                         await FirebaseFirestore.instance
                                             .collection('admins')
-                                            .doc(HomeScreen.resId)
+                                            .doc(EnteredRes.resId)
                                             .collection('activeOrders')
                                             .doc(timeStamp)
                                             .set({
@@ -298,7 +298,7 @@ class _CartButtonState extends State<CartButton> {
                                                 orderNo.toString())
                                             .set({
                                           "total": sum,
-                                          "tableNo": HomeScreen.table,
+                                          "tableNo": EnteredRes.table,
                                           "orderList": CartButton.orderList,
                                           "time": "${hour1} : ${minute} ${hh}",
                                           "flag": 0,
@@ -340,15 +340,15 @@ class _CartButtonState extends State<CartButton> {
                                         prefs.setInt("orderNo", orderNo);
 
                                         for (var i = 0;
-                                            i < HomeScreen.list.length;
+                                            i < EnteredRes.list.length;
                                             i++) {
-                                          prefs.remove(HomeScreen.list[i]);
+                                          prefs.remove(EnteredRes.list[i]);
                                           prefs
-                                              .remove(HomeScreen.list[i] + "1");
+                                              .remove(EnteredRes.list[i] + "1");
                                           prefs
-                                              .remove(HomeScreen.list[i] + "2");
+                                              .remove(EnteredRes.list[i] + "2");
                                         }
-                                        HomeScreen.list = [];
+                                        EnteredRes.list = [];
                                         prefs.setStringList("orderList", []);
                                         CartButton.orderList = {};
                                         Navigator.pop(context);

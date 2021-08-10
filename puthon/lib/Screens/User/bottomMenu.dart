@@ -10,7 +10,6 @@ import 'package:puthon/Utils/pagesurf.dart';
 import 'package:puthon/shared/showMsg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'homeScreen.dart';
 import 'payAndExit.dart';
 
 class BottomMenu extends StatefulWidget {
@@ -33,9 +32,9 @@ class _BottomMenuState extends State<BottomMenu> {
 
     await FirebaseFirestore.instance
         .collection('admins')
-        .doc(HomeScreen.resId)
+        .doc(EnteredRes.resId)
         .collection('tables')
-        .doc(HomeScreen.table)
+        .doc(EnteredRes.table)
         .delete();
 
     Info.scanned = 1;
@@ -50,17 +49,17 @@ class _BottomMenuState extends State<BottomMenu> {
         .then((value) {
       if (value.exists) {
         setState(() {
-          HomeScreen.resId = value['resId'];
-          HomeScreen.table = value['table'];
-          HomeScreen.resName = value['resName'];
-          HomeScreen.total = value['total'];
+          EnteredRes.resId = value['resId'];
+          EnteredRes.table = value['table'];
+          EnteredRes.resName = value['resName'];
+          EnteredRes.total = value['total'];
           loading = false;
         });
       }
     });
     FirebaseFirestore.instance
         .collection('admins')
-        .doc(HomeScreen.resId)
+        .doc(EnteredRes.resId)
         .get()
         .then((value) {
       if (value.exists) {
@@ -255,7 +254,7 @@ class _BottomMenuState extends State<BottomMenu> {
           Container(
             width: MediaQuery.of(context).size.width - 125,
             child: Text(
-              HomeScreen.resName ?? "RESTUARANT NAME",
+              EnteredRes.resName ?? "RESTUARANT NAME",
               style: const TextStyle(
                 color: Colors.black54,
                 fontSize: 20,
@@ -270,7 +269,7 @@ class _BottomMenuState extends State<BottomMenu> {
             height: 5,
           ),
           Text(
-            "Table. " + HomeScreen.table,
+            "Table. " + EnteredRes.table!,
             style: const TextStyle(
               color: Colors.black38,
               fontSize: 15,
