@@ -80,7 +80,7 @@ class _OrderTimerState extends State<OrderTimer> {
               !snapshot.hasData) {
             return loading;
           }
-          var ref = snapshot.data.snapshot.value;
+          var ref = snapshot.data.snapshot.value ?? false;
           if (ref) {
             setFlag();
           }
