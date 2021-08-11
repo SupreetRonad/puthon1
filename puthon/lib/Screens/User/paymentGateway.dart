@@ -3,16 +3,16 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:puthon/Utils/infoProvider.dart';
 import 'package:puthon/shared/showMsg.dart';
 import 'package:upi_pay/upi_pay.dart';
 
 class PaymentScreen extends StatefulWidget {
-  final String? upi;
   final double amount;
 
   const PaymentScreen({
     Key? key,
-    required this.upi,
     required this.amount,
   }) : super(key: key);
 
@@ -45,12 +45,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
     print("Starting transaction with id $transactionRef");
 
     UpiTransactionResponse res = await UpiPay.initiateTransaction(
-      amount: '1.00',
+      amount: widget.amount.toString(),
       app: app.upiApplication,
-      receiverName: 'Sathvik Saya',
-      receiverUpiAddress: "supreet.ronad@axisbank",
+      receiverName: EnteredRes.resName ?? 'Restaurant',
+      receiverUpiAddress: EnteredRes.upiId,
       transactionRef: transactionRef,
-      transactionNote: 'Test',
+      transactionNote: 'Customer Payment',
     );
 
     if (res.status == UpiTransactionStatus.success) {
@@ -71,6 +71,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text('Payment option'),
+        centerTitle: true,
+      ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16),
         child: Column(
@@ -123,16 +129,39 @@ class _PaymentScreenState extends State<PaymentScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(bottom: 12),
-            child: Text(
-              'Pay Using',
-              style: Theme.of(context).textTheme.bodyText1,
-            ),
+          displayTotal(),
+          SizedBox(
+            height: 30,
           ),
           if (_apps != null) _appsGrid(_apps!.map((e) => e).toList()),
         ],
       ),
+    );
+  }
+
+  Widget displayTotal() {
+    return Column(
+      children: [
+        Text(
+          'Amount to be paid',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 17,
+            color: Colors.black54,
+          ),
+        ),
+        SizedBox(
+          height: 5,
+        ),
+        Text(
+          'Rs. ' + widget.amount.toString(),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 30,
+            color: Colors.green,
+          ),
+        ),
+      ],
     );
   }
 
@@ -230,13 +259,3 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
   }
 }
-
-// String? _validateUpiAddress(String value) {
-//   if (value.isEmpty) {
-//     return 'UPI VPA is required.';
-//   }
-//   if (value.split('@').length != 2) {
-//     return 'Invalid UPI VPA';
-//   }
-//   return null;
-// }

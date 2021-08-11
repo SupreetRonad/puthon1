@@ -11,7 +11,6 @@ import 'package:puthon/shared/loadingScreen.dart';
 import 'package:puthon/shared/showMsg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'payAndExit.dart';
 
 class BottomMenu extends StatefulWidget {
   final SharedPreferences prefs;
@@ -49,6 +48,7 @@ class _BottomMenuState extends State<BottomMenu> {
         .then((value) {
       if (value.exists) {
         EnteredRes.resId = value['resId'];
+        EnteredRes.upiId = value['upiId'];
         EnteredRes.table = value['table'];
         EnteredRes.resName = value['resName'];
         EnteredRes.total = (value['total']);
@@ -97,86 +97,7 @@ class _BottomMenuState extends State<BottomMenu> {
                     ),
                     resInfo(),
                     const Spacer(),
-                    StreamBuilder(
-                        stream: FirebaseFirestore.instance
-                            .collection('orders')
-                            .doc(Info.uid)
-                            .snapshots(),
-                        builder: (context, AsyncSnapshot snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Text(
-                              "Loading...",
-                              style: TextStyle(
-                                color: Colors.black54,
-                                fontSize: 13,
-                              ),
-                            );
-                          }
-                          if (!snapshot.hasData || snapshot.hasError) {
-                            return const Center(
-                              child: Text(
-                                "No Active Orders...",
-                                style: TextStyle(
-                                  fontSize: 17,
-                                  color: Colors.black54,
-                                ),
-                              ),
-                            );
-                          }
-                          return ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              shadowColor: Colors.white54,
-                              elevation: 10,
-                              primary: Colors.white.withOpacity(.7),
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(color: Colors.green),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                            ),
-                            onPressed: snapshot.data['total'] == 0
-                                ? exit
-                                : () {
-                                    if (!snapshot.data['ordered']) {
-                                      PayAndExit(widget.prefs, widget.refresh);
-                                      // TODO: Storing order number in cloud, as it can be overwritten in some extreme cases
-                                      pushPage(
-                                        context,
-                                        PaymentScreen(
-                                          upi: upiId,
-                                          amount: snapshot.data['total'],
-                                        ),
-                                      );
-                                    } else {
-                                      showToast(
-                                        "Please wait until your order gets delivered",
-                                      );
-                                    }
-                                  },
-                            child: Row(
-                              children: [
-                                Icon(
-                                  snapshot.data['total'] == 0
-                                      ? Icons.exit_to_app
-                                      : Icons.credit_card,
-                                  color: Colors.green,
-                                  size: 19,
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  snapshot.data['total'] == 0 ? "Exit" : "Pay",
-                                  style: GoogleFonts.righteous(
-                                    color: Colors.green,
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        }),
+                    payExitButton(context),
                     const SizedBox(
                       width: 15,
                     ),
@@ -247,6 +168,79 @@ class _BottomMenuState extends State<BottomMenu> {
       minHeight: 80,
       maxHeight: MediaQuery.of(context).size.height - 155,
       panel: loading ? LoadingScreen() : Menu(),
+    );
+  }
+
+  Widget payExitButton(BuildContext context) {
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance
+          .collection('orders')
+          .doc(Info.uid)
+          .snapshots(),
+      builder: (context, AsyncSnapshot snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Text(
+            "Loading...",
+            style: TextStyle(
+              color: Colors.black54,
+              fontSize: 13,
+            ),
+          );
+        }
+        if (!snapshot.hasData || snapshot.hasError) {
+          return const SizedBox();
+        }
+        return ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            shadowColor: Colors.white54,
+            elevation: 10,
+            primary: Colors.white.withOpacity(.7),
+            shape: RoundedRectangleBorder(
+              side: BorderSide(color: Colors.green),
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ),
+          onPressed: snapshot.data['total'] == 0
+              ? exit
+              : () {
+                  if (!snapshot.data['ordered']) {
+                    // TODO: Storing order number in cloud, as it can be overwritten in some extreme cases
+                    pushPage(
+                      context,
+                      PaymentScreen(
+                        amount: snapshot.data['total'],
+                      ),
+                    );
+                  } else {
+                    showToast(
+                      "Please wait until your order gets delivered",
+                    );
+                  }
+                },
+          child: Row(
+            children: [
+              Icon(
+                snapshot.data['total'] == 0
+                    ? Icons.exit_to_app
+                    : Icons.credit_card,
+                color: Colors.green,
+                size: 19,
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              Text(
+                snapshot.data['total'] == 0 ? "Exit" : "Pay",
+                style: GoogleFonts.righteous(
+                  color: Colors.green,
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
