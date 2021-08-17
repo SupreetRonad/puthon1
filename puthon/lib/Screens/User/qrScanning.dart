@@ -142,7 +142,6 @@ class _QrScanningState extends State<QrScanning> {
                             context,
                             MaterialPageRoute(
                               builder: (builder) => PaymentScreen(
-                                upi: 'supreet.ronad@axisbank',
                                 amount: 10,
                               ),
                             ),

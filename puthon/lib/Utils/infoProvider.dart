@@ -40,6 +40,7 @@ class Info {
 
 class EnteredRes {
   static String resId = '';
+  static String upiId = '';
   static String? resName = '';
   static String? table = '';
   static var total; // Actually double, but for fixing error
