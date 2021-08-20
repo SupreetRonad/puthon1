@@ -170,8 +170,8 @@ class _HomeDrawerState extends State<HomeDrawer> {
                     borderRadius: BorderRadius.circular(100),
                     child: Image.asset(
                       Info.gender == 1
-                          ? "assets/images/female2.png"
-                          : "assets/images/male2.png",
+                          ? "assets/images/male2.png"
+                          : "assets/images/female2.png",
                       fit: BoxFit.cover,
                     ),
                   ),

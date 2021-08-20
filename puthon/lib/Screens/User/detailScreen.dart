@@ -103,7 +103,9 @@ class _DetailScreenState extends State<DetailScreen> {
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/images/leaves1.jpg"),
+          image: AssetImage(
+            "assets/images/bg3.jpg",
+          ),
           fit: BoxFit.cover,
         ),
         color: Colors.white,
@@ -120,7 +122,7 @@ class _DetailScreenState extends State<DetailScreen> {
             : Padding(
                 padding: const EdgeInsets.all(10),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(20),
@@ -146,7 +148,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                         ? "Tell us about yourself"
                                         : "Edit Profile",
                                     style: const TextStyle(
-                                      color: Colors.white,
+                                      color: Colors.black54,
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -214,12 +216,12 @@ class _DetailScreenState extends State<DetailScreen> {
                                           SizedBox(
                                             height: 50,
                                             child: TextButton(
-                                              style: style(Colors.white38),
+                                              style: style(Colors.white),
                                               onPressed: () =>
                                                   Navigator.pop(context),
                                               child: const Icon(
                                                 Icons.close_rounded,
-                                                color: Colors.black,
+                                                color: Colors.red,
                                               ),
                                             ),
                                           ),
@@ -228,7 +230,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                           width: 120,
                                           child: _isLoading
                                               ? const SpinKitFadingCircle(
-                                                  color: Colors.white60,
+                                                  color: Colors.black54,
                                                   size: 20.0,
                                                 )
                                               : TextButton(
@@ -246,13 +248,13 @@ class _DetailScreenState extends State<DetailScreen> {
                                                       const Text(
                                                         "Save  ",
                                                         style: TextStyle(
-                                                          color: Colors.black,
+                                                          color: Colors.green,
                                                           fontSize: 15,
                                                         ),
                                                       ),
                                                       const Icon(
                                                         Icons.arrow_forward_ios,
-                                                        color: Colors.black,
+                                                        color: Colors.green,
                                                         size: 18,
                                                       ),
                                                     ],
@@ -280,12 +282,16 @@ class _DetailScreenState extends State<DetailScreen> {
   }
 
   ButtonStyle style(Color primary) => ElevatedButton.styleFrom(
+    shadowColor: Colors.white30,
         primary: primary,
         elevation: 20,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
         ),
-        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+        padding: EdgeInsets.symmetric(
+          vertical: 15,
+          horizontal: 20,
+        ),
       );
 
   Widget imageRadio(
