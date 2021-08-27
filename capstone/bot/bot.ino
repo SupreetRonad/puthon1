@@ -10,7 +10,11 @@ int enB = 6; //Left motor
 int MotorBip1 = 4;
 int MotorBip2 = 7;
 
-int table = 1;
+int table = 2;
+
+int forwardSpeed = 70;
+int turnSpeed = 65;
+int turnSpeedAnti = 40;
 
 #define echoPin 12 // attach pin D2 Arduino to pin Echo of HC-SR04
 #define trigPin 11 //attach pin D3 Arduino to pin Trig of HC-SR04
@@ -68,8 +72,8 @@ void followLine() {
 
 void rightBot() {
   Serial.println("Right");
-  analogWrite(enA, 40);
-  analogWrite(enB, 60);
+  analogWrite(enA, turnSpeedAnti);
+  analogWrite(enB, turnSpeed);
   //Tilt robot towards right by stopping the right wheel and moving the left one
   digitalWrite(MotorAip1, LOW); // If I want to turn right then the speed of the right wheel should be less than that of the left wheel, here, let a be the right wheel
   digitalWrite(MotorAip2, HIGH);
@@ -80,8 +84,8 @@ void rightBot() {
 
 void leftBot() {
   Serial.println("Left");
-  analogWrite(enA, 60);
-  analogWrite(enB, 40);
+  analogWrite(enA, turnSpeed);
+  analogWrite(enB, turnSpeedAnti);
   //Tilt robot towards left by stopping the left wheel and moving the right one
   digitalWrite(MotorAip1, HIGH); //
   digitalWrite(MotorAip2, LOW);  //
@@ -93,8 +97,8 @@ void leftBot() {
 void forwardBot() {
   Serial.println("Forward");
   //Move both the Motors
-  analogWrite(enA, 60);
-  analogWrite(enB, 60);
+  analogWrite(enA, forwardSpeed);
+  analogWrite(enB, forwardSpeed);
   digitalWrite(MotorAip1, HIGH);
   digitalWrite(MotorAip2, LOW);
   digitalWrite(MotorBip1, HIGH);
