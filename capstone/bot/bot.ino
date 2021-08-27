@@ -97,8 +97,8 @@ void leftBot() {
 void forwardBot() {
   Serial.println("Forward");
   //Move both the Motors
-  analogWrite(enA, forwardSpeed);
-  analogWrite(enB, forwardSpeed);
+  analogWrite(enA, forwardSpeed); // right wheel
+  analogWrite(enB, forwardSpeed + 10); // left wheel
   digitalWrite(MotorAip1, HIGH);
   digitalWrite(MotorAip2, LOW);
   digitalWrite(MotorBip1, HIGH);
