@@ -12,15 +12,19 @@ int MotorBip2 = 7;
 
 int table = 2;
 
-int forwardSpeed = 70;
-int turnSpeed = 65;
-int turnSpeedAnti = 40;
+int start = 0;
+int firstDivide = 0;
+int continueWithDelay = 0;
+
+int forwardSpeed = 55;
+int turnSpeed = 70;
+int turnSpeedAnti = 30;
 
 #define echoPin 12 // attach pin D2 Arduino to pin Echo of HC-SR04
 #define trigPin 11 //attach pin D3 Arduino to pin Trig of HC-SR04
 
 // counter for turns
-int count = 0;
+int count;
 
 // defines variables
 long duration; // variable for the duration of sound wave travel
@@ -43,17 +47,32 @@ void setup() {
 
 void loop()
 {
-  if (obstacleFound()) {
-    stopBot();
-  } else {
-    if (digitalRead(IR1) == HIGH && digitalRead(IR2) == HIGH) {
-      count++;
+  Serial.println(firstDivide);
+  followLine();
+  if (digitalRead(IR1) == HIGH && digitalRead(IR2) == HIGH) {
+
+    if (firstDivide == 0) {
+      firstDivide = 1;
+      delay(200);
+      if (table % 2 != 0) {
+        while (digitalRead(IR2) != HIGH) {
+          leftBot();
+        }
+        count = -1;
+      } else {
+        while (digitalRead(IR1) != HIGH) {
+          rightBot();
+        }
+        count = 0;
+      }
+    }
+    else {
+      count += 2;
       delay(250);
       if (count == table) {
+//        delay(200);
         reachedTable();
       }
-    } else {
-      followLine();
     }
   }
 }
@@ -79,7 +98,7 @@ void rightBot() {
   digitalWrite(MotorAip2, HIGH);
   digitalWrite(MotorBip1, HIGH); //
   digitalWrite(MotorBip2, LOW);  //
-  // delay(100);
+  //  delay(continueWithDelay);
 }
 
 void leftBot() {
@@ -91,18 +110,19 @@ void leftBot() {
   digitalWrite(MotorAip2, LOW);  //
   digitalWrite(MotorBip1, LOW);
   digitalWrite(MotorBip2, HIGH);
-  // delay(100);
+  //  delay(continueWithDelay);
 }
 
 void forwardBot() {
   Serial.println("Forward");
   //Move both the Motors
-  analogWrite(enA, forwardSpeed); // right wheel
-  analogWrite(enB, forwardSpeed + 10); // left wheel
+  analogWrite(enA, forwardSpeed ); // right wheel
+  analogWrite(enB, forwardSpeed ); // left wheel
   digitalWrite(MotorAip1, HIGH);
   digitalWrite(MotorAip2, LOW);
   digitalWrite(MotorBip1, HIGH);
   digitalWrite(MotorBip2, LOW);
+  //  delay(continueWithDelay);
 }
 
 void stopBot() {
@@ -114,37 +134,60 @@ void stopBot() {
   digitalWrite(MotorAip2, LOW);
   digitalWrite(MotorBip1, LOW);
   digitalWrite(MotorBip2, LOW);
+  //  delay(continueWithDelay);
+}
+
+// Virtual Turns
+void virtualTurn(int turn, int d) {
+  switch (turn) {
+    case 0:
+      leftBot();
+      break;
+    case 1:
+      rightBot();
+      break;
+    default:
+      break;
+  }
+  delay(d);
 }
 
 long microsecondsToCentimeters(long microseconds) {
   return microseconds / 29 / 2;
 }
 
+bool foundCheckpoint() {
+  return digitalRead(IR1) == HIGH && digitalRead(IR2) == HIGH;
+}
+
 void reachedTable() {
-  int leftTurn = 700;
+  int leftTurn = 400;
   int pause = 5000;
-  
-  forwardBot();
-  delay(500);
-  
-  leftBot();
-  delay(leftTurn);
-  
+
+//  forwardBot();
+//  delay(200);
+
+  //  leftBot();
+  //  delay(leftTurn);
+  while (digitalRead(IR2) != HIGH) {
+    leftBot();
+  }
+
   while (!(digitalRead(IR1) == HIGH && digitalRead(IR2) == HIGH)) {
     followLine();
   }
   delay(200);
-  
+
   stopBot();
   delay(pause);
-  
+
   while (!(digitalRead(IR1) == HIGH && digitalRead(IR2) == HIGH)) {
     followLine();
   }
-  
-//  forwardBot();
-//  delay(500);
-  
+
+  //  forwardBot();
+  //  delay(500);
+
   leftBot();
   delay(leftTurn);
 }
