@@ -5,7 +5,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:puthon/Utils/infoProvider.dart';
-import 'package:puthon/shared/showMsg.dart';
+import 'package:puthon/Utils/showMsg.dart';
 import 'package:upi_pay/upi_pay.dart';
 
 class PaymentScreen extends StatefulWidget {

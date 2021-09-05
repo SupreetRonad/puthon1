@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:puthon/shared/loading.dart';
-import 'package:puthon/shared/showMsg.dart';
+import 'package:puthon/Utils/showMsg.dart';
 import 'package:puthon/shared/textField.dart';
 
 class EditResInfo extends StatefulWidget {

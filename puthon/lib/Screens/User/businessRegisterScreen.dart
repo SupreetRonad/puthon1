@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puthon/Screens/User/tnc.dart';
-import 'package:puthon/shared/showMsg.dart';
+import 'package:puthon/Utils/showMsg.dart';
 import 'package:puthon/shared/textField.dart';
 
 class RegisterBusiness extends StatefulWidget {

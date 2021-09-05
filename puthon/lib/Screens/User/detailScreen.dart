@@ -9,7 +9,7 @@ import 'package:puthon/Screens/User/homeScreen.dart';
 import 'package:puthon/Shared/loadingScreen.dart';
 import 'package:puthon/Utils/infoProvider.dart';
 import 'package:puthon/Utils/pagesurf.dart';
-import 'package:puthon/shared/showMsg.dart';
+import 'package:puthon/Utils/showMsg.dart';
 import 'package:puthon/shared/textField.dart';
 
 class DetailScreen extends StatefulWidget {
