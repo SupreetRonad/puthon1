@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:typed_data';
 import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -50,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    
+    log(uid);
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -70,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
               .collection('users')
               .doc(uid)
               .snapshots(),
-          builder: (context,AsyncSnapshot snapshot) {
+          builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return LoadingScreen();
             }

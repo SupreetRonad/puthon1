@@ -169,7 +169,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(100),
                     child: Image.asset(
-                      Info.gender == 1
+                      Info.gender == 2
                           ? "assets/images/male2.png"
                           : "assets/images/female2.png",
                       fit: BoxFit.cover,
