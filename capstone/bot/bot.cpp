@@ -17,7 +17,7 @@ int MotorBip2 = 7;
 
 // motor speeds
 int forwardSpeed = 60;
-int turnSpeed = 68;
+int turnSpeed = 70;
 int turnSpeedAnti = 45;
 
 #define echoPin 12 // attach pin D2 Arduino to pin Echo of HC-SR04
