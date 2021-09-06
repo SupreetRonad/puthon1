@@ -10,15 +10,17 @@ int enB = 6; //Left motor
 int MotorBip1 = 4;
 int MotorBip2 = 7;
 
-int table = 2;
+int table = 3;
 
 int start = 0;
 int firstDivide = 0;
 int continueWithDelay = 0;
+int inLoop = 0;
+
 
 int forwardSpeed = 55;
-int turnSpeed = 70;
-int turnSpeedAnti = 30;
+int turnSpeed = 65;
+int turnSpeedAnti = 45;
 
 #define echoPin 12 // attach pin D2 Arduino to pin Echo of HC-SR04
 #define trigPin 11 //attach pin D3 Arduino to pin Trig of HC-SR04
@@ -35,8 +37,8 @@ void setup() {
   // put your setup code here, to run once:
   pinMode(enA, OUTPUT);
   pinMode(enB, OUTPUT);
-  pinMode(IR1, INPUT);
-  pinMode(IR2, INPUT);
+  pinMode(IR1, INPUT); // Right IR
+  pinMode(IR2, INPUT); // Left IR
   pinMode(MotorAip1, OUTPUT);
   pinMode(MotorAip2, OUTPUT);
   pinMode(MotorBip1, OUTPUT);
@@ -49,18 +51,20 @@ void loop()
 {
   Serial.println(firstDivide);
   followLine();
-  if (digitalRead(IR1) == HIGH && digitalRead(IR2) == HIGH) {
-
+  if (table == 0 && digitalRead(IR1) == HIGH && digitalRead(IR2) == HIGH) {
+    stopBot();
+  }
+  else if (digitalRead(IR1) == HIGH && digitalRead(IR2) == HIGH) {
     if (firstDivide == 0) {
       firstDivide = 1;
       delay(200);
       if (table % 2 != 0) {
-        while (digitalRead(IR2) != HIGH) {
+        while (digitalRead(IR1) != HIGH) {
           leftBot();
         }
         count = -1;
       } else {
-        while (digitalRead(IR1) != HIGH) {
+        while (digitalRead(IR2) != HIGH) {
           rightBot();
         }
         count = 0;
@@ -68,9 +72,12 @@ void loop()
     }
     else {
       count += 2;
-      delay(250);
-      if (count == table) {
-//        delay(200);
+      delay(200);
+
+      if (count > 4) {
+        returnToKitchen();
+      }
+      else if (count == table) {
         reachedTable();
       }
     }
@@ -161,15 +168,10 @@ bool foundCheckpoint() {
 }
 
 void reachedTable() {
-  int leftTurn = 400;
+  int leftTurn = 450;
   int pause = 5000;
 
-//  forwardBot();
-//  delay(200);
-
-  //  leftBot();
-  //  delay(leftTurn);
-  while (digitalRead(IR2) != HIGH) {
+  while (digitalRead(IR1) != HIGH) {
     leftBot();
   }
 
@@ -178,6 +180,8 @@ void reachedTable() {
   }
   delay(200);
 
+  //  delivered = 1;
+
   stopBot();
   delay(pause);
 
@@ -185,11 +189,25 @@ void reachedTable() {
     followLine();
   }
 
-  //  forwardBot();
-  //  delay(500);
+  delay(200);
 
-  leftBot();
-  delay(leftTurn);
+  while (digitalRead(IR1) != HIGH) {
+    leftBot();
+  }
+}
+
+void returnToKitchen() {
+  table = 0;
+  if (table % 2 == 0) {
+    while (digitalRead(IR2) != HIGH) {
+      rightBot();
+    }
+  } else {
+    while (digitalRead(IR1) != HIGH) {
+      leftBot();
+    }
+  }
+
 }
 
 bool obstacleFound() {
