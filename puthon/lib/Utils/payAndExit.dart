@@ -1,14 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:puthon/Utils/infoProvider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'cartButton.dart';
-import 'homeScreen.dart';
+import '../Screens/User/cartButton.dart';
+import '../Screens/User/homeScreen.dart';
 
-Future<void> PayAndExit(var prefs, Function refresh) async {
+Future<void> PayAndExit(Function refresh) async {
   var timeStamp = Timestamp.now().toString();
   var orderList = {};
   var total, resName, table, time;
+
+  SharedPreferences prefs = await SharedPreferences.getInstance();
 
   for (var i = 0; i < EnteredRes.list.length; i++) {
     prefs.remove(EnteredRes.list[i]);
@@ -130,6 +133,4 @@ Future<void> PayAndExit(var prefs, Function refresh) async {
           .delete();
     });
   });
-
-  
 }

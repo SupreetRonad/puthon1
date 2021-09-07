@@ -38,10 +38,10 @@ class _QrScanningState extends State<QrScanning> {
           .get()
           .then((value) {
         if (value.exists) {
-          
           EnteredRes.resName = value['resName'];
           EnteredRes.resId = cameraScanResult!.split("/*/")[1];
           EnteredRes.table = cameraScanResult!.split("/*/")[0];
+          EnteredRes.upiId = value['upiId'];
 
           FirebaseFirestore.instance.collection('users').doc(Info.uid).update({
             'scanned': 2,
@@ -53,6 +53,7 @@ class _QrScanningState extends State<QrScanning> {
             'ordered': false,
             'total': 0,
             'timeEntered': DateTime.now(),
+            'upiId': EnteredRes.upiId,
           });
           FirebaseFirestore.instance
               .collection('admins')
@@ -136,18 +137,7 @@ class _QrScanningState extends State<QrScanning> {
                     ),
                     padding: const EdgeInsets.symmetric(vertical: 10),
                   ),
-                  onPressed: false
-                      ? () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (builder) => PaymentScreen(
-                                amount: 10,
-                              ),
-                            ),
-                          );
-                        }
-                      : scanQR,
+                  onPressed: scanQR,
                   child: const Icon(
                     Icons.qr_code_scanner_rounded,
                     size: 30,

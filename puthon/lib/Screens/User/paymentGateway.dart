@@ -4,16 +4,21 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:puthon/Screens/User/payment_successful.dart';
 import 'package:puthon/Utils/infoProvider.dart';
+import 'package:puthon/Utils/pagesurf.dart';
+import 'package:puthon/Utils/payAndExit.dart';
 import 'package:puthon/Utils/showMsg.dart';
 import 'package:upi_pay/upi_pay.dart';
 
 class PaymentScreen extends StatefulWidget {
   final double amount;
+  final Function refresh;
 
   const PaymentScreen({
     Key? key,
     required this.amount,
+    required this.refresh,
   }) : super(key: key);
 
   @override
@@ -45,19 +50,27 @@ class _PaymentScreenState extends State<PaymentScreen> {
     print("Starting transaction with id $transactionRef");
 
     UpiTransactionResponse res = await UpiPay.initiateTransaction(
-      amount: widget.amount.toString(),
+      // amount: widget.amount.toString(),
+      amount: '1',
       app: app.upiApplication,
       receiverName: EnteredRes.resName ?? 'Restaurant',
-      receiverUpiAddress: EnteredRes.upiId,
+      // receiverUpiAddress: EnteredRes.upiId,
+      receiverUpiAddress: 'supreet.ronad@axisbank',
       transactionRef: transactionRef,
       transactionNote: 'Customer Payment',
     );
 
     if (res.status == UpiTransactionStatus.success) {
-      showSnack(
+      // showSnack(
+      //   context,
+      //   'Payment Successful!',
+      //   color: Colors.green,
+      // );
+      PayAndExit(widget.refresh);
+      widget.refresh();
+      replacePage(
         context,
-        'Payment Successful!',
-        color: Colors.green,
+        PaymentSuccessful(),
       );
     } else {
       showSnack(
