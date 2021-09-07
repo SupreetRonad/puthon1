@@ -1,12 +1,14 @@
 #include "bot.h"
 
-int table = 2;
+int table = 0;
 int start = 0;
 int firstDivide = 0;
 int continueWithDelay = 0;
 int inLoop = 0;
-int reachedKitchen = 0;
+int reachedKitchen = 1;
 int count;
+
+String tableString = "";
 
 void setup() {
   Serial.begin(9600);
@@ -24,11 +26,21 @@ void setup() {
 
 void loop() {
   stopIfReachedKitchen(reachedKitchen);
+  while (Serial.available() && table == 0) {
+    tableString = Serial.readString();
+    if (tableString != "") {
+      table = tableString.toInt();    
+      reachedKitchen = 0;
+      Serial.flush(); 
+    }
+  }
   if (foundCheckpoint()) {
     if (table == 0 ) {
       delay(200);
       stopBot();
       reachedKitchen = 1;
+      
+      firstDivide = 0;
     }
     else if (firstDivide == 0) {
       firstDivide = 1;

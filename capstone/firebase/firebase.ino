@@ -9,15 +9,15 @@
 void setup() {
   Serial.begin(9600);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-  Serial.println("\t\t...Connecting to Internet...\t\t");
+  //  Serial.println("\t\t...Connecting to Internet...\t\t");
   while (WiFi.status() != WL_CONNECTED) {
-    Serial.println("Please Wait...");
+    //    Serial.println("Please Wait...");
     delay(500);
   }
-  Serial.print("Connected to ");
-  Serial.println(WiFi.localIP());
+  //  Serial.print("Connected to ");
+  //  Serial.println(WiFi.localIP());
   Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH);
-  Firebase.stream("/4kixXZxIJbQ5biBRSIFhjsh8NMz2/56");
+  Firebase.stream("/4kixXZxIJbQ5biBRSIFhjsh8NMz2/70");
 }
 
 void loop() {
@@ -29,25 +29,33 @@ void loop() {
 
     FirebaseObject event = Firebase.readEvent();
     String eventType = event.getString("type");
-    Serial.print("Event type: ");
-    Serial.println(eventType);
+    //    Serial.print("Event type: ");
+    //    Serial.println(eventType);
     if (eventType == "put") {
-      bool delivered = Firebase.getBool("/4kixXZxIJbQ5biBRSIFhjsh8NMz2/56/delivered");
-      Serial.print("Delivered: ");
-      Serial.println(delivered);
+      bool delivered = Firebase.getBool("/4kixXZxIJbQ5biBRSIFhjsh8NMz2/70/delivered");
+      //      Serial.print("Delivered: ");
+      //      Serial.println(delivered);
       if (delivered == false) {
-        Serial.println("Start Journey");
-        int table = Firebase.getInt("/4kixXZxIJbQ5biBRSIFhjsh8NMz2/56/tableNo");
-        Serial.print("Table: ");
+        //        Serial.println("Start Journey");
+        int table = Firebase.getInt("/4kixXZxIJbQ5biBRSIFhjsh8NMz2/70/tableNo");
+        //        Serial.print("Table: ");
         Serial.println(table);
-        delay(1000);
-        informDelivered();
+        delay(5000);
+
       }
+    }
+  }
+  while (Serial.available()) {
+    String feedback = Serial.readString();
+    if (feedback != "") {
+      informDelivered();
+      Serial.flush();
+      break;
     }
   }
 }
 
 void informDelivered() {
-  Firebase.setBool("/4kixXZxIJbQ5biBRSIFhjsh8NMz2/56/delivered", true);
-  Serial.println("Delivered to the table.");
+  Firebase.setBool("/4kixXZxIJbQ5biBRSIFhjsh8NMz2/70/delivered", true);
+  //  Serial.println("Delivered to the table.");
 }
