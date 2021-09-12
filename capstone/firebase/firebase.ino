@@ -29,33 +29,22 @@ void loop() {
 
     FirebaseObject event = Firebase.readEvent();
     String eventType = event.getString("type");
-    //    Serial.print("Event type: ");
-    //    Serial.println(eventType);
     if (eventType == "put") {
       bool delivered = Firebase.getBool("/4kixXZxIJbQ5biBRSIFhjsh8NMz2/70/delivered");
-      //      Serial.print("Delivered: ");
-      //      Serial.println(delivered);
       if (delivered == false) {
-        //        Serial.println("Start Journey");
         int table = Firebase.getInt("/4kixXZxIJbQ5biBRSIFhjsh8NMz2/70/tableNo");
-        //        Serial.print("Table: ");
         Serial.println(table);
         delay(5000);
-
       }
     }
   }
+
   while (Serial.available()) {
     String feedback = Serial.readString();
     if (feedback != "") {
-      informDelivered();
+      Firebase.setBool("/4kixXZxIJbQ5biBRSIFhjsh8NMz2/70/delivered", true);
       Serial.flush();
       break;
     }
   }
-}
-
-void informDelivered() {
-  Firebase.setBool("/4kixXZxIJbQ5biBRSIFhjsh8NMz2/70/delivered", true);
-  //  Serial.println("Delivered to the table.");
 }
