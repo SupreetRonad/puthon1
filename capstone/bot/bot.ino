@@ -44,7 +44,7 @@ void loop() {
     }
     else if (firstDivide == 0) {
       firstDivide = 1;
-      delay(200);
+      delay(150);
       if (table % 2 != 0) {
         virtualTurn(0);
         count = -1;
