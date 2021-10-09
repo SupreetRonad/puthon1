@@ -20,7 +20,7 @@ class LoadingScreen extends StatelessWidget {
           Text(
             "Loading...",
             style: GoogleFonts.roboto(
-              fontSize: 15,
+              fontSize: 12,
               color: Colors.black54,
             ),
           ),

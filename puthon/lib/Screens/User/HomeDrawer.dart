@@ -153,6 +153,12 @@ class _HomeDrawerState extends State<HomeDrawer> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: Colors.yellow[300],
+              image: DecorationImage(
+                image: AssetImage(
+                  "assets/images/amber1.jpg",
+                ),
+                fit: BoxFit.cover,
+              ),
             ),
             margin: EdgeInsets.only(top: 40),
           ),

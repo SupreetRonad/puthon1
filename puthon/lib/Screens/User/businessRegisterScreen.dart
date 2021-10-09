@@ -36,7 +36,7 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
           phone = value.data()!["phone"];
           email = FirebaseAuth.instance.currentUser!.email;
         });
-      }else{
+      } else {
         showSnack(context, 'Something went wrong!');
         Navigator.pop(context);
       }
@@ -114,7 +114,7 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
       child: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/res5.jpg"),
+            image: AssetImage("assets/images/amber1.jpg"),
             fit: BoxFit.cover,
           ),
         ),
@@ -122,13 +122,13 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
           backgroundColor: Colors.transparent,
           appBar: AppBar(
             iconTheme: IconThemeData(
-              color: Colors.white,
+              color: Colors.black,
             ),
             elevation: 0,
             backgroundColor: Colors.transparent,
             title: const Text(
               "Register My Business",
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.black),
             ),
           ),
           body: Padding(
@@ -263,7 +263,7 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
         children: [
           const Icon(
             Icons.play_arrow,
-            color: Colors.white,
+            color: Colors.black54,
           ),
           const SizedBox(
             width: 5,
@@ -271,7 +271,7 @@ class _RegisterBusinessState extends State<RegisterBusiness> {
           Text(
             head,
             style: const TextStyle(
-              color: Colors.white,
+              color: Colors.black54,
               fontSize: 15,
             ),
           ),
