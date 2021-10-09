@@ -49,9 +49,10 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
         child: Padding(
           padding: const EdgeInsets.all(15),
           child: SizedBox(
-            height: MediaQuery.of(context).size.height * .45 + 80,
+            // height: MediaQuery.of(context).size.height * .45 + 80,
             width: MediaQuery.of(context).size.width * .8,
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 const Text(
                   "Generate QR Code",
@@ -127,7 +128,9 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
                   height: 5,
                 ),
                 displayQR(context),
-                const Spacer(),
+                const SizedBox(
+                  height: 15,
+                ),
                 if (valid == 1)
                   Container(
                     height: 40,
@@ -167,9 +170,6 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
                       ),
                     ),
                   ),
-                const SizedBox(
-                  height: 10,
-                ),
               ],
             ),
           ),
@@ -178,8 +178,10 @@ class _AdminGenerateQRState extends State<AdminGenerateQR> {
     );
   }
 
-  Widget displayQR(BuildContext context) => SizedBox(
-        height: MediaQuery.of(context).size.height * .25,
+  Widget displayQR(BuildContext context) => Container(
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height * .20,
+        ),
         child: result.isEmpty
             ? const Center(
                 child: Icon(

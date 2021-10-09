@@ -195,7 +195,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                     onPressed: () => Navigator.pop(context),
                                     child: const Icon(
                                       Icons.close_rounded,
-                                      color: Colors.red,
+                                      color: Colors.white,
                                     ),
                                   ),
                                 ),
