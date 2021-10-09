@@ -104,7 +104,7 @@ class _DetailScreenState extends State<DetailScreen> {
       decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage(
-            "assets/images/bg3.jpg",
+            "assets/images/amber1.jpg",
           ),
           fit: BoxFit.cover,
         ),
@@ -123,155 +123,113 @@ class _DetailScreenState extends State<DetailScreen> {
                 padding: const EdgeInsets.all(10),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white30,
-                            borderRadius: BorderRadius.circular(20),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 25),
+                      child: Column(
+                        children: [
+                          Text(
+                            "Your profile",
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                          child: Column(
+                          Text(
+                            register
+                                ? "Tell us about yourself..."
+                                : "Your information...",
+                            style: const TextStyle(
+                              color: Colors.black38,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                      ),
+                      child: Column(
+                        children: [
+                          SizedBox(height: 15),
+                          CField(
+                            controller: _name,
+                            label: 'Name',
+                            preIcon: Icons.person,
+                            bgColor: Colors.white.withOpacity(.6),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          CField(
+                            controller: _phone,
+                            label: 'Phone',
+                            preIcon: Icons.phone,
+                            bgColor: Colors.white.withOpacity(.6),
+                            preText: '+91 ',
+                            maxLen: 10,
+                            inputType: TextInputType.phone,
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              Row(
-                                children: [
-                                  const SizedBox(
-                                    width: 25,
-                                  ),
-                                  Text(
-                                    register
-                                        ? "Tell us about yourself"
-                                        : "Edit Profile",
-                                    style: const TextStyle(
-                                      color: Colors.black54,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 20,
+                              selectDate(),
+                              const Text(
+                                "|",
+                                style: TextStyle(
+                                  fontSize: 40,
+                                  color: Colors.black26,
                                 ),
-                                child: Column(
-                                  children: [
-                                    SizedBox(height: 15),
-                                    CField(
-                                      controller: _name,
-                                      label: 'Name',
-                                      preIcon: Icons.person,
-                                      bgColor: Colors.white70,
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    CField(
-                                      controller: _phone,
-                                      label: 'Phone',
-                                      preIcon: Icons.phone,
-                                      bgColor: Colors.white70,
-                                      preText: '+91 ',
-                                      maxLen: 10,
-                                      inputType: TextInputType.phone,
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        selectDate(),
-                                        const Text(
-                                          "|",
-                                          style: TextStyle(
-                                            fontSize: 40,
-                                            color: Colors.black26,
-                                          ),
-                                        ),
-                                        imageRadio(
-                                          "assets/images/female2.png",
-                                          selectC: 1,
-                                        ),
-                                        imageRadio(
-                                          "assets/images/male2.png",
-                                          selectC: 2,
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        if (!register)
-                                          SizedBox(
-                                            height: 50,
-                                            child: TextButton(
-                                              style: style(Colors.white),
-                                              onPressed: () =>
-                                                  Navigator.pop(context),
-                                              child: const Icon(
-                                                Icons.close_rounded,
-                                                color: Colors.red,
-                                              ),
-                                            ),
-                                          ),
-                                        SizedBox(
-                                          height: 50,
-                                          width: 120,
-                                          child: _isLoading
-                                              ? const SpinKitFadingCircle(
-                                                  color: Colors.black54,
-                                                  size: 20.0,
-                                                )
-                                              : TextButton(
-                                                  style: style(
-                                                    Colors.white70,
-                                                  ),
-                                                  onPressed: _isLoading
-                                                      ? null
-                                                      : saveInfo,
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      const Text(
-                                                        "Save  ",
-                                                        style: TextStyle(
-                                                          color: Colors.green,
-                                                          fontSize: 15,
-                                                        ),
-                                                      ),
-                                                      const Icon(
-                                                        Icons.arrow_forward_ios,
-                                                        color: Colors.green,
-                                                        size: 18,
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 15,
-                                    ),
-                                  ],
-                                ),
+                              ),
+                              imageRadio(
+                                "assets/images/female2.png",
+                                selectC: 1,
+                              ),
+                              imageRadio(
+                                "assets/images/male2.png",
+                                selectC: 2,
                               ),
                             ],
                           ),
-                        ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              if (!register)
+                                SizedBox(
+                                  height: 50,
+                                  child: TextButton(
+                                    style: style(),
+                                    onPressed: () => Navigator.pop(context),
+                                    child: const Icon(
+                                      Icons.close_rounded,
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                ),
+                              _saveButton(),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -281,16 +239,44 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 
-  ButtonStyle style(Color primary) => ElevatedButton.styleFrom(
-    shadowColor: Colors.white30,
-        primary: primary,
-        elevation: 20,
+  Widget _saveButton() => SizedBox(
+        height: 50,
+        width: 120,
+        child: _isLoading
+            ? const SpinKitFadingCircle(
+                color: Colors.black54,
+                size: 20.0,
+              )
+            : ElevatedButton(
+                style: style(),
+                onPressed: _isLoading ? null : saveInfo,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Save  ",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    const Icon(
+                      Icons.arrow_forward_ios,
+                      size: 18,
+                      color: Colors.white,
+                    ),
+                  ],
+                ),
+              ),
+      );
+
+  ButtonStyle style() => ElevatedButton.styleFrom(
+        elevation: 5,
+        primary: Colors.amber[600],
+        shadowColor: Colors.amber[700]!.withOpacity(0.6),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
+          borderRadius: BorderRadius.circular(20),
         ),
         padding: EdgeInsets.symmetric(
-          vertical: 15,
           horizontal: 20,
+          vertical: 15,
         ),
       );
 
@@ -307,7 +293,9 @@ class _DetailScreenState extends State<DetailScreen> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(100),
           ),
-          color: gender == selectC ? Colors.white : Colors.transparent,
+          color: gender == selectC
+              ? Colors.white.withOpacity(.6)
+              : Colors.transparent,
           child: ClipOval(
             child: TextButton(
               onPressed: () {
@@ -329,7 +317,7 @@ class _DetailScreenState extends State<DetailScreen> {
 
   Widget selectDate() => Container(
         decoration: BoxDecoration(
-          color: Colors.white70,
+          color: Colors.white.withOpacity(.6),
           borderRadius: BorderRadius.circular(20),
         ),
         width: 160,

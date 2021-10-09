@@ -233,7 +233,7 @@ class _AuthScreenState extends State<AuthScreen> {
             "PUTHON",
             style: GoogleFonts.righteous(
               fontWeight: FontWeight.bold,
-              fontSize: MediaQuery.of(context).size.height * .040,
+              fontSize: MediaQuery.of(context).size.height * .050,
               color: Colors.white,
             ),
           ),
