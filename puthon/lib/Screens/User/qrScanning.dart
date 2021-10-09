@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
-import 'package:puthon/Screens/User/paymentGateway.dart';
 import 'package:puthon/Utils/infoProvider.dart';
 import 'package:puthon/Utils/requestPermission.dart';
 import 'package:puthon/Utils/showMsg.dart';

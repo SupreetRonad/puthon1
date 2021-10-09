@@ -7,7 +7,6 @@ import 'package:puthon/Screens/User/paymentGateway.dart';
 import 'package:puthon/Shared/orderCard.dart';
 import 'package:puthon/Utils/infoProvider.dart';
 import 'package:puthon/Utils/pagesurf.dart';
-import 'package:puthon/Utils/payAndExit.dart';
 import 'package:puthon/shared/loadingScreen.dart';
 import 'package:puthon/Utils/showMsg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
