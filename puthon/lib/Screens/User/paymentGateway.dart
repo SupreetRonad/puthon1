@@ -50,12 +50,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
     print("Starting transaction with id $transactionRef");
 
     UpiTransactionResponse res = await UpiPay.initiateTransaction(
-      // amount: widget.amount.toString(),
-      amount: '1',
+      amount: widget.amount.toString(),
+      // amount: '1',
       app: app.upiApplication,
       receiverName: EnteredRes.resName ?? 'Restaurant',
-      // receiverUpiAddress: EnteredRes.upiId,
-      receiverUpiAddress: 'supreet.ronad@axisbank',
+      receiverUpiAddress: EnteredRes.upiId,
+      // receiverUpiAddress: 'supreet.ronad@axisbank',
       transactionRef: transactionRef,
       transactionNote: 'Customer Payment',
     );
