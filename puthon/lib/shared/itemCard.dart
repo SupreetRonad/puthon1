@@ -12,6 +12,7 @@ class ItemCard extends StatelessWidget {
       padding: const EdgeInsets.all(2),
       child: Card(
         shadowColor: Colors.white38,
+        color: Colors.white10,
         elevation: 10,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
@@ -19,7 +20,7 @@ class ItemCard extends StatelessWidget {
         child: Container(
           height: 150,
           decoration: BoxDecoration(
-            color: item["inMenu"] ? Colors.white : Colors.grey[300],
+            color: item["inMenu"] ? Colors.white30 : Colors.black26,
             borderRadius: BorderRadius.circular(20),
           ),
           child: Row(

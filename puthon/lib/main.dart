@@ -10,6 +10,7 @@ import 'Screens/Cook/cookScreen.dart';
 import 'Screens/User/detailScreen.dart';
 import 'Screens/divergeScreen.dart';
 import 'Screens/User/homeScreen.dart';
+import 'Screens/splash.dart';
 import 'shared/loadingScreen.dart';
 
 void main() async{
@@ -50,7 +51,7 @@ class _MyAppState extends State<MyApp> {
             '/ordersHistory': (context) => OrdersHistory(),
           },
           home: snapshot.connectionState != ConnectionState.done
-              ? LoadingScreen()
+              ? Splash()
               : FirebaseAuth.instance.currentUser != null
                   ? DivergeScreen()
                   : AuthScreen(),
@@ -59,11 +60,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
-// final a = await UpiPay.initiateTransaction(
-//       amount: "1",
-//       app: app.upiApplication,
-//       receiverName: 'Puthon',
-//       receiverUpiAddress: "6363345756@paytm", // "BHARATPE09893654294@yesbankltd",
-//       transactionRef: transactionRef, // change it accordingly.
-//     );

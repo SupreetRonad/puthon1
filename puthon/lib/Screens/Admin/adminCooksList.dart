@@ -80,12 +80,7 @@ class _AdminCooksListState extends State<AdminCooksList> {
                             );
                           }
                           if (!snapshot1.hasData) {
-                            return const Center(
-                              child: Text(
-                                "Loading...",
-                                style: TextStyle(fontSize: 20),
-                              ),
-                            );
+                            return const SizedBox();
                           }
                           return Padding(
                             padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),

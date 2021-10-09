@@ -6,6 +6,8 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:puthon/Screens/Cook/cookTimer.dart';
+import 'package:puthon/Utils/requestPermission.dart';
+import 'package:puthon/Utils/showMsg.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 
 class AcceptedOrder extends StatefulWidget {
@@ -22,8 +24,12 @@ class _AcceptedOrderState extends State<AcceptedOrder> {
   final databaseRef = FirebaseDatabase.instance.reference();
 
   void assignBot(AsyncSnapshot snapshot) async {
-    cameraScanResult = await scanner.scan() ?? '';
-
+    await checkPermission();
+    try {
+      cameraScanResult = await scanner.scan() ?? '';
+    } catch (e) {
+      showSnack(context, 'Invalid QR');
+    }
     setState(() {
       botNo = cameraScanResult.split("/*/")[0];
     });

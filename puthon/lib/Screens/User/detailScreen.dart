@@ -100,24 +100,19 @@ class _DetailScreenState extends State<DetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage(
-            "assets/images/amber1.jpg",
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(
+              "assets/images/amber1.jpg",
+            ),
+            fit: BoxFit.cover,
           ),
-          fit: BoxFit.cover,
+          color: Colors.white,
         ),
-        color: Colors.white,
-      ),
-      child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.transparent,
-        ),
-        backgroundColor: Colors.transparent,
-        body: _isLoading1
+        child: _isLoading1
             ? LoadingScreen()
             : Padding(
                 padding: const EdgeInsets.all(10),
