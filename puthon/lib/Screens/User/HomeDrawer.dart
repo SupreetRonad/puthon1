@@ -83,7 +83,8 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   func: () {
                     _confirm(context);
                   },
-                  primary: Colors.red,
+                  primary: Colors.white,
+                  color: Colors.red.withOpacity(0.6),
                 ),
               const SizedBox(
                 height: 10,
@@ -108,7 +109,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
     String name, {
     required IconData icon,
     required Function() func,
-    Color color = Colors.white,
+    Color color = Colors.white70,
     Color primary = Colors.black,
   }) =>
       Padding(

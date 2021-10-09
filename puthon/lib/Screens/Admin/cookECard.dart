@@ -11,6 +11,93 @@ class CookECard extends StatelessWidget {
   final bool flag;
   CookECard({this.doc, required this.flag});
 
+  void _addRemoveCook(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return ConfirmBox(
+          b1: "Go Back",
+          b2: flag ? "Add" : "Remove",
+          color: flag
+              ? [Colors.lightBlue[300]!, Colors.blue]
+              : [Colors.redAccent, Colors.red[300]!],
+          function: () async {
+            Loading(context);
+            if (flag) {
+              FirebaseFirestore.instance
+                  .collection('admins')
+                  .doc(FirebaseAuth.instance.currentUser!.uid)
+                  .collection('cooks')
+                  .doc(doc["uid"])
+                  .set({
+                'registeredOn': DateTime.now(),
+                'uid': doc["uid"],
+              });
+              FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(doc["uid"])
+                  .update({
+                'cook': true,
+                'resId': Info.uid,
+              });
+              Navigator.of(context).pop();
+            } else {
+              FirebaseFirestore.instance
+                  .collection('admins')
+                  .doc(FirebaseAuth.instance.currentUser!.uid)
+                  .collection('cooks')
+                  .doc(doc["uid"])
+                  .delete();
+              FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(doc["uid"])
+                  .update({'cook': false});
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    "${doc['name']} has been removed successfully!",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  backgroundColor: Colors.black,
+                ),
+              );
+            }
+            Navigator.of(context).pop();
+            Navigator.of(context).pop();
+          },
+          height: 160,
+          message: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "${flag ? "Add" : "Remove"} Cook ?",
+                style: GoogleFonts.roboto(
+                  fontSize: 20,
+                  color: flag ? Colors.blue[300] : Colors.red,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const Divider(),
+              Text("Do you really want to " +
+                  (flag ? "Add" : "Remove") +
+                  " the cook"),
+              Text(
+                "${doc["name"]} ?",
+                style: const TextStyle(
+                  color: Colors.black87,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -18,7 +105,11 @@ class CookECard extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: Colors.white70,
+          color: Colors.white30,
+          border: Border.all(
+            color: flag ? Colors.transparent : Colors.amber,
+            width: 1,
+          ),
         ),
         child: Column(
           children: [
@@ -30,8 +121,9 @@ class CookECard extends StatelessWidget {
                     width: 60,
                     padding: const EdgeInsets.all(5),
                     decoration: BoxDecoration(
-                        color: Colors.yellow,
-                        borderRadius: BorderRadius.circular(100)),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(100),
+                    ),
                     child: Image.asset(
                       doc['gender'] == 1
                           ? "assets/images/female2.png"
@@ -142,99 +234,11 @@ class CookECard extends StatelessWidget {
                             bottomRight: Radius.circular(20),
                             topLeft: Radius.circular(20),
                           ),
-                          color: flag ? Colors.blue : Colors.red[300],
+                          color: Colors.white38,
                         ),
                         child: TextButton(
                           onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return ConfirmBox(
-                                  b1: "Go Back",
-                                  b2: flag ? "Add" : "Remove",
-                                  color: flag
-                                      ? [Colors.lightBlue[300]!, Colors.blue]
-                                      : [Colors.redAccent, Colors.red[300]!],
-                                  function: () async {
-                                    Loading(context);
-                                    if (flag) {
-                                      FirebaseFirestore.instance
-                                          .collection('admins')
-                                          .doc(FirebaseAuth
-                                              .instance.currentUser!.uid)
-                                          .collection('cooks')
-                                          .doc(doc["uid"])
-                                          .set({
-                                        'registeredOn': DateTime.now(),
-                                        'uid': doc["uid"],
-                                      });
-                                      FirebaseFirestore.instance
-                                          .collection('users')
-                                          .doc(doc["uid"])
-                                          .update({
-                                        'cook': true,
-                                        'resId':Info.uid,
-                                      });
-                                      Navigator.of(context).pop();
-                                    } else {
-                                      FirebaseFirestore.instance
-                                          .collection('admins')
-                                          .doc(FirebaseAuth
-                                              .instance.currentUser!.uid)
-                                          .collection('cooks')
-                                          .doc(doc["uid"])
-                                          .delete();
-                                      FirebaseFirestore.instance
-                                          .collection('users')
-                                          .doc(doc["uid"])
-                                          .update({'cook': false});
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                            "${doc['name']} has been removed successfully!",
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                          backgroundColor: Colors.black,
-                                        ),
-                                      );
-                                    }
-                                    Navigator.of(context).pop();
-                                    Navigator.of(context).pop();
-                                  },
-                                  height: 160,
-                                  message: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        "${flag ? "Add" : "Remove"} Cook ?",
-                                        style: GoogleFonts.roboto(
-                                          fontSize: 20,
-                                          color: flag
-                                              ? Colors.blue[300]
-                                              : Colors.red,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      const Divider(),
-                                      Text("Do you really want to " +
-                                          (flag ? "Add" : "Remove") +
-                                          " the cook"),
-                                      Text(
-                                        "${doc["name"]} ?",
-                                        style: const TextStyle(
-                                          color: Colors.black87,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                            );
+                            _addRemoveCook(context);
                           },
                           child: Row(
                             children: [
@@ -243,15 +247,15 @@ class CookECard extends StatelessWidget {
                                     ? Icons.person_add_alt_1
                                     : Icons.person_remove_rounded,
                                 size: 20,
-                                color: Colors.white,
+                                color: flag ? Colors.blue : Colors.red,
                               ),
                               const SizedBox(
                                 width: 5,
                               ),
                               Text(
                                 flag ? "Add Cook" : "Remove",
-                                style: const TextStyle(
-                                  color: Colors.white,
+                                style: TextStyle(
+                                  color: flag ? Colors.blue : Colors.red,
                                 ),
                               ),
                             ],

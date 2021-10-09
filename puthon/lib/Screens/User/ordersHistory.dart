@@ -66,119 +66,120 @@ class OrdersHistory extends StatelessWidget {
                   var gg = hh >= 12 ? "pm" : "am";
                   return Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: Card(
-                      elevation: 5,
-                      shadowColor: Colors.white60,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width - 180,
-                                  child: Text(
-                                    order['resName'],
-                                    softWrap: false,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.fade,
-                                    style: const TextStyle(
-                                      color: Colors.black54,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                const Spacer(),
-                                Column(
-                                  children: [
-                                    Text(
-                                        hh1.toString() +
-                                            " : " +
-                                            time[1] +
-                                            " " +
-                                            gg,
-                                        style: GoogleFonts.raleway(
-                                          color: Colors.black54,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold,
-                                        )),
-                                    Text(date,
-                                        style: GoogleFonts.raleway(
-                                          color: Colors.black45,
-                                          fontSize: 14,
-                                          //fontWeight: FontWeight.bold,
-                                        )),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                              ],
-                            ),
-                            const Divider(),
-                            for (var item in order['orderList'].keys)
-                              Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: Row(
-                                  children: [
-                                    const SizedBox(
-                                      width: 15,
-                                    ),
-                                    Icon(
-                                      Icons.radio_button_checked,
-                                      color: order['orderList'][item][1]
-                                          ? Colors.green[300]
-                                          : Colors.red[300],
-                                      size: 20,
-                                    ),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.6,
-                                      child: Text(
-                                        item,
-                                        softWrap: false,
-                                        overflow: TextOverflow.fade,
-                                        maxLines: 1,
-                                      ),
-                                    ),
-                                    const Spacer(),
-                                    Text("x " +
-                                        order['orderList'][item][0].toString()),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                  ],
-                                ),
+                    child: Container(
+                      padding: const EdgeInsets.all(10.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.white60,
+                        border: Border.all(
+                          color: Colors.amber,
+                          width: 1,
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              const SizedBox(
+                                width: 10,
                               ),
-                            const Divider(),
-                            Row(
-                              children: [
-                                Spacer(),
-                                Text(
-                                  "Rs. " + order['total'].toString(),
-                                  style: TextStyle(
-                                    color: Colors.green[300],
-                                    fontSize: 18,
+                              Container(
+                                width: MediaQuery.of(context).size.width - 180,
+                                child: Text(
+                                  order['resName'],
+                                  softWrap: false,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.fade,
+                                  style: const TextStyle(
+                                    color: Colors.black54,
+                                    fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                              ],
+                              ),
+                              const Spacer(),
+                              Column(
+                                children: [
+                                  Text(
+                                      hh1.toString() +
+                                          " : " +
+                                          time[1] +
+                                          " " +
+                                          gg,
+                                      style: GoogleFonts.raleway(
+                                        color: Colors.black54,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                      )),
+                                  Text(date,
+                                      style: GoogleFonts.raleway(
+                                        color: Colors.black45,
+                                        fontSize: 14,
+                                        //fontWeight: FontWeight.bold,
+                                      )),
+                                ],
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                            ],
+                          ),
+                          const Divider(),
+                          for (var item in order['orderList'].keys)
+                            Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: Row(
+                                children: [
+                                  const SizedBox(
+                                    width: 15,
+                                  ),
+                                  Icon(
+                                    Icons.radio_button_checked,
+                                    color: order['orderList'][item][1]
+                                        ? Colors.green[300]
+                                        : Colors.red[300],
+                                    size: 20,
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Container(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.6,
+                                    child: Text(
+                                      item,
+                                      softWrap: false,
+                                      overflow: TextOverflow.fade,
+                                      maxLines: 1,
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  Text("x " +
+                                      order['orderList'][item][0].toString()),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                ],
+                              ),
                             ),
-                          ],
-                        ),
+                          const Divider(),
+                          Row(
+                            children: [
+                              Spacer(),
+                              Text(
+                                "Rs. " + order['total'].toString(),
+                                style: TextStyle(
+                                  color: Colors.green[300],
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
                   );
