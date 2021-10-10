@@ -128,7 +128,7 @@ class _AboutBusinessState extends State<AboutBusiness> {
         child: TextButton(
           style: TextButton.styleFrom(
             padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-            backgroundColor: Colors.white60,
+            backgroundColor: Colors.white38,
             primary: Colors.black,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
