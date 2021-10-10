@@ -180,25 +180,10 @@ class _DetailScreenState extends State<DetailScreen> {
                             height: 20,
                           ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              if (!register)
-                                SizedBox(
-                                  height: 50,
-                                  child: TextButton(
-                                    style: style(),
-                                    onPressed: () => Navigator.pop(context),
-                                    child: const Icon(
-                                      Icons.close_rounded,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
                               _saveButton(),
                             ],
-                          ),
-                          const SizedBox(
-                            height: 15,
                           ),
                         ],
                       ),
@@ -212,24 +197,38 @@ class _DetailScreenState extends State<DetailScreen> {
 
   Widget _heading() => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Row(
           children: [
-            Text(
-              "Your profile",
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
+            if (!register)
+              IconButton(
+                onPressed: () => Navigator.pop(context),
+                icon: const Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.black,
+                ),
               ),
-            ),
-            Text(
-              register ? "Tell us about yourself..." : "Your information...",
-              style: const TextStyle(
-                color: Colors.black38,
-                fontSize: 15,
-                fontWeight: FontWeight.w500,
-              ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Your profile",
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  register
+                      ? "Tell us about yourself..."
+                      : "Your information...",
+                  style: const TextStyle(
+                    color: Colors.black38,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
