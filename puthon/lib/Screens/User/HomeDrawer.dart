@@ -164,15 +164,14 @@ class _HomeDrawerState extends State<HomeDrawer> {
             margin: EdgeInsets.only(top: 40),
           ),
           Container(
-            height: 150,
+            height: 155,
             child: Column(
               children: [
-                Container(
-                  decoration: BoxDecoration(
+                Card(
+                  elevation: 10,
+                  shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(100),
-                    color: Colors.white,
                   ),
-                  width: 90,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(100),
                     child: Image.asset(
@@ -180,6 +179,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                           ? "assets/images/male2.png"
                           : "assets/images/female2.png",
                       fit: BoxFit.cover,
+                      height: 90,
                     ),
                   ),
                 ),

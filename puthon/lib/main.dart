@@ -47,7 +47,7 @@ class _MyAppState extends State<MyApp> {
       title: 'Puthon',
       theme: ThemeData(
         errorColor: Color(0xffd32f2f),
-        primarySwatch: Colors.lightGreen,
+        primarySwatch: Colors.amber,
       ),
       routes: {
         '/loadingScreen': (context) => LoadingScreen(),
