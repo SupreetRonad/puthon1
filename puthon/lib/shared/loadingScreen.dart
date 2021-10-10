@@ -17,20 +17,20 @@ class LoadingScreen extends StatelessWidget {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SpinKitFadingCircle(
-              color: Colors.black54,
-              size: 40,
+            const SpinKitChasingDots(
+              color: Colors.white,
+              size: 50,
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            Text(
-              "Loading...",
-              style: GoogleFonts.roboto(
-                fontSize: 12,
-                color: Colors.black54,
-              ),
-            ),
+            // const SizedBox(
+            //   height: 10,
+            // ),
+            // Text(
+            //   "Loading...",
+            //   style: GoogleFonts.roboto(
+            //     fontSize: 12,
+            //     color: Colors.black54,
+            //   ),
+            // ),
           ],
         ),
       ),

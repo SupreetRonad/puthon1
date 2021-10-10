@@ -214,7 +214,8 @@ class _BottomMenuState extends State<BottomMenu> {
                       ),
                     );
                   } else {
-                    showToast(
+                    showSnack(
+                      context,
                       "Please wait until your order gets delivered",
                     );
                   }

@@ -33,7 +33,10 @@ class AdminTables extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 4, mainAxisSpacing: 8, crossAxisSpacing: 8),
+                  crossAxisCount: 4,
+                  mainAxisSpacing: 8,
+                  crossAxisSpacing: 8,
+                ),
                 physics: BouncingScrollPhysics(),
                 padding: const EdgeInsets.only(
                     bottom: kFloatingActionButtonMargin + 60),
@@ -59,8 +62,12 @@ class AdminTables extends StatelessWidget {
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.orange[400],
+                        color: Colors.white30,
                         borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: Colors.amber.shade700,
+                          width: 2,
+                        ),
                       ),
                       child: Center(
                         child: Row(
@@ -70,7 +77,7 @@ class AdminTables extends StatelessWidget {
                               table['table'],
                               style: GoogleFonts.righteous(
                                 fontSize: 30,
-                                color: Colors.white,
+                                color: Colors.black54,
                               ),
                             ),
                           ],
@@ -100,7 +107,7 @@ class _TablesInfoState extends State<TablesInfo> {
   var bill, timeEntered, hh, mm, date, hh1, gg, time;
   bool loading = true;
 
-  void init() async {    
+  void init() async {
     await FirebaseFirestore.instance
         .collection('orders')
         .doc(widget.customerId)
