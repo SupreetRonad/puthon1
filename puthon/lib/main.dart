@@ -13,8 +13,9 @@ import 'Screens/User/homeScreen.dart';
 import 'Screens/splash.dart';
 import 'shared/loadingScreen.dart';
 
-void main() async{
-  WidgetsFlutterBinding.ensureInitialized();
+void main() async {
+  await WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
@@ -27,36 +28,44 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  bool splash = true;
+
+  @override
+  void initState() {
+    Future.delayed(Duration(seconds: 2), () {
+      setState(() {
+        splash = false;
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final Future<FirebaseApp> _initialization = Firebase.initializeApp();
-    return FutureBuilder(
-      future: _initialization,
-      builder: (context, snapshot) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Puthon',
-          theme: ThemeData(
-            errorColor: Color(0xffd32f2f),
-            primarySwatch: Colors.lightGreen,
-          ),
-          routes: {
-            '/loadingScreen': (context) => LoadingScreen(),
-            '/authScreen': (context) => AuthScreen(),
-            '/detailScreen': (context) => DetailScreen(),
-            '/homeScreen': (context) => HomeScreen(),
-            '/businessRegisterScreen': (context) => RegisterBusiness(),
-            '/adminScreen': (context) => AdminScreen(),
-            '/cookScreen': (context) => CookScreen(),
-            '/ordersHistory': (context) => OrdersHistory(),
-          },
-          home: snapshot.connectionState != ConnectionState.done
-              ? Splash()
-              : FirebaseAuth.instance.currentUser != null
-                  ? DivergeScreen()
-                  : AuthScreen(),
-        );
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Puthon',
+      theme: ThemeData(
+        errorColor: Color(0xffd32f2f),
+        primarySwatch: Colors.lightGreen,
+      ),
+      routes: {
+        '/loadingScreen': (context) => LoadingScreen(),
+        '/authScreen': (context) => AuthScreen(),
+        '/detailScreen': (context) => DetailScreen(),
+        '/homeScreen': (context) => HomeScreen(),
+        '/businessRegisterScreen': (context) => RegisterBusiness(),
+        '/adminScreen': (context) => AdminScreen(),
+        '/cookScreen': (context) => CookScreen(),
+        '/ordersHistory': (context) => OrdersHistory(),
       },
+      home: splash ? Splash() : _divergeOrAuth(),
     );
+  }
+
+  Widget _divergeOrAuth() {
+    return FirebaseAuth.instance.currentUser != null
+        ? DivergeScreen()
+        : AuthScreen();
   }
 }

@@ -7,6 +7,7 @@ class Splash extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
+        width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/amber1.jpg"),
@@ -18,7 +19,7 @@ class Splash extends StatelessWidget {
           children: [
             heading(context),
             SizedBox(
-              height: MediaQuery.of(context).size.height * .025,
+              height: MediaQuery.of(context).size.height * .1,
             ),
           ],
         ),
