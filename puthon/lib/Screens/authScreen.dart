@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -53,10 +55,29 @@ class _AuthScreenState extends State<AuthScreen> {
         _isLoading = true;
       });
       if (isLogin) {
-        _userCreds = await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: _email.text.trim(),
-          password: _pass.text.trim(),
-        );
+        try {
+          _userCreds = await FirebaseAuth.instance.signInWithEmailAndPassword(
+            email: _email.text.trim(),
+            password: _pass.text.trim(),
+          );
+        } catch (e) {
+          log(e.toString());
+          message = e.toString().split('] ')[1];
+          if (message.contains('invalid')) {
+            message = 'Invalid credentials!';
+          } else {
+            message = 'Something went wrong!';
+          }
+          showSnack(
+            context,
+            message,
+            color: Colors.red,
+          );
+          setState(() {
+            _isLoading = false;
+          });
+          return;
+        }
       } else {
         try {
           _userCreds =
@@ -65,6 +86,12 @@ class _AuthScreenState extends State<AuthScreen> {
             password: _pass.text.trim(),
           );
         } catch (e) {
+          message = e.toString().split('] ')[1];
+          if (message.contains('already in use')) {
+            message = 'Email address aready in use!';
+          } else {
+            message = 'Something went wrong!';
+          }
           showSnack(
             context,
             message,
