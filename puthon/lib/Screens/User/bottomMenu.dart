@@ -167,9 +167,25 @@ class _BottomMenuState extends State<BottomMenu> {
       color: Colors.transparent,
       minHeight: 80,
       maxHeight: MediaQuery.of(context).size.height - 155,
-      panel: loading ? LoadingScreen() : Menu(),
+      panel: loading ? _loading() : Menu(),
     );
   }
+
+  Widget _loading() => Container(
+        decoration: BoxDecoration(
+          color: Colors.grey[200],
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+        ),
+        child: Center(
+          child: SpinKitFadingCircle(
+            color: Colors.black45,
+            size: 25,
+          ),
+        ),
+      );
 
   Widget payExitButton(BuildContext context) {
     return StreamBuilder(

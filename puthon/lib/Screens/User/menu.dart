@@ -23,10 +23,7 @@ class Menu extends StatelessWidget {
                   .snapshots(),
               builder: (context, AsyncSnapshot snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const SpinKitFadingCircle(
-                    color: Colors.green,
-                    size: 20,
-                  );
+                  return _loading();
                 }
                 if (!snapshot.hasData) {
                   return const Text(
@@ -96,4 +93,20 @@ class Menu extends StatelessWidget {
             ),
     );
   }
+
+  Widget _loading() => Container(
+        decoration: BoxDecoration(
+          color: Colors.grey[200],
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+        ),
+        child: Center(
+          child: SpinKitFadingCircle(
+            color: Colors.black45,
+            size: 25,
+          ),
+        ),
+      );
 }
