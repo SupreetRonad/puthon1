@@ -10,3 +10,4 @@ The app uses Firebase authentication to login the users and Firebase Firestore t
 The app and the bot are connected with each other using [Firebase real-time database](https://firebase.google.com/docs/database). 
 
 ### [APK and Screenshots](https://drive.google.com/drive/folders/14ANYfkLl9qwXFD1a_X7Tgc-EzFSsEd-I?usp=sharing)
+### [Find it on Play store](https://play.google.com/store/apps/details?id=com.lairofdevs.puthon)
